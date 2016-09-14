@@ -24,5 +24,6 @@
     "ignore": [
         ".gitignore",
         ".npmignore"
-    ]
+    ],
+  "license": "ISC"
 }
