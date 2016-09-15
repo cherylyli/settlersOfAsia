@@ -1,6 +1,6 @@
 // environments
 var ENV = {
-    redis : { host: '127.0.0.1', port: 6379 },
+    redis : { host: '192.168.6.131', port: 6379 }, // 192.168.6.131
     db    : 'mongodb://settlersOfAsia:comp361@ds033116.mlab.com:33116/settlers'
 };
 
@@ -39,7 +39,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 // database
-mongoose.connect(ENV.db);
+// mongoose.connect(ENV.db);
 
 
 // routes
