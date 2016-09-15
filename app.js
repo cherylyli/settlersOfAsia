@@ -19,14 +19,14 @@ var server      = http.createServer(app);
 
 
 // create a redis client
-GLOBAL.MyRedis = redis.createClient(ENV.redis.port, ENV.redis.host);
+global.MyRedis = redis.createClient(ENV.redis.port, ENV.redis.host);
 MyRedis.on("error", function(err) {
     console.error("REDIS ERROR:", err);
 });
 
 
 // create socket.io server, and use redis to allow broadcasting of events to multiple separate servers
-GLOBAL.io = socketio(server);
+global.io = socketio(server);
 io.adapter(socketRedis({ host: ENV.redis.host, port: ENV.redis.port }));
 
 

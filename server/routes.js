@@ -5,7 +5,7 @@ var _ = require("underscore");
 // send file from public folder
 function sendView(req, res, next) {
     res.sendView = function(file) {
-        return res.sendFile(file, { root: __dirname + '../../public' });
+        return res.sendFile(file, { root: __dirname + '/../public' });
     }
     next();
 }
