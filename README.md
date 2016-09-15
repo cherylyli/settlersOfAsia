@@ -9,6 +9,7 @@
 # Start server
 Make sure Redis is running `locally` on port `6379`, then simply `cd` to project directory, and
 - Then learn how to **start** and **stop** your redis server
+- cd to project directory, and type `npm install`
 
 
 # Start server
