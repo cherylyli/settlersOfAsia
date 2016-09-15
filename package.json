@@ -1,19 +1,23 @@
 {
-  "name": "settlersofasia",
-  "version": "1.0.0",
-  "description": "Project of Settlers of Asia",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cherylyli/settlersOfAsia.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/cherylyli/settlersOfAsia/issues"
-  },
-  "homepage": "https://github.com/cherylyli/settlersOfAsia#readme"
+    "name": "settlers",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "4.13.4",
+        "socket.io": "git://github.com/socketio/socket.io",
+        "socket.io-redis": "1.0.0",
+        "body-parser": "1.15.0",
+        "cookie-parser": "1.4.1",
+        "mongoose": "4.4.12",
+        "underscore": "1.8.3",
+        "async": "2.0.0-rc.3",
+        "redis": "2.6.0-1",
+        "node-uuid": "1.4.2"
+    },
+    "ignore": [
+        ".gitignore",
+        ".npmignore"
+    ]
 }
