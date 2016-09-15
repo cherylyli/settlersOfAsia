@@ -1,5 +1,6 @@
 // dependencies
 var _ = require("underscore");
+<<<<<<< HEAD
 var engine = require('./engine/engine.js');
 let User = require('./engine/gameLogic/User.js');
 
@@ -81,3 +82,21 @@ io.on('connection', function(socket){
 
 
 
+=======
+
+
+
+
+// socket connected
+io.on('connection', function (socket) {
+
+    socket.on('test', function(data){
+    	console.log('received:', data);
+    	socket.emit('test', data);
+    });
+
+
+
+
+});
+>>>>>>> setup the groundwork for the project

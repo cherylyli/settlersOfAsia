@@ -1,15 +1,19 @@
 // dependencies
 var _ = require("underscore");
+<<<<<<< HEAD
 var async = require('async');
 var _h = require('./api/helper_functions.js');
 var Uuid  = require('uuid');
 var User = require('../models/user.js');
 
+=======
+>>>>>>> setup the groundwork for the project
 
 
 // all RESTful requests
 module.exports = function(app) {
 
+<<<<<<< HEAD
     // signup
 	app.post('/signup', function(req, res){
         var me = _.pick(req.body, 'profile_pic', 'username', 'password');
@@ -75,6 +79,10 @@ module.exports = function(app) {
         }
         else res.end();
     });
+=======
+	
+
+>>>>>>> setup the groundwork for the project
 
 
 };

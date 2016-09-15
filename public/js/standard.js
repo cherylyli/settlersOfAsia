@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Global JS file, show me included in all webpage
 
 window.SITE_URL = '//' + location.host;
@@ -805,3 +806,6 @@ $( document ).ready(function () {
 
 
 });
+=======
+window.socket = io();
+>>>>>>> setup the groundwork for the project

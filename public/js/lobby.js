@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 // set up environment
 $(document).ready(function(){
@@ -147,6 +148,15 @@ $(window).on('imready', function(im){
 
     renderMatches(matches);
     renderOnlines(onlines);
+=======
+$(document).ready(function(){
+
+	socket.emit('test', 'hello');
+
+	socket.on('test', function(data){
+		alert('works!');
+	});
+>>>>>>> setup the groundwork for the project
 
 
 });
