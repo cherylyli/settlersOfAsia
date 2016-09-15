@@ -5,11 +5,7 @@ var _ = require("underscore");
 // send file from public folder
 function sendView(req, res, next) {
     res.sendView = function(file) {
-<<<<<<< HEAD
         return res.sendFile(file, { root: __dirname + '/../public' });
-=======
-        return res.sendFile(file, { root: __dirname + '../../public' });
->>>>>>> setup the groundwork for the project
     }
     next();
 }
@@ -25,7 +21,6 @@ module.exports = function(app) {
     });
 
     // game page
-<<<<<<< HEAD
     app.get('/login', sendView, function(req, res){
         res.sendView('login.html');
     });
@@ -34,19 +29,10 @@ module.exports = function(app) {
         res.sendView('registration.html');
     });
 
-=======
->>>>>>> setup the groundwork for the project
-    app.get('/game', sendView, function(req, res){
-        res.sendView('game.html');
-    });
 
-<<<<<<< HEAD
     app.get('/room/:id', sendView, function(req, res){
         res.sendView('room.html');
     });
-
-=======
->>>>>>> setup the groundwork for the project
 
 
 };

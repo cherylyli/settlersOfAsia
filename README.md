@@ -25,3 +25,4 @@ $ node app.js
 - Check out Wiki if you have question about communication pattern.
 
 - Open `localhost:3000` on your browser, if an alert pops up, then it works!
+
