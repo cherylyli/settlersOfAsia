@@ -3,6 +3,10 @@
 // var ENV = {
 //     redis : { host: local_redis, port: 6379 }, // 192.168.6.131
 //     db    : 'mongodb://settlersOfAsia:comp361@ds033116.mlab.com:33116/settlers' // mlab.com
+// var ENV = {
+//     redis : { host: '192.168.6.131', port: 6379 }, // 192.168.6.131
+//     db    : 'mongodb://settlersOfAsia:comp361@ds033116.mlab.com:33116/settlers'
+// };
 
 
 // dependencies
