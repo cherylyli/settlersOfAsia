@@ -1,0 +1,82 @@
+#game{
+  position: relative;
+  border: 2px solid black;
+  width: 1500px;
+  height: 1000px;
+}
+
+.hexagon {
+  position: absolute;
+  width: 200px; 
+  height: 200px;
+  background:url("../img/hex.png");
+  background-size: 200px 200px;  
+}
+
+aside{
+	border: 2px dashed black;
+	position: absolute;
+	height: 990px;
+	width: 510px;
+	left: 1550px;
+	top: 10px;
+	text-align: center;
+	font-size: 20px;
+	font-family: Cursive;
+	font-weight: bold;
+}
+
+#player_score {
+	height: 300px;
+	width:500px;
+	background-color: #d3d3d3;
+	border: 2px solid black;
+}
+
+#game_log {
+	height: 300px;
+	width:500px;
+	background-color: #d3d3d3;
+	border: 2px solid black;
+}
+
+#chat_box {
+	height: 370px;
+	width: 500px;
+	background-color: #d3d3d3;
+	border: 2px solid black;
+}
+
+
+.profile{
+	border-radius: 50%;
+}
+
+footer {
+	position: absolute;
+	top: 1100px;
+	width:2050px;
+	border: 2px solid black;
+}
+.dice{
+	height: 100px;
+	width: 100px;
+}
+.footer{
+	float: left;
+}
+
+
+#dev_cards {
+	width: 400px;
+	height: 200px;
+	background-color: grey;
+	text-align: center;
+}
+
+#trade {
+	width: 400px;
+	height: 200px;
+	background-color: grey;
+	text-align: center;
+}

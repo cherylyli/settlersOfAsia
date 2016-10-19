@@ -6,25 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>Lobby</title>
+    <title>Game</title>
     
     <!-- CSS -->
     <link href="/css/standard.css" rel="stylesheet">
-    <link href="/css/game.css" rel="stylesheet">
+    <link href="css/game.css" rel="stylesheet">
 </head>
 <body>
 
+    <div id="game">
+        <button id="populate">Populate</button>
+    </div>
 
 
+    <aside>
+        <div id="player_score">Score of Players</div>
+        <div id="game_log">Game Log</div>
+        <div id="chat_box">Chat Box</div>
+    </aside>
 
-<!------------------------------- PRELOAD IMAGES ---------------------------------->
-<div id='preload'></div>
+    <footer>
 
-<script src="/js/plugins/jquery.js"></script>
-<script src="/js/plugins/jquery-ui.js"></script>
-<script src="/js/plugins/underscore.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/standard.js"></script>
-<script src="/js/game.js"></script>
+        <img src="img/profile.jpg" class="profile_pic footer">
+        <div id = "payer_controls" class="footer">
+            <img src="img/dice.jpg" class="footer dice">
+            <img src="img/dice.jpg" class="footer dice">
+        <button>Build</button>
+        </div>
+
+        <div id="resources" class="footer">
+        <ul>
+            <li>Wood</li>
+            <li>Sheep</li>
+            <li>Brick</li>
+            <li>Grain</li>
+            <li>Ore</li>
+        </ul>
+        </div>
+
+        <ul id="achievements" class="footer">
+            <li>Longest Road: 0</li>
+            <li>Largest Army: 1</li>
+        </ul>
+
+            <div id="dev_cards" class="footer">Dev cards</div>
+            <div id ="trade" class="footer">Trade</div>
+
+        <ul id="game_options" class="footer">
+            <li><button>Save</button></li>
+            <li><button>Continue</button></li>
+            <li><button>Quit</button></li>
+        </ul>
+    </footer>
+
+
+    <div id='preload'></div>
+
+    <script src="/js/plugins/jquery.js"></script>
+    <script src="/js/plugins/jquery-ui.js"></script>
+    <script src="/js/plugins/underscore.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/standard.js"></script>
+    <script src="js/game.js"></script>
 </body>
 </html>
