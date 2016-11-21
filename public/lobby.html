@@ -163,20 +163,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>Lobby</title>
-    
+    <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyByCCE2nV2ptu9XNq7AUbRGhdK5YV10ixQ",
+	    authDomain: "settlersofasia.firebaseapp.com",
+	    databaseURL: "https://settlersofasia.firebaseio.com",
+	    storageBucket: "",
+	    messagingSenderId: "1080348294037"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+	
+	
+	<title>Lobby</title>    
     <!-- CSS -->
     <link href="/css/standard.css" rel="stylesheet">
     <link href="/css/lobby.css" rel="stylesheet">
 </head>
 <body>
 
+	<nav>
+		<div>Settlers Of Asia</div>
+		<ul>
+			<li class="signed-in">Welcome!</li>
+		</ul>
+		<ul>
+			<li class="signed-in hover" id="signout">Sign out</li>
+			<!-- if person isn't logged in -->
+			<li class="notsignedin"><form id="login"><label for="loginemail">Email: </label><input type="text" name="loginemail" /><label for="loginpassword">Password: </label><input type="password" name="loginpassword" /><input class="hover" type="submit" value="login"></form></li>
+			<li class="hover notsignedin" id="new-account">
+		</ul>
+		
+	</nav>
+
+	<div class="wrapper">
+		<h1>Welcome!</h1>
+		<hr>
+		<h2 class="hover selected" id="labelfindroom">Find a Room</h2><h2 class="hover" id="labelnewroom">+ New Room</h2>
+		<div class="color">
+			<div id="findrooms">
+				<h2>Template room: would be populated with javascript, with ID being the id of the room in firebase</h2>
+				<div id="gameroom1" class="rooms">
+					<h2 class="gameName">AwesomeGame</h2>
+					<div class="expansion">Base Game</div>
+					<div class="numplayers">3 players</div>
+					<div class="currentstate">Waiting for 1 more player</div>
+
+				</div>
+			</div>
+			
+
+			<div id="addroom">
+				<h2>Create a New Game Room</h2>
+				<form id="createroomform">
+					<label>Create a Name for your Awesome Game: </label>
+					<input type="text" name="roomname" /><br><br>
+					<label>Basegame</label>
+					<input type="radio" name="extension" value="basegame"/>
+					<label>Seafarer's Extension</label>
+					<input type="radio" name="extension" value="seafarer" />
+					<label>Cities and Knights Extension</label>
+					<input type="radio" name="extension" value="cities" /><br>
+					<input type="submit" value="Create Room!"/>
+				</form>
+			</div>
+			
+		</div>
+
+	</div>
+
 
 
 
 <!------------------------------- PRELOAD IMAGES ---------------------------------->
 <div id='preload'></div>
-
 <script src="/js/plugins/jquery.js"></script>
 <script src="/js/plugins/jquery-ui.js"></script>
 <script src="/js/plugins/underscore.js"></script>
