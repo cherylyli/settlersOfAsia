@@ -2,6 +2,7 @@
  * Created by emol on 1/2/17.
  */
 import {HexTile, HexType} from './HexTile.js';
+import {_} from  'underscore';
 /**
 const scenariosFor3 = Object.freeze({'Heading For New Shores': {'hexTileNum': 37,
                                         'mainIsland': [1, 2, 3, 5, 6, 7, 8, 11, 12, 13, 14, 18, 19, 20],
@@ -9,7 +10,9 @@ const scenariosFor3 = Object.freeze({'Heading For New Shores': {'hexTileNum': 37
                                         'smallIslands': [16, 23, 29, 30, 31, 32, 33, 28, 22, 35, 36, 37],
     'SpecialHarbor': 5, 'GenericHarbor':3}})
 **/
-
+let mapHexTypeData = {'Sea':2, 'GoldField':2, 'Desert':1, 'Field':4, 'Forest':2, 'Pasture':4, 'Mountains':1, 'Hills':0};
+let mapTokenDate = {'5':3, '2':4, '9':9};
+let tileIDs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
 
 export const numToken = {'2':1, '3':2, '4':3, '5':4, '6':5, '8':5, '9':4, '10':3, '11':2, '12':1};
 
@@ -162,7 +165,7 @@ export class Map {
      * @param hexTiles int[], a list of HexTile id
      * @param types List<String>, a list of HexTile Type.
      */
-    setHexTileType(hexTiles, types){
+    setHexTilesRandomType(hexTiles, types){
         if (hexTiles.length != types.length) throw "HexTile number should be equal to HexType numbers";
         let hexTile = null;
         let type = null;
@@ -174,12 +177,55 @@ export class Map {
         }
     }
 
+
+    /**
+     * set all the hexTiles this type
+     * @param hexTiles a list of HexTile id
+     * @param type String a HexTile Type
+     */
+    setHexTilesFixedType(hexTiles, type){
+        if (! HexType[type]) throw "HexType does not exist";
+        let hexTile = null;
+        for (let hexTileId of hexTiles){
+            hexTile = this.hexTiles[hexTileId - 1];
+            hexTile.type = HexType[type];
+        }
+    }
+
+    /**
+     *
+     * @param hexTiles int[], a list of HexTile id
+     * @param numTokens String[], a list of numTokens like ['1','1','2','4','5','5','6'] (1*2, 2*1, 3*0, 4*1, 5*2, 6*1)
+     */
+    setHexTilesRandomNumToken(hexTiles, numTokens){
+        if (hexTiles.length != numTokens.length) throw "HexTile number should be equal to numTokens numbers";
+        let hexId = null;
+        let token = null;
+        while(hexTiles.length > 0){
+            hexId = PickRandomItem(hexTiles);
+            token = PickRandomItem(numTokens);
+            if (numToken[token]) this.putNumTokenOnHexTile(parseInt(token), hexId);
+            else throw  "numToken does not exist";
+        }
+    }
+
+    /**
+     *
+     * @param hexTileId int
+     * @returns {*} hexTile
+     */
+    getHexTileById(hexTileId){
+        if (hexTileId <=0 || hexTileId > this.hexTileNum) throw "Invalid hexTileID";
+        return this.hexTiles[hexTileId - 1];
+    }
+
     /**
      *
      * @param vertex vertex number
      * @returns {*|number}
      */
     getHexTileByVertex(vertex){
+        if (vertex < 1 || vertex >= 250 || !this.verticesToHex[vertex]) throw "Invalid vertex";
         return this.verticesToHex[vertex];
     }
 
@@ -201,6 +247,7 @@ export class Map {
             let a = tile.getEdgePositionInHex(edge);
             result.push([t, tile.getEdgePositionInHex(edge)]);
         }
+        if (!result) throw "Invalid edge";
         return result;
     }
 
@@ -226,6 +273,10 @@ export class Map {
         return this.numTokenToHexTiles[numToken];
     }
 
+    setUpMap(mapData){
+        this.setHexTilesRandomNumToken(_.clone(tileIDs), readMapInputToGenStrList(mapTokenDate));
+        this.setHexTilesRandomType(_.clone(tileIDs), readMapInputToGenStrList(mapHexTypeData));
+    }
 
 }
 
@@ -233,7 +284,30 @@ export class Map {
 function edge(v1, v2) {
     return [v1, v2];
 }
+/**
+ *
+ * @param arr
+ * @returns {Array.<T>}
+ * @constructor
+ */
 function PickRandomItem(arr) {
     let index = Math.random()*arr.length;
-    return arr.splice(index, 1);
+    return (arr.splice(index, 1))[0];
+}
+
+/**
+ * helper function
+ * @param data (a object that specify map data) for mapHexTypeData and mapTokenDate
+ * @returns {Array} string array
+ */
+function readMapInputToGenStrList(data) {
+    let keys = Object.keys(data);
+    let result = [];
+    for (let key of keys){
+        let cnt = data[key];
+        for (let i = 0; i<cnt; i++){
+            result.push(key);
+        }
+    }
+    return result;
 }

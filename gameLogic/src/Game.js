@@ -5,11 +5,12 @@ import {GameRoomState, Color} from './Enums.js';
 import {ProgressCardDeck} from './ProgressCard.js';
 import {Dice} from './Dice.js';
 export class Game{
-    constructor(map, players){
+    constructor(map, players, winningVP = 12){
         this.map = map;
+        this.winningVP = winningVP;
 
         this.players = players;
-        this.assignColorToPLayers();
+        this.updatePlayerInfo();
 
         this.progressCardDeck = new ProgressCardDeck();
 
@@ -20,10 +21,13 @@ export class Game{
         this.diceRolled = false;
     }
 
-    assignColorToPLayers(){
+
+
+    updatePlayerInfo(){
         for (let i = 0; i<this.players.length; i++){
             let colorKey = (Object.keys(Color))[i];
             this.players[i].color = Color[colorKey];
+            this.players[i].game = this;
         }
     }
 
@@ -36,6 +40,14 @@ export class Game{
 
         //getPlayerAction (Command)
 
+    }
+
+    checkPlayerVP(player){
+        if (player.VP >= this.winningVP) this.endGame();
+    }
+
+    endGame(){
+        console.log("Game ends!");
     }
 
 }

@@ -18,7 +18,22 @@ export class Player {
         this.progressCards = [];
         this.progressCardsCnt = 0;
         this.buildings = [];
+        this.harbors = [];
+
+        this.cityWallNum = 0;
+        this.maxSafeCardNum = 7;
+        this.game = null;
     }
+
+    /**
+     *
+     * @param points may be negative or positive, int
+     */
+    updateVP(points){
+        this.VP += points;
+        this.game.checkPlayerVP(this);
+    }
+
 
 
 

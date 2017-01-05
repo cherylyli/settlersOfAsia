@@ -26,7 +26,7 @@ export let KnightType = deepFreeze({"Regular":1, "Strong":2, "Mighty":3});
 export let Color = deepFreeze({"RED":1, "YELLOW":2, "GREEN":3, "ORANGE":4});
 
 //FIXME: two gamestate in concept model, one is more like lobby state
-export let Resource = deepFreeze({"Wheat":1, "Wool":2, "Ore":3, "Brick":4, "Grain":5, "Coin":6, "Cloth":7, "Paper":8});
+//export let Resource = deepFreeze({"Wheat":1, "Wool":2, "Ore":3, "Brick":4, "Grain":5, "Coin":6, "Cloth":7, "Paper":8});
 
 
 

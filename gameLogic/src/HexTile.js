@@ -1,9 +1,14 @@
 /**
  * Created by emol on 1/2/17.
  */
-import {_} from 'underscore'
+import {_} from 'underscore';
+import {Player} from './Player.js';
 
 export const HexType = Object.freeze({'Sea': 1, 'GoldField': 2, 'Desert':3, 'Field':4, 'Forest':5, 'Pasture':6, 'Mountains':7, 'Hills':8});
+export const SettlementResources = Object.freeze({'GoldField': 'Any', 'Field': 'Grain', 'Forest': 'Lumber', 'Pasture': 'Wool', 'Hills': 'Brick', 'Mountains': 'Ore'});
+export const AdditionalCityResources = Object.freeze({'GoldField': 'Any', 'Field': 'Grain', 'Forest': 'Paper', 'Pasture': 'Cloth', 'Hills': 'Brick', 'Mountains': 'Coin'});
+export const Resource = Object.freeze({"Wheat":1, "Wool":2, "Ore":3, "Brick":4, "Grain":5});
+export const Commodity = Object.freeze({"Coin":6, "Cloth":7, "Paper":8});
 
 export class HexTile{
     constructor(id, row, posInRow, HexType = 'Sea', productionNum = '1', visible = true){
@@ -56,6 +61,15 @@ export class HexTile{
 
     getEdges(){
         return this.edge;
+    }
+
+    /**
+     * add resources to all players that has a building on its vertices
+     */
+    produceResource(){
+        for (let player of this.playersReceivedResource){
+
+        }
     }
 }
 
