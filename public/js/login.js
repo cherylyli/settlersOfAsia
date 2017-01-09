@@ -1,9 +1,13 @@
 $( document ).ready(function () {
 
+    function fieldsEntered(){
+        return $('#username').val() && $('#password').val();
+    }
+
     // enable submit button when both fields are entered
     // disable otherwise
     function styleSubmit(){
-        if ($('#username').val() && $('#password').val()) $('#enter').addClass('enterActive');
+        if (fieldsEntered()) $('#enter').addClass('enterActive');
         else $('#enter').removeClass('enterActive');
     }
 
@@ -14,8 +18,8 @@ $( document ).ready(function () {
 
     // trigger login
     $("#enter").click(login);
-    $('#password').keypress(function(e){
-        if (e.which == 13) login();
+    $('#username, #password').keypress(function(e){
+        if (e.which == 13 && fieldsEntered()) login();
     });
 
     // login

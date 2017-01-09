@@ -46,7 +46,7 @@ User.privateFields = privateFields;
 User.privatize = privatize;
 
 // fields in user's session
-var sessionFields = ['_id'];
+var sessionFields = ['_id', 'username', 'profile_pic'];
 var sessionFieldsStr = sessionFields.join(' ');
 var sessionize = function(obj){ return _.pick(obj, sessionFields); };
 User.sessionFields = sessionFields;

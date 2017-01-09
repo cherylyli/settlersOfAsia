@@ -1,5 +1,5 @@
 // environments
-var local_redis = process.platform == 'win32' ? '192.168.6.146' : '127.0.0.1';
+var local_redis = process.platform == 'win32' ? '192.168.6.147' : '127.0.0.1';
 var ENV = {
     redis : { host: local_redis, port: 6379 }, // 192.168.6.131
     db    : 'mongodb://settlersOfAsia:comp361@ds033116.mlab.com:33116/settlers' // mlab.com
@@ -16,6 +16,9 @@ var bodyParser  = require('body-parser');
 var redis       = require('redis');
 var app         = express();
 var server      = http.createServer(app);
+var socketio 	= require('socket.io');
+var ios 		= require('socket.io-express-session');
+
 
 
 // create a redis client
@@ -44,18 +47,22 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 app.use(sessionConfig);
 
-
-
-
 // database
 mongoose.connect(ENV.db);
+
+
+// socket.io
+var io = socketio(server);
+var socketUser = require('./server/middleware/socketUser.js');
+io.use(ios(sessionConfig));
+io.use(socketUser); // access user object from socket.user
+global.io = io;
 
 
 // routes
 require('./server/routes.js')(app); // file fetching
 require('./server/rest.js')(app); // all ajax request
 require('./server/game.js'); // game
-
 
 
 // start the server

@@ -20,7 +20,7 @@ $(document).ready(function(){
 // upon environment set up
 $(window).on('imready', function(im){
 
-    var myObj = im.myObj;
+    window.myObj = im.myObj;
     console.log(myObj);
 
 
