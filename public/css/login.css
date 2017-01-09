@@ -1,0 +1,67 @@
+#middle{
+    width: 200px;
+    height: 330px;
+    overflow: hidden;
+    border-radius: 50px;
+    padding: 40px;
+    background: white;
+-webkit-box-shadow: 0px 0px 70px 0px rgba(0,0,0,0.15);
+-moz-box-shadow: 0px 0px 70px 0px rgba(0,0,0,0.15);
+box-shadow: 0px 0px 70px 0px rgba(0,0,0,0.15);
+}
+
+#avatar{
+    background-image: url(/img/default_profile_pic.png);
+    width: 100%;
+    padding-top: 100%;
+    margin-bottom: 20px;
+}
+
+input{
+    color: black;
+    border: 0;
+    line-height: 44px;
+    height: 44px;
+    width: 80%;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+#title{
+    width: 100%;
+    text-align: center;
+    color: #ffa200;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+#loginForm{
+    overflow: hidden;
+    position: relative;
+}
+
+.inputContainer{
+    width: 100%;
+    border-bottom: 1px solid rgb(217,217,217);
+    position: relative;
+}
+
+#enter{
+    position: absolute;
+    border: 0;
+    background-color: white;
+    background-image: url(/img/enter.png);
+    top: 11px;
+    right: 0px;
+    height: 25px;
+    width: 25px;
+    cursor: auto;
+}
+
+.enterActive{
+    cursor: pointer !important;
+    background-image: url(/img/entered.png) !important;
+}
+
+
