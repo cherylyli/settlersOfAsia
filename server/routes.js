@@ -33,6 +33,10 @@ module.exports = function(app) {
         res.sendView('game.html');
     });
 
+    app.get('/room/:id', sendView, function(req, res){
+        res.sendView('room.html');
+    });
+
 
 
 };

@@ -36,27 +36,12 @@
 
     // original socket object
     sock.raw = socket;
-    
 
-    // wait till both socket + my data are ready
-    async.parallel([
-	    function(callback) {
-	        socket.on('connect', function(){
-		    	callback(null);
-		    });
-	    },
-	    function(callback) {
-	        $(window).on('imready', function(im){
-		    	callback(null, im.myObj);
-		    });
-	    }
-	],
+    // when page closes, disconnect socket
+    window.onbeforeunload = function(e){
+        sock.emit('disconnect');
+    };
 
-	// join room with his own username
-	function(err, results) {
-	    var me = results[1];
-	    sock.emit('join-room', me.username);
-	});
 
 
 
