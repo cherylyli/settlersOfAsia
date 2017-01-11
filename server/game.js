@@ -50,9 +50,9 @@ io.on('connection', function(socket){
         // set his current room
 		socket.join(roomId, function(){
 			socket.room = roomId;
+			debug(`${username} joined room ${socket.room}`);
             // start the game engine for this socket
             engine(socket, user, roomId);
-			debug(`${username} joined room ${socket.room}`);
 		});
 	});
 

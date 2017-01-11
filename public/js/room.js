@@ -37,6 +37,8 @@ $(window).on('imready', function(im){
         alert(msg);
     });
 
+    sock.emit('LOL');
+
 
 
 });

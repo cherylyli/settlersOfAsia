@@ -16,9 +16,8 @@ var notify = {
 		users = _.isArray(users) ? users : [users];
 		users.forEach(function(username){
 			io.to(username).emit(event, data);
-
 		});
-		console.log(`[notify users ${users.join(', ')}]`, event, data);
+		console.log(`[notify ${users.join(', ')	}]`, event, data);
 	},
 
 	// send to room, give room id (support array)

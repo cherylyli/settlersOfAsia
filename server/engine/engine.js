@@ -11,6 +11,15 @@ module.exports = function(socket, user, roomId) {
     // send to current socket
     function send(event, data){
         socket.emit(event, data);
+        console.log(`[notify ${user.username}]`, event, data);
+    }
+
+    // receive event
+    function got(event, fn){
+        socket.on(event, function(data){
+            console.log(`[got from ${user.username}]`, event, data);
+            fn(data);
+        });
     }
 
     // send to current room
@@ -35,6 +44,9 @@ module.exports = function(socket, user, roomId) {
 
     send('JOIN_ROOM_SUCCESS', 'welcome to room ' + roomId);
 
+    got('LOL', function(){
+
+    });
 
 
 
