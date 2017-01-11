@@ -8,13 +8,13 @@ var notify  = require('../api/notify.js');
 
 module.exports = function(socket, user, roomId) {
 
-    // send to current socket
+    // send to user
     function send(event, data){
         socket.emit(event, data);
         console.log(`[notify ${user.username}]`, event, data);
     }
 
-    // receive event
+    // receive from user
     function got(event, fn){
         socket.on(event, function(data){
             console.log(`[got from ${user.username}]`, event, data);
@@ -22,7 +22,7 @@ module.exports = function(socket, user, roomId) {
         });
     }
 
-    // send to current room
+    // send to everyone in current room
     function sendRoom(event, data){
         notify.room(roomId, event, data);
     }
