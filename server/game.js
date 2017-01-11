@@ -60,8 +60,8 @@ io.on('connection', function(socket){
 	function leaveRoom(){
         if (!socket.room) return;
 		socket.leave(socket.room, function(){
-            socket.room = null;
 			debug(`${username} left room ${socket.room}`);
+            socket.room = null;
 		});
 	}
 
