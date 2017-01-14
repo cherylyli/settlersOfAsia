@@ -18,11 +18,6 @@ function debug(){
 
 // ------------------------ models ------------------------
 
-var rooms = {
-
-};
-
-
 
 
 // ------------------------ socket ------------------------
@@ -43,6 +38,7 @@ io.on('connection', function(socket){
 
 
     // ---------------------- Game stuffs ----------------------
+
 
 	// join room
 	socket.on('JOIN_ROOM', function(roomId){

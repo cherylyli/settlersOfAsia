@@ -1,3 +1,8 @@
+// all the commands user can make during game is defined here!
+// By commands I mean system input and output message defined in environment
+// This is based on environment and operation model
+
+
 // dependencies
 var _       = require("underscore");
 var async   = require('async');
@@ -44,10 +49,35 @@ module.exports = function(socket, user, roomId) {
 
     send('JOIN_ROOM_SUCCESS', 'welcome to room ' + roomId);
 
-    got('LOL', function(){
 
-    });
 
+    //--------------------------------Commands---------------------------------------
+
+    got(CREATE)
+    got(LOAD_SAVED_GAME, function () {
+
+    })
+
+    got(CREAT_NEW_GAME, function () {
+        
+    })
+    
+    
+    got('TradeRequest', function () {
+        let playersAcceptOffer = [];
+        //send to other players in your room
+        let otherPlayersInRoom = []; //TODO: write a helper method to send messages to the rest ppl in the room
+
+        let trade = {'offer':[], 'request':[], 'requester': user.username};
+        notify(otherPlayersInRoom, 'TradeRequest', trade);
+        let repliedNum = 0;
+
+        got('TradeAccept', function (accept) {
+            repliedNum ++;
+            if (accept) playersAcceptOffer.push(user.username);
+            if (repliedNum == otherPlayersInRoom.length) notify.user(trade.requester, 'TradeRequest', playersAcceptOffer);
+        })
+    })
 
 
 };
