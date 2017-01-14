@@ -8,6 +8,12 @@
 
     <title>Game</title>
     
+    <!--bootstrap--> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <!-- CSS -->
     <link href="/css/standard.css" rel="stylesheet">
     <link href="css/game.css" rel="stylesheet">
@@ -31,8 +37,36 @@
         <div id = "payer_controls" class="footer">
             <img src="img/dice.jpg" class="footer dice">
             <img src="img/dice.jpg" class="footer dice">
-        <button>Build</button>
         </div>
+
+        <!-- build button -->
+       <button type="button" class="btn btn-success footer" data-toggle="modal" data-target="#build"> Build </button>
+        <div class="modal fade" id="build" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title"> Build Settlements</h4>
+                    </div>
+
+                    <!-- body -->
+                    <div class="modal-body">
+                        <form id="build_form" method="POST">
+                            <input type="radio" name="buildChoice" value="city">road<br>
+                            <input type="radio" name="buildChoice" value="settlement">settlement<br>
+                            <input type="radio" name="buildChoice" value="city">city<br>
+                        </form>
+                    </div>
+
+                    <!-- footer -->
+                    <div class="modal-footer">
+                        <button type="button" id="buildSubmit" class="btn btn-success">buy</button>
+                        <button type="button" class="btn btn-danger"  data-dismiss="modal">close</buton>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div id="resources" class="footer">
         <ul>
@@ -68,5 +102,32 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/standard.js"></script>
     <script src="js/game.js"></script>
+
+    <!-- build button --> 
+    <script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#buildSubmit").on('click',function(){
+            $("#build").submit();
+            //console.log("submit");
+        });
+
+        $("#build").on('submit',function(e){
+            e.preventDefault();
+            var buildType = $('input[name=buildChoice]:checked', '#build_form').val();
+            $('#build').modal('hide');
+            //console.log($('input[name=buildChoice]:checked', '#build_form').val());
+        });
+
+        /* Result 
+        $("#build").on('buildResult',function(data){
+            $('#build .modal-header .modal-title').html("Result");
+            $('#build .modal-body').html(data.status);
+            $("#buildSubmit").remove();       
+        })
+        */
+    });
+
+    </script>
 </body>
 </html>
