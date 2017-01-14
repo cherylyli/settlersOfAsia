@@ -71,12 +71,12 @@ module.exports = function(socket, user, roomId) {
         let trade = {'offer':[], 'request':[], 'requester': user.username};
         notify(otherPlayersInRoom, 'TradeRequest', trade);
         let repliedNum = 0;
-
+/**
         got('TradeAccept', function (accept) {
             repliedNum ++;
             if (accept) playersAcceptOffer.push(user.username);
             if (repliedNum == otherPlayersInRoom.length) notify.user(trade.requester, 'TradeRequest', playersAcceptOffer);
-        })
+        })**/
     })
 
 

@@ -131,6 +131,14 @@ Commands.upgradeSettlement = function (settlement) {
 
 };
 
+/**
+ *
+ * @param city {Establishment} the city player chosen to pillaged
+ */
+Commands.chooseCityToBePillaged = function (city) {
+
+}
+
 
 /**
  *
@@ -161,6 +169,7 @@ Commands.moveShip = function (oldPosition, newPosition) {
 Commands.hireKnight = function (player, position = null) {
 
 };
+
 
 /**
  *
@@ -197,6 +206,16 @@ Commands.displaceKnight = function (knight, opponentKnight) {
 
 };
 
+/**
+ *
+ * @param knight {Knight}
+ * @param thief {Thief} robber or pirate
+ */
+Commands.chaseAwayThief = function (knight, thief) {
+
+}
+
+
 //-------------------------
 /**
  *
@@ -213,10 +232,30 @@ Commands.tradeWithBank = function (tradeRatio = 4, src, tradeFor) {
  * @param player {Player}
  * @param cards {list<String>} resource/ commodity cards the player chooses to discard
  */
-Commands.discardCards = function (player, cards) {
+Commands.discardResourceCards = function (player, cards) {
 
 }
 
+/**
+ * create trade object, notifies all the other players about the trade offer.
+ * @new {Trade}
+ * @param player
+ * @param offer
+ * @param request
+ */
+Commands.requestTrade = function (player, offer, request) {
+
+}
+
+/**
+ * game keeps track of current trade. (There is only one current trade)
+ * when all players have responded to the offer, return a list of players that agree to trade
+ * @param player {Player} player who responded to the trade offer
+ * @return {list<String>} a list of player name who is willing to trade. If only a part of player responds, return null;
+ */
+Commands.acceptTrade = function (player) {
+
+}
 
 
 /**
@@ -241,3 +280,21 @@ Commands.stealCard = function (thief, victim, card) {
 }
 
 
+/**
+ *
+ * @param player {Player}
+ * @param progressCard {String} progress card
+ */
+Commands.discardProgressCard = function (player, progressCard) {
+
+}
+
+/**
+ *
+ * @param player {Player}
+ */
+Commands.endTurn = function (player) {
+
+}
+
+//progress card stuff will be added later..
