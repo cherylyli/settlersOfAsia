@@ -6,7 +6,7 @@
  */
 let Map = require('./Map.js');
 
-let Scenario = {} = module.exports;
+let Scenario = module.exports = {};
 let Scenarios = {'Scenario1': 'Heading For New Shores'
 };
 

@@ -4,13 +4,13 @@
 /**
  * Created by emol on 1/9/17.
  */
-let enums = require('./Enums.js');
-let User = {} = module.exports;
+let enums = require('./Enum.js');
+let User = module.exports = {};
 
-User.createUser = function (name) {
-    let user = {};
+User.createUser = function (user) {
+    //let user = {};
 
-    user.name = name;
+    user.name = user.username;
     user.state = enums.PlayerState.LOBBY;
     user.roomID = null;
 

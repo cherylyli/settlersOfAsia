@@ -5,7 +5,7 @@
  * Created by emol on 1/10/17.
  */
 let _ = require('underscore');
-let Enum = require('./Enums.js');
+let Enum = require('./Enum.js');
 let HexTile = {} = module.exports;
 
 HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionNum = '1', visible = true) {

@@ -5,7 +5,7 @@
 /**
  * Created by emol on 1/10/17.
  */
-let Enums = require('./Enums.js');
+let Enums = require('./Enum.js');
 //import {ProgressCardDeck} from './ProgressCard.js';
 //import {Dice} from './Dice.js';
 let Map = require('./Map.js');

@@ -1,7 +1,7 @@
 /**
  * Created by emol on 1/13/17.
  */
-let Trade = {} = module.exports;
+let Trade = module.exports = {};
 
 /**
  *

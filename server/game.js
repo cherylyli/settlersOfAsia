@@ -1,7 +1,7 @@
 // dependencies
 var _ = require("underscore");
 var engine = require('./engine/engine.js');
-
+let User = require('./engine/gameLogic/User.js');
 
 
 // ------------------- helper functions -------------------
@@ -28,6 +28,9 @@ io.on('connection', function(socket){
 	var user = socket.user;
 	if (!user) return debug('can not connect, must log in');
 	debug(`user ${user.username} connected, id: ${socket.id}`);
+
+	//add more attribute to user.
+	User.createUser(user);
 
     // his username
 	var username = user.username;

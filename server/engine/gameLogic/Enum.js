@@ -4,6 +4,8 @@
 /**
  * Created by emol on 1/9/17.
  */
+
+let Enum = module.exports = {};
 let PlayerState = {"LOBBY":'LOBBY', "GAME_ROOM":'GAME_ROOM'};
 
 /**

@@ -4,7 +4,11 @@
 /**
  * Based on environment messages
  */
-let Commands = {} = module.exports;
+let Room = require('./gameLogic/Room.js');
+
+
+
+let Commands = module.exports = {};
 
 
 //--------------------Commands used when user is not in game----------------------------
@@ -16,12 +20,14 @@ let Commands = {} = module.exports;
  * @post-condition: gameRoom is created.
  * @return gameRoom object
  * @param user User object
+ * @param roomID {String}
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
-Commands.makeNewRoom = function (user, savedGameID = null, scenario = null) {
+Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
     //make new Room
-    let room = createRoom();
+    let room = Room.createRoom(roomID, user.name);
+
 
     //owner also joins room
     Commands.joinRoom(user, room);
@@ -293,6 +299,7 @@ Commands.discardProgressCard = function (player, progressCard) {
  *
  * @param player {Player}
  */
+
 Commands.endTurn = function (player) {
 
 }

@@ -7,16 +7,17 @@
 const MIN_PLAYER_NUM = 3;
 const MAX_PLAYER_NUM = 4;
 
-let enums = require('./Enums.js');
+let enums = require('./Enum.js');
 //import _ from "underscore";
 let Player = require('./Player.js');
 let Match = require('./Match.js');
+let DATA = require('../Data.js');
 
-let Room = {} = module.exports;
+let Room = module.exports = {};
 
 
 
-Room.createRoom = function (RoomID, RoomName, creatorName) {
+Room.createRoom = function (RoomID, creatorName) {
     let gameRoom = {};
 
     gameRoom.id = RoomID;
@@ -78,5 +79,7 @@ Room.createRoom = function (RoomID, RoomName, creatorName) {
         gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, players);
     }
 
+
+    DATA.addRoom(gameRoom);
     return gameRoom;
 }

@@ -4,13 +4,13 @@
 /**
  * Created by emol on 1/10/17.
  */
-let Enum = require('./Enums.js');
+let Enum = require('./Enum.js');
 
 /**
  * Player stores the game info of a user in a game.
  */
 
-let Player = {} = module.exports;
+let Player = module.exports = {};
 
 Player.createPlayer = function () {
     let player = {};

@@ -7,11 +7,11 @@
 
 
 
-let Enum = require('./Enums.js');
+let Enum = require('./Enum.js');
 let _ = require('underscore');
 let HexTile = require('./HexTile.js');
 
-let Map = {} =module.exports;
+let Map = module.exports = {};
 
 let mapHexTypeData = {'Sea':2, 'GoldField':2, 'Desert':1, 'Field':4, 'Forest':2, 'Pasture':4, 'Mountains':1, 'Hills':0};
 let mapTokenDate = {'5':3, '2':4, '9':9};

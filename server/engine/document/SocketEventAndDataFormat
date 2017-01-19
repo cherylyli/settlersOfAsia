@@ -1,0 +1,6 @@
+
+MAP_CONFIG
+{savedGameID: String, scenario:Sting}
+Either savedGameID or scenario is undefined
+
+

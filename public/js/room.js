@@ -27,6 +27,10 @@ $(window).on('imready', function(im){
     // on page load, join room
     sock.emit('JOIN_ROOM', roomId);
 
+    //test data
+    let mapConfig = {'scenario':'Heading For New Shores'};
+    sock.emit('MAP_CONFIG', mapConfig);
+
     // when sock disconnects and reconnects, join room again
     sock.on('reconnect', function(){
         sock.emit('JOIN_ROOM', roomId);

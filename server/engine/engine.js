@@ -11,6 +11,9 @@ var Uuid    = require('uuid');
 var User    = require('../../models/user.js');
 var notify  = require('../api/notify.js');
 
+let DATA = require('./Data.js');
+let Commands = require('./Commands.js');
+
 module.exports = function(socket, user, roomId) {
 
     // send to user
@@ -47,12 +50,45 @@ module.exports = function(socket, user, roomId) {
      *  roomId : current room socket is connected to
      */
 
-    send('JOIN_ROOM_SUCCESS', 'welcome to room ' + roomId);
+
+
+
+
+
+
+    //-----------------------------Room, game config-------------------------------
+
+    //User joins room.
+    //There is no createRoom event, just check roomId.
+    //If there is a #roomId room exist (and able to join), joins the room
+    //If there is the room does not exist, create the room, player becomes the owner of the room, and are asked to specify the map parameters.
+
+
+    if(DATA.existRoom(roomId)){
+        let room = Commands.joinRoom(user, DATA.getRoom(roomId));
+        send('JOIN_ROOM_SUCCESS', room);
+    }
+
+    //create new room
+    else{
+
+        //Data format for MAP_CONFIG:
+        //{savedGameID: String, scenario:Sting}
+        //Either savedGameID or scenario is undefined
+        got('MAP_CONFIG', function (data) {
+            let room = Commands.makeNewRoom(user, roomId, data.savedGameID, data.scenario);
+            send('JOIN_ROOM_SUCCESS', room);
+        });
+    }
+
+
+
+
 
 
 
     //--------------------------------Commands---------------------------------------
-
+/**
     got(CREATE)
     got(LOAD_SAVED_GAME, function () {
 
@@ -61,7 +97,7 @@ module.exports = function(socket, user, roomId) {
     got(CREAT_NEW_GAME, function () {
         
     })
-    
+    /**
     
     got('TradeRequest', function () {
         let playersAcceptOffer = [];
@@ -76,8 +112,8 @@ module.exports = function(socket, user, roomId) {
             repliedNum ++;
             if (accept) playersAcceptOffer.push(user.username);
             if (repliedNum == otherPlayersInRoom.length) notify.user(trade.requester, 'TradeRequest', playersAcceptOffer);
-        })**/
-    })
+        })
+    })**/
 
 
 };
