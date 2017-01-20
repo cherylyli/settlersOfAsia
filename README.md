@@ -14,3 +14,6 @@ $ node app.js
 
 # Test
 - Open `localhost:3000` on your browser, if an alert pops up, then it works!
+
+# Document
+- Check out Wiki if you have question about communication pattern.
