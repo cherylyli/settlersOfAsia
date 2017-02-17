@@ -4,7 +4,10 @@
 /**
  * Based on environment messages
  */
+let DATA = require("./Data.js");
 let Room = require('./gameLogic/Room.js');
+let Match = require('./gameLogic/Match.js');
+let User = require('./gameLogic/User.js');
 
 
 
@@ -19,30 +22,33 @@ let Commands = module.exports = {};
  * @precondition either savedGameID or scenario is null
  * @post-condition: gameRoom is created.
  * @return gameRoom object
- * @param user User object
+ * @param userName {String}
  * @param roomID {String}
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
-Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
+Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario = null) {
+    let user = DATA.getUser(userName);
     //make new Room
-    let room = Room.createRoom(roomID, user.name);
+    let room = Room.createRoom(roomID, userName);
 
 
     //owner also joins room
-    Commands.joinRoom(user, room);
+    Commands.joinRoom(userName, roomID);
     return room;
 };
 
 
 /**
  * @precondition the room is not full or in game
- * @param user  {User}
- * @param room  {Room}
+ * @param userName  {String}
+ * @param roomID  {String}
  * @return room {Room}
  */
-Commands.joinRoom = function (user, room) {
-    return room;
+Commands.joinRoom = function (userName, roomID) {
+    let room = DATA.getRoom(roomID);
+    let user = DATA.getUser(userName);
+    user.joinGameRoom(room);
 };
 
 
@@ -51,17 +57,17 @@ Commands.joinRoom = function (user, room) {
  * Play doesn't need to specify the player number when he created the room, he just click the button when he wants to start and the game is able to start
  * Once a player emit startGame Command, the gameRoom is in Starting State, the game will starts in 5 seconds, if other player leave during the 5 seconds, the game will not start, and the player has to emit the startGame Command again (if there are enough people).
  * this function create a match object, initialize player object for each player and initialize map
- * @param room {Room}
+ * @param roomID {String}
  * @return match object
  */
-Commands.startGame = function (room) {
+Commands.startGame = function (roomID) {
+    let room = DATA.getRoom(roomID);
     //Room.state = STARTING, game will start in 5 sec if no player leaves the room
 
     // user chose to play a new game
     if (!room.match){
         //create new match
-        let match = createNewMatch();
-        room.match = match;
+        room.startGame();
 
     }
 
@@ -84,10 +90,11 @@ Commands.leaveRoom = function (user) {
 
 /**
  *
- * @param match {Match}
+ * @param match {String}
  * @return dice {Dice}
  */
-Commands.rollDice = function (match) {
+Commands.rollDice = function (matchID) {
+    let match = DATA.getMatch(matchID);
     return match.rollDice();
 };
 

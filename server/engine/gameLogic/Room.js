@@ -77,6 +77,8 @@ Room.createRoom = function (RoomID, creatorName) {
         }
         //now create the game/match based on the scenario.
         gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, players);
+        DATA.addMatch(gameRoom.id, gameRoom.match);
+        return gameRoom.match;
     }
 
 

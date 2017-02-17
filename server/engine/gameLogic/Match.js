@@ -14,8 +14,15 @@ let Scenario = require('./Scenario.js');
 //import {Bank} from './Bank.js';
 
 let Match = {} =  module.exports;
+let DATA = require('../Data.js');
+let Dice = require('./Dice.js');
 
 // users is a list of String, names of the user in the room
+/**
+ *
+ * @param scenario {String}
+ * @param players {Player[]}
+ */
 Match.createNewMatch = function (scenario, players) {
     let match = {};
 
@@ -23,6 +30,14 @@ Match.createNewMatch = function (scenario, players) {
     match.scenario = Scenario.loadScenario(3, scenario);
     match.players = players;
     match.map = match.scenario.setUpMap(match.scenario.data);
+    match.dice = Dice.createDice();
+
+
+    match.rollDice = function () {
+        match.dice.rollEventDice();
+        match.dice.rollProductionDice();
+    }
+    return match;
 
 
 }

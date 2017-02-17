@@ -10,6 +10,7 @@ var _h      = require('../api/helper_functions.js');
 var Uuid    = require('uuid');
 var User    = require('../../models/user.js');
 var notify  = require('../api/notify.js');
+let fs = require("fs");
 
 let DATA = require('./Data.js');
 let Commands = require('./Commands.js');
@@ -77,6 +78,10 @@ module.exports = function(socket, user, roomId) {
         //Either savedGameID or scenario is undefined
         got('MAP_CONFIG', function (data) {
             let room = Commands.makeNewRoom(user, roomId, data.savedGameID, data.scenario);
+            Commands.startGame(room);
+            fs.writeFile("match.json", JSON.stringify(room), function (err) {
+                if (err) throw err;
+            })
             send('JOIN_ROOM_SUCCESS', room);
         });
     }
