@@ -33,20 +33,41 @@ $(document).ready(function(){
 			room_html += "</h2><div class='numplayers'>"
 			room_html += room.players.length + " players</div><div class='currentstate'>Waiting for ";
 			room_html += 4 - room.players.length;
-			room_html += ' more player(s)</div><button class="enterroom">Enter Room</button></div>'
+			room_html += ' more player(s)</div><button id="' + key + '" class="enterroom">Enter Room</button></div>'
 			room_list += room_html;
+
 		};
 		console.log(room_list);
 
 		$('#findrooms').html(room_list);
-		{/*<h2>Template room: would be populated with javascript, with ID being the id of the room in firebase</h2>
+		$(".enterroom").click(function(){
+			console.log($(this).attr('id'));
+			data = {
+				userid: userid,
+				roomid: $(this).attr('id')
+			};
+			var url = "http://localhost:3000/game/" + $(this).attr('id');
+
+			$.ajax({
+				url: '/enterRoom',
+				method: "PUT",
+				data: data
+			}).done(function(res){
+				console.log(res);
+				
+				if (res){
+					$(location).attr("href", url);
+				}
+			});
+		});
+		/*<h2>Template room: would be populated with javascript, with ID being the id of the room in firebase</h2>
 				<div class="rooms">
 					<h2 class="gameName">AwesomeGame</h2>
 					<div class="numplayers">3 players</div>
 					<div class="currentstate">Waiting for 1 more player</div>
 					<button class="enterroom">Enter Room</button>
 
-				</div>*/}
+				</div>*/
 
 	});
 
