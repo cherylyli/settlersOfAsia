@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "settlersofasia",
+  "private_key_id": "ae195cce9e5a7103ddeb8d8f411ac7dcd52db684",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDEwjTmgEmdHdv\ndgooOP44KUK1g6sDc7aIawsL8K69yQkErb7hWvYk8Q/C7eOF9z9BcfyLj9LuHc4f\nT0UsGKwFNKeEFd9r/72xWYvflzyHfBhIoVYHAYevaTxyeaurIdCEXICnURybwJ7V\nwiWkyhSHkUGlZMRZUxfOKtbXD2n/j0EH/t51DlCVEDxWxV+iw/MglYnq+m1sqfXb\nI6yxpzxAzVX/22rLtNRHOCjlqkPqwQxDPtmq3OUzlBPROGf6Meg214n0X0J5t/z3\nx/pgU4mSjZLYJIeZJe08PlY/7B9SecrOZ2pyKESfqY5C5sJEZTAVWTW98BpM3JIE\nUHPYewspAgMBAAECggEAQzLbZ4k1vDmCqzLObOy1JkOQZ1bkIlxKFNRLCeHvUBFg\nuevgRWFASZmBBHVOW2fAsprBlJIG51/9EWwNOBOHroNk8WtXe6yte9qNBIjkoQdu\nlhZ9vAwa4aIu4IBpUppjajUzXG/kmwLPtHMc5Jd4Wvr+0irUOLEXEj5Po+X7bb0g\nhK8w20Zr6CcnSXzbuWvDeZv1pHWUOe5YM/aGLd3/Pm+t08BZDMDpBhuHJ7q2pII1\nXaZQpPGjiYEjA49V/YlkZOZ96YHpHvB/mHch/psRAlaIZRsgS0Yy3kSIPWRF7edl\nYtABjNx2R5t0cnStPmHR2dpiFgOgllOUsgqoRAUXwQKBgQD6We787fjKYSNC50oA\n197r7xduQpVI0H0mbqC3Us8jb3Q7Kf33UCqJfftTpylzQ7Bly51ieN8hdCDLYTON\nDt04lv23PYLA6rdprb0hE5WBy7oJBH5xNcppyMfuSV1ePmsBF8PHXqEWW42NXKNf\n93tM5OujB+wUd2GyqaCoOxS/TwKBgQDHedAiuXCFfkcm97Cm7l7NzM3ySWENkuST\nhniAeo5Je1yYKm7QaI7xn6NfdUY7KWn77FcZFgZgj1FlDO4/1KiqvsCSfM4kp+5E\ncj5wL5CtRY++IOYSUvR7PGei6BUoScq2upHOp8e8GXQK5uKvMVi9Uaw2igti+hT2\n4Gi9HYUwBwKBgQDxTEN0F+6HKc8xyfnjDC45244K4TRAJWuq4lAXwkISVneCGvxF\nJkiJkxrtyx3BkklwJCwC4Ju4A9UkEgD9AYmp5KaQukHPrauwuRukyNp+ax1ZWbKB\nbaY2BabmfmH211SNjhlOjV/YS9AIo3R4p/F48OBJl/Ys19AbwzEtVRyvMwKBgQCA\nIZX5iCZoCWpI9JeLUtig12p+tHXcEzwyKxFibdbSCqS6tZ8Czfbr7AA0RA991ydW\nBEUaPxSPl9/PyhOL+tzw+KCYOATudNRPMRc8VsFXG7Sui1Fd+d1C/9UORoe4nlXR\nNFyOYyWghLUOf6qioE8BJOI7EkcoJ72pqxJ8T+cKpwKBgCwwXAJE4NyfzV1Z/6lq\n5REDrDMGiV4zsHjW2ghkZqHR1mOGf18DebHxKWV1UF38kA7+AFyYEt3WM6KHUdiY\ndnTSzbDg6Imi1HkBFf659DoSMGsdSxDIKtLeu2Am9V6OW9K+a27699cqQ9GrZjAV\nCqAqBomZSSX8mpuWv7G3Y5/N\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-v077s@settlersofasia.iam.gserviceaccount.com",
+  "client_id": "114821802353016169540",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-v077s%40settlersofasia.iam.gserviceaccount.com"
+}

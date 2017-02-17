@@ -25,14 +25,16 @@ module.exports = function(app) {
         res.sendView('login.html');
     });
 
-    app.get('/signup', sendView, function(req, res){
-        res.sendView('registration.html');
+    app.put('/addRoom', function(req, res){
+
+        db.ref('rooms').push().set({
+            roomName: req.body.roomname,
+            players: [req.body.userid],
+            owner: req.body.userid
+        });
+        res.status(200).end("ok");
     });
 
-
-    app.get('/room/:id', sendView, function(req, res){
-        res.sendView('room.html');
-    });
 
 
 };
