@@ -68,16 +68,22 @@ Room.createRoom = function (RoomID, creatorName) {
         }
 
         //init players data for game (either load or create)
-        let players = [];
+        //let players = [];
         for (let user in gameRoom.users){
             if (gameRoom.users.hasOwnProperty(user)) {
                 gameRoom.users[user] = Player.createPlayer();
-                players.push(gameRoom.users[user]);
+          //      players.push(gameRoom.users[user]);
             }
         }
         //now create the game/match based on the scenario.
-        gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, players);
+        gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, gameRoom.users);
         DATA.addMatch(gameRoom.id, gameRoom.match);
+
+        for (let player in gameRoom.users){
+            if (gameRoom.users.hasOwnProperty(player)) {
+                gameRoom.users[player].match = gameRoom.match;
+            }
+        }
         return gameRoom.match;
     }
 

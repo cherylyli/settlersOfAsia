@@ -21,15 +21,19 @@ Player.createPlayer = function () {
      */
 
     player.VP = 0;
-    player.resourcesAndCommodities = {[Enum.Resource.Wheat] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.progressCards = [];
     player.progressCardsCnt = 0;
-    player.buildings = [];
+    player.buildings = {};  //key: position (vertex index / int); value: building object
+    player.roads = [];  // a list of edges
+    player.ships = []  // a list of edges
     player.harbors = [];
+
+    player.longestRoad = 0;
 
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
-    player.game = null;
+    player.match = null;
 
 
     /**
@@ -37,8 +41,37 @@ Player.createPlayer = function () {
      * @param points may be negative or positive, int
      */
     player.updateVP = function(points){
-        this.VP += points;
-        this.game.checkPlayerVP(this);
+        player.VP += points;
+        player.match.checkPlayerVP(this);
+    }
+
+
+    /**
+     *
+     * @param vertex {int}
+     * @return {Building}
+     */
+    player.getBuilding = function (vertex) {
+        return player.buildings[vertex];
+    }
+
+
+
+    /**
+     * helper function
+     * Every we make changes to roads/ ships, we recalculate the longest road
+     */
+    player.calculateLongestRoad = function(){
+        //TODO: Yuan
+        //calculate longest road based on player.ships and player.roads
+        //these two are just list of edges.
+
+        //For example:
+        //player.roads = [[1,2], [2,3],[3,4], [10,11]]
+        //player.ships = [[1,5]]
+        //if there is settlement at vertex 1: longest road is [1,5]-[1,2]-[2,3]-[3,4] (4); if not then [1,5] is not in the route, the route length is 3
+
+        //if larger than 5, also check whether with match.longestRoad to see whether the player can get the longest road card
     }
 
     return player;

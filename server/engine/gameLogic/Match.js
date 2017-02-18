@@ -16,6 +16,7 @@ let Scenario = require('./Scenario.js');
 let Match = {} =  module.exports;
 let DATA = require('../Data.js');
 let Dice = require('./Dice.js');
+let Bank = require('./Bank.js');
 
 // users is a list of String, names of the user in the room
 /**
@@ -31,15 +32,36 @@ Match.createNewMatch = function (scenario, players) {
     match.players = players;
     match.map = match.scenario.setUpMap(match.scenario.data);
     match.dice = Dice.createDice();
+    match.bank = Bank.createBank(match);
+    match.longestRoad = 0;
 
 
     match.rollDice = function () {
         match.dice.rollEventDice();
         match.dice.rollProductionDice();
     }
+
+    /**
+     *
+     * @param UserName {String}
+     * @return {Player|*}
+     */
+    match.getPlayer = function (UserName) {
+        return match.players[UserName];
+    }
+
+    match.checkPlayerVP = function(player){
+        if (player.VP >= match.winningVP) match.endGame();
+    }
+
+    match.endGame = function(){
+        //TODO:
+        console.log("Game ends!");
+    }
+
     return match;
 
-
+    //match.
 }
 /**
  function initPlayers(userNames) {

@@ -39,6 +39,7 @@ $(window).on('imready', function(im){
     // upon successfully joined room, server will send back a message
     sock.on('JOIN_ROOM_SUCCESS', function(msg){
         alert(msg);
+        console.log(msg);
     });
 
     //sock.emit('LOL');
