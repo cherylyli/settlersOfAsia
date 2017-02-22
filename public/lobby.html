@@ -1,169 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
-	<meta charset="UTF-8">
-    <title>Game Lobby</title>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900' rel='stylesheet' type='text/css'>
-	<link href="/css/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- <link href="/css/plugins/weui.min.css" rel="stylesheet"> -->
-    <link href="/css/plugins/animate.min.css" rel="stylesheet">
-    <link href="/css/plugins/animate.css" rel="stylesheet">
-    <link href="/css/plugins/sweetalert.css" rel="stylesheet">
-    <link href="/css/plugins/rateyo.css" rel="stylesheet">
-    <link href="/css/plugins/qtip.css" rel="stylesheet">
-    <link href="/css/standard.css" rel="stylesheet">
-    <link href="/css/lobby.css" rel="stylesheet">
-</head>
-
-
-<script id='match-template' type="text/template" class="template">
-    <div class='match' data-id='<%-match.id%>'>
-        <div class='top'>
-            <div class='pic center-cropped' style='background-image:url(<%-host.profile_pic%>)' data-username='<%-host.username%>'></div>
-            <div class='desc'>
-                <div class='name slidable dot'><%-match.name%></div>
-                <div class='type'>Game type: <%-match.type%></div>
-                <div class='size'>Players: <%-match.players.length%>/8</div>
-            </div>
-        </div>
-        <div class='bottom'>
-            <div class='players'></div>
-            <a href='/room/<%-match.id%>' class='join'>JOIN</a>
-        </div>
-    </div>
-</script>
-
-<script id='match-player-template' type="text/template" class="template">
-    <div class='player center-cropped' data-username='<%-player.username%>'></div>
-</script>
-
-<script id='online-user-template' type="text/template" class="template">
-	<div class="item">
-		<div class="pic center-cropped" style="background-image: url(<%-user.profile_pic%>)"></div>
-		<div class="desc">
-			<div class="title"><%-user.username%></div>
-			<div class="snippet dot slidable"><%-user.status%></div>
-		</div>
-	</div>
-</script>
-
-
-
-<body>
-
-	<div class='topbar'>
-		<a class='left' href='/'>
-			<div class='logo'>S</div>
-			<div class='text'>~ SETTLERS OF ASIA ~</div>
-		</a>
-
-		<div class="mid">
-		    <div class="icon center-contained"></div>
-		    <input placeholder="Search rooms by room name..." type="text">
-		</div>
-
-		<div class='right'>
-			<div class='text'>
-				<span class='welcome'>Welcome, Jack!</span>
-				<a href='/logout' class='logout pseudo-link'>Logout</a>
-			</div>
-			<div class='pic center-cropped' style='background-image:url(/bulk/f1.jpeg);'></div>
-		</div>
-	</div>
-
-	<div id='main'>
-
-		<div id='create' class='box-shadow-light'>
-			<div class='wrap'>
-				<div class='icon center-contained'></div>
-				<div class='text'>Make Room</div>
-			</div>
-		</div>
-
-
-		<div id='rooms' class='box-shadow-light'>
-			<div class='block-title'>Available matches</div>
-			<div class='matches'>
-				<!-- <div class='match'>
-	                <div class='top'>
-	                    <div class='pic center-cropped' style='background-image:url(/bulk/f1.jpeg)'></div>
-	                    <div class='desc'>
-	                        <div class='name slidable dot'>jack's Maj0r Pwn4ge.</div>
-	                        <div class='type'>Game type: Basic</div>
-	                        <div class='size'>Players: 1/8</div>
-	                    </div>
-	                </div>
-	                <div class='bottom'>
-	                    <div class='players'>
-	                        <div class='player center-cropped' style='background-image:url(/bulk/m1.jpeg)'></div>
-	                        <div class='player center-cropped' style='background:#efefef'></div>
-	                        <div class='player center-cropped' style='background:#efefef'></div>
-	                        <div class='player center-cropped' style='background:#efefef'></div>
-	                    </div>
-	                    <a href='/' class='join'>JOIN</a>
-	                </div>
-	            </div> -->
-			</div>
-		</div>
-
-
-
-
-		<div id='onlines' class='box-shadow-light'>
-			<div class='block-title'>
-				<span id='online-count'>23</span>
-				<span>online users</span>
-			</div>
-			<div class='content'>
-				<div class='pop_list'>
-					<div class="item">
-						<div class="pic center-cropped" style="background-image: url(/bulk/f1.jpeg)"></div>
-						<div class="desc">
-							<div class="title">jack</div>
-							<div class="snippet dot slidable">La vie en rose</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="pic center-cropped" style="background-image: url(/bulk/f1.jpeg)"></div>
-						<div class="desc">
-							<div class="title">jack</div>
-							<div class="snippet dot slidable">La vie en rose</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="pic center-cropped" style="background-image: url(/bulk/f1.jpeg)"></div>
-						<div class="desc">
-							<div class="title">jack</div>
-							<div class="snippet dot slidable">La vie en rose</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-	<script src="//cdn.jsdelivr.net/async/2.1.4/async.min.js"></script>
-	<script src="/js/plugins/jquery.min.js"></script>
-	<script src="/js/plugins/jquery-ui.js"></script>
-	<script src="/js/plugins/underscore.js"></script>
-	<script src="/js/plugins/sweetalert.min.js"></script>
-	<script src="/js/plugins/beautify.js"></script>
-	<script src="/js/plugins/rateyo.jquery.js"></script>
-	<script src="/js/plugins/qtip.js"></script>
-	<script src="/js/standard.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="/js/plugins/socket-adapter.js"></script>
-	<script src="/js/lobby.js"></script>
-=======
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="robots" content="noindex, nofollow">
-
-    <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
 	<script>
 	  // Initialize Firebase
 	  var config = {
@@ -175,15 +13,12 @@
 	  };
 	  firebase.initializeApp(config);
 	</script>
-	
-	
-	<title>Lobby</title>    
-    <!-- CSS -->
-    <link href="/css/standard.css" rel="stylesheet">
-    <link href="/css/lobby.css" rel="stylesheet">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/lobby.css">
+	<title>Game Lobby</title>
 </head>
 <body>
-
 	<nav>
 		<div>Settlers Of Asia</div>
 		<ul>
@@ -195,7 +30,7 @@
 			<li class="notsignedin"><form id="login"><label for="loginemail">Email: </label><input type="text" name="loginemail" /><label for="loginpassword">Password: </label><input type="password" name="loginpassword" /><input class="hover" type="submit" value="login"></form></li>
 			<li class="hover notsignedin" id="new-account">
 		</ul>
-		
+
 	</nav>
 
 	<div class="wrapper">
@@ -204,9 +39,16 @@
 		<h2 class="hover selected" id="labelfindroom">Find a Room</h2><h2 class="hover" id="labelnewroom">+ New Room</h2>
 		<div class="color">
 			<div id="findrooms">
-				
+				<!--<h2>Template room: would be populated with javascript, with ID being the id of the room in firebase</h2>
+				<div id="gameroom1" class="rooms">
+					<h2 class="gameName">AwesomeGame</h2>
+					<div class="expansion">Base Game</div>
+					<div class="numplayers">3 players</div>
+					<div class="currentstate">Waiting for 1 more player</div>
+
+				</div>-->
 			</div>
-			
+
 
 			<div id="addroom">
 				<h2>Create a New Game Room</h2>
@@ -222,22 +64,11 @@
 					<input type="submit" value="Create Room!"/>
 				</form>
 			</div>
-			
+
 		</div>
 
 	</div>
 
-
-
-
-<!------------------------------- PRELOAD IMAGES ---------------------------------->
-<div id='preload'></div>
-<script src="/js/plugins/jquery.js"></script>
-<script src="/js/plugins/jquery-ui.js"></script>
-<script src="/js/plugins/underscore.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/standard.js"></script>
-<script src="/js/lobby.js"></script>
->>>>>>> setup the groundwork for the project
+	<script type="text/javascript" src="js/lobby.js"></script>
 </body>
 </html>

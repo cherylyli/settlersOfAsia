@@ -16,39 +16,28 @@ var http        = require('http');
 var express     = require('express');
 // var Session     = require('express-session');
 var bodyParser  = require('body-parser');
-<<<<<<< HEAD
-var redis       = require('redis');
-var app         = express();
-var server      = http.createServer(app);
-var socketio 	= require('socket.io');
-var ios 		= require('socket.io-express-session');
 
-=======
 // var socketio    = require('socket.io');
 // var redis       = require('redis');
 // var socketRedis = require('socket.io-redis');
 var app         = express();
 var server      = http.createServer(app);
 var admin = require("firebase-admin");
->>>>>>> add room linked to firebase and create enter room button
 
 var serviceAccount = require("./config/firebaseConfig.json");
 
-<<<<<<< HEAD
 // create a redis client
 // global.MyRedis = redis.createClient(ENV.redis.port, ENV.redis.host);
 // var bodyParser  = require('body-parser');
 // var socketio    = require('socket.io');
 // var redis       = require('redis');
 // var socketRedis = require('socket.io-redis');
-var app         = express();
-var server      = http.createServer(app);
-=======
+
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://settlersOfAsia.firebaseio.com"
 });
->>>>>>> add room linked to firebase and create enter room button
 
 global.db = admin.database();
 
@@ -59,7 +48,6 @@ global.db = admin.database();
 // });
 
 
-<<<<<<< HEAD
 // create a redis client
 // GLOBAL.MyRedis = redis.createClient(ENV.redis.port, ENV.redis.host);
 // global.MyRedis = redis.createClient(ENV.redis.port, ENV.redis.host);
@@ -80,9 +68,6 @@ global.db = admin.database();
 //   rolling: true // any subsequential request resets the maxAge
 // });
 // create socket.io server, and use redis to allow broadcasting of events to multiple separate servers
-=======
-// // create socket.io server, and use redis to allow broadcasting of events to multiple separate servers
->>>>>>> add room linked to firebase and create enter room button
 // global.io = socketio(server);
 // io.adapter(socketRedis({ host: ENV.redis.host, port: ENV.redis.port }));
 
@@ -91,10 +76,10 @@ global.db = admin.database();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
-app.use(sessionConfig);
+// app.use(sessionConfig);
 
 // database
-mongoose.connect(ENV.db);
+// mongoose.connect(ENV.db);
 
 
 // socket.io
