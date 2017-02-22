@@ -13,15 +13,133 @@
     <link href="/css/plugins/qtip.css" rel="stylesheet">
     <link href="/css/standard.css" rel="stylesheet">
     <link href="/css/lobby.css" rel="stylesheet">
+
+    <script src="/js/plugins/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- CSS -->
+    <link href="/css/game.css" rel="stylesheet">
+
 </head>
 
 <body>
 
 
+    <div id="game">
+        <button id="populate">Populate</button>
+    </div>
+
+
+    <aside>
+        <div id="player_score">Score of Players</div>
+        <div id="game_log">Game Log</div>
+        <div id="chat_box">Chat Box</div>
+    </aside>
+
+    <footer>
+
+        <img src="/img/room/profile.jpg" class="profile_pic footer">
+        <div id = "payer_controls" class="footer">
+            <img src="/img/room/dice.jpg" class="footer dice">
+            <img src="/img/room/dice.jpg" class="footer dice">
+        </div>
+
+        <!-- build button -->
+       <button type="button" class="btn btn-success footer" data-toggle="modal" data-target="#build"> Build </button>
+        <div class="modal fade" id="build" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title"> Build Settlements</h4>
+                    </div>
+
+                    <!-- body -->
+                    <div class="modal-body">
+                        <form id="build_form" method="POST">
+                            <input type="radio" name="buildChoice" value="city">road<br>
+                            <input type="radio" name="buildChoice" value="settlement">settlement<br>
+                            <input type="radio" name="buildChoice" value="city">city<br>
+                        </form>
+                    </div>
+
+                    <!-- footer -->
+                    <div class="modal-footer">
+                        <button type="button" id="buildSubmit" class="btn btn-success">buy</button>
+                        <button type="button" class="btn btn-danger"  data-dismiss="modal">close</buton>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="resources" class="footer">
+        <ul>
+            <li>Wood</li>
+            <li>Sheep</li>
+            <li>Brick</li>
+            <li>Grain</li>
+            <li>Ore</li>
+        </ul>
+        </div>
+
+        <ul id="achievements" class="footer">
+            <li>Longest Road: 0</li>
+            <li>Largest Army: 1</li>
+        </ul>
+
+            <div id="dev_cards" class="footer">Dev cards</div>
+            <div id ="trade" class="footer">Trade</div>
+
+        <ul id="game_options" class="footer">
+            <li><button>Save</button></li>
+            <li><button>Continue</button></li>
+            <li><button>Quit</button></li>
+        </ul>
+    </footer>
+
+
+    <div id='preload'></div>
+
+    <script src="/js/plugins/jquery.js"></script>
+    <script src="/js/plugins/jquery-ui.js"></script>
+    <script src="/js/plugins/underscore.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/standard.js"></script>
+    <script src="/js/game.js"></script>
+
+    <!-- build button -->
+    <script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#buildSubmit").on('click',function(){
+            $("#build").submit();
+            //console.log("submit");
+        });
+
+        $("#build").on('submit',function(e){
+            e.preventDefault();
+            var buildType = $('input[name=buildChoice]:checked', '#build_form').val();
+            $('#build').modal('hide');
+            //console.log($('input[name=buildChoice]:checked', '#build_form').val());
+        });
+
+        /* Result
+        $("#build").on('buildResult',function(data){
+            $('#build .modal-header .modal-title').html("Result");
+            $('#build .modal-body').html(data.status);
+            $("#buildSubmit").remove();
+        })
+        */
+    });
+
+    </script>
+
 
 
     <script src="//cdn.jsdelivr.net/async/2.1.4/async.min.js"></script>
-    <script src="/js/plugins/jquery.min.js"></script>
     <script src="/js/plugins/jquery-ui.js"></script>
     <script src="/js/plugins/underscore.js"></script>
     <script src="/js/plugins/sweetalert.min.js"></script>

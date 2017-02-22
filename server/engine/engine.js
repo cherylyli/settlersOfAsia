@@ -87,6 +87,8 @@ module.exports = function(socket, user, roomId) {
 
 
 
+
+
     //--------------------------------Commands---------------------------------------
 /**
     got(CREATE)
@@ -95,10 +97,10 @@ module.exports = function(socket, user, roomId) {
     })
 
     got(CREAT_NEW_GAME, function () {
-        
+
     })
     /**
-    
+
     got('TradeRequest', function () {
         let playersAcceptOffer = [];
         //send to other players in your room
