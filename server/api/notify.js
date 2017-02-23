@@ -20,7 +20,7 @@ var notify = {
 		console.log(`[notify ${users.join(', ')	}]`, event, data);
 	},
 
-	// send to room, give room id (support array)
+	// send to room, give room id
 	room: function (room, event, data){
 		io.to(room).emit(event, data);
 		console.log(`[notify room ${room}]`, event, data);

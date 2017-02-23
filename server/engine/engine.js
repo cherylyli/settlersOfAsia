@@ -36,6 +36,12 @@ module.exports = function(socket, user, roomId) {
         notify.room(roomId, event, data);
     }
 
+    // send to everyone in current room, except sender
+    function broadcast(event, data){
+        socket.broadcast.to(roomId).emit(event, data);
+        console.log(`[broadcast room ${roomId}]`, event, data);
+    }
+
     // - Send to specific user / array of users
     // notify.user('Jack', 'ADD_POINT', { point: 2 });
     // notify.user(['Jack', 'Emol', 'Max'], 'ADD_POINT', { point: 1 });
@@ -87,6 +93,10 @@ module.exports = function(socket, user, roomId) {
     }
 
 
+    got('lol', function(){
+        broadcast('hehe')
+    })
+
 
 
 
@@ -100,10 +110,10 @@ module.exports = function(socket, user, roomId) {
     })
 
     got(CREAT_NEW_GAME, function () {
-        
+
     })
     /**
-    
+
     got('TradeRequest', function () {
         let playersAcceptOffer = [];
         //send to other players in your room
