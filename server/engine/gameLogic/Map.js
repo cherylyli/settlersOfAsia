@@ -141,6 +141,59 @@ Map.createMap = function (hexTileNum) {
 
 
 
+    /**
+     *
+     * @param hexTileId int
+     * @returns {*} hexTile
+     */
+    map.getHexTileById = function(hexTileId){
+        if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
+        return map.hexTiles[hexTileId - 1];
+    }
+
+    /**
+     *
+     * @param vertex vertex number
+     * @returns {*|number}
+     */
+    map.getHexTileByVertex = function(vertex){
+        if (vertex < 1 || vertex >= 250 || !map.verticesToHex[vertex]) throw "Invalid vertex";
+        return map.verticesToHex[vertex];
+    }
+
+
+    map.getHexTileByEdge = function(edge){
+        let t1 = map.getHexTileByVertex(edge[0]);
+        let t2 = map.getHexTileByVertex(edge[1]);
+
+        //find common tiles commonV
+        let commonT = [];
+        for (let ta  = 0; ta < t1.length; ta++){
+            for (let tb = 0; tb< t2.length; tb++){
+                if (t1[ta][0] == t2[tb][0]) commonT.push(t1[ta][0]);
+            }
+        }
+
+        let result = [];
+        for (let t of commonT){
+            let tile = map.hexTiles[t - 1];
+            result.push([t, tile.getEdgePositionInHex(edge)]);
+        }
+        if (!result) throw "Invalid edge";
+        return result;
+    }
+
+    /**
+     * @return a list of hexTiles (not id, hexTile objec)
+     * @param numToken int
+     */
+    map.getHexTileByNumToken = function(map, numToken){
+        return map.numTokenToHexTiles[numToken];
+    }
+
+
+
+
     return map;
 };
 

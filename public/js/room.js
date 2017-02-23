@@ -46,6 +46,7 @@ $(window).on('imready', function(im){
         let room = CircularJSON.parse(msg)
         console.log(room);
         alert(msg);
+        console.log(msg);
     });
 
 
