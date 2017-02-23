@@ -57,3 +57,9 @@ DATA.getMatch = function (roomID) {
 DATA.addMatch = function (roomID, match) {
     matches[roomID] = match;
 }
+
+
+DATA.getPlayer = function (userName, roomID) {
+    let match = DATA.getMatch(roomID);
+    return match.getPlayer(userName);
+}

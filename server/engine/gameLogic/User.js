@@ -14,6 +14,7 @@ User.createUser = function (user) {
     user.name = user.username;
     user.state = enums.PlayerState.LOBBY;
     user.roomID = null;
+    user.player = null;
 
 
 

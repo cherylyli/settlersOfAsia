@@ -17,9 +17,10 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
     hexTile.productionNum = productionNum;
     hexTile.visible = visible;
     hexTile.edge =  {'TopRight': null, 'Right': null, 'BottomRight': null, 'BottomLeft': null, 'Left': null, 'TopLeft': null};
-    hexTile.edgeInfo =  {'TopRight': null, 'Right': null, 'BottomRight': null, 'BottomLeft': null, 'Left': null, 'TopLeft': null};
+    //Now map is responsible for edge info and vertex info
+    //hexTile.edgeInfo =  {'TopRight': null, 'Right': null, 'BottomRight': null, 'BottomLeft': null, 'Left': null, 'TopLeft': null};
     hexTile.vertices = {'Top': undefined, 'TopLeft': undefined, 'BottomLeft': undefined, 'Bottom': undefined, 'BottomRight': undefined, 'TopRight': undefined};
-    hexTile.verticesInfo = {'Top': null, 'TopLeft': null, 'BottomLeft': null, 'Bottom': null, 'BottomRight': null, 'TopRight': null};
+    //hexTile.verticesInfo = {'Top': null, 'TopLeft': null, 'BottomLeft': null, 'Bottom': null, 'BottomRight': null, 'TopRight': null};
     hexTile.blockedByRobber = false;
 
     hexTile.getVertices = function(){
