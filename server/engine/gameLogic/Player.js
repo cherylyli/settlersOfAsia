@@ -11,6 +11,7 @@ let Enum = require('./Enum.js');
  */
 
 let Player = module.exports = {};
+//let Bank =
 
 Player.createPlayer = function () {
     let player = {};
@@ -20,16 +21,23 @@ Player.createPlayer = function () {
      * progressCards includes VP cards
      */
 
+    player.color = null;
     player.VP = 0;
-    player.resourcesAndCommodities = {[Enum.Resource.Wheat] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.progressCards = [];
     player.progressCardsCnt = 0;
-    player.buildings = [];
+    player.buildings = {};  //key: position (vertex index / int); value: building object
+    player.roads = [];  // a list of edges
+    player.ships = []  // a list of edges
     player.harbors = [];
+    player.cityImprovement = {'trade': 0, 'politics': 0, 'science': 0};
+
+    player.longestRoad = 0;
 
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
-    player.game = null;
+    //player.match = null;
+
 
 
     /**
@@ -37,8 +45,129 @@ Player.createPlayer = function () {
      * @param points may be negative or positive, int
      */
     player.updateVP = function(points){
-        this.VP += points;
-        this.game.checkPlayerVP(this);
+        player.VP += points;
+        player.match.checkPlayerVP(this);
+    }
+
+
+    /**
+     *
+     * @param vertex {int}
+     * @return {Building}
+     */
+    player.getBuilding = function (vertex) {
+        return player.buildings[vertex];
+    }
+
+
+
+    /*
+     calculate longest road based on player.ships and player.roads
+     @return length of the longest road of current player. 
+     so far : only works for roadList. 
+        e.g if player.road =  [[1,2],[13,12],[3,13],[12,11],[2,3]]; //return 5
+            if player.road =  [[1,2], [3,4], [10,11],[11,12],[2,3]]; //return 3 
+        Note: edge should be stored in clockwise direction(refer to map-51.png):  1-2-3-13-12 
+                [13,12] will work but [12,13] won't work in this case. 
+    TODO: 
+    1.verify the connection between ships and roads. <- not sure how to do this. ??????
+            1.ships-settlement-roads 
+            2.ships-roads  
+    2.longest road was interrupted by a settlement (opponent's settlement)
+        Longest Road - How can I interrupt an opponent's Longest Road?
+        By building a settlement on an intersection of the Longest Road.
+    */
+    
+        //For example:
+        //player.roads = [[1,2], [2,3],[3,4], [10,11]]
+        //player.ships = [[1,5]]
+        //if there is settlement at vertex 1: longest road is [1,5]-[1,2]-[2,3]-[3,4] (4); if not then [1,5] is not in the route, the route length is 3
+
+        //if larger than 5, also check whether with match.longestRoad to see whether the player can get the longest road card, also update VP
+    
+    player.calculateLongestRoad = function(){
+    //var roadList = [[1,2], [2,3],[3,4], [6,7], [10,11],[11,12]]; //should return 3 
+    //var roadList = [[1,2],[13,12],[3,13],[12,11],[2,3]]; //return 5
+
+        var road = player.road;
+
+        //if player owns less than 5 roads 
+        if(road.length<5){
+            console.log("road length less than 5");
+            return 0;		
+        }
+
+        //else
+        var count;
+        var pre; //left
+        var post; //right
+        var up;
+        var down;
+
+        var max = 0;
+        var curLen;
+        var set=[];
+        var map = {};
+        var visited = [];
+
+        for(var i=0; i<road.length;i++){
+            node = road[i][0]; //start node. 
+            //pre = road[i][0];
+            //next = road[i][1];	
+            set.push(node); 
+            //map: key = node[i][0], value = i 
+            map[set[i]] = i; 
+        }
+        
+        //console.log(set.toString());
+        for (var val in map){
+            var i = map[val];
+            if (visited[i])
+                continue;
+
+            pre = val - 1;
+            post = val + 1;
+            up = val - 10; 
+            down = val + 10; //e.g jump from 3 to 13 
+            curLen = 1;
+            
+            //if map contains value pre. 
+            while (map.hasOwnProperty(pre)) {
+                visited[map[pre]] = true;
+                curLen++;
+                pre--;
+
+            }
+            while (map.hasOwnProperty(post)) {
+                visited[map[post]] = true;
+                curLen++;
+                post++;
+            }
+             while (map.hasOwnProperty(up)) {
+                visited[map[up]] = true;
+                curLen++;
+                up--;
+
+            }   
+             while (map.hasOwnProperty(down)) {
+                visited[map[down]] = true;
+                curLen++;
+                down--;
+            } 
+            max = Math.max (curLen, max);
+        }
+        console.log("length of longest road is " + max);
+    }
+
+
+    /**
+     *
+     * @param cityImprovementCategory {String}
+     * @return {int}
+     */
+    player.buyCityImprovement = function(cityImprovementCategory){
+        player.cityImprovement[cityImprovementCategory] ++;
+        return player.cityImprovement[cityImprovementCategory];
     }
 
     return player;

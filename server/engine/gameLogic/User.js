@@ -6,6 +6,7 @@
  */
 let enums = require('./Enum.js');
 let User = module.exports = {};
+let DATA = require('../Data.js');
 
 User.createUser = function (user) {
     //let user = {};
@@ -13,14 +14,16 @@ User.createUser = function (user) {
     user.name = user.username;
     user.state = enums.PlayerState.LOBBY;
     user.roomID = null;
+    user.player = null;
 
 
 
     user.joinGameRoom = function (room) {
+        /**
         if (!user.checkJoinGameRoom(room)){
             alert("Unable to join room!");
             return;
-        }
+        }**/
 
         room.addUser(user.name);
         user.roomID = room.id;
@@ -28,12 +31,14 @@ User.createUser = function (user) {
 
     }
 
+    /**
     user.checkJoinGameRoom = function (room) {
         //not full && user in lobby
         if ((user.state == enums.PlayerState.LOBBY) && !room.isFull()) return true;
         return false;
-    }
+    }**/
 
 
+    DATA.addUser(user);
     return user;
 }

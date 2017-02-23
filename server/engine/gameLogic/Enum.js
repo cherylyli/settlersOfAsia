@@ -28,12 +28,13 @@ module.exports.DevCardType = {"VP":1, "LongestRoad":2, "LargestArmy":3, "YearOfP
 module.exports.KnightType = {"Regular":1, "Strong":2, "Mighty":3};
 
 //FIXME: what's default color?
-module.exports.Color = {"RED":1, "YELLOW":2, "GREEN":3, "ORANGE":4};
+module.exports.Color = {"RED":"RED", "YELLOW":"YELLOW", "GREEN":"GREEN", "ORANGE":"ORANGE"};
 
 module.exports.HexType = Object.freeze({'Sea': 'Sea', 'GoldField': 'GoldField', 'Desert':'Desert', 'Field':'Field', 'Forest':'Forest', 'Pasture':'Pasture', 'Mountains':'Mountains', 'Hills':'Hills'});
-module.exports.SettlementResources = Object.freeze({'GoldField': 'Any', 'Field': 'Grain', 'Forest': 'Lumber', 'Pasture': 'Wool', 'Hills': 'Brick', 'Mountains': 'Ore'});
-module.exports.AdditionalCityResources = Object.freeze({'GoldField': 'Any', 'Field': 'Grain', 'Forest': 'Paper', 'Pasture': 'Cloth', 'Hills': 'Brick', 'Mountains': 'Coin'});
-module.exports.Resource = Object.freeze({"Wheat":"Wheat", "Wool":"Wool", "Ore":"Ore", "Brick":"Brick", "Grain":"Grain"});
+module.exports.SettlementResources = Object.freeze({'GoldField': 'Gold', 'Field': 'Grain', 'Forest': 'Lumber', 'Pasture': 'Wool', 'Hills': 'Brick', 'Mountains': 'Ore'});
+module.exports.AdditionalCityResources = Object.freeze({'GoldField': 'Gold', 'Field': 'Grain', 'Forest': 'Paper', 'Pasture': 'Cloth', 'Hills': 'Brick', 'Mountains': 'Coin'});
+
+module.exports.Resource = Object.freeze({"Lumber":"Lumber", "Wool":"Wool", "Ore":"Ore", "Brick":"Brick", "Grain":"Grain"});
 module.exports.Commodity = Object.freeze({"Coin":"Coin", "Cloth":"Cloth", "Paper":"Paper"});
 
 

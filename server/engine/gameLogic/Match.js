@@ -5,7 +5,7 @@
 /**
  * Created by emol on 1/10/17.
  */
-let Enums = require('./Enum.js');
+let Enum = require('./Enum.js');
 //import {ProgressCardDeck} from './ProgressCard.js';
 //import {Dice} from './Dice.js';
 let Map = require('./Map.js');
@@ -14,8 +14,16 @@ let Scenario = require('./Scenario.js');
 //import {Bank} from './Bank.js';
 
 let Match = {} =  module.exports;
+let DATA = require('../Data.js');
+let Dice = require('./Dice.js');
+let Bank = require('./Bank.js');
 
 // users is a list of String, names of the user in the room
+/**
+ *
+ * @param scenario {String}
+ * @param players {Player[]}
+ */
 Match.createNewMatch = function (scenario, players) {
     let match = {};
 
@@ -23,8 +31,46 @@ Match.createNewMatch = function (scenario, players) {
     match.scenario = Scenario.loadScenario(3, scenario);
     match.players = players;
     match.map = match.scenario.setUpMap(match.scenario.data);
+    match.dice = Dice.createDice();
+    match.bank = Bank.createBank(match);
+    match.longestRoad = 0;
+    assignColors(match);
 
 
+    match.rollDice = function () {
+        match.dice.rollEventDice();
+        match.dice.rollProductionDice();
+    }
+
+    /**
+     *
+     * @param UserName {String}
+     * @return {Player|*}
+     */
+    match.getPlayer = function (UserName) {
+        return match.players[UserName];
+    }
+
+    match.checkPlayerVP = function(player){
+        if (player.VP >= match.winningVP) match.endGame();
+    }
+
+    match.endGame = function(){
+        //TODO:
+        console.log("Game ends!");
+    }
+
+    return match;
+
+    //match.
+}
+
+function assignColors(match) {
+    let colors = Object.values(Enum.Color);
+    let players = Object.values(match.players);
+    for (let i = 0; i < players.length; i++){
+        players[i].color = colors[i];
+    }
 }
 /**
  function initPlayers(userNames) {

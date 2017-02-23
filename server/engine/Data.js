@@ -1,8 +1,12 @@
 let DATA = module.exports = {};
 
 let rooms = {};
+let users = {};
 let matches = {};
 
+DATA.rooms = rooms;
+DATA.users = users;
+DATA.matches = matches;
 
 //----------------------Room---------------------------
 DATA.getRoom = function (roomID) {
@@ -15,13 +19,26 @@ DATA.existRoom = function (roomID) {
 
 /**
  * add a new room to rooms list
- * @param roomID
  * @param room {Room}
  */
-DATA.addRoom = function (roomID, room) {
-    rooms[roomID] =  room;
+DATA.addRoom = function (room) {
+    rooms[room.id] =  room;
 }
 
+/*
+ * @param userName {String}
+ */
+DATA.getUser = function (userName) {
+    return users[userName];
+}
+
+/**
+ * add a new user to users list
+ * @param user {User}
+ */
+DATA.addUser = function (user) {
+    users[user.name] = user;
+}
 
 //---------------------Games---------------------------
 
@@ -37,6 +54,12 @@ DATA.getMatch = function (roomID) {
  * @param roomID
  * @param match {Match}
  */
-DATA.addGame = function (roomID, match) {
+DATA.addMatch = function (roomID, match) {
     matches[roomID] = match;
+}
+
+
+DATA.getPlayer = function (userName, roomID) {
+    let match = DATA.getMatch(roomID);
+    return match.getPlayer(userName);
 }

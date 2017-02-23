@@ -20,8 +20,12 @@ $(document).ready(function(){
 // upon environment set up
 $(window).on('imready', function(im){
 
+
+
     window.myObj = im.myObj;
+    //console.log(window.myObj);
     var roomId = window.location.pathname.split("/").pop();
+
 
 
     // on page load, join room
@@ -38,6 +42,9 @@ $(window).on('imready', function(im){
 
     // upon successfully joined room, server will send back a message
     sock.on('JOIN_ROOM_SUCCESS', function(msg){
+        let CircularJSON = window.CircularJSON;
+        let room = CircularJSON.parse(msg)
+        console.log(room);
         alert(msg);
     });
 

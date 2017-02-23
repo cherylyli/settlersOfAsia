@@ -4,13 +4,22 @@
 /**
  * Based on environment messages
  */
+let DATA = require("./Data.js");
 let Room = require('./gameLogic/Room.js');
+let Match = require('./gameLogic/Match.js');
+let User = require('./gameLogic/User.js');
+let Player = require('./gameLogic/Player.js');
+let Building = require('./gameLogic/Building.js');
+let Bank = require('./gameLogic/Bank.js');
+let Cost = require('./gameLogic/Cost.js');
 
 
 
 let Commands = module.exports = {};
+//TODO: Yuan, you can help implement the commands, but you'd better finish other todo tasks first. Commands is an interface for all game logic class, you have to read all the game logic class before you implement them. (Actually don't implement this alone, it's better we can code this part together). This is optional if you want more task :p.
 
-
+//TODO: change return value of commands, some commands may not need to return anything
+//Payment and action are separate!
 //--------------------Commands used when user is not in game----------------------------
 
 /**
@@ -19,31 +28,42 @@ let Commands = module.exports = {};
  * @precondition either savedGameID or scenario is null
  * @post-condition: gameRoom is created.
  * @return gameRoom object
- * @param user User object
+ * @param userName {String}
  * @param roomID {String}
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
-Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
+Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario = null) {
+    let user = DATA.getUser(userName);
     //make new Room
-    let room = Room.createRoom(roomID, user.name);
+    let room = Room.createRoom(roomID, userName);
 
 
     //owner also joins room
-    Commands.joinRoom(user, room);
+    Commands.joinRoom(userName, roomID);
     return room;
 };
+
+
+
+
 
 
 /**
  * @precondition the room is not full or in game
- * @param user  {User}
- * @param room  {Room}
+ * @param userName  {String}
+ * @param roomID  {String}
  * @return room {Room}
  */
-Commands.joinRoom = function (user, room) {
-    return room;
+Commands.joinRoom = function (userName, roomID) {
+    let room = DATA.getRoom(roomID);
+    let user = DATA.getUser(userName);
+    user.joinGameRoom(room);
 };
+
+
+
+
 
 
 /**
@@ -51,23 +71,27 @@ Commands.joinRoom = function (user, room) {
  * Play doesn't need to specify the player number when he created the room, he just click the button when he wants to start and the game is able to start
  * Once a player emit startGame Command, the gameRoom is in Starting State, the game will starts in 5 seconds, if other player leave during the 5 seconds, the game will not start, and the player has to emit the startGame Command again (if there are enough people).
  * this function create a match object, initialize player object for each player and initialize map
- * @param room {Room}
+ * @param roomID {String}
  * @return match object
  */
-Commands.startGame = function (room) {
+Commands.startGame = function (roomID) {
+    let room = DATA.getRoom(roomID);
     //Room.state = STARTING, game will start in 5 sec if no player leaves the room
 
     // user chose to play a new game
     if (!room.match){
         //create new match
-        let match = createNewMatch();
-        room.match = match;
+        room.startGame();
 
     }
 
     //set player to each user
     return room.match;
 };
+
+
+
+
 
 /**
  * @precondition the user is in a room, if the game has not start, he simply leaves the room, if not he also lose the game, game continues for other player, his settlements remain on the map
@@ -79,89 +103,140 @@ Commands.leaveRoom = function (user) {
 };
 
 
+
 //=================================================================================
 //-------------------------------Commands used in game-----------------------------
 
 /**
  *
- * @param match {Match}
+ * @param match {String}
  * @return dice {Dice}
  */
-Commands.rollDice = function (match) {
+Commands.rollDice = function (matchID) {
+    let match = DATA.getMatch(matchID);
     return match.rollDice();
 };
 
 
+
+
+
 //----------------------------------Establishment and routes------------------
 /**
- * build settlement or city
- * @param player {Player}
- * @param establishmentLv {int} level 1 : settlement, level 2: city
+ * build settlement or city (!!at full price!!)
+ * @param userName {String}
+ * @param matchID {String}
+ * @param position {int}   vertex id
+ * @param establishmentLv {int} level 1 : settlement, level 2: city, level 3: metropolitan
  */
-Commands.buildEstablishment = function (player, establishmentLv) {
+Commands.buildEstablishment = function (userName, roomID, position,  establishmentLv) {
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    let map = match.map;
+
+    if (establishmentLv == 1) {
+        //build settlement
+        Building.buildSettlement(player, position, map);
+        match.bank.updatePlayerAsset(player, 'buildSettlement');
+    }
+    //!!payment and action are separate!!
+    if (establishmentLv == 2){
+        let building = player.getBuilding(position);
+        building.upgradeToCity();
+        match.bank.updatePlayerAsset(player,'settlementToCity');
+    }
+
+    else{
+
+        //build metropolitan
+
+        //update assest
+    }
 
 };
 
+
+
+
+
 /**
  * build a road
- * @param player {Player}
- * @param map {Map}
+ * @param userName {String}
+ * @param roomID {String}
  * @param edge  {[int, int]} the edge where user wants to place the road
  */
-Commands.buildRoad = function (player, map, edge) {
+Commands.buildRoad = function (userName, roomID, edge) {
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    Building.buildRoad(player, edge, match.map, 'road');
+
+    match.bank.updatePlayerAsset(player,'buildRoad');
 };
 
 /**
  * build a ship
- * @param player {Player}
- * @param map {Map}
- * @param edge {[int, in]} the edge where player wants to build the ship
+ * @param userName {String}
+ * @param roomID {String}
+ * @param edge {[int, int]} the edge where player wants to build the ship
  */
-Commands.buildShip = function (player, map, edge) {
+Commands.buildShip = function (userName, roomID, edge) {
+    //TODO: improvement, combine buildRoad and buildShip
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    Building.buildRoad(player, edge, match.map, 'ship');
 
+    match.bank.updatePlayerAsset(player,'buildShip');
 };
 
-
-/**
- * @param city {Establishment}
- */
-Commands.buildCityWall = function (city) {
-
-};
 
 /**
  *
- * @param settlement {Establishment}
+ * @param roomID {String}
+ * @param vertex {int}
  */
-Commands.upgradeSettlement = function (settlement) {
+Commands.buildCityWall = function (roomID, vertex) {
+    let match = DATA.getMatch(roomID);
+    let city = match.map.getVertexInfo(vertex);
+    city.buildCityWall();
 
+    match.bank.updatePlayerAsset(city.owner, 'buildCityWall');
 };
 
-/**
- *
- * @param city {Establishment} the city player chosen to pillaged
- */
-Commands.chooseCityToBePillaged = function (city) {
 
+/**
+ * @param roomID {String}
+ * @param vertex {int}
+ */
+Commands.chooseCityToBePillaged = function (roomID, vertex) {
+    let match = DATA.getMatch(roomID);
+    let city = match.map.getVertexInfo(vertex);
+    city.pillage();
 }
 
 
 /**
- *
- * @param player {Player}
+ * @param userName {String}
+ * @param roomID {String}
  * @param cityImprovementCategory {String}
  */
-Commands.buyCityImprovement = function (player, cityImprovementCategory) {
-    
+Commands.buyCityImprovement = function (userName, roomID, cityImprovementCategory) {
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    let level = player.buyCityImprovement(cityImprovementCategory);
+
+    match.bank.updatePlayerAsset(player, 'cityImprove_' + cityImprovementCategory + '_' + level);
 };
 
+
 /**
- *
+ * @param roomID {String}
  * @param oldPosition {[int, int]} Edge
  * @param newPosition {[int, int]} Edge
  */
-Commands.moveShip = function (oldPosition, newPosition) {
-
+Commands.moveShip = function (roomID, oldPosition, newPosition) {
+    let match = DATA.getMatch(roomID);
+    let ship = match.map.getEdgeInfo(oldPosition);
+    ship.move(oldPosition, newPosition);
 };
 
 
@@ -219,7 +294,7 @@ Commands.displaceKnight = function (knight, opponentKnight) {
  */
 Commands.chaseAwayThief = function (knight, thief) {
 
-}
+};
 
 
 //-------------------------

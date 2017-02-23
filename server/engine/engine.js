@@ -10,6 +10,9 @@ var _h      = require('../api/helper_functions.js');
 var Uuid    = require('uuid');
 var User    = require('../../models/user.js');
 var notify  = require('../api/notify.js');
+var fs = require("fs"); // Has to be installed first with “npm install fs”
+let CircularJSON = require('circular-json');
+
 
 let DATA = require('./Data.js');
 let Commands = require('./Commands.js');
@@ -65,7 +68,7 @@ module.exports = function(socket, user, roomId) {
 
 
     if(DATA.existRoom(roomId)){
-        let room = Commands.joinRoom(user, DATA.getRoom(roomId));
+        let room = Commands.joinRoom(user.username, roomId);
         send('JOIN_ROOM_SUCCESS', room);
     }
 
@@ -76,12 +79,31 @@ module.exports = function(socket, user, roomId) {
         //{savedGameID: String, scenario:Sting}
         //Either savedGameID or scenario is undefined
         got('MAP_CONFIG', function (data) {
-            let room = Commands.makeNewRoom(user, roomId, data.savedGameID, data.scenario);
-            send('JOIN_ROOM_SUCCESS', room);
+            let room = Commands.makeNewRoom(user.username, roomId, data.savedGameID, data.scenario);
+            Commands.startGame(roomId);
+
+            result = CircularJSON.stringify( DATA.getRoom(roomId));
+
+
+            // where msg is an object returned from the API
+            /**
+            fs.writeFile("matchNew.json", result, function (err) {
+                if (err) throw err;
+            });**/
+
+            send('JOIN_ROOM_SUCCESS', result);
+
         });
     }
 
 
+    /**
+    _.each(commands, function(fn, commandName){
+        got(commandName, function(data){
+            send(commandName + 'Ack', fn(data));
+        })
+    });
+**/
 
 
 
