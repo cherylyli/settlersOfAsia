@@ -67,6 +67,12 @@ module.exports = function(socket, user, roomId) {
 
     //-----------------------------Room, game config-------------------------------
 
+    /**
+     * TODO: for now all the command just send the whole room object back.
+     * May change this later (if I am still willing to refactor the code then):P
+     */
+
+
     //User joins room.
     //There is no createRoom event, just check roomId.
     //If there is a #roomId room exist (and able to join), joins the room
@@ -74,19 +80,30 @@ module.exports = function(socket, user, roomId) {
 
 
     if(DATA.existRoom(roomId)){
-        let room = Commands.joinRoom(user.username, roomId);
-        send('JOIN_ROOM_SUCCESS', room);
+        Commands.joinRoom(user.username, roomId);
+        result = CircularJSON.stringify( DATA.getRoom(roomId));
+        send('JOIN_ROOM_SUCCESS', result);
+
+        //notify other users in the room about the new player
+        broadcast('NEW_PLAYER_JOINED', result);
+
+        //if now we have 4 players, game start
+        console.log(Object.keys(DATA.getRoom(roomId).users).length);
+        if(Object.keys(DATA.getRoom(roomId).users).length == 4){
+            Commands.startGame(roomId);
+            broadcast(('GAME_START', result));
+        }
     }
 
     //create new room
     else{
+
 
         //Data format for MAP_CONFIG:
         //{savedGameID: String, scenario:Sting}
         //Either savedGameID or scenario is undefined
         got('MAP_CONFIG', function (data) {
             let room = Commands.makeNewRoom(user.username, roomId, data.savedGameID, data.scenario);
-            Commands.startGame(roomId);
 
             result = CircularJSON.stringify( DATA.getRoom(roomId));
 

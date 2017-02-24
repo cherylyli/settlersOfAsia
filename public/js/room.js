@@ -17,10 +17,12 @@ $(document).ready(function(){
 });
 
 
+
+
+
 // upon environment set up
 $(window).on('imready', function(im){
-
-
+    let CircularJSON = window.CircularJSON;
 
     window.myObj = im.myObj;
     //console.log(window.myObj);
@@ -31,6 +33,7 @@ $(window).on('imready', function(im){
     sock.emit('JOIN_ROOM', roomId);
 
     //test data
+    //for now, assume player choose this map
     let mapConfig = {'scenario':'Heading For New Shores'};
     sock.emit('MAP_CONFIG', mapConfig);
 
@@ -41,16 +44,26 @@ $(window).on('imready', function(im){
 
     // upon successfully joined room, server will send back a message
     sock.on('JOIN_ROOM_SUCCESS', function(msg){
-        let CircularJSON = window.CircularJSON;
-        let room = CircularJSON.parse(msg)
+        let room = CircularJSON.parse(msg);
         console.log(room);
-        alert(msg);
-        console.log(msg);
     });
 
-    sock.on('hehe', function(){
 
-    })
+    sock.on('NEW_PLAYER_JOINED', function (msg) {
+       alert('NEW_PLAYER_JOINED');
+       //change ui
+    });
+
+    sock.on('GAME_START', function (msg) {
+        //entry point for max's code
+
+    });
+
+
+
+
+
+
 
 
 

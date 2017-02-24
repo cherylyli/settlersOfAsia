@@ -5,8 +5,8 @@ let Trade = module.exports = {};
 
 /**
  *
- * @param offer {list<String>} resource/ commodity cards offered
- * @param request {list<String>} resource/ commodity cards requested
+ * @param offer     {object}
+ * @param request {object}
  */
 Trade.createTrade = function (offer, request) {
     let trade = {};

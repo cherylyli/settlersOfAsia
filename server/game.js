@@ -30,7 +30,7 @@ io.on('connection', function(socket){
 	debug(`user ${user.username} connected, id: ${socket.id}`);
 
 	//add more attribute to user.
-	User.createUser(user);
+	//User.createUser(user);
 
     // his username
 	var username = user.username;

@@ -12,7 +12,8 @@ let Player = require('./gameLogic/Player.js');
 let Building = require('./gameLogic/Building.js');
 let Bank = require('./gameLogic/Bank.js');
 let Cost = require('./gameLogic/Cost.js');
-
+let Knight = require('./gameLogic/Knight.js');
+let Trade = require('./gameLogic/Trade.js');
 
 
 let Commands = module.exports = {};
@@ -35,6 +36,7 @@ let Commands = module.exports = {};
  */
 Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario = null) {
     let user = DATA.getUser(userName);
+    if(!user) user = User.createUser(userName);
     //make new Room
     let room = Room.createRoom(roomID, userName);
 
@@ -58,6 +60,7 @@ Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario 
 Commands.joinRoom = function (userName, roomID) {
     let room = DATA.getRoom(roomID);
     let user = DATA.getUser(userName);
+    if(!user) user = User.createUser(userName);
     user.joinGameRoom(room);
 };
 
@@ -243,90 +246,105 @@ Commands.moveShip = function (roomID, oldPosition, newPosition) {
 //--------------------------Knight---------------------------
 /**
  *
- * @param player {Player}
  * @param position {int} vertex id. the position player wants to place the knight.
  * If player don't want to put the knight on board now, position is left null.
  */
-Commands.hireKnight = function (player, position = null) {
+Commands.hireKnight = function (userName, roomID, position = null) {
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    Knight.hireKnight(player, match.map, position);
 
+    match.bank.updatePlayerAsset(player, 'hireKnight');
 };
 
 
 /**
  *
- * @param knight {Knight}
  */
-Commands.activateKnight = function (knight) {
-    
+Commands.activateKnight = function (roomID, position) {
+    let match = DATA.getMatch(roomID);
+    let knight = match.map.getVertexInfo(position);
+    knight.activate();
+
+    match.bank.updatePlayerAsset(knight.owner, 'activateKnight');
 };
 
 
 /**
  *
- * @param knight {Knight}
  */
-Commands.promoteKnight = function (knight) {
+Commands.promoteKnight = function (roomID, position) {
+    let match = DATA.getMatch(roomID);
+    let knight = match.map.getVertexInfo(position);
+    knight.promote();
 
+    match.bank.updatePlayerAsset(knight.owner, 'promoteKnight');
 };
 
 /**
  *
- * @param knight {Knight}
- * @param position {int} Vertex id, the position player wants to move the knight to
  */
-Commands.moveKnight = function (knight, position) {
+Commands.moveKnight = function (roomID, position, newPosition) {
+    let match = DATA.getMatch(roomID);
+    let knight = match.map.getVertexInfo(position);
+    knight.move(newPosition, match.map);
+};
 
+
+/**
+ *
+ */
+Commands.displaceKnight = function (roomID, position, newPosition) {
+    let match = DATA.getMatch(roomID);
+    let knight = match.map.getVertexInfo(position);
+    let opponentKnightInfo = knight.move(newPosition, match.map);
+    /**
+     * TODO: notify the other player
+     */
 };
 
 /**
  *
- * @param knight {Knight}
- * @param opponentKnight {Knight}
  */
-Commands.displaceKnight = function (knight, opponentKnight) {
-
-};
-
-/**
- *
- * @param knight {Knight}
- * @param thief {Thief} robber or pirate
- */
-Commands.chaseAwayThief = function (knight, thief) {
-
+Commands.chaseAwayThief = function (roomID, position, thiefPosition, newPositionForThief) {
+    let match = DATA.getMatch(roomID);
+    let knight = match.map.getVertexInfo(position);
+    knight.chaseAwayThief(match.map, thiefPosition, newPositionForThief);
 };
 
 
 //-------------------------
 /**
  *
- * @param tradeRatio {int}
- * @param src {list<String>} resource/ commodity
- * @param tradeFor
  */
-Commands.tradeWithBank = function (tradeRatio = 4, src, tradeFor) {
-
+Commands.tradeWithBank = function (userName, roomID, src, tradeFor) {
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    match.bank.tradeWithBank(player, src, tradeFor);
 };
 
 /**
  *
- * @param player {Player}
- * @param cards {list<String>} resource/ commodity cards the player chooses to discard
+ * @param cards {Array<String>} resource/ commodity cards the player chooses to discard
  */
-Commands.discardResourceCards = function (player, cards) {
-
+Commands.discardResourceCards = function (userName, roomID, cards) {
+    let player = DATA.getPlayer(userName, roomID);
+    player.discardCards(cards);
 }
 
 /**
  * create trade object, notifies all the other players about the trade offer.
  * @new {Trade}
- * @param player
- * @param offer
- * @param request
+ * @param offer {object} cost object
+ * @param request   {object}
  */
-Commands.requestTrade = function (player, offer, request) {
-
+Commands.requestTrade = function (offer, request) {
+    let trade = Trade.createTrade(offer, request);
+    /**
+     * TODO: communication
+     */
 }
+
 
 /**
  * game keeps track of current trade. (There is only one current trade)
@@ -346,18 +364,22 @@ Commands.acceptTrade = function (player) {
  * @param playerB {Player}
  * @param cardsB {list<String>} resource/ commodity cards the playerB offers
  */
-Commands.tradeWithPlayer = function (playerA, cardsA, playerB, cardsB) {
-
+Commands.tradeWithPlayer = function (userNameA, userNameB, roomID, trade) {
+    let playerA = DATA.getPlayer(userNameA, roomID);
+    let playerB = DATA.getPlayer(userNameB, roomID);
+    let match = DATA.getMatch(roomID);
+    match.bank.tradeWithPlayer(playerA, playerB, trade);
 }
 
 
 /**
  * @param theif {Player}
  * @param victim {Player}
- * @param card {String} resource/ commodity cards thief steals from victim
  */
-Commands.stealCard = function (thief, victim, card) {
-
+Commands.stealCard = function (thiefUserName, victimUserName, roomID) {
+    let playerA = DATA.getPlayer(thiefUserName, roomID);
+    let playerB = DATA.getPlayer(victimUserName, roomID);
+    playerB.stolenBy(playerA);
 }
 
 

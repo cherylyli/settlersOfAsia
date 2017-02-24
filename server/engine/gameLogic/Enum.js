@@ -34,7 +34,7 @@ module.exports.HexType = Object.freeze({'Sea': 'Sea', 'GoldField': 'GoldField', 
 module.exports.SettlementResources = Object.freeze({'GoldField': 'Gold', 'Field': 'Grain', 'Forest': 'Lumber', 'Pasture': 'Wool', 'Hills': 'Brick', 'Mountains': 'Ore'});
 module.exports.AdditionalCityResources = Object.freeze({'GoldField': 'Gold', 'Field': 'Grain', 'Forest': 'Paper', 'Pasture': 'Cloth', 'Hills': 'Brick', 'Mountains': 'Coin'});
 
-module.exports.Resource = Object.freeze({"Lumber":"Lumber", "Wool":"Wool", "Ore":"Ore", "Brick":"Brick", "Grain":"Grain"});
+module.exports.Resource = Object.freeze({"Lumber":"Lumber", "Wool":"Wool", "Ore":"Ore", "Brick":"Brick", "Grain":"Grain", "Gold": "Gold"});
 module.exports.Commodity = Object.freeze({"Coin":"Coin", "Cloth":"Cloth", "Paper":"Paper"});
 
 

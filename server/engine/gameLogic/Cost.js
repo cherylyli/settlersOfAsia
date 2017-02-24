@@ -28,3 +28,15 @@ Cost.cityImprove_science_2 = {};
 Cost.cityImprove_science_3 = {};
 Cost.cityImprove_science_4 = {};
 Cost.cityImprove_science_5 = {};
+
+Cost.hireKnight = {};
+Cost.activateKnight = {};
+Cost.promoteKnight = {};
+
+
+//====================trade facts======================
+Cost.defaultTradeRatio = 4;
+Cost.goldTradeRatio = 2;
+Cost.generalHarborTradeRatio = 3;
+Cost.specialHarborTradeRatio = 2;
+Cost.merchantTradeRatio = -1;

@@ -71,7 +71,7 @@ Room.createRoom = function (RoomID, creatorName) {
         //let players = [];
         for (let user in gameRoom.users){
             if (gameRoom.users.hasOwnProperty(user)) {
-                gameRoom.users[user] = Player.createPlayer();
+                gameRoom.users[user] = Player.createPlayer(user);
           //      players.push(gameRoom.users[user]);
             }
         }

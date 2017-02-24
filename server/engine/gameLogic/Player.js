@@ -5,6 +5,7 @@
  * Created by emol on 1/10/17.
  */
 let Enum = require('./Enum.js');
+let Cost = require('./Cost.js');
 
 /**
  * Player stores the game info of a user in a game.
@@ -13,7 +14,7 @@ let Enum = require('./Enum.js');
 let Player = module.exports = {};
 //let Bank =
 
-Player.createPlayer = function () {
+Player.createPlayer = function (name) {
     let player = {};
 
     /**
@@ -21,6 +22,7 @@ Player.createPlayer = function () {
      * progressCards includes VP cards
      */
 
+    player.name = name;
     player.color = null;
     player.VP = 0;
     player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
@@ -30,7 +32,15 @@ Player.createPlayer = function () {
     player.roads = [];  // a list of edges
     player.ships = []  // a list of edges
     player.harbors = [];
+    player.knights = [];
     player.cityImprovement = {'trade': 0, 'politics': 0, 'science': 0};
+
+
+    /**TODO: Yuan change this later. Some stuff may not be able to trade!!
+     * delete all resourece that cannot be trade, add stuff can can be traded
+     *
+     */
+    player.tradeRatio = {[Enum.Resource.Lumber] : Cost.defaultTradeRatio, [Enum.Resource.Brick] : Cost.defaultTradeRatio, [Enum.Resource.Grain]: Cost.defaultTradeRatio, [Enum.Resource.Ore]: Cost.defaultTradeRatio, [Enum.Resource.Wool]: Cost.defaultTradeRatio, [Enum.Commodity.Cloth]: Cost.defaultTradeRatio, [Enum.Commodity.Coin]: Cost.defaultTradeRatio, [Enum.Commodity.Paper]: Cost.defaultTradeRatio};
 
     player.longestRoad = 0;
 
@@ -38,7 +48,56 @@ Player.createPlayer = function () {
     player.maxSafeCardNum = 7;
     //player.match = null;
 
+    /**
+      * count the total number of cards (Resource+Commodity) current player owns
+      * @param currentPlayer {Player}
+      * @return sum {Integer}
+      */
+    player.resourceCardTotalNum = function(currentPlayer){
+        let sum = 0;
+        for (let card in currentPlayer.resourceAndCommandities){
+            sum += currentPlayer.resourceAndCommandities[card];
+        }
+        return sum;
+    }
 
+    /**
+     * this player is stolen by another player, will return the card type that's being stoled.
+     * @param opponentPlayer {Player}
+     * @return card {String}
+     */
+    player.stolenBy = function (opponentPlayer) {
+        if(resourceCardTotalNum(player)<1){
+            console.log("Not enough resource")
+            return null;
+        }
+        
+        let keys = [];
+        for (let card in player.resourceAndCommandities){
+            if(player.resourceAndCommandities[card]>0){
+                keys.push(card);
+            }
+        }
+        //generate a random index
+        let stolenCard = Math.floor(Math.random() * keys.length);
+        opponentPlayer.resourceAndCommandities[keys[stolenCard]] ++;
+        player.resourceAndCommandities[keys[stolenCard]]--;
+        
+        return keys[stolenCard];
+    }
+
+    //let card = stolenBy(opponentPlayer);
+    /*
+    function testerForStolenCard (){
+        console.log(player.resourceAndCommandities);
+        console.log(opponentPlayer.resourceAndCommandities);
+        console.log("stolen from opponent : " + stolenBy(opponentPlayer));
+        console.log("order: player - opponentPlayer ")
+        console.log(player.resourceAndCommandities);
+        console.log(opponentPlayer.resourceAndCommandities);
+    }
+     testerForStolenCard();
+     */
 
     /**
      *
@@ -57,6 +116,31 @@ Player.createPlayer = function () {
      */
     player.getBuilding = function (vertex) {
         return player.buildings[vertex];
+    }
+
+
+    /**
+     *
+     * @param cards {Array<String>}
+     */
+    player.discardCards = function(cards){
+        for (let card of cards){
+            this.resourcesAndCommodities[card] --;
+        }
+    }
+
+    /**
+     *
+     * @param cards {Array<String>}
+     */
+    player.discardProgressCards = function(cards){
+        /**
+         * TODO: Yuan
+         * cards is a list of string
+         * player.progressCard is a list a String
+         *
+         */
+
     }
 
 
@@ -88,7 +172,7 @@ Player.createPlayer = function () {
     player.calculateLongestRoad = function(){
     //var roadList = [[1,2], [2,3],[3,4], [6,7], [10,11],[11,12]]; //should return 3 
     //var roadList = [[1,2],[13,12],[3,13],[12,11],[2,3]]; //return 5
-
+/**
         var road = player.road;
 
         //if player owns less than 5 roads 
@@ -156,7 +240,7 @@ Player.createPlayer = function () {
             } 
             max = Math.max (curLen, max);
         }
-        console.log("length of longest road is " + max);
+        console.log("length of longest road is " + max);**/
     }
 
 

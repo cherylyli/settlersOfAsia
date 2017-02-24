@@ -104,8 +104,8 @@ Building.buildRoad = function (player, edge, map, type) {
          * @param newPostion  {Edge}
          */
         road.move = function(oldPosition, newPostion){
-            map.setVertexInfo(undefined, oldPosition);
-            map.setVertexInfo(this, newPostion);
+            map.setEdgeInfo(undefined, oldPosition);
+            map.setEdgeInfo(this, newPostion);
             this.owner.calculateLongestRoad();
         }
     }
