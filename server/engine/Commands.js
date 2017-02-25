@@ -14,6 +14,7 @@ let Bank = require('./gameLogic/Bank.js');
 let Cost = require('./gameLogic/Cost.js');
 let Knight = require('./gameLogic/Knight.js');
 let Trade = require('./gameLogic/Trade.js');
+let Enum = require('./gameLogic/Enum.js');
 
 
 let Commands = module.exports = {};
@@ -36,7 +37,6 @@ let Commands = module.exports = {};
  */
 Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario = null) {
     let user = DATA.getUser(userName);
-    if(!user) user = User.createUser(userName);
     //make new Room
     let room = Room.createRoom(roomID, userName);
 
@@ -60,7 +60,6 @@ Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario 
 Commands.joinRoom = function (userName, roomID) {
     let room = DATA.getRoom(roomID);
     let user = DATA.getUser(userName);
-    if(!user) user = User.createUser(userName);
     user.joinGameRoom(room);
 };
 
@@ -140,13 +139,13 @@ Commands.buildEstablishment = function (userName, roomID, position,  establishme
     if (establishmentLv == 1) {
         //build settlement
         Building.buildSettlement(player, position, map);
-        match.bank.updatePlayerAsset(player, 'buildSettlement');
+        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
     }
     //!!payment and action are separate!!
     if (establishmentLv == 2){
         let building = player.getBuilding(position);
         building.upgradeToCity();
-        match.bank.updatePlayerAsset(player,'settlementToCity');
+        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'settlementToCity');
     }
 
     else{
@@ -173,7 +172,7 @@ Commands.buildRoad = function (userName, roomID, edge) {
     let match = DATA.getMatch(roomID);
     Building.buildRoad(player, edge, match.map, 'road');
 
-    match.bank.updatePlayerAsset(player,'buildRoad');
+    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
 };
 
 /**
@@ -392,13 +391,16 @@ Commands.discardProgressCard = function (player, progressCard) {
 
 }
 
+
 /**
  *
- * @param player {Player}
+ * @param roomID
+ * @return {String} the name of the player to take next turn
  */
 
-Commands.endTurn = function (player) {
-
+Commands.endTurn = function (roomID) {
+    let match = DATA.getMatch(roomID);
+    return match.nextPlayerToTakeTurn();
 }
 
 //progress card stuff will be added later..

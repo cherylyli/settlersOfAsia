@@ -6,13 +6,14 @@
  */
 let Enum = require('./Enum.js');
 let Cost = require('./Cost.js');
+let Building = require('./Building.js');
 
 /**
  * Player stores the game info of a user in a game.
  */
 
 let Player = module.exports = {};
-//let Bank =
+let initialGoldNum = 2;
 
 Player.createPlayer = function (name) {
     let player = {};
@@ -25,7 +26,7 @@ Player.createPlayer = function (name) {
     player.name = name;
     player.color = null;
     player.VP = 0;
-    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.progressCards = [];
     player.progressCardsCnt = 0;
     player.buildings = {};  //key: position (vertex index / int); value: building object
@@ -67,15 +68,16 @@ Player.createPlayer = function (name) {
      * @return card {String}
      */
     player.stolenBy = function (opponentPlayer) {
-        if(resourceCardTotalNum(player)<1){
+        if (resourceCardTotalNum(player) < 1){
             console.log("Not enough resource")
             return null;
         }
         
         let keys = [];
         for (let card in player.resourceAndCommandities){
-            if(player.resourceAndCommandities[card]>0){
-                keys.push(card);
+            if (player.resourceAndCommandities[card] > 0){
+                for (var i = 0; i < player.resourceAndCommandities[card]; i++)
+                    keys.push(card);
             }
         }
         //generate a random index
@@ -85,19 +87,6 @@ Player.createPlayer = function (name) {
         
         return keys[stolenCard];
     }
-
-    //let card = stolenBy(opponentPlayer);
-    /*
-    function testerForStolenCard (){
-        console.log(player.resourceAndCommandities);
-        console.log(opponentPlayer.resourceAndCommandities);
-        console.log("stolen from opponent : " + stolenBy(opponentPlayer));
-        console.log("order: player - opponentPlayer ")
-        console.log(player.resourceAndCommandities);
-        console.log(opponentPlayer.resourceAndCommandities);
-    }
-     testerForStolenCard();
-     */
 
     /**
      *
@@ -121,28 +110,64 @@ Player.createPlayer = function (name) {
 
     /**
      *
-     * @param cards {Array<String>}
+     * @return {Array<Building>}
      */
-    player.discardCards = function(cards){
-        for (let card of cards){
-            this.resourcesAndCommodities[card] --;
+    player.getCities = function () {
+        let cities = [];
+        for (let vertex in player.buildings){
+            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == 2){
+                cities.push(player.buildings[vertex]);
+            }
         }
+        return cities;
     }
 
     /**
      *
-     * @param cards {Array<String>}
      */
-    player.discardProgressCards = function(cards){
-        /**
-         * TODO: Yuan
-         * cards is a list of string
-         * player.progressCard is a list a String
-         *
-         */
-
+    player.getSettlements = function () {
+        let settlements = [];
+        for (let vertex in player.buildings){
+            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == 1){
+                settlements.push(player.buildings[vertex]);
+            }
+        }
+        return settlements;
     }
 
+
+    /**
+     * cards is a list of string
+     * player.progressCard is a list a String
+     *
+     */
+    player.progCardSum = function(){
+        player.progressCardsCnt = player.progressCards.length;
+        return player.progressCardsCnt;
+    }
+
+    //player.progressCards = ["Bishop","Alchemist","Crane"];
+    //var disProgCards = [ "Crane","Alchemist"];
+    player.discardProgressCards = function(cards){
+        if (player.progCardSum < 1)
+            return null;
+
+        for (var i=0; i<cards.length; i++) {
+            var found = player.progressCards.indexOf(cards[i]);
+            if (found > -1) {
+                player.progressCards.splice(found, 1);
+            }
+        }
+        player.progCardSum();
+    }
+
+    /*
+    console.log(player.progCardSum());
+    console.log(player.progressCards);
+    player.discardProgressCards(disProgCards);
+    console.log(player.progressCards);
+    console.log(player.progressCardsCnt);
+    */
 
 
     /*
@@ -173,7 +198,7 @@ Player.createPlayer = function (name) {
     //var roadList = [[1,2], [2,3],[3,4], [6,7], [10,11],[11,12]]; //should return 3 
     //var roadList = [[1,2],[13,12],[3,13],[12,11],[2,3]]; //return 5
 /**
-        var road = player.road;
+        var road = player.roadList;
 
         //if player owns less than 5 roads 
         if(road.length<5){

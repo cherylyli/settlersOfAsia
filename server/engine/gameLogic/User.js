@@ -8,10 +8,10 @@ let enums = require('./Enum.js');
 let User = module.exports = {};
 let DATA = require('../Data.js');
 
-User.createUser = function (username) {
-    let user = {};
+User.createUser = function (user) {
+    //let user = {};
 
-    user.name = username;
+    user.name = user.username;
     user.state = enums.PlayerState.LOBBY;
     user.roomID = null;
     user.player = null;

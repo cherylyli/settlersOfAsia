@@ -6,7 +6,11 @@
  */
 let _ = require('underscore');
 let Enum = require('./Enum.js');
+let Map = require('./Map.js');
 let HexTile = {} = module.exports;
+
+let goldNumForSettlement = 2;
+let goldNumForCity = 4;
 
 HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionNum = '1', visible = true) {
     let hexTile = {};
@@ -61,40 +65,37 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
         return hexTile.edge;
     }
 
+    /**
+     *
+     * add resources to all players that has a building on its vertices
+     */
+    hexTile.produceResource = function(map) {
+        for (let vertex in hexTile.vertices) {
+            if (hexTile.vertices.hasOwnProperty(vertex)) {
+                //there is a builidng on the vertex
+                let building = map.getVertexInfo(hexTile.vertices[vertex]);
+                let player = building.owner;
+                let resource = Enum.SettlementResources[this.type];
+                if (resource == Enum.SettlementResources.GoldField) {
+                    if (building.level == 1) {
+                        player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
+                    }
+                    else {
+                        player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForCity;
+                    }
+                }
+                else {
+                    player.resourcesAndCommodities[resource]++;
+                    if (building.level == 2) {
+                        resource = AdditionalCityResources[hexTile.type];
+                        player.resourcesAndCommodities[resource]++;
+                    }
+                }
+            }
+        }
+    }
     return hexTile;
 }
 
 
 
-
-/**
- *
- * add resources to all players that has a building on its vertices
- *//**
- function produceResource(hexTile){
-    for (edge in hexTile.edgeInfo){
-        if(hexTile.edgeInfo.hasOwnProperty(edge) && hexTile.edgeInfo[edge]) {
-            //there is a builidng on the edge
-            let building = hexTile.edgeInfo[edge];
-            let player = building.owner;
-            let resource = SettlementResources[hexTile.type];
-            if (resource == SettlementResources.GoldField){
-                if (building.level == 1){
-                    let chosenResource = player.selectResource(1);
-                    player.resourcesAndCommodities[chosenResource[0]] ++;
-                }
-                else {
-                    let [resourceA, resourceB] = player.selectResource(2);
-                    player.resourcesAndCommodities[resourceA] ++;
-                    player.resourcesAndCommodities[resourceB] ++;
-                }
-            }
-            else {
-                player.resourcesAndCommodities[resource] ++;
-                if (building == 2){
-                    resource = AdditionalCityResources[hexTile.type];
-                    player.resourcesAndCommodities[resource] ++;
-                }
-            }
-        }
-**/

@@ -120,16 +120,20 @@ module.exports = function(socket, user, roomId) {
     }
 
 
+
+
     got('lol', function(){
         broadcast('hehe')
     })
-    /**
-    _.each(commands, function(fn, commandName){
+
+    let normalCommand = ['rollDice'];
+    _.each(Commands, function(fn, commandName){
         got(commandName, function(data){
-            send(commandName + 'Ack', fn(data));
+
+            if (_.contains(normalCommand, commandName)) send(commandName + 'Ack', fn(data));
         })
     });
-**/
+
 
 
 

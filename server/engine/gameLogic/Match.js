@@ -17,6 +17,7 @@ let Match = {} =  module.exports;
 let DATA = require('../Data.js');
 let Dice = require('./Dice.js');
 let Bank = require('./Bank.js');
+let Player = require('./player.js');
 
 // users is a list of String, names of the user in the room
 /**
@@ -30,11 +31,18 @@ Match.createNewMatch = function (scenario, players) {
     // suppose it's a 3 people game, 3 is test data!!
     match.scenario = Scenario.loadScenario(3, scenario);
     match.players = players;
+    match.playersToTakeTurn = [];   //array of string, values are player name
+    match.currentPlayer = null; //String
     match.map = match.scenario.setUpMap(match.scenario.data);
     match.dice = Dice.createDice();
+    match.diceRolled = false;
     match.bank = Bank.createBank(match);
     match.longestRoad = 0;
+    match.phase = null;
+   // match.currentPlayer =
+
     assignColors(match);
+    match.nextPlayerToTakeTurn();
 
 
     match.rollDice = function () {
@@ -59,6 +67,60 @@ Match.createNewMatch = function (scenario, players) {
         //TODO:
         console.log("Game ends!");
     }
+
+
+    /**
+     *
+     * @return {String} the name of the player to take turn
+     */
+    match.nextPlayerToTakeTurn = function () {
+        if (this.playersToTakeTurn.length == 0){
+            //all players have token turn, start from the first player again
+            this.playersToTakeTurn = Object.keys(this.players);
+
+            switch (this.phase){
+                case null:
+                    this.phase = Enum.MatchPhase.SetupRoundOne;
+                    break;
+                case Enum.MatchPhase.SetupRoundOne:
+                    this.phase = Enum.MatchPhase.SetupRoundTwo;
+                    break;
+                case Enum.MatchPhase.SetupRoundTwo:
+                    this.phase = Enum.MatchPhase.TurnPhase;
+            }
+
+        }
+
+        if (this.phase == Enum.MatchPhase.SetupRoundTwo){
+            match.currentPlayer = this.playersToTakeTurn.pop();
+        }
+        else {
+            match.currentPlayer = this.playersToTakeTurn.shift();
+            //in set up phase, player doesn't need to roll dice
+
+            //turn phase
+            //initialize dice
+            if (this.phase == Enum.MatchPhase.TurnPhase){
+                match.diceRolled = false;
+                match.dice.productionDiceSet = false;
+            }
+        }
+        return match.currentPlayer;
+        //notify the player to take turn
+
+    }
+
+    match.endThisTurn = function () {
+        if (this.phase == Enum.MatchPhase.SetupRoundTwo){
+            //collect 1 resource per hexTile aournd city
+            let city = this.players[this.currentPlayer].getCities()[0];
+            let hexTile = this.map.getHexTileByVertex(city.position);
+
+        }
+    }
+
+
+
 
     return match;
 

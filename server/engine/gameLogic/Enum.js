@@ -15,7 +15,11 @@ let PlayerState = {"LOBBY":'LOBBY', "GAME_ROOM":'GAME_ROOM'};
  * "Playing" : Player selected the game and game started
  */
 let GameRoomState = {"Waiting":"Waiting", "Ready":"Ready", "Full":"Full", "Playing":"Playing"};
-
+/**TODO: change here
+ *
+ * @type {{SetupRoundOne: string, SetupRoundTwo: string, TurnPhase: string, TurnDiceRolled: string, TurnSecondPhase: string, Completed: string}}
+ */
+Enum.MatchPhase = {"SetupRoundOne": "SetupRoundOne", "SetupRoundTwo": "SetupRoundTwo", "TurnPhase": "TurnPhase", "TurnDiceRolled": "TurnDiceRolled", "TurnSecondPhase": "TurnSecondPhase", "Completed": "Completed"};
 
 module.exports.ProgressCardType = {
     "Trade":{"CommercialHarbor":"CommercialHarbor", "MasterMerchant":"MasterMerchant", "Merchant":"Merchant", "MerchantFleet":"MerchantFleet", "ResourceMonopoly":"ResourceMonopoly", "TradeMonopoly":"TradeMonopoly"},
