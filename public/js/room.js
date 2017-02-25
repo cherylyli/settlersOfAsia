@@ -62,7 +62,7 @@ $(window).on('imready', function(im){
 
     //game stuff, maybe move to another js file later
     //here are just tests, call the functions when the certain button is pressed.
-    sock.emit('rollDice', roomId);
+    //sock.emit('rollDice', roomId);
 
 
 

@@ -17,7 +17,7 @@ let Match = {} =  module.exports;
 let DATA = require('../Data.js');
 let Dice = require('./Dice.js');
 let Bank = require('./Bank.js');
-let Player = require('./player.js');
+let Player = require('./Player.js');
 
 // users is a list of String, names of the user in the room
 /**

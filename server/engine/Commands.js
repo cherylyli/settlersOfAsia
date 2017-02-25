@@ -37,6 +37,7 @@ let Commands = module.exports = {};
  */
 Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario = null) {
     let user = DATA.getUser(userName);
+    if(!user) user = User.createUser(userName);
     //make new Room
     let room = Room.createRoom(roomID, userName);
 
@@ -60,6 +61,7 @@ Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario 
 Commands.joinRoom = function (userName, roomID) {
     let room = DATA.getRoom(roomID);
     let user = DATA.getUser(userName);
+    if(!user) user = User.createUser(userName);
     user.joinGameRoom(room);
 };
 
