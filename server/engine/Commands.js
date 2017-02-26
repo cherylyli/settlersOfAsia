@@ -114,7 +114,7 @@ Commands.leaveRoom = function (user) {
  *
  * @param match {String}
  */
-Commands.rollDice = function (matchID) {
+Commands.rollDice = function (userName, matchID, data) {
     let match = DATA.getMatch(matchID);
     match.rollDice();
 };
@@ -131,7 +131,10 @@ Commands.rollDice = function (matchID) {
  * @param position {int}   vertex id
  * @param establishmentLv {int} level 1 : settlement, level 2: city, level 3: metropolitan
  */
-Commands.buildEstablishment = function (userName, roomID, position,  establishmentLv) {
+Commands.buildEstablishment = function (userName, roomID, data) {
+    let position = data.position;
+    let establishmentLv = data.establishmentLV;
+
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
     let map = match.map;
@@ -196,7 +199,7 @@ Commands.buildShip = function (userName, roomID, edge) {
  * @param roomID {String}
  * @param vertex {int}
  */
-Commands.buildCityWall = function (roomID, vertex) {
+Commands.buildCityWall = function (userName, roomID, vertex) {
     let match = DATA.getMatch(roomID);
     let city = match.map.getVertexInfo(vertex);
     city.buildCityWall();
@@ -209,7 +212,7 @@ Commands.buildCityWall = function (roomID, vertex) {
  * @param roomID {String}
  * @param vertex {int}
  */
-Commands.chooseCityToBePillaged = function (roomID, vertex) {
+Commands.chooseCityToBePillaged = function (userName, roomID, vertex) {
     let match = DATA.getMatch(roomID);
     let city = match.map.getVertexInfo(vertex);
     city.pillage();
@@ -235,7 +238,7 @@ Commands.buyCityImprovement = function (userName, roomID, cityImprovementCategor
  * @param oldPosition {[int, int]} Edge
  * @param newPosition {[int, int]} Edge
  */
-Commands.moveShip = function (roomID, oldPosition, newPosition) {
+Commands.moveShip = function (userName, roomID, oldPosition, newPosition) {
     let match = DATA.getMatch(roomID);
     let ship = match.map.getEdgeInfo(oldPosition);
     ship.move(oldPosition, newPosition);
@@ -260,7 +263,7 @@ Commands.hireKnight = function (userName, roomID, position = null) {
 /**
  *
  */
-Commands.activateKnight = function (roomID, position) {
+Commands.activateKnight = function (userName, roomID, position) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.activate();
@@ -272,7 +275,7 @@ Commands.activateKnight = function (roomID, position) {
 /**
  *
  */
-Commands.promoteKnight = function (roomID, position) {
+Commands.promoteKnight = function (userName, roomID, position) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.promote();
@@ -283,7 +286,7 @@ Commands.promoteKnight = function (roomID, position) {
 /**
  *
  */
-Commands.moveKnight = function (roomID, position, newPosition) {
+Commands.moveKnight = function (userName, roomID, position, newPosition) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.move(newPosition, match.map);
@@ -293,7 +296,7 @@ Commands.moveKnight = function (roomID, position, newPosition) {
 /**
  *
  */
-Commands.displaceKnight = function (roomID, position, newPosition) {
+Commands.displaceKnight = function (userName, roomID, position, newPosition) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     let opponentKnightInfo = knight.move(newPosition, match.map);
@@ -305,7 +308,7 @@ Commands.displaceKnight = function (roomID, position, newPosition) {
 /**
  *
  */
-Commands.chaseAwayThief = function (roomID, position, thiefPosition, newPositionForThief) {
+Commands.chaseAwayThief = function (userName, roomID, position, thiefPosition, newPositionForThief) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.chaseAwayThief(match.map, thiefPosition, newPositionForThief);
@@ -398,7 +401,7 @@ Commands.discardProgressCard = function (player, progressCard) {
  * @return {String} the name of the player to take next turn
  */
 
-Commands.endTurn = function (roomID) {
+Commands.endTurn = function (userName, roomID) {
     let match = DATA.getMatch(roomID);
     return match.nextPlayerToTakeTurn();
 }

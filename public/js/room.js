@@ -24,13 +24,13 @@ $(document).ready(function(){
 $(window).on('imready', function(im){
 
     $("button").attr('disabled', 'disabled').click(function () {
-        Commands.rollDice();
+        //Commands.rollDice();
+        let input1 = parseInt($("input[name='input1']").val());
+        let input2 = parseInt($("input[name='input2']").val());
+        Commands.exec(CommandName.buildEstablishment, CommandsData.buildEstablishment(input1, 1));
     });
     //test
-    /**
-    $("button").click(function () {
-        Commands.rollDice();
-    });**/
+
 
 
     let CircularJSON = window.CircularJSON;

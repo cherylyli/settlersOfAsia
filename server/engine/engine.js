@@ -122,13 +122,18 @@ module.exports = function(socket, user, roomId) {
         });
 
     }
-
+/**
     got('rollDice', function (data) {
 
         Commands.rollDice(roomId);
         send('rollDiceAck', CircularJSON.stringify( DATA.getMatch(roomId)));
     });
 
+    got('buildEstablishment', function (data) {
+        Commands.buildEstablishment(user.username, roomId, data.position, data.establishmentLV);
+        send('buildEstablishmentAck', CircularJSON.stringify( DATA.getMatch(roomId)))
+    });
+**/
 
 
 /**
@@ -136,15 +141,15 @@ module.exports = function(socket, user, roomId) {
         broadcast('hehe')
     })
 **/
-    /**
-    let normalCommand = ['rollDice'];
+
+    //let normalCommand = ['rollDice'];
     _.each(Commands, function(fn, commandName){
         got(commandName, function(data){
-
-            if (_.contains(normalCommand, commandName)) send(commandName + 'Ack', fn(data));
-        })
+            fn(user.username, roomId, data);
+            send(commandName + 'Ack', CircularJSON.stringify( DATA.getMatch(roomId)));
+        });
     });
-**/
+
 
 
 
