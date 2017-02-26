@@ -15,7 +15,7 @@ let Building = require('./Building.js');
 let Player = module.exports = {};
 let initialGoldNum = 2;
 
-Player.createPlayer = function (name) {
+Player.createPlayer = function (name, user) {
     let player = {};
 
     /**
@@ -23,6 +23,7 @@ Player.createPlayer = function (name) {
      * progressCards includes VP cards
      */
 
+    player.user = user;     //user
     player.name = name;
     player.color = null;
     player.VP = 0;

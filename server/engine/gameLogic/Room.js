@@ -24,15 +24,14 @@ Room.createRoom = function (RoomID, creatorName) {
     gameRoom.state = enums.GameRoomState.Waiting;
     gameRoom.owner = creatorName;
     gameRoom.users = {};    //key: userName (string), value: player data (Player object)
-    gameRoom.Users = {};    //user objects
+    //gameRoom.Users = {};    //user objects
     gameRoom.match = null;
     gameRoom.gameScenario = null;
 
 
     gameRoom.addUser = function(user){
         let gameRoomID = this.id;
-        this.Users[user.username] = user;
-        this.users[user.username] = null;
+        this.users[user.username] = Player.createPlayer(user.username, user);
         if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
             this.state = enums.GameRoomStateReady;
         }
@@ -71,12 +70,13 @@ Room.createRoom = function (RoomID, creatorName) {
 
         //init players data for game (either load or create)
         //let players = [];
+        /**
         for (let user in gameRoom.users){
             if (gameRoom.users.hasOwnProperty(user)) {
-                gameRoom.users[user] = Player.createPlayer(user);
+               // gameRoom.users[user] = Player.createPlayer(user,);
           //      players.push(gameRoom.users[user]);
             }
-        }
+        }**/
         //now create the game/match based on the scenario.
         gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, gameRoom.users);
         DATA.addMatch(gameRoom.id, gameRoom.match);
