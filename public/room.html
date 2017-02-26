@@ -51,7 +51,7 @@
         </div>
         <div id='right-screen' class='box-shadow-light'>
             <div id='users'>
-                <div class='user' v-for='user in users'>
+                <div class='user' v-for='user in room.users'>
                     <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${user.profile_pic})`}'>
                         <div class='name'>{{user.name}}</div>
                     </div>
