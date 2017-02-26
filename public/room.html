@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Room</title>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900' rel='stylesheet' type='text/css'>
     <link href="/css/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//res.wx.qq.com/open/libs/weui/1.1.1/weui.min.css" rel="stylesheet">
     <!-- <link href="/css/plugins/weui.min.css" rel="stylesheet"> -->
     <link href="/css/plugins/animate.min.css" rel="stylesheet">
     <link href="/css/plugins/animate.css" rel="stylesheet">
@@ -18,19 +19,131 @@
 
 <body>
     <div id='page'>
-        <div id='right-screen'></div>
         <div id='left-screen'>
-            <div id='board'></div>
-            <div id='utils'>
-                <button>hey</button>
-                <input type="text" name="input1">
-                <input type="text" name="input2">
+            <div id='board' class='box-shadow-light'>sdf</div>
+            <div id='utils' class='box-shadow-light'>
+                <div class='me'>
+                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${me.profile_pic})`}'>
+                        <div class='name'>{{me.username}}</div>
+                    </div>
+                </div>
+                <div class='common'>
+                    <div class='dices'>
+                        <div class='red dice center-contained'></div>
+                        <div class='yellow dice center-contained'></div>
+                        <div class='black dice center-contained'></div>
+                    </div>
+                    <div id='end-turn' class='ui-btn'>End Turn</div>
+                    <div id='trade' class='ui-btn'>Trade</div>
+                </div>
+                <div class='cards'>
+                    <div class='card wood'>
+                        <div class='border'></div>
+                        <div class='name dot'>wood</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card sheep'>
+                        <div class='border'></div>
+                        <div class='name dot'>sheep</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card brick'>
+                        <div class='border'></div>
+                        <div class='name dot'>brick</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card grain'>
+                        <div class='border'></div>
+                        <div class='name dot'>grain</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card ore'>
+                        <div class='border'></div>
+                        <div class='name dot'>ore</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card coin'>
+                        <div class='border'></div>
+                        <div class='name dot'>coin</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card cloth'>
+                        <div class='border'></div>
+                        <div class='name dot'>cloth</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card paper'>
+                        <div class='border'></div>
+                        <div class='name dot'>paper</div>
+                        <div class='count'>1</div>
+                    </div>
+                    <div class='card gold'>
+                        <div class='border'></div>
+                        <div class='name dot'>gold</div>
+                        <div class='count'>1</div>
+                    </div>
+                </div>
 
+                <div class='mats'></div>
+                <div class='improv'></div>
             </div>
         </div>
+        <div id='right-screen' class='box-shadow-light'>
+            <div id='users'>
+                <div class='user'>
+                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${me.profile_pic})`}'>
+                        <div class='name'>{{me.username}}</div>
+                    </div>
+                    <ul class='info'>
+                        <li>Metropolis: 0</li>
+                        <li>Longest Road: 0</li>
+                        <li>Defender of Catan: 0</li>
+                        <li>Progress Card: 0</li>
+                        <li>VP: 0</li>
+                    </ul>
+                </div>
+                <div class='user'>
+                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${me.profile_pic})`}'>
+                        <div class='name'>{{me.username}}</div>
+                    </div>
+                    <ul class='info'>
+                        <li>Metropolis: 0</li>
+                        <li>Longest Road: 0</li>
+                        <li>Defender of Catan: 0</li>
+                        <li>Progress Card: 0</li>
+                        <li>VP: 0</li>
+                    </ul>
+                </div>
+                <div class='user'>
+                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${me.profile_pic})`}'>
+                        <div class='name'>{{me.username}}</div>
+                    </div>
+                    <ul class='info'>
+                        <li>Metropolis: 0</li>
+                        <li>Longest Road: 0</li>
+                        <li>Defender of Catan: 0</li>
+                        <li>Progress Card: 0</li>
+                        <li>VP: 0</li>
+                    </ul>
+                </div>
+                <div class='user'>
+                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${me.profile_pic})`}'>
+                        <div class='name'>{{me.username}}</div>
+                    </div>
+                    <ul class='info'>
+                        <li>Metropolis: 0</li>
+                        <li>Longest Road: 0</li>
+                        <li>Defender of Catan: 0</li>
+                        <li>Progress Card: 0</li>
+                        <li>VP: 0</li>
+                    </ul>
+                </div>
+            </div>
 
+        </div>
     </div>
 
+    <script src="//unpkg.com/vue/dist/vue.js"></script>
     <script src="//cdn.jsdelivr.net/async/2.1.4/async.min.js"></script>
     <script src="/js/plugins/jquery.min.js"></script>
     <script src="/js/plugins/circular-json.js"></script>

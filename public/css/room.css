@@ -1,3 +1,6 @@
+body{
+}
+
 #page{
     width: 100%;
     height: 100%;
@@ -5,31 +8,233 @@
 }
 
 #right-screen {
-    width: 400px;
-    height: 100%;
-    float: right;
-    background: #aafed6;
-    position: relative;
+    position: absolute;
+    top: 15px;
+    bottom: 15px;
+    right: 15px;
+    width: 300px;
+    background-color: white;
 }
 
 #left-screen {
-    float: none;
-    height: 100%;
-    background: #e8f6fe;
-    width: auto;
-    overflow: hidden;
-    position: relative;
-}​​
+    position: absolute;
+    right: 330px;
+    bottom: 15px;
+    top: 15px;
+    left: 15px;
+}
 
 #board{
-    background-color: blue;
-
+    position: absolute;
+    top: 0; left: 0;
+    right: 0;
+    bottom: 130px;
+    width: 100%;
+    background-color: white;
+    border-bottom: 3px solid #e7ebf3;
+    overflow: hidden;
 }
 
 #utils{
-    background-color: gray;
+    overflow: hidden;
+    background: rgba(255,255,255,0.96);
     position: absolute;
     left: 0; right: 0;
     bottom: 0;
+    height: 130px;
+}
+
+#utils .me{
+    height: 100%;
+    margin-left: 15px;
+    float: left;
+    width: 100px;
+}
+
+#utils .me .pic{
+    width: 100px;
     height: 100px;
+    -webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: 0 0 0 1px rgba(0,0,0,.04),0 1px 5px rgba(0,0,0,.1);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 1px 5px rgba(0,0,0,.1);
+    border: 3px solid white;
+    top: 0;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    position: absolute;
+}
+
+#utils .me .pic .name{
+    position: absolute;
+    bottom: 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: rgba(0,0,0,0.65);
+    color: white;
+    text-align: center;
+    width: 100%;
+    font-size: 12px;
+}
+
+#utils .common{
+    float: left;
+    margin-left: 14px;
+    margin-top: 14px;
+    position: relative;
+}
+
+#utils .dices{
+}
+
+#utils .dices .dice{
+    width: 27px;
+    height: 27px;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all .1s;
+    margin-top: 2px;
+}
+#utils .dices .dice:last-child{
+    margin-right: 0;
+}
+
+#utils .dices .dice:hover{
+    transform: scale(1.1, 1.1);
+}
+
+#utils .dices .dice.yellow{ background-image: url(/img/room/dice/yellow.svg); }
+#utils .dices .dice.red{ background-image: url(/img/room/dice/red.svg); }
+#utils .dices .dice.black{ background-image: url(/img/room/dice/black.svg); }
+
+#end-turn{
+    width: 100%;
+    margin-top: 6px;
+    display: inline-block;
+}    
+
+#trade{
+    margin-top: 4px;
+    display: block;
+}
+
+#utils .cards{
+    float: left;
+    height: 100%;
+    position: absolute;
+    right: 15px;
+    left: 246px;
+    padding-top: 18px;
+}
+
+#utils .card{
+    float: left;
+    height: 94px;
+    width: calc(11.11% - 10px);
+    text-align: center;
+    position: relative;
+    background-color:#9F8641;
+    border-radius: 10px;
+    margin-right: 10px;
+    box-shadow:
+    inset 0 7em 10em -5em rgba(255,255,255,0.6),
+    0 0.3em 0.5em -0.2em rgba(100,100,100,1),
+    0 1em 2em -0.75em rgba(100,100,100,0.3),
+    0 1em 3em -0.5em rgba(100,100,100,0.15),
+    0 3em 3em -0.25em rgba(100,100,100,0.08);
+}
+
+#utils .card.wood{ background-color: #008e02; }
+#utils .card.sheep{ background-color: #4CD964; }
+#utils .card.brick{ background-color: #8c6600; }
+#utils .card.grain{ background-color: #FF5E3A; }
+#utils .card.ore{ background-color: #4A4A4A; }
+#utils .card.coin{ background-color: #5856D6; }
+#utils .card.cloth{ background-color: #FFD3E0; }
+#utils .card.paper{ background-color: #D1EEFC; }
+#utils .card.gold{ background-color: #FFDB4C; }
+
+#utils .card .border{
+    border:2px dashed rgba(255,255,255,0.6);
+    border-radius:5px;
+    position: absolute;
+    top: 5px; left: 5px;
+    right: 5px; bottom: 5px;
+    margin: 0 auto;
+}
+
+#utils .card .name{
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 13px;
+}
+
+#utils .card .count{
+    position: absolute;
+    top: 50px;
+    border-radius: 100px;
+    background-color: rgba(255,255,255,0.8);
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#users{
+    border-bottom: 3px solid #e7ebf3;
+    overflow: hidden;
+}
+
+#users .user{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #e7ebf3;
+}
+#users .user:last-child{
+    border-bottom-width: 0;
+}
+
+#users .user .pic{
+    float: left;
+    margin-right: 20px;
+    margin-left: 10px;
+    width: 80px;
+    height: 80px;
+    -webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: 0 0 0 1px rgba(0,0,0,.04),0 1px 5px rgba(0,0,0,.1);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.04), 0 1px 5px rgba(0,0,0,.1);
+    border: 3px solid white;
+    position: relative;
+}
+
+#users .user .pic .name{
+    position: absolute;
+    bottom: 0;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    background-color: rgba(0,0,0,0.65);
+    color: white;
+    text-align: center;
+    width: 100%;
+    font-size: 11px;
+}
+
+#users .user .info{
+    float: left;
+    width: auto;
+    padding-left: 10px;
+    font-size: 11px;
+    line-height: 16px;
 }

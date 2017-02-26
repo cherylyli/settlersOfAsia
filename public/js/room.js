@@ -11,7 +11,6 @@ $(document).ready(function(){
         evt.myObj = data;
 
         // show page
-        $('body').showV();
         $(window).trigger(evt);
     });
 });
@@ -75,6 +74,36 @@ $(window).on('imready', function(im){
         alert('Take turn');
         $("button").removeAttr('disabled');
     })
+
+
+
+
+
+
+    // ----------------------------- View Layer ----------------------------- //
+
+    var app = new Vue({
+        el: '#page',
+        data: {
+            me: myObj
+        },
+        mounted: function(){
+            $('body').showV();
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //game stuff, maybe move to another js file later
