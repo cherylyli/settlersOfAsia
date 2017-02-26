@@ -10,7 +10,7 @@ let DATA = require('../Data.js');
 
 User.createUser = function (user) {
 
-    user.name = user.userName;
+    user.name = user.username;
     user.state = enums.PlayerState.LOBBY;
     user.roomID = null;
     user.player = null;

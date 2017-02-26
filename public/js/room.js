@@ -23,10 +23,12 @@ $(document).ready(function(){
 $(window).on('imready', function(im){
 
     $("button").attr('disabled', 'disabled').click(function () {
-        //Commands.exec(CommandName.rollDice, CommandsData.rollDice());
+        alert("sfd");
+        Commands.exec(CommandName.rollDice, CommandsData.rollDice());
+        /**
         let input1 = parseInt($("input[name='input1']").val());
         let input2 = parseInt($("input[name='input2']").val());
-        Commands.exec(CommandName.buildEstablishment, CommandsData.buildEstablishment(input1, 1));
+        Commands.exec(CommandName.buildEstablishment, CommandsData.buildEstablishment(input1, 1));**/
     });
     //test
 
@@ -73,7 +75,7 @@ $(window).on('imready', function(im){
     sock.on('TAKE_TURN', function (msg) {
         alert('Take turn');
         $("button").removeAttr('disabled');
-    })
+    });
 
 
 

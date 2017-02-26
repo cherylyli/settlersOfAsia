@@ -24,15 +24,15 @@ Room.createRoom = function (RoomID, creatorName) {
     gameRoom.state = enums.GameRoomState.Waiting;
     gameRoom.owner = creatorName;
     gameRoom.users = {};    //key: userName (string), value: player data (Player object)
-    gameRoom.Users = [];    //user objects
+    gameRoom.Users = {};    //user objects
     gameRoom.match = null;
     gameRoom.gameScenario = null;
 
 
     gameRoom.addUser = function(user){
         let gameRoomID = this.id;
-        this.Users.push(user);
-        this.users[user.name] = null;
+        this.Users[user.username] = user;
+        this.users[user.username] = null;
         if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
             this.state = enums.GameRoomStateReady;
         }

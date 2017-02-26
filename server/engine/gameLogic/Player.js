@@ -34,6 +34,7 @@ Player.createPlayer = function (name) {
     player.ships = []  // a list of edges
     player.harbors = [];
     player.knights = [];
+    player.metropolitans = [];  //a list of integer -> position of the metropolitan
     player.cityImprovement = {'trade': 0, 'politics': 0, 'science': 0};
 
 
@@ -48,6 +49,10 @@ Player.createPlayer = function (name) {
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
     //player.match = null;
+
+
+
+
 
     /**
       * count the total number of cards (Resource+Commodity) current player owns
