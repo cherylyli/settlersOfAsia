@@ -16,16 +16,16 @@
 
     // receive data
     sock.on = function(event, fn){
-        socket.on(event, function(data1, data2){
-            console.log('[Socket] got', event, data1, data2);
-            fn(data1, data2);
+        socket.on(event, function(data){
+            console.log('[Socket] got', event, data);
+            fn(data);
         });
     };
 
     // emit data
-    sock.emit = function(event, data1, data2){
-    	socket.emit(event, data1, data2);
-        console.log('[Socket] send', event, data1, data2);
+    sock.emit = function(event, data){
+    	socket.emit(event, data);
+        console.log('[Socket] send', event, data);
     };
 
     // disconnect
