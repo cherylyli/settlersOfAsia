@@ -1,4 +1,5 @@
 body{
+    visibility: hidden;
 }
 
 #page{
@@ -14,6 +15,7 @@ body{
     right: 15px;
     width: 300px;
     background-color: white;
+    overflow: auto;
 }
 
 #left-screen {
@@ -31,7 +33,7 @@ body{
     bottom: 130px;
     width: 100%;
     background-color: white;
-    border-bottom: 3px solid #e7ebf3;
+    border-bottom: 0px solid #e7ebf3;
     overflow: hidden;
 }
 
@@ -82,6 +84,10 @@ body{
     margin-left: 14px;
     margin-top: 14px;
     position: relative;
+}
+
+#utils .common .fa{
+    margin-right: 6px;
 }
 
 #utils .dices{
@@ -145,7 +151,7 @@ body{
     0 3em 3em -0.25em rgba(100,100,100,0.08);
 }
 
-#utils .card.wood{ background-color: #008e02; }
+#utils .card.wool{ background-color: #008e02; }
 #utils .card.sheep{ background-color: #4CD964; }
 #utils .card.brick{ background-color: #8c6600; }
 #utils .card.grain{ background-color: #FF5E3A; }
@@ -191,7 +197,7 @@ body{
 }
 
 #users{
-    border-bottom: 3px solid #e7ebf3;
+    border-bottom: 1px solid #e7ebf3;
     overflow: hidden;
 }
 
@@ -237,4 +243,52 @@ body{
     padding-left: 10px;
     font-size: 11px;
     line-height: 16px;
+}
+
+#log{
+    overflow-y: scroll;
+    height: 100px;
+    width: 100%;
+    font-size: 12px;
+    padding: 15px;
+    line-height: 18px;
+    /*background-color: yellow;*/
+}
+
+#log .user{
+    color: #00acfc;
+}
+
+#log .user.self{
+    color: #ff8300;
+}
+
+#log .action{
+    color: #555;
+}
+
+#match-opts{
+    text-align: center;
+    width: 100%;
+    left: 0; right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+#match-opts .opt{
+    float: left;
+    width: 33.33%;
+    height: 42px;
+    line-height: 42px;
+    border-left: 0;
+    border-bottom: 0;
+    border-radius: 0;
+}
+
+#match-opts .opt .fa{
+    margin-right: 6px;
+}
+
+#match-opts .opt:last{
+    border-right: 0;
 }
