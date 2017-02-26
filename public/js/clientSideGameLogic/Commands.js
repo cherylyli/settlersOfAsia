@@ -3,9 +3,9 @@
 */
 let Commands = {};
 let CommandsData = {};
-let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment', 'endTurn': 'endTurn'};
+let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'endTurn': 'endTurn'};
 
-let match = null;
+let room = null;
 
 
 Commands.exec = function(commandName, data){
@@ -33,7 +33,7 @@ _.each(CommandName, function(cmd){
  */
 CommandsData.rollDice = function () {
     return null;
-}
+};
 
 /**
  *
@@ -44,6 +44,19 @@ CommandsData.buildEstablishment = function(vertex, establishmentLV){
     return {'position': vertex, 'establishmentLV': establishmentLV };
 };
 
+
+/**
+ *
+ * @param vertex1 {int} vertex 1 is smaller than vertex2
+ * @param vertex2
+ */
+CommandsData.buildRoad = function (vertex1, vertex2) {
+    edge(vertex1, vertex2);
+}
+
+
+
+
 /**
  *
  * @return {null}
@@ -52,6 +65,15 @@ CommandsData.endTurn = function () {
     return null;
 }
 
+
+let edge = function (vertex1, vertex2) {
+    //TODO: check if vertex 1 and vertex2 is a edge
+
+    //check if vertex is less then vertex 2
+    if (vertex1 < vertex2) return [vertex1, vertex2];
+    return [vertex2, vertex1];
+}
+
 update = function (msg) {
-    match = CircularJSON.parse(msg);
+    room = CircularJSON.parse(msg);
 }

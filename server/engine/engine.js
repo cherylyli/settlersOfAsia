@@ -146,7 +146,7 @@ module.exports = function(socket, user, roomId) {
     _.each(Commands, function(fn, commandName){
         got(commandName, function(data){
             fn(user.username, roomId, data);
-            sendRoom(commandName + 'Ack', CircularJSON.stringify( DATA.getMatch(roomId)));
+            sendRoom(commandName + 'Ack', CircularJSON.stringify(DATA.getRoom(roomId)));
         });
     });
 
