@@ -209,7 +209,7 @@ Player.createPlayer = function (name, user) {
         //if player owns less than 5 roads 
         if(road.length<5){
             console.log("road length less than 5");
-            return 0;		
+            return 0;   
         }
 
         //else
@@ -228,7 +228,7 @@ Player.createPlayer = function (name, user) {
         for(var i=0; i<road.length;i++){
             node = road[i][0]; //start node. 
             //pre = road[i][0];
-            //next = road[i][1];	
+            //next = road[i][1];  
             set.push(node); 
             //map: key = node[i][0], value = i 
             map[set[i]] = i; 

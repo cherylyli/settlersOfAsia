@@ -56,26 +56,29 @@
         </div>
         <div id='right-screen' class='box-shadow-light'>
             <div id='users'>
-                <div class='user' v-for='user in room.users'>
-                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${user.profile_pic})`}'>
-                        <div class='name'>{{user.name}}</div>
+                <div class='user' v-for='player in room.users'>
+                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
+                        <div class='name'>{{player.user.username}}</div>
                     </div>
                     <ul class='info'>
                         <li>Metropolis: 0</li>
-                        <li>Longest Road: {{user.longestRoad}}</li>
+                        <li>Longest Road: {{player.longestRoad}}</li>
                         <li>Defender of Catan: 0</li>
-                        <li>Progress Card: {{user.progressCardsCnt}}</li>
-                        <li>VP: {{user.VP}}</li>
+                        <li>Progress Card: {{player.progressCardsCnt}}</li>
+                        <li>VP: {{player.VP}}</li>
                     </ul>
                 </div>
             </div>
             <div id='log'>
-
-                <div class='msg' v-for='log in logs'>
-                    <span class='user' v-bind:class="{self: log.user == me.username}" v-if="log.user == me.username">You</span>
-                    <span class='user' v-else>{{ `${log.user || ''}` }}</span>
-                    <span class='action'>{{ `${log.action}` }}</span>
+                <div class='msgs'>
+                    <div class='msg' v-for='log in logs'>
+                        <span class='system'>{{ `${log.system ? '[SYSTEM]' : ''}` }}</span>
+                        <span class='user' v-bind:class="{self: log.user == me.username}" v-if="log.user == me.username">{{ log.system ? 'You' : 'You:' }}</span>
+                        <span class='user' v-else>{{ log.system ? (log.user || '') : (log.user ? log.user + ':' : '') }}</span>
+                        <span class='action'>{{ `${log.action}` }}</span>
+                    </div>
                 </div>
+                <input placeholder='Type a message...' v-on:keyup.enter='sendMessage'>
             </div>
             <div id='match-opts'>
                 <div class='opt ui-btn' v-on:click='save'><i class="fa fa-hdd-o" aria-hidden="true"></i>Save</div>
