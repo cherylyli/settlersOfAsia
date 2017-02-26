@@ -401,7 +401,7 @@ Commands.discardProgressCard = function (player, progressCard) {
  * @return {String} the name of the player to take next turn
  */
 
-Commands.endTurn = function (userName, roomID) {
+Commands.endTurn = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     return match.nextPlayerToTakeTurn();
 }

@@ -3,27 +3,29 @@
 */
 let Commands = {};
 let CommandsData = {};
-let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment'};
+let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment', 'endTurn': 'endTurn'};
 
 let match = null;
-/**
-Commands.rollDice = function () {
-    sock.emit('rollDice');
-    sock.on('rollDiceAck', function (msg) {
-        update(msg);
-        console.log(match.dice);
-        alert("Dice rolled");
-    });
-};**/
+
 
 Commands.exec = function(commandName, data){
     sock.emit(commandName, data);
-    sock.on(commandName + 'Ack', function (msg) {
-        update(msg);
-        alert(commandName + 'Ack');
-        console.log(match);
-    })
 };
+
+
+
+_.each(CommandName, function(cmd){
+
+    sock.on(cmd + 'Ack', function (msg) {
+        alert(cmd + 'Ack');
+        update(msg);
+        console.log(match);
+    });
+
+});
+
+
+
 
 /**
  * rollDice does not take any arguments
@@ -43,14 +45,12 @@ CommandsData.buildEstablishment = function(vertex, establishmentLV){
 };
 
 /**
-Commands.buildEstablishment = function (data) {
-    sock.emit('buildEstablishment', data);
-    sock.on('buildEstablishmentAck', function (msg) {
-        update(msg);
-        console.log(match);
-    })
+ *
+ * @return {null}
+ */
+CommandsData.endTurn = function () {
+    return null;
 }
-**/
 
 update = function (msg) {
     match = CircularJSON.parse(msg);

@@ -113,6 +113,7 @@ $(window).on('imready', function(im){
         _.each(matches, function(match, id){
             $p.append(createMatch(match));
         });
+
     }
 
     // display username on hover pic
