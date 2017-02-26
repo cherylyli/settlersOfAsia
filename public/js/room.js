@@ -22,11 +22,22 @@ $(document).ready(function(){
 
 // upon environment set up
 $(window).on('imready', function(im){
+
+    $("button").attr('disabled', 'disabled').click(function () {
+        Commands.rollDice();
+    });
+    //test
+    /**
+    $("button").click(function () {
+        Commands.rollDice();
+    });**/
+
+
     let CircularJSON = window.CircularJSON;
 
     window.myObj = im.myObj;
     //console.log(window.myObj);
-    var roomId = window.location.pathname.split("/").pop();
+    let roomId = window.location.pathname.split("/").pop();
 
 
     // on page load, join room
@@ -50,14 +61,20 @@ $(window).on('imready', function(im){
 
 
     sock.on('NEW_PLAYER_JOINED', function (msg) {
-       alert('NEW_PLAYER_JOINED');
+       //alert('NEW_PLAYER_JOINED');
        //change ui
     });
 
     sock.on('GAME_START', function (msg) {
+        alert('Game start');
         //entry point for max's code
 
     });
+
+    sock.on('TAKE_TURN', function (msg) {
+        alert('Take turn');
+        $("button").removeAttr('disabled');
+    })
 
 
     //game stuff, maybe move to another js file later

@@ -90,8 +90,11 @@ module.exports = function(socket, user, roomId) {
         //if now we have 4 players, game start
         console.log(Object.keys(DATA.getRoom(roomId).users).length);
         if(Object.keys(DATA.getRoom(roomId).users).length == 4){
-            Commands.startGame(roomId);
-            broadcast(('GAME_START', result));
+            let currentPlayer = Commands.startGame(roomId);
+            result = CircularJSON.stringify( DATA.getRoom(roomId));
+            sendRoom('GAME_START', result);
+            notify.user(currentPlayer, 'TAKE_TURN');
+
         }
     }
 
@@ -117,15 +120,23 @@ module.exports = function(socket, user, roomId) {
             send('JOIN_ROOM_SUCCESS', result);
 
         });
+
     }
 
+    got('rollDice', function (data) {
+
+        Commands.rollDice(roomId);
+        send('rollDiceAck', CircularJSON.stringify( DATA.getMatch(roomId)));
+    });
 
 
 
+/**
     got('lol', function(){
         broadcast('hehe')
     })
-
+**/
+    /**
     let normalCommand = ['rollDice'];
     _.each(Commands, function(fn, commandName){
         got(commandName, function(data){
@@ -133,7 +144,7 @@ module.exports = function(socket, user, roomId) {
             if (_.contains(normalCommand, commandName)) send(commandName + 'Ack', fn(data));
         })
     });
-
+**/
 
 
 

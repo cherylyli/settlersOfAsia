@@ -42,7 +42,6 @@ Match.createNewMatch = function (scenario, players) {
    // match.currentPlayer =
 
     assignColors(match);
-    match.nextPlayerToTakeTurn();
 
 
     match.rollDice = function () {
@@ -50,11 +49,6 @@ Match.createNewMatch = function (scenario, players) {
         match.dice.rollProductionDice();
     }
 
-    /**
-     *
-     * @param UserName {String}
-     * @return {Player|*}
-     */
     match.getPlayer = function (UserName) {
         return match.players[UserName];
     }
@@ -67,8 +61,6 @@ Match.createNewMatch = function (scenario, players) {
         //TODO:
         console.log("Game ends!");
     }
-
-
     /**
      *
      * @return {String} the name of the player to take turn
@@ -110,14 +102,18 @@ Match.createNewMatch = function (scenario, players) {
 
     }
 
+
+
     match.endThisTurn = function () {
         if (this.phase == Enum.MatchPhase.SetupRoundTwo){
-            //collect 1 resource per hexTile aournd city
+                //collect 1 resource per hexTile aournd city
             let city = this.players[this.currentPlayer].getCities()[0];
             let hexTile = this.map.getHexTileByVertex(city.position);
 
         }
     }
+
+    match.nextPlayerToTakeTurn();
 
 
 
@@ -131,6 +127,11 @@ function assignColors(match) {
     let colors = Object.values(Enum.Color);
     let players = Object.values(match.players);
     for (let i = 0; i < players.length; i++){
+        /**
+         *
+         * @param UserName {String}
+         * @return {Player|*}
+         */
         players[i].color = colors[i];
     }
 }

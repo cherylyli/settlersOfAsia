@@ -83,14 +83,13 @@ Commands.startGame = function (roomID) {
     //Room.state = STARTING, game will start in 5 sec if no player leaves the room
 
     // user chose to play a new game
-    if (!room.match){
+    //if (!room.match){
         //create new match
         room.startGame();
+        return room.match.nextPlayerToTakeTurn();
 
-    }
+    //}
 
-    //set player to each user
-    return room.match;
 };
 
 
@@ -114,11 +113,10 @@ Commands.leaveRoom = function (user) {
 /**
  *
  * @param match {String}
- * @return dice {Dice}
  */
 Commands.rollDice = function (matchID) {
     let match = DATA.getMatch(matchID);
-    return match.rollDice();
+    match.rollDice();
 };
 
 
