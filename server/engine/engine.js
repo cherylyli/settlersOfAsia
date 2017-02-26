@@ -80,7 +80,7 @@ module.exports = function(socket, user, roomId) {
 
 
     if(DATA.existRoom(roomId)){
-        Commands.joinRoom(user.username, roomId);
+        Commands.joinRoom(user, roomId);
         result = CircularJSON.stringify( DATA.getRoom(roomId));
         send('JOIN_ROOM_SUCCESS', result);
 
@@ -106,7 +106,7 @@ module.exports = function(socket, user, roomId) {
         //{savedGameID: String, scenario:Sting}
         //Either savedGameID or scenario is undefined
         got('MAP_CONFIG', function (data) {
-            let room = Commands.makeNewRoom(user.username, roomId, data.savedGameID, data.scenario);
+            let room = Commands.makeNewRoom(user, roomId, data.savedGameID, data.scenario);
 
             result = CircularJSON.stringify( DATA.getRoom(roomId));
 
@@ -146,7 +146,7 @@ module.exports = function(socket, user, roomId) {
     _.each(Commands, function(fn, commandName){
         got(commandName, function(data){
             fn(user.username, roomId, data);
-            send(commandName + 'Ack', CircularJSON.stringify( DATA.getMatch(roomId)));
+            sendRoom(commandName + 'Ack', CircularJSON.stringify( DATA.getMatch(roomId)));
         });
     });
 

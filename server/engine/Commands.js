@@ -35,15 +35,15 @@ let Commands = module.exports = {};
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
-Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario = null) {
-    let user = DATA.getUser(userName);
-    if(!user) user = User.createUser(userName);
+Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
+    //let user = DATA.getUser(userName);
+    //if(!user) user = User.createUser(userName);
     //make new Room
-    let room = Room.createRoom(roomID, userName);
+    let room = Room.createRoom(roomID, user.name);
 
 
     //owner also joins room
-    Commands.joinRoom(userName, roomID);
+    Commands.joinRoom(user, roomID);
     return room;
 };
 
@@ -58,10 +58,10 @@ Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario 
  * @param roomID  {String}
  * @return room {Room}
  */
-Commands.joinRoom = function (userName, roomID) {
+Commands.joinRoom = function (user, roomID) {
     let room = DATA.getRoom(roomID);
-    let user = DATA.getUser(userName);
-    if(!user) user = User.createUser(userName);
+    //let user = DATA.getUser(userName);
+    //if(!user) user = User.createUser(userName);
     user.joinGameRoom(room);
 };
 
