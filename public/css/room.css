@@ -246,13 +246,23 @@ body{
 }
 
 #log{
-    overflow-y: scroll;
-    height: 100px;
-    width: 100%;
     font-size: 12px;
-    padding: 15px;
     line-height: 18px;
+    position: relative;
     /*background-color: yellow;*/
+}
+
+#log .msgs{
+    overflow-y: scroll;
+    width: 100%;
+    padding: 15px;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    bottom: 34px;
+}
+
+#log .system{
+    color: #fab9d4;
 }
 
 #log .user{
@@ -265,6 +275,20 @@ body{
 
 #log .action{
     color: #555;
+}
+
+#log input{
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    width: 100%;
+    line-height: 34px;
+    height: 34px;
+    font-size: 12px;
+    background-color: #eff5f7;
+    outline: 0;
+    border: 0;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 #match-opts{

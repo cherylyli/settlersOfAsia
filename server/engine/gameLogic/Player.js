@@ -15,7 +15,7 @@ let Building = require('./Building.js');
 let Player = module.exports = {};
 let initialGoldNum = 2;
 
-Player.createPlayer = function (name) {
+Player.createPlayer = function (name, user) {
     let player = {};
 
     /**
@@ -23,6 +23,7 @@ Player.createPlayer = function (name) {
      * progressCards includes VP cards
      */
 
+    player.user = user;     //user
     player.name = name;
     player.color = null;
     player.VP = 0;
@@ -34,6 +35,7 @@ Player.createPlayer = function (name) {
     player.ships = []  // a list of edges
     player.harbors = [];
     player.knights = [];
+    player.metropolitans = [];  //a list of integer -> position of the metropolitan
     player.cityImprovement = {'trade': 0, 'politics': 0, 'science': 0};
 
 
@@ -48,6 +50,10 @@ Player.createPlayer = function (name) {
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
     //player.match = null;
+
+
+
+
 
     /**
       * count the total number of cards (Resource+Commodity) current player owns
@@ -203,7 +209,7 @@ Player.createPlayer = function (name) {
         //if player owns less than 5 roads 
         if(road.length<5){
             console.log("road length less than 5");
-            return 0;		
+            return 0;   
         }
 
         //else
@@ -222,7 +228,7 @@ Player.createPlayer = function (name) {
         for(var i=0; i<road.length;i++){
             node = road[i][0]; //start node. 
             //pre = road[i][0];
-            //next = road[i][1];	
+            //next = road[i][1];  
             set.push(node); 
             //map: key = node[i][0], value = i 
             map[set[i]] = i; 
