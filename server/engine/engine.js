@@ -80,7 +80,7 @@ module.exports = function(socket, user, roomId) {
 
 
     if(DATA.existRoom(roomId)){
-        Commands.joinRoom(user.username, roomId);
+        Commands.joinRoom(user, roomId);
         result = CircularJSON.stringify( DATA.getRoom(roomId));
         send('JOIN_ROOM_SUCCESS', result);
 
@@ -90,8 +90,11 @@ module.exports = function(socket, user, roomId) {
         //if now we have 4 players, game start
         console.log(Object.keys(DATA.getRoom(roomId).users).length);
         if(Object.keys(DATA.getRoom(roomId).users).length == 4){
-            Commands.startGame(roomId);
-            broadcast(('GAME_START', result));
+            let currentPlayer = Commands.startGame(roomId);
+            result = CircularJSON.stringify( DATA.getRoom(roomId));
+            sendRoom('GAME_START', result);
+            notify.user(currentPlayer, 'TAKE_TURN');
+
         }
     }
 
@@ -103,7 +106,7 @@ module.exports = function(socket, user, roomId) {
         //{savedGameID: String, scenario:Sting}
         //Either savedGameID or scenario is undefined
         got('MAP_CONFIG', function (data) {
-            let room = Commands.makeNewRoom(user.username, roomId, data.savedGameID, data.scenario);
+            let room = Commands.makeNewRoom(user, roomId, data.savedGameID, data.scenario);
 
             result = CircularJSON.stringify( DATA.getRoom(roomId));
 
@@ -117,21 +120,34 @@ module.exports = function(socket, user, roomId) {
             send('JOIN_ROOM_SUCCESS', result);
 
         });
+
     }
+/**
+    got('rollDice', function (data) {
+
+        Commands.rollDice(roomId);
+        send('rollDiceAck', CircularJSON.stringify( DATA.getMatch(roomId)));
+    });
+
+    got('buildEstablishment', function (data) {
+        Commands.buildEstablishment(user.username, roomId, data.position, data.establishmentLV);
+        send('buildEstablishmentAck', CircularJSON.stringify( DATA.getMatch(roomId)))
+    });
+**/
 
 
-
-
+/**
     got('lol', function(){
         broadcast('hehe')
     })
+**/
 
-    let normalCommand = ['rollDice'];
+    //let normalCommand = ['rollDice'];
     _.each(Commands, function(fn, commandName){
         got(commandName, function(data){
-
-            if (_.contains(normalCommand, commandName)) send(commandName + 'Ack', fn(data));
-        })
+            fn(user.username, roomId, data);
+            sendRoom(commandName + 'Ack', CircularJSON.stringify( DATA.getMatch(roomId)));
+        });
     });
 
 

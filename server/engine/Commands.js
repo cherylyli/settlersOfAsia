@@ -35,15 +35,15 @@ let Commands = module.exports = {};
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
-Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario = null) {
-    let user = DATA.getUser(userName);
-    if(!user) user = User.createUser(userName);
+Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
+    //let user = DATA.getUser(userName);
+    //if(!user) user = User.createUser(userName);
     //make new Room
-    let room = Room.createRoom(roomID, userName);
+    let room = Room.createRoom(roomID, user.name);
 
 
     //owner also joins room
-    Commands.joinRoom(userName, roomID);
+    Commands.joinRoom(user, roomID);
     return room;
 };
 
@@ -58,10 +58,10 @@ Commands.makeNewRoom = function (userName, roomID, savedGameID = null, scenario 
  * @param roomID  {String}
  * @return room {Room}
  */
-Commands.joinRoom = function (userName, roomID) {
+Commands.joinRoom = function (user, roomID) {
     let room = DATA.getRoom(roomID);
-    let user = DATA.getUser(userName);
-    if(!user) user = User.createUser(userName);
+    //let user = DATA.getUser(userName);
+    //if(!user) user = User.createUser(userName);
     user.joinGameRoom(room);
 };
 
@@ -83,14 +83,13 @@ Commands.startGame = function (roomID) {
     //Room.state = STARTING, game will start in 5 sec if no player leaves the room
 
     // user chose to play a new game
-    if (!room.match){
+    //if (!room.match){
         //create new match
         room.startGame();
+        return room.match.nextPlayerToTakeTurn();
 
-    }
+    //}
 
-    //set player to each user
-    return room.match;
 };
 
 
@@ -114,11 +113,10 @@ Commands.leaveRoom = function (user) {
 /**
  *
  * @param match {String}
- * @return dice {Dice}
  */
-Commands.rollDice = function (matchID) {
+Commands.rollDice = function (userName, matchID, data) {
     let match = DATA.getMatch(matchID);
-    return match.rollDice();
+    match.rollDice();
 };
 
 
@@ -133,7 +131,10 @@ Commands.rollDice = function (matchID) {
  * @param position {int}   vertex id
  * @param establishmentLv {int} level 1 : settlement, level 2: city, level 3: metropolitan
  */
-Commands.buildEstablishment = function (userName, roomID, position,  establishmentLv) {
+Commands.buildEstablishment = function (userName, roomID, data) {
+    let position = data.position;
+    let establishmentLv = data.establishmentLV;
+
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
     let map = match.map;
@@ -198,7 +199,7 @@ Commands.buildShip = function (userName, roomID, edge) {
  * @param roomID {String}
  * @param vertex {int}
  */
-Commands.buildCityWall = function (roomID, vertex) {
+Commands.buildCityWall = function (userName, roomID, vertex) {
     let match = DATA.getMatch(roomID);
     let city = match.map.getVertexInfo(vertex);
     city.buildCityWall();
@@ -211,7 +212,7 @@ Commands.buildCityWall = function (roomID, vertex) {
  * @param roomID {String}
  * @param vertex {int}
  */
-Commands.chooseCityToBePillaged = function (roomID, vertex) {
+Commands.chooseCityToBePillaged = function (userName, roomID, vertex) {
     let match = DATA.getMatch(roomID);
     let city = match.map.getVertexInfo(vertex);
     city.pillage();
@@ -237,7 +238,7 @@ Commands.buyCityImprovement = function (userName, roomID, cityImprovementCategor
  * @param oldPosition {[int, int]} Edge
  * @param newPosition {[int, int]} Edge
  */
-Commands.moveShip = function (roomID, oldPosition, newPosition) {
+Commands.moveShip = function (userName, roomID, oldPosition, newPosition) {
     let match = DATA.getMatch(roomID);
     let ship = match.map.getEdgeInfo(oldPosition);
     ship.move(oldPosition, newPosition);
@@ -262,7 +263,7 @@ Commands.hireKnight = function (userName, roomID, position = null) {
 /**
  *
  */
-Commands.activateKnight = function (roomID, position) {
+Commands.activateKnight = function (userName, roomID, position) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.activate();
@@ -274,7 +275,7 @@ Commands.activateKnight = function (roomID, position) {
 /**
  *
  */
-Commands.promoteKnight = function (roomID, position) {
+Commands.promoteKnight = function (userName, roomID, position) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.promote();
@@ -285,7 +286,7 @@ Commands.promoteKnight = function (roomID, position) {
 /**
  *
  */
-Commands.moveKnight = function (roomID, position, newPosition) {
+Commands.moveKnight = function (userName, roomID, position, newPosition) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.move(newPosition, match.map);
@@ -295,7 +296,7 @@ Commands.moveKnight = function (roomID, position, newPosition) {
 /**
  *
  */
-Commands.displaceKnight = function (roomID, position, newPosition) {
+Commands.displaceKnight = function (userName, roomID, position, newPosition) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     let opponentKnightInfo = knight.move(newPosition, match.map);
@@ -307,7 +308,7 @@ Commands.displaceKnight = function (roomID, position, newPosition) {
 /**
  *
  */
-Commands.chaseAwayThief = function (roomID, position, thiefPosition, newPositionForThief) {
+Commands.chaseAwayThief = function (userName, roomID, position, thiefPosition, newPositionForThief) {
     let match = DATA.getMatch(roomID);
     let knight = match.map.getVertexInfo(position);
     knight.chaseAwayThief(match.map, thiefPosition, newPositionForThief);
@@ -400,7 +401,7 @@ Commands.discardProgressCard = function (player, progressCard) {
  * @return {String} the name of the player to take next turn
  */
 
-Commands.endTurn = function (roomID) {
+Commands.endTurn = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     return match.nextPlayerToTakeTurn();
 }

@@ -7,33 +7,30 @@ let User = require('./engine/gameLogic/User.js');
 // ------------------- helper functions -------------------
 
 // debug
-function debug(){
-	var args = Array.prototype.slice.call(arguments);
-	args.unshift("[socket.io]");
-	console.log.apply(this, args);
+function debug() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("[socket.io]");
+    console.log.apply(this, args);
 };
-
-
 
 
 // ------------------------ models ------------------------
 
 
-
 // ------------------------ socket ------------------------
 
 // when a socket is connected
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
     // get underlying user
-	var user = socket.user;
-	if (!user) return debug('can not connect, must log in');
-	debug(`user ${user.username} connected, id: ${socket.id}`);
+    var user = socket.user;
+    if (!user) return debug('can not connect, must log in');
+    debug(`user ${user.username} connected, id: ${socket.id}`);
 
-	//add more attribute to user.
-	//User.createUser(user);
+    //add more attribute to user.
+    User.createUser(user);
 
     // his username
-	var username = user.username;
+    var username = user.username;
 
     // when a socket connects, he'll join a room of his username by default,
     // this is such that we can send him event using his username, instead of socket id
@@ -43,38 +40,35 @@ io.on('connection', function(socket){
     // ---------------------- Game stuffs ----------------------
 
 
-	// join room
-	socket.on('JOIN_ROOM', function(roomId){
+    // join room
+    socket.on('JOIN_ROOM', function (roomId) {
         if (socket.room == roomId) return;
         // set his current room
-		socket.join(roomId, function(){
-			socket.room = roomId;
-			debug(`${username} joined room ${socket.room}`);
+        socket.join(roomId, function () {
+            socket.room = roomId;
+            debug(`${username} joined room ${socket.room}`);
             // start the game engine for this socket
             engine(socket, user, roomId);
-		});
-	});
+        });
+    });
 
-	// leave room
-	function leaveRoom(){
+    // leave room
+    function leaveRoom() {
         if (!socket.room) return;
-		socket.leave(socket.room, function(){
-			debug(`${username} left room ${socket.room}`);
+        socket.leave(socket.room, function () {
+            debug(`${username} left room ${socket.room}`);
             socket.room = null;
-		});
-	}
+        });
+    }
 
-	// socket disconnect, leave room
-	socket.on('disconnect', function(){
-		debug(`${username} disconnected`);
-		leaveRoom();
-	});
+    // socket disconnect, leave room
+    socket.on('disconnect', function () {
+        debug(`${username} disconnected`);
+        leaveRoom();
+    });
 
-	// explicitly leave room
+    // explicitly leave room
     socket.on('LEAVE_ROOM', leaveRoom);
-
-
-
 
 
 });
