@@ -222,4 +222,26 @@ a {
     font-size: 14px;
 }
 
+.weui-btn{
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.ui-btn{
+    color: #555;
+    background-color: white;
+    transition: all 0.1s linear;
+    border-radius: 3px;
+    border: 1px solid #e3e6ed;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none; 
+    outline: none; 
+    position: relative;
+    cursor: pointer;
+    line-height: 30px;
+}
+.ui-btn:hover{
+    background-color: #f7f8fb;
+}
 
