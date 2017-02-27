@@ -316,3 +316,70 @@ body{
 #match-opts .opt:last{
     border-right: 0;
 }
+
+#cmd-table {
+    position: fixed;
+    top: 0; left: 0;
+    right: 0; bottom: 80px;
+    margin: auto;
+    width: 700px;
+    height: 400px;
+    z-index: 22;
+    font-size: 12px;
+    background: rgba(255,255,255,1);
+    border-radius: 5px;
+    overflow: hidden;
+    display: none;
+}
+
+#cmd-table .pop_title{
+  cursor: move;
+}
+
+#cmd-table * {
+  transition: all 0.15s;
+  -webkit-transition: all 0.15s;
+  -moz-transition: all 0.15s;
+  -o-transition: all 0.15s;
+  -ms-transition: all 0.15s;
+}
+
+#cmd-table .cmds{
+  float: left;
+  padding: 3px;
+  height: 100%;
+  overflow: auto;
+  width: 150px;
+}
+
+#cmd-table .cmd{
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 3px;
+    cursor: pointer;
+}
+#cmd-table .cmd:hover{
+  background: #f2f2f2;
+}
+#cmd-table .cmd.chosen{
+  background: #e0e0e0;
+}
+
+#cmd-table .ops{
+    width: auto;
+    height: 100%;
+    overflow: auto;
+    padding: 5px;
+    border-left: 1px solid #dddddd;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+#cmd-table .op{
+    display: none;
+}
+
+#cmd-table .op.chosen{
+  display: block;
+}
+

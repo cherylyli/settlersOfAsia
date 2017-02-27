@@ -39,7 +39,7 @@
                         <div class='black dice center-contained' v-on:click='rollDice'></div>
                     </div>
                     <div id='end-turn' class='ui-btn' v-on:click='endTurn'><i class="fa fa-check" aria-hidden="true"></i>Finish</div>
-                    <div id='trade' class='ui-btn'><i class="fa fa-handshake-o" aria-hidden="true"></i>Trade</div>
+                    <div id='trigger-cmd-table' class='ui-btn'><i class="fa fa-bolt" aria-hidden="true"></i> Action</div>
                 </div>
                 <div class='cards'>
                     <div class='card' v-for='(count, resource) in my.resourcesAndCommodities' v-bind:class="[resource.toLowerCase()]">
@@ -87,6 +87,34 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <div id="cmd-table" class="box-shadow-big ui-draggable">
+        <div class="pop_title">
+            <div class="pop_title_text">Perform an action</div>
+            <div class="pop_close">
+                <div class="pop_close_img center-cropped"></div>
+            </div>
+        </div>
+        <div class="cmds">
+            <div class="cmd dot chosen" data-cmd="rollDice">Roll dice</div>
+            <div class="cmd dot" data-cmd="buildEstablishment">Build establishment</div>
+            <div class="cmd dot" data-cmd="buildRoad">Build road</div>
+            <div class="cmd dot" data-cmd="buildShip">Build shop</div>
+            <div class="cmd dot" data-cmd="buildCityWall">Build city wall</div>
+            <div class="cmd dot" data-cmd="buyCityImprovement">Buy city improvement</div>
+            <div class="cmd dot" data-cmd="moveShip">Move ship</div>
+            <div class="cmd dot" data-cmd="tradeWithBank">Trade with bank</div>
+        </div>
+        <div class='ops'>
+            <div class="op chosen" data-cmd="rollDice">sadf</div>
+        </div>
+    </div>
+
+
+
 
     <script src="//unpkg.com/vue/dist/vue.js"></script>
     <script src="//cdn.jsdelivr.net/async/2.1.4/async.min.js"></script>
