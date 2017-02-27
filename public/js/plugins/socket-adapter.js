@@ -7,6 +7,16 @@
 	// underlying socket
     var socket = io();
 
+    // duck-typing check if object is room
+    function isRoom(room){
+        if (!_.isObject(room)) return false;
+        var fields = ['users', 'id', 'state', 'owner'];
+        for (var i=0; i<fields.length; i++){
+            if (_.isUndefined(room[fields[i]])) return false;
+        }
+        return true;
+    }
+
     // socket connected
     socket.on('connect', function(){
     	// socket id
@@ -14,9 +24,16 @@
         console.log('[Socket] connected. ID:', sock.id);
     });
 
-    // receive data
+    // receive data 
     sock.on = function(event, fn){
         socket.on(event, function(data){
+            // parse data
+            if (_.isString(data)) data = CircularJSON.parse(data);
+            // if data is room object, do additional operation
+            if (isRoom(data)) {
+                data = window.update(data);
+            }
+            // return data
             console.log('[Socket] got', event, data);
             fn(data);
         });

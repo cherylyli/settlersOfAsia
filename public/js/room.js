@@ -64,16 +64,11 @@ $(window).on('imready', function(im){
 
     // upon successfully joined room, server will send back a message
     sock.on('JOIN_ROOM_SUCCESS', function(msg){
-        let room = CircularJSON.parse(msg);
-        app.room = room;
         app.setMy();
-        console.log(room);
     });
 
 
     sock.on('NEW_PLAYER_JOINED', function (msg) {
-        let room = CircularJSON.parse(msg);
-        app.room = room;
        //alert('NEW_PLAYER_JOINED');
        //change ui
     });
@@ -114,10 +109,10 @@ $(window).on('imready', function(im){
         mounted: function(){
             $('body').showV();
             adjustUI();
-            console.log('mounted');
+            console.log('view mounted');
         },
         updated: function(){
-            console.log('updated');
+            console.log('view updated');
             adjustUI();
         },
         filters: {
