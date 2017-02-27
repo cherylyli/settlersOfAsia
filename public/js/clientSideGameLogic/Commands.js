@@ -7,14 +7,18 @@ let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablis
 
 let room = null;
 
-
+/**
 Commands.exec = function(commandName, data){
     sock.emit(commandName, data);
 };
-
+**/
 
 
 _.each(CommandName, function(cmd){
+
+    Commands[cmd] = function(){
+        sock.emit(cmd, CommandsData[cmd](arguments));
+    };
 
     sock.on(cmd + 'Ack', function (msg) {
         alert(cmd + 'Ack');
@@ -53,6 +57,7 @@ CommandsData.buildEstablishment = function(vertex, establishmentLV){
 CommandsData.buildRoad = function (vertex1, vertex2) {
     edge(vertex1, vertex2);
 }
+
 
 
 
