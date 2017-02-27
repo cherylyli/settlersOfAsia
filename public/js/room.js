@@ -162,6 +162,9 @@ $(window).on('imready', function(im){
             // roll dice
             rollDice: function(){
                 Commands.rollDice();
+            },
+            
+            endTurn: function () {
             }
         }
     });
