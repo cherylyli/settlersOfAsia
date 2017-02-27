@@ -126,6 +126,12 @@ let edge = function (vertex1, vertex2) {
     return [vertex2, vertex1];
 };
 
-update = function (msg) {
-    room = CircularJSON.parse(msg);
+
+
+update = function (room) {
+    // modify room here
+    // ...
+    // ...
+    window.app.room = room; // update room in view
+    return room;
 };
