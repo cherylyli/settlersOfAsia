@@ -118,14 +118,13 @@ CommandsData.endTurn = function () {
 
 
 
-let edge = function (vertex1, vertex2) {
-    //TODO: check if vertex 1 and vertex2 is a edge
+// let edge = function (vertex1, vertex2) {
+//     //TODO: check if vertex 1 and vertex2 is a edge
 
-    //check if vertex is less then vertex 2
-    if (vertex1 < vertex2) return [vertex1, vertex2];
-    return [vertex2, vertex1];
-};
-
+//     //check if vertex is less then vertex 2
+//     if (vertex1 < vertex2) return [vertex1, vertex2];
+//     return [vertex2, vertex1];
+// };
 
 
 
