@@ -168,12 +168,12 @@ Commands.buildEstablishment = function (userName, roomID, data) {
  * build a road
  * @param userName {String}
  * @param roomID {String}
- * @param edge  {[int, int]} the edge where user wants to place the road
+ * @param data  {[int, int]} the edge where user wants to place the road
  */
-Commands.buildRoad = function (userName, roomID, edge) {
+Commands.buildRoad = function (userName, roomID, data) {
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, edge, match.map, 'road');
+    Building.buildRoad(player, data, match.map, 'road');
 
     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
 };
@@ -182,13 +182,13 @@ Commands.buildRoad = function (userName, roomID, edge) {
  * build a ship
  * @param userName {String}
  * @param roomID {String}
- * @param edge {[int, int]} the edge where player wants to build the ship
+ * @param data {[int, int]} the edge where player wants to build the ship
  */
-Commands.buildShip = function (userName, roomID, edge) {
+Commands.buildShip = function (userName, roomID, data) {
     //TODO: improvement, combine buildRoad and buildShip
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, edge, match.map, 'ship');
+    Building.buildRoad(player, data, match.map, 'ship');
 
     match.bank.updatePlayerAsset(player,'buildShip');
 };
@@ -199,9 +199,9 @@ Commands.buildShip = function (userName, roomID, edge) {
  * @param roomID {String}
  * @param vertex {int}
  */
-Commands.buildCityWall = function (userName, roomID, vertex) {
+Commands.buildCityWall = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
-    let city = match.map.getVertexInfo(vertex);
+    let city = match.map.getVertexInfo(data.position);
     city.buildCityWall();
 
     match.bank.updatePlayerAsset(city.owner, 'buildCityWall');

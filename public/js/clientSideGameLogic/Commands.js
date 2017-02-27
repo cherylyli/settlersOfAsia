@@ -68,9 +68,44 @@ CommandsData.buildShip = function (vertex1, vertex2) {
     edge(vertex1, vertex2);
 };
 
+/**
+ *
+ * @param vertex {int}
+ * @return {{position: int}}
+ */
 CommandsData.buildCityWall = function (vertex) {
+    return {'position': vertex};
+};
 
-}
+/**
+ *
+ * @param cityImprovementCategory  {String}
+ */
+CommandsData.buyCityImprovement = function (cityImprovementCategory) {
+    return {'cityImprovementCategory': cityImprovementCategory};
+};
+
+/**
+ *
+ * @param oldVertex1 {int}  vertex 1 < vertex 2
+ * @param oldVertex2 {int}
+ * @param newVertex1 {int}
+ * @param newVertex2 {int}
+ */
+CommandsData.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2) {
+    let oldPosition = edge(oldVertex1, oldVertex2);
+    let newPosition = edge(newVertex1, newVertex2);
+    return {'oldPosition': oldPosition, 'newPosition': newPosition};
+};
+
+
+CommandsData.tradeWithBank = function () {
+
+};
+
+
+//Commands.discardResourceCards
+
 
 
 /**
@@ -80,6 +115,7 @@ CommandsData.buildCityWall = function (vertex) {
 CommandsData.endTurn = function () {
     return null;
 };
+
 
 
 let edge = function (vertex1, vertex2) {
