@@ -128,7 +128,12 @@ let edge = function (vertex1, vertex2) {
 
 
 
-update = function (room) {
+
+let update = function (room) {
+    if (room.match) {
+        Map.addHelperFunction(room.match.map);
+    }
+
     // modify room here
     // ...
     // ...
