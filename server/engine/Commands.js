@@ -15,6 +15,7 @@ let Cost = require('./gameLogic/Cost.js');
 let Knight = require('./gameLogic/Knight.js');
 let Trade = require('./gameLogic/Trade.js');
 let Enum = require('./gameLogic/Enum.js');
+let notify  = require('../api/notify.js');
 
 
 let Commands = module.exports = {};
@@ -332,7 +333,7 @@ Commands.tradeWithBank = function (userName, roomID, src, tradeFor) {
 Commands.discardResourceCards = function (userName, roomID, cards) {
     let player = DATA.getPlayer(userName, roomID);
     player.discardCards(cards);
-}
+};
 
 /**
  * create trade object, notifies all the other players about the trade offer.
@@ -345,7 +346,7 @@ Commands.requestTrade = function (offer, request) {
     /**
      * TODO: communication
      */
-}
+};
 
 
 /**
@@ -356,7 +357,7 @@ Commands.requestTrade = function (offer, request) {
  */
 Commands.acceptTrade = function (player) {
 
-}
+};
 
 
 /**
@@ -371,7 +372,7 @@ Commands.tradeWithPlayer = function (userNameA, userNameB, roomID, trade) {
     let playerB = DATA.getPlayer(userNameB, roomID);
     let match = DATA.getMatch(roomID);
     match.bank.tradeWithPlayer(playerA, playerB, trade);
-}
+};
 
 
 /**
@@ -382,7 +383,7 @@ Commands.stealCard = function (thiefUserName, victimUserName, roomID) {
     let playerA = DATA.getPlayer(thiefUserName, roomID);
     let playerB = DATA.getPlayer(victimUserName, roomID);
     playerB.stolenBy(playerA);
-}
+};
 
 
 /**
@@ -392,7 +393,7 @@ Commands.stealCard = function (thiefUserName, victimUserName, roomID) {
  */
 Commands.discardProgressCard = function (player, progressCard) {
 
-}
+};
 
 
 /**
@@ -400,10 +401,10 @@ Commands.discardProgressCard = function (player, progressCard) {
  * @param roomID
  * @return {String} the name of the player to take next turn
  */
-
 Commands.endTurn = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
-    return match.nextPlayerToTakeTurn();
-}
+    match.nextPlayerToTakeTurn();
+    notify(match.currentPlayer, 'TAKE_TURN');
+};
 
 //progress card stuff will be added later..

@@ -38,7 +38,7 @@
                         <div class='yellow dice center-contained' v-on:click='rollDice'></div>
                         <div class='black dice center-contained' v-on:click='rollDice'></div>
                     </div>
-                    <div id='end-turn' class='ui-btn'><i class="fa fa-check" aria-hidden="true"></i>Finish</div>
+                    <div id='end-turn' class='ui-btn' v-on:click='endTurn'><i class="fa fa-check" aria-hidden="true"></i>Finish</div>
                     <div id='trade' class='ui-btn'><i class="fa fa-handshake-o" aria-hidden="true"></i>Trade</div>
                 </div>
                 <div class='cards'>
@@ -102,6 +102,7 @@
     <script src="/js/standard.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/plugins/socket-adapter.js"></script>
+    <script src="/js/clientSideGameLogic/Map.js"></script>
     <script src="/js/clientSideGameLogic/Commands.js"></script>
     <script src="/js/room.js"></script>
 </body>

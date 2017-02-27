@@ -1,6 +1,4 @@
-/**
- * Created by emol on 2/24/1
-*/
+
 let Commands = {};
 let CommandsData = {};
 let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn'};
@@ -118,6 +116,7 @@ CommandsData.endTurn = function () {
 
 
 
+/**
 let edge = function (vertex1, vertex2) {
     //TODO: check if vertex 1 and vertex2 is a edge
 
@@ -125,6 +124,7 @@ let edge = function (vertex1, vertex2) {
     if (vertex1 < vertex2) return [vertex1, vertex2];
     return [vertex2, vertex1];
 };
+ **/
 
 
 

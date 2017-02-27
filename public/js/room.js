@@ -160,6 +160,7 @@ $(window).on('imready', function(im){
             },
             
             endTurn: function () {
+                Commands.endTurn();
             }
         }
     });
