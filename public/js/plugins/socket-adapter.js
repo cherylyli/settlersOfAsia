@@ -34,7 +34,7 @@
                 data = window.update(data);
             }
             // return data
-            console.log('[Socket] got', event, JSON.parse(JSON.stringify(data)));
+            console.log('[Socket] got', event, CircularJSON.parse(CircularJSON.stringify(data)));
             fn(data);
         });
     };
