@@ -20,7 +20,6 @@ _.each(CommandName, function(cmd){
 
     sock.on(cmd + 'Ack', function (msg) {
         alert(cmd + 'Ack');
-        update(msg);
         console.log(room.match);
     });
 
