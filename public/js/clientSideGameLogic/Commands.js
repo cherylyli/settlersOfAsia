@@ -15,7 +15,7 @@ Commands.exec = function(commandName, data){
 _.each(CommandName, function(cmd){
 
     Commands[cmd] = function(){
-        sock.emit(cmd, CommandsData[cmd](arguments));
+        sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };
 
     sock.on(cmd + 'Ack', function (msg) {
@@ -62,7 +62,7 @@ CommandsData.buildRoad = function (vertex1, vertex2) {
  * @param vertex2
  */
 CommandsData.buildShip = function (vertex1, vertex2) {
-    return edge(vertex1, vertex2);
+    return Map.edge(vertex1, vertex2);
 };
 
 /**
