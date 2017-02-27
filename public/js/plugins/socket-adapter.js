@@ -31,7 +31,7 @@
             if (_.isString(data)) data = CircularJSON.parse(data);
             // if data is room object, do additional operation
             if (isRoom(data)) {
-                data = window.update(data);
+                data = update(data);
             }
             // return data
             console.log('[Socket] got', event, CircularJSON.parse(CircularJSON.stringify(data)));
