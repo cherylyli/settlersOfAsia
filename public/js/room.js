@@ -23,8 +23,8 @@ $(document).ready(function(){
 $(window).on('imready', function(im){
 
     $("button").attr('disabled', 'disabled').click(function () {
-        alert("sfd");
-        Commands.exec(CommandName.rollDice, CommandsData.rollDice());
+        // alert("sfd");
+        // Commands.exec(CommandName.rollDice, CommandsData.rollDice());
         /**
         let input1 = parseInt($("input[name='input1']").val());
         let input2 = parseInt($("input[name='input2']").val());
@@ -146,7 +146,7 @@ $(window).on('imready', function(im){
             log: function(user, action, system){
                 this.logs.push({ user, action, system });
                 NextTick(function(){
-                    $('#log').scrollTop($('#log')[0].scrollHeight);
+                    $('#log .msgs').scrollTop($('#log .msgs')[0].scrollHeight);
                 });
             },
 
@@ -155,6 +155,11 @@ $(window).on('imready', function(im){
                 var content = $('#log input').val();
                 sock.emit('send-message', content);
                 $('#log input').val('');
+            },
+
+            // roll dice
+            rollDice: function(){
+                Commands.rollDice();
             }
         }
     });

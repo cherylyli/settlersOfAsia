@@ -34,9 +34,9 @@
                 </div>
                 <div class='common'>
                     <div class='dices'>
-                        <div class='red dice center-contained'></div>
-                        <div class='yellow dice center-contained'></div>
-                        <div class='black dice center-contained'></div>
+                        <div class='red dice center-contained' v-on:click='rollDice'></div>
+                        <div class='yellow dice center-contained' v-on:click='rollDice'></div>
+                        <div class='black dice center-contained' v-on:click='rollDice'></div>
                     </div>
                     <div id='end-turn' class='ui-btn'><i class="fa fa-check" aria-hidden="true"></i>Finish</div>
                     <div id='trade' class='ui-btn'><i class="fa fa-handshake-o" aria-hidden="true"></i>Trade</div>

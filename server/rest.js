@@ -4,6 +4,7 @@ var async = require('async');
 var _h = require('./api/helper_functions.js');
 var Uuid  = require('uuid');
 var User = require('../models/user.js');
+var notify  = require('./api/notify.js');
 
 
 
