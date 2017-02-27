@@ -41,7 +41,7 @@ $(window).on('imready', function(im){
     let roomId = window.location.pathname.split("/").pop();
 
     // parse a fake room data just for test
-    var room = window.room = {users: []};
+    //var room = window.room = {users: []};
     
 
     // template for user
@@ -72,6 +72,8 @@ $(window).on('imready', function(im){
 
 
     sock.on('NEW_PLAYER_JOINED', function (msg) {
+        let room = CircularJSON.parse(msg);
+        app.room = room;
        //alert('NEW_PLAYER_JOINED');
        //change ui
     });

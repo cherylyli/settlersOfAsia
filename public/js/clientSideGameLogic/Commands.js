@@ -3,9 +3,9 @@
 */
 let Commands = {};
 let CommandsData = {};
-let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'endTurn': 'endTurn'};
+let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn'};
 
-let room = null;
+let room = {users: {}};
 
 /**
 Commands.exec = function(commandName, data){
@@ -23,7 +23,7 @@ _.each(CommandName, function(cmd){
     sock.on(cmd + 'Ack', function (msg) {
         alert(cmd + 'Ack');
         update(msg);
-        console.log(match);
+        console.log(room.match);
     });
 
 });
@@ -56,10 +56,21 @@ CommandsData.buildEstablishment = function(vertex, establishmentLV){
  */
 CommandsData.buildRoad = function (vertex1, vertex2) {
     edge(vertex1, vertex2);
+};
+
+
+/**
+ *
+ * @param vertex1
+ * @param vertex2
+ */
+CommandsData.buildShip = function (vertex1, vertex2) {
+    edge(vertex1, vertex2);
+};
+
+CommandsData.buildCityWall = function (vertex) {
+
 }
-
-
-
 
 
 /**
@@ -68,7 +79,7 @@ CommandsData.buildRoad = function (vertex1, vertex2) {
  */
 CommandsData.endTurn = function () {
     return null;
-}
+};
 
 
 let edge = function (vertex1, vertex2) {
@@ -77,8 +88,8 @@ let edge = function (vertex1, vertex2) {
     //check if vertex is less then vertex 2
     if (vertex1 < vertex2) return [vertex1, vertex2];
     return [vertex2, vertex1];
-}
+};
 
 update = function (msg) {
     room = CircularJSON.parse(msg);
-}
+};
