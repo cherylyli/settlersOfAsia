@@ -3,7 +3,7 @@
  */
 
 
-
+let Map = {};
 
 Map.addHelperFunctions = function (map) {
 
@@ -85,7 +85,7 @@ Map.addHelperFunctions = function (map) {
 
 
 //edge is just a array of two vertices (integer), the smaller integer is the first one
-let edge= function(v1, v2) {
+Map.edge= function(v1, v2) {
     //check here if valid edge
     if (v1 < v2) return [v1, v2];
     return [v2, v1];

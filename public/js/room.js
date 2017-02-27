@@ -161,6 +161,10 @@ $(window).on('imready', function(im){
             
             endTurn: function () {
                 Commands.endTurn();
+            },
+
+            buildRoad: function () {
+                Commands.buildRoad(1, 2);
             }
         }
     });

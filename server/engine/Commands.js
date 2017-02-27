@@ -87,7 +87,7 @@ Commands.startGame = function (roomID) {
     //if (!room.match){
         //create new match
         room.startGame();
-        return room.match.nextPlayerToTakeTurn();
+        return room.match.currentPlayer;
 
     //}
 
@@ -404,7 +404,7 @@ Commands.discardProgressCard = function (player, progressCard) {
 Commands.endTurn = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     match.nextPlayerToTakeTurn();
-    notify(match.currentPlayer, 'TAKE_TURN');
+    notify.user(match.currentPlayer, 'TAKE_TURN');
 };
 
 //progress card stuff will be added later..

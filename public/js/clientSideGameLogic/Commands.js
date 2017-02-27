@@ -19,9 +19,8 @@ _.each(CommandName, function(cmd){
     };
 
     sock.on(cmd + 'Ack', function (msg) {
-        alert(cmd + 'Ack');
-        update(msg);
-        console.log(room.match);
+        //alert(cmd + 'Ack');
+        console.log(msg);
     });
 
 });
@@ -53,7 +52,7 @@ CommandsData.buildEstablishment = function(vertex, establishmentLV){
  * @param vertex2
  */
 CommandsData.buildRoad = function (vertex1, vertex2) {
-    edge(vertex1, vertex2);
+    return Map.edge(vertex1, vertex2);
 };
 
 
@@ -63,7 +62,7 @@ CommandsData.buildRoad = function (vertex1, vertex2) {
  * @param vertex2
  */
 CommandsData.buildShip = function (vertex1, vertex2) {
-    edge(vertex1, vertex2);
+    return edge(vertex1, vertex2);
 };
 
 /**
@@ -131,7 +130,8 @@ let edge = function (vertex1, vertex2) {
 
 let update = function (room) {
     if (room.match) {
-        Map.addHelperFunction(room.match.map);
+
+        Map.addHelperFunctions(room.match.map);
     }
 
     // modify room here
