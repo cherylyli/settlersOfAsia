@@ -152,8 +152,8 @@ Commands.exec = function(commandName, data){
  * @param newVertex2 {int}
  */
     CommandsData.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2) {
-        let oldPosition = edge(oldVertex1, oldVertex2);
-        let newPosition = edge(newVertex1, newVertex2);
+        let oldPosition = Map.edge(oldVertex1, oldVertex2);
+        let newPosition = Map.edge(newVertex1, newVertex2);
         return {'oldPosition': oldPosition, 'newPosition': newPosition};
     };
 
