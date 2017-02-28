@@ -207,6 +207,19 @@ $(window).on('imready', function(im){
         $('#cmd-table .op[data-cmd="' + cmd + '"]').show();
     });
 
+    // use up/down arrows to choose command
+    $(document).keydown(function(e){
+        if (!$('#cmd-table .cmd').is(':visible')) return;
+        if (e.which == 38){ // up
+            var $e = $('#cmd-table .cmd.chosen').first().prev();
+            if ($e.length) $e.click();
+        }
+        else if (e.which == 40){ // down
+            var $e = $('#cmd-table .cmd.chosen').first().next();
+            if ($e.length) $e.click();
+        }
+    });
+
 
 
 

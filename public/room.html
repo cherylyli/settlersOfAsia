@@ -98,18 +98,25 @@
                 <div class="pop_close_img center-cropped"></div>
             </div>
         </div>
-        <div class="cmds">
-            <div class="cmd dot chosen" data-cmd="rollDice">Roll dice</div>
-            <div class="cmd dot" data-cmd="buildEstablishment">Build establishment</div>
-            <div class="cmd dot" data-cmd="buildRoad">Build road</div>
-            <div class="cmd dot" data-cmd="buildShip">Build shop</div>
-            <div class="cmd dot" data-cmd="buildCityWall">Build city wall</div>
-            <div class="cmd dot" data-cmd="buyCityImprovement">Buy city improvement</div>
-            <div class="cmd dot" data-cmd="moveShip">Move ship</div>
-            <div class="cmd dot" data-cmd="tradeWithBank">Trade with bank</div>
-        </div>
-        <div class='ops'>
-            <div class="op chosen" data-cmd="rollDice">sadf</div>
+        <div class='wrap'>
+            <div class="cmds">
+                <div class="cmd dot chosen" data-cmd="buildEstablishment" v-on:click='buildEstablishment'>Build establishment</div>
+                <div class="cmd dot" data-cmd="buildRoad" v-on:click='buildRoad'>Build road</div>
+                <div class="cmd dot" data-cmd="buildShip" v-on:click='buildShip'>Build shop</div>
+                <div class="cmd dot" data-cmd="buildCityWall" v-on:click='buildCityWall'>Build city wall</div>
+                <div class="cmd dot" data-cmd="buyCityImprovement" v-on:click='buyCityImprovement'>Buy city improvement</div>
+                <div class="cmd dot" data-cmd="moveShip" v-on:click='moveShip'>Move ship</div>
+                <div class="cmd dot" data-cmd="tradeWithBank" v-on:click='tradeWithBank'>Trade with bank</div>
+            </div>
+            <div class='ops'>
+                <div class="op chosen" data-cmd="buildEstablishment">Build establishment</div>
+                <div class="op" data-cmd="buildRoad">Build road</div>
+                <div class="op" data-cmd="buildShip">Build shop</div>
+                <div class="op" data-cmd="buildCityWall">Build city wall</div>
+                <div class="op" data-cmd="buyCityImprovement">Buy city improvement</div>
+                <div class="op" data-cmd="moveShip">Move ship</div>
+                <div class="op" data-cmd="tradeWithBank">Trade with bank</div>
+            </div>
         </div>
     </div>
 

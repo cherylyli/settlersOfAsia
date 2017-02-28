@@ -344,6 +344,12 @@ body{
   -ms-transition: all 0.15s;
 }
 
+#cmd-table .wrap{
+    position: absolute;
+    top: 34px; left: 0; right: 0;
+    bottom: 0; width: 100%;
+}
+
 #cmd-table .cmds{
   float: left;
   padding: 3px;
