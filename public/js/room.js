@@ -158,14 +158,38 @@ $(window).on('imready', function(im){
             rollDice: function(){
                 Commands.rollDice();
             },
-            
+
+            buildEstablishment: function () {
+                //get variable 
+                let vertex = 2; //position of the 
+                let establishmentLV = Enum.SettlementLV;
+                Commands.buildEstablishment(vertex, establishmentLV);
+            },
+
             endTurn: function () {
                 Commands.endTurn();
             },
 
             buildRoad: function () {
                 Commands.buildRoad(1, 2);
+            },
+            
+            buildShip: function () {
+                let vertex1 = 3;
+                let vertex2 = 4;
+                Commands.buildShip(vertex1, vertex2);
+            },
+            
+            buyCityImprovement: function () {
+                let cityImprovementCategory =  Enum.cityImprovementCategory.Politics;
+                Commands.buyCityImprovement(cityImprovementCategory);
+            },
+
+            buildCityWall: function () {
+                let vertex = 2;
+                Commands.buildCityWall(vertex);
             }
+
         }
     });
 
