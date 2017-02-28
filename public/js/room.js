@@ -104,6 +104,10 @@ $(window).on('imready', function(im){
                 { user: 'jack', action: 'places a road.', system: true },             
                 { user: 'Max', action: "stop cheating man", system: false },             
                 { user: 'Emol', action: "i aint cheating -_-", system: false }             
+            ],
+            cmds: [
+                "buildEstablishment", "buildRoad", "buildShip", "buildCityWall", 
+                "buyCityImprovement", "moveShip", "tradeWithBank", "endTurn"
             ]
         },
         mounted: function(){
@@ -116,14 +120,24 @@ $(window).on('imready', function(im){
             adjustUI();
         },
         filters: {
-            capitalize: beautify.capitalize
+            capitalize: beautify.capitalize,
+            startCase: function(text){
+                var result = text.replace( /([A-Z])/g, " $1" );
+                var capped = result.charAt(0).toUpperCase() + result.slice(1);
+                return capped;
+            }
         },
         methods: {
+            call: function(fn){
+                this[fn]();
+            },
+
             // make 'my' point to my object inside users
             setMy: function(){
                 var my = this.room.users[myObj.username];
                 if (my) this.my = my;
             },
+
             // save match
             save: function(){
                 Toast.show('Saved!');
@@ -154,17 +168,41 @@ $(window).on('imready', function(im){
                 $('#log input').val('');
             },
 
-            // roll dice
-            rollDice: function(){
-                Commands.rollDice();
-            },
-            
             endTurn: function () {
                 Commands.endTurn();
             },
 
+            // roll dice
+            rollDice: function(){
+                Commands.rollDice();
+            },
+
+            buildEstablishment: function(){
+                console.log('buildEstablishment')
+            },
+
             buildRoad: function () {
                 Commands.buildRoad(1, 2);
+            },
+
+            buildShip: function(){
+                console.log('buildShip')
+            },
+
+            buildCityWall: function(){
+                console.log('buildCityWall')
+            },
+
+            buyCityImprovement: function(){
+                console.log('buyCityImprovement')
+            },
+
+            moveShip: function(){
+                console.log('moveShip')
+            },
+
+            tradeWithBank: function(){
+                console.log('tradeWithBank')
             }
         }
     });
@@ -189,6 +227,7 @@ $(window).on('imready', function(im){
     // display symbol table
     $(document).on('click', '#trigger-cmd-table', function(){
         $('#cmd-table').show();
+        if (!$('#cmd-table .cmd.chosen').length) $('#cmd-table .cmd').first().click();
     });
 
     // hide symbol table by clicking on 'X' or press 'ESC' key
@@ -211,11 +250,11 @@ $(window).on('imready', function(im){
     $(document).keydown(function(e){
         if (!$('#cmd-table .cmd').is(':visible')) return;
         if (e.which == 38){ // up
-            var $e = $('#cmd-table .cmd.chosen').first().prev();
+            var $e = $('#cmd-table .cmd.chosen:visible').first().prev();
             if ($e.length) $e.click();
         }
         else if (e.which == 40){ // down
-            var $e = $('#cmd-table .cmd.chosen').first().next();
+            var $e = $('#cmd-table .cmd.chosen:visible').first().next();
             if ($e.length) $e.click();
         }
     });
