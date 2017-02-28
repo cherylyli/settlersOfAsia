@@ -8,6 +8,10 @@
     let getMatch = function () {
         return  window.app.room.match;
     };
+
+    let getMyPlayerObj = function () {
+        return getMatch().players[myObj.username];
+    }
 /**
 Commands.exec = function(commandName, data){
     sock.emit(commandName, data);
@@ -39,8 +43,13 @@ Commands.exec = function(commandName, data){
         return null;
     };
 
+    //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
     CommandCheck.rollDice = function () {
-
+        if (getMatch().diceRolled){
+            alert("Dice already rolled!");
+            return false;
+        } 
+        return true;
     };
 
 /**
@@ -51,6 +60,10 @@ Commands.exec = function(commandName, data){
     CommandsData.buildEstablishment = function(vertex, establishmentLV){
        return {'position': vertex, 'establishmentLV': establishmentLV};
     };
+    
+    CommandCheck.buildEstablishment = function () {
+        
+    }
 
 
 /**
@@ -132,7 +145,20 @@ let edge = function (vertex1, vertex2) {
 };
  **/
 
-
+/**
+ *
+ * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
+ */
+    let checkEnoughResource = function (cost) {
+        let resources = getMyPlayerObj().resourcesAndCommodities;
+        for (let cardName in cost){
+            if (cost[cardName] > resources[cardName]){
+                alert("Not enough "+ cardName + "!");
+                return false
+            }
+        }
+        return true;
+    };
 
 
     let update = function (room) {
@@ -147,6 +173,8 @@ let edge = function (vertex1, vertex2) {
         window.app.room = room; // update room in view
         return room;
     };
+
+
 
 //})();
 
