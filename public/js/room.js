@@ -106,7 +106,7 @@ $(window).on('imready', function(im){
                 { user: 'Emol', action: "i aint cheating -_-", system: false }             
             ],
             cmds: [
-                "buildEstablishment", "buildRoad", "buildShip", "buildCityWall", 
+                "buildEstablishment", "buildRoad", "buildShip", "buildCityWall",
                 "buyCityImprovement", "moveShip", "tradeWithBank"
             ]
         },
@@ -177,25 +177,38 @@ $(window).on('imready', function(im){
                 Commands.rollDice();
             },
 
-            buildEstablishment: function(){
-                console.log('buildEstablishment')
+            buildEstablishment: function () {
+                //get variable
+                let vertex = 2; //position of the
+                let establishmentLV = Enum.SettlementLV;
+                Commands.buildEstablishment(vertex, establishmentLV);
+            },
+
+            endTurn: function () {
+                Commands.endTurn();
             },
 
             buildRoad: function () {
                 Commands.buildRoad(1, 2);
             },
 
-            buildShip: function(){
-                console.log('buildShip')
+            buildShip: function () {
+                let vertex1 = 3;
+                let vertex2 = 4;
+                Commands.buildShip(vertex1, vertex2);
             },
 
-            buildCityWall: function(){
-                console.log('buildCityWall')
+            buyCityImprovement: function () {
+                let cityImprovementCategory =  Enum.cityImprovementCategory.Politics;
+                Commands.buyCityImprovement(cityImprovementCategory);
             },
 
-            buyCityImprovement: function(){
-                console.log('buyCityImprovement')
+            buildCityWall: function () {
+                let vertex = 2;
+                Commands.buildCityWall(vertex);
             },
+
+
 
             moveShip: function(){
                 console.log('moveShip')
@@ -204,6 +217,7 @@ $(window).on('imready', function(im){
             tradeWithBank: function(){
                 console.log('tradeWithBank')
             }
+
         }
     });
 
