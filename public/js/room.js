@@ -98,6 +98,7 @@ $(window).on('imready', function(im){
             me: myObj,
             my: fakeUser,
             room: room,
+            Enum: Enum,
             logs: [
                 { user: null, action: 'The game starts.', system: true },
                 { user: 'Yuan', action: 'places a city.', system: true },
@@ -178,34 +179,33 @@ $(window).on('imready', function(im){
             },
 
             buildEstablishment: function () {
-                //get variable
-                let vertex = 2; //position of the
-                let establishmentLV = Enum.SettlementLV;
+                var {vertex, establishmentLV } = getInput('vertex', 'establishmentLV');
                 Commands.buildEstablishment(vertex, establishmentLV);
             },
 
             buildRoad: function () {
-                Commands.buildRoad(1, 2);
+                var {vertex1, vertex2} = getInput('vertex1', 'vertex2');
+                Commands.buildRoad(vertex1, vertex2);
             },
 
             buildShip: function () {
-                let vertex1 = 3;
-                let vertex2 = 4;
+                var {vertex1, vertex2} = getInput('vertex1', 'vertex2');
                 Commands.buildShip(vertex1, vertex2);
             },
 
             buyCityImprovement: function () {
-                let cityImprovementCategory =  Enum.cityImprovementCategory.Politics;
+                var cityImprovementCategory =  Enum.cityImprovementCategory.Politics;
                 Commands.buyCityImprovement(cityImprovementCategory);
             },
 
             buildCityWall: function () {
-                let vertex = 2;
+                var {vertex} = getInput('vertex');
                 Commands.buildCityWall(vertex);
             },
 
             moveShip: function(){
-                console.log('moveShip')
+                var {o1, o2, n1, n2} = getInput('oldVertex1', 'oldVertex2', 'newVertex1', 'newVertex2');
+                CommandsData.moveShip(o1, o2, n1, n2);
             },
 
             tradeWithBank: function(){
@@ -267,6 +267,24 @@ $(window).on('imready', function(im){
         }
     });
 
+    // return true if input is a number or a stringified number
+    function isNum(n){
+        if (_.isNumber(n)) return true;
+        if (String(parseInt(n)) == String(n)) return true;
+        return false;
+    }
+
+    // Get command table inputs based on the name attribute, return key-value pairs.
+    // If value resembles to number, it's converted to number
+    function getInput(arr){
+        var data = {};
+        var $p = $('#cmd-table .op:visible').first();
+        _.each(arguments || arr, function(name){
+            var val = $p.find(`[name="${name}"]`).val();
+            data[name] = isNum(val) ? parseFloat(val) : val;
+        });
+        return data;
+    }
 
 
 

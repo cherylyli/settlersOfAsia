@@ -102,22 +102,120 @@
                 <div class='ops'>
                     <div class="op" v-for='command in cmds' v-bind:data-cmd="command">
 
+                        <!-- build establishment -->
                         <div v-if='command == "buildEstablishment"'>
                             <div class="weui-cells weui-cells_form">
                                 <div class="weui-cell">
                                     <div class="weui-cell__hd"><label class="weui-label">Vertex ID</label></div>
                                     <div class="weui-cell__bd">
-                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex'>
                                     </div>
                                 </div>
                                 <div class="weui-cell weui-cell_select weui-cell_select-after">
                                     <div class="weui-cell__hd"><label class="weui-label">Establishment</label></div>
                                     <div class="weui-cell__bd">
-                                        <select class="weui-select">
+                                        <select class="weui-select" name='establishmentLV'>
                                             <option selected="" value="1">Settlement</option>
                                             <option value="2">City</option>
                                             <option value="3">Metropolitan</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- build road -->
+                        <div v-else-if='command == "buildRoad"'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Vertex 1</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex1'>
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Vertex 2</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex2'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- build ship -->
+                        <div v-else-if='command == "buildShip"'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Vertex 1</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex1'>
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Vertex 2</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex2'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- build city wall -->
+                        <div v-else-if='command == "buildCityWall"'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Vertex</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- build city improvement -->
+                        <div v-else-if='command == "buyCityImprovement"'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                                    <div class="weui-cell__hd"><label class="weui-label">Category</label></div>
+                                    <div class="weui-cell__bd">
+                                        <select class="weui-select" name='establishmentLV'>
+                                            <option v-for='category in Enum.cityImprovementCategory' v-bind:value="category">{{category}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- move ship -->
+                        <div v-else-if='command == "moveShip"'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Old vertex 1</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='oldVertex1'>
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Old vertex 2</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='oldVertex2'>
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">New vertex 1</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='newVertex1'>
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">New vertex 2</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='newVertex1'>
                                     </div>
                                 </div>
                             </div>
@@ -149,6 +247,7 @@
     <script src="/js/standard.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/plugins/socket-adapter.js"></script>
+    <script src="/js/clientSideGameLogic/Enum.js"></script>
     <script src="/js/clientSideGameLogic/Map.js"></script>
     <script src="/js/clientSideGameLogic/Commands.js"></script>
     <script src="/js/room.js"></script>
