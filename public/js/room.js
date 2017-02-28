@@ -206,6 +206,46 @@ $(window).on('imready', function(im){
     });
 
 
+    // ----------------------------------------- Command Table ----------------------------------------- //
+
+    $('#cmd-table').draggable();
+
+    // display symbol table
+    $(document).on('click', '#trigger-cmd-table', function(){
+        $('#cmd-table').show();
+    });
+
+    // hide symbol table by clicking on 'X' or press 'ESC' key
+    function hideCmdTable(){
+        $('#cmd-table').hide();
+    }
+    $('#cmd-table .pop_close').click(hideCmdTable);
+    $(document).keyup(function(e) { if (e.keyCode == 27) hideCmdTable() });
+
+    // choose a command
+    $('#cmd-table .cmd').click(function(){
+        $('#cmd-table .cmd').removeClass('chosen');
+        $(this).addClass('chosen');
+        var cmd = $(this).attr('data-cmd');
+        $('#cmd-table .op').hide();
+        $('#cmd-table .op[data-cmd="' + cmd + '"]').show();
+    });
+
+    // use up/down arrows to choose command
+    $(document).keydown(function(e){
+        if (!$('#cmd-table .cmd').is(':visible')) return;
+        if (e.which == 38){ // up
+            var $e = $('#cmd-table .cmd.chosen').first().prev();
+            if ($e.length) $e.click();
+        }
+        else if (e.which == 40){ // down
+            var $e = $('#cmd-table .cmd.chosen').first().next();
+            if ($e.length) $e.click();
+        }
+    });
+
+
+
 
 
 
