@@ -253,20 +253,7 @@ $(window).on('imready', function(im){
         $(this).addClass('chosen');
         var cmd = $(this).attr('data-cmd');
         $('#cmd-table .op').hide();
-        $('#cmd-table .op[data-cmd="' + cmd + '"]').show();
-    });
-
-    // use up/down arrows to choose command
-    $(document).keydown(function(e){
-        if (!$('#cmd-table .cmd').is(':visible')) return;
-        if (e.which == 38){ // up
-            var $e = $('#cmd-table .cmd.chosen:visible').first().prev();
-            if ($e.length) $e.click();
-        }
-        else if (e.which == 40){ // down
-            var $e = $('#cmd-table .cmd.chosen:visible').first().next();
-            if ($e.length) $e.click();
-        }
+        $('#cmd-table .op[data-cmd="' + cmd + '"]').show().find('input:first, select:first').eq(0).focus();
     });
 
     // return true if input is a number or a stringified number
