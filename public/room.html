@@ -222,6 +222,28 @@
                         </div>
 
 
+                        <!-- trade with bank -->
+                        <div v-else-if='command == "tradeWithBank"'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                                    <div class="weui-cell__hd"><label class="weui-label">Source</label></div>
+                                    <div class="weui-cell__bd">
+                                        <select class="weui-select" name='src'>
+                                            <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                                    <div class="weui-cell__hd"><label class="weui-label">Trade for</label></div>
+                                    <div class="weui-cell__bd">
+                                        <select class="weui-select" name='tradeFor'>
+                                            <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div v-else>didnt code this shit yet</div>
                         <div class='confirm ui-btn' v-on:click='call(command)'><i class="fa fa-check"></i> Confirm</div>

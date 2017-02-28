@@ -210,7 +210,8 @@ $(window).on('imready', function(im){
             },
 
             tradeWithBank: function(){
-                console.log('tradeWithBank')
+                var {src, tradeFor} = getInput();
+                Commands.tradeWithBank(src, tradeFor);
             }
 
         }
