@@ -179,37 +179,39 @@ $(window).on('imready', function(im){
             },
 
             buildEstablishment: function () {
-                var {vertex, establishmentLV } = getInput('vertex', 'establishmentLV');
+                var {vertex, establishmentLV } = getInput();
                 Commands.buildEstablishment(vertex, establishmentLV);
             },
 
             buildRoad: function () {
-                var {vertex1, vertex2} = getInput('vertex1', 'vertex2');
+                var {vertex1, vertex2} = getInput();
                 Commands.buildRoad(vertex1, vertex2);
             },
 
             buildShip: function () {
-                var {vertex1, vertex2} = getInput('vertex1', 'vertex2');
+                var {vertex1, vertex2} = getInput();
                 Commands.buildShip(vertex1, vertex2);
             },
 
             buyCityImprovement: function () {
-                var cityImprovementCategory =  Enum.cityImprovementCategory.Politics;
+                var {category} = getInput();
+                var cityImprovementCategory =  Enum.cityImprovementCategory[category];
                 Commands.buyCityImprovement(cityImprovementCategory);
             },
 
             buildCityWall: function () {
-                var {vertex} = getInput('vertex');
+                var {vertex} = getInput();
                 Commands.buildCityWall(vertex);
             },
 
             moveShip: function(){
-                var {o1, o2, n1, n2} = getInput('oldVertex1', 'oldVertex2', 'newVertex1', 'newVertex2');
-                CommandsData.moveShip(o1, o2, n1, n2);
+                var {oldVertex1, oldVertex2, newVertex1, newVertex2} = getInput();
+                Commands.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2);
             },
 
             tradeWithBank: function(){
-                console.log('tradeWithBank')
+                var {src, tradeFor} = getInput();
+                Commands.tradeWithBank(src, tradeFor);
             }
 
         }
@@ -274,13 +276,13 @@ $(window).on('imready', function(im){
         return false;
     }
 
-    // Get command table inputs based on the name attribute, return key-value pairs.
+    // Get command table inputs based on name attributes, return key-value pairs.
     // If value resembles to number, it's converted to number
-    function getInput(arr){
+    function getInput(){
         var data = {};
-        var $p = $('#cmd-table .op:visible').first();
-        _.each(arguments || arr, function(name){
-            var val = $p.find(`[name="${name}"]`).val();
+        $('#cmd-table .op:visible [name]').each(function(){
+            var name = $(this).attr('name');
+            var val = $(this).val();
             data[name] = isNum(val) ? parseFloat(val) : val;
         });
         return data;

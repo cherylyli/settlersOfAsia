@@ -37,4 +37,8 @@ Enum.AdditionalCityResources = Object.freeze({'GoldField': 'Gold', 'Field': 'Gra
 Enum.Resource = Object.freeze({"Lumber":"Lumber", "Wool":"Wool", "Ore":"Ore", "Brick":"Brick", "Grain":"Grain", "Gold": "Gold"});
 Enum.Commodity = Object.freeze({"Coin":"Coin", "Cloth":"Cloth", "Paper":"Paper"});
 
+Enum.Tradable = {
+	"Lumber":"Lumber", "Wool":"Wool", "Ore":"Ore", "Brick":"Brick", "Grain":"Grain", "Gold": "Gold",
+	"Coin":"Coin", "Cloth":"Cloth", "Paper":"Paper"
+};
 
