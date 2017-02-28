@@ -110,10 +110,14 @@
                                         <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID">
                                     </div>
                                 </div>
-                                <div class="weui-cell">
-                                    <div class="weui-cell__hd"><label class="weui-label">Establ level</label></div>
+                                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                                    <div class="weui-cell__hd"><label class="weui-label">Establishment</label></div>
                                     <div class="weui-cell__bd">
-                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="1: settlement, 2: city, 3: metropolitan">
+                                        <select class="weui-select">
+                                            <option selected="" value="1">Settlement</option>
+                                            <option value="2">City</option>
+                                            <option value="3">Metropolitan</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
