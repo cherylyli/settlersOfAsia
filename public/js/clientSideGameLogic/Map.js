@@ -9,6 +9,16 @@ Map.addHelperFunctions = function (map) {
 
     /**
      *
+     * @param edge {edge}
+     * @return {Building}
+     */
+    map.getEdgeInfo = function (edge) {
+        return map.edgeInfo[edgeKey(edge)];
+    };
+
+
+    /**
+     *
      * @param vertex {int}
      * @return {Building|Knight}
      */

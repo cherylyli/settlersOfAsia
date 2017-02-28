@@ -83,6 +83,10 @@ Commands.exec = function(commandName, data){
 
         //connected to one road
 
+        //distance rule - you may only build a settlement at an intersection if all 3 of the adjacent intersections are vacant (i.e., none are occupied by any settlements or cities—even yours
+
+        //if you have more than 5 settlements, you have to upgrade one to a city before you build another one
+
         return true;
     }
 
@@ -152,8 +156,8 @@ Commands.exec = function(commandName, data){
  * @param newVertex2 {int}
  */
     CommandsData.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2) {
-        let oldPosition = edge(oldVertex1, oldVertex2);
-        let newPosition = edge(newVertex1, newVertex2);
+        let oldPosition = Map.edge(oldVertex1, oldVertex2);
+        let newPosition = Map.edge(newVertex1, newVertex2);
         return {'oldPosition': oldPosition, 'newPosition': newPosition};
     };
 

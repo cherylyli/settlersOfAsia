@@ -27,6 +27,12 @@ Map.createMap = function (hexTileNum) {
     map.vertexInfo = [];
     map.edgeInfo = {}; //key: "vertes1-vertex2", e.g. edge[12, 23] -> "12-23"
     map.hexTileInfo = [];
+    map.edgeMap = [150];
+
+    for (let i = 0; i<150; i++){
+        map.edgeMap[i] = {};
+    }
+
     map.piratePositon = 1;  //for testing, change it later
     map.robborPositon = 2;
 
@@ -89,7 +95,17 @@ Map.createMap = function (hexTileNum) {
      */
     map.setEdgeInfo = function (edgeUnit, edge) {
         map.edgeInfo[edgeKey(edge)] = edgeUnit;
-    }
+    };
+
+
+    /**
+     *
+     * @param vertex
+     * @return {Array<edge>}
+     */
+    map.getEdgeByVertex = function (vertex) {
+        return Object.values(map.edgeMap[vertex]);
+    };
 
     /**
      *
@@ -268,12 +284,12 @@ function setHexTileVertices(map){
 function setHexTileEdges(map){
     for (let id = 1; id < map.hexTiles.length; id++){
         let hexTile = map.hexTiles[id - 1];
-        hexTile.edge.TopLeft = edge(hexTile.vertices.TopLeft, hexTile.vertices.Top);
-        hexTile.edge.TopRight = edge(hexTile.vertices.Top, hexTile.vertices.TopRight);
-        hexTile.edge.Right = edge(hexTile.vertices.TopRight, hexTile.vertices.BottomRight);
-        hexTile.edge.BottomRight = edge(hexTile.vertices.Bottom, hexTile.vertices.BottomRight);
-        hexTile.edge.BottomLeft = edge(hexTile.vertices.BottomLeft, hexTile.vertices.Bottom);
-        hexTile.edge.Left = edge(hexTile.vertices.TopLeft, hexTile.vertices.BottomLeft);
+        hexTile.edge.TopLeft = edge(hexTile.vertices.TopLeft, hexTile.vertices.Top, map);
+        hexTile.edge.TopRight = edge(hexTile.vertices.Top, hexTile.vertices.TopRight, map);
+        hexTile.edge.Right = edge(hexTile.vertices.TopRight, hexTile.vertices.BottomRight, map);
+        hexTile.edge.BottomRight = edge(hexTile.vertices.Bottom, hexTile.vertices.BottomRight, map);
+        hexTile.edge.BottomLeft = edge(hexTile.vertices.BottomLeft, hexTile.vertices.Bottom, map);
+        hexTile.edge.Left = edge(hexTile.vertices.TopLeft, hexTile.vertices.BottomLeft, map);
     }
 }
 
@@ -370,11 +386,20 @@ function setUpPartMap(map, tilesData, typeData, numsData){
 
 
 
+
 //edge is just a array of two vertices (integer), the smaller integer is the first one
-function edge(v1, v2) {
-    if (v1 < v2) return [v1, v2];
-    return [v2, v1];
+function edge(v1, v2, map) {
+    let e = null;
+    if (v1 < v2) {
+        e = [v1, v2];
+    }
+    else e = [v2, v1];
+
+    map.edgeMap[v1][edgeKey(e)] = e;
+    map.edgeMap[v2][edgeKey(e)] = e;
+    return e;
 }
+
 
 /**
  * convert edge to edge key used in map.edgeInfo
