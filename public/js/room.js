@@ -107,7 +107,7 @@ $(window).on('imready', function(im){
             ],
             cmds: [
                 "buildEstablishment", "buildRoad", "buildShip", "buildCityWall", 
-                "buyCityImprovement", "moveShip", "tradeWithBank", "endTurn"
+                "buyCityImprovement", "moveShip", "tradeWithBank"
             ]
         },
         mounted: function(){
