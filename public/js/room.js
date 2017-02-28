@@ -184,10 +184,6 @@ $(window).on('imready', function(im){
                 Commands.buildEstablishment(vertex, establishmentLV);
             },
 
-            endTurn: function () {
-                Commands.endTurn();
-            },
-
             buildRoad: function () {
                 Commands.buildRoad(1, 2);
             },
@@ -207,8 +203,6 @@ $(window).on('imready', function(im){
                 let vertex = 2;
                 Commands.buildCityWall(vertex);
             },
-
-
 
             moveShip: function(){
                 console.log('moveShip')
