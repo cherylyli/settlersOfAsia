@@ -2,6 +2,7 @@
  * Created by emol on 2/18/17.
  */
 let Cost = module.exports = {};
+let Enum = require('./Enum.js');
 
 //reference: http://www.unc.edu/~rvp/GameRules/RulesSettlersCitiesAndKnights.html 
 //TODO: progress cards + city improvements. 
