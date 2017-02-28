@@ -1,7 +1,9 @@
 //(function(){
     let Commands = {};
     let CommandsData = {};
-    let CommandName = {'rollDice' : 'rollDice', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn'};
+    let CommandName = {'rollDice' : 'rollDice', 'buildSettlement': 'buildSettlement', 'upgradeToCity': 'upgradeToCity', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn', 'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement', 'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank'};
+
+    //TODO: include check input & make the object not global
     let CommandCheck = {};
 
     let room = {users: {}};
@@ -57,13 +59,53 @@ Commands.exec = function(commandName, data){
  * @param vertex {int}   vertex id
  * @param establishmentLV {int} level 1 : settlement, level 2: city, level 3: metropolitan
  */
+//TODO: delete this function later
     CommandsData.buildEstablishment = function(vertex, establishmentLV){
        return {'position': vertex, 'establishmentLV': establishmentLV};
     };
-    
-    CommandCheck.buildEstablishment = function () {
-        
+
+
+    CommandsData.buildSettlement = function (vertex) {
+        return {'position': vertex};
+    };
+
+
+    CommandCheck.buildSettlement = function (vertex) {
+        if (!checkEnoughResource(Cost.buildSettlement)){
+            return false;
+        }
+
+        //check if the vertex is empty
+        if (getMatch().map.getVertexInfo(vertex)){
+            alert("Invalid position!");
+            return false;
+        }
+
+        //connected to one road
+
+        return true;
     }
+
+
+
+    CommandsData.upgradeToCity = function (vertex) {
+        return {'position': vertex};
+    };
+
+
+    CommandCheck.upgradeToCity = function (vertex) {
+        if (!checkEnoughResource(Cost.upgradeToCity)){
+            return false;
+        }
+
+        //check if there is a settlement in the vertex
+        if (getMatch().map.getVertexInfo(vertex) && getMatch().map.getVertexInfo(vertex).level == 1){
+            return true;
+        }
+
+        alert("Invalid operation!");
+        return false;
+    };
 
 
 /**
@@ -115,9 +157,13 @@ Commands.exec = function(commandName, data){
         return {'oldPosition': oldPosition, 'newPosition': newPosition};
     };
 
-
-    CommandsData.tradeWithBank = function () {
-
+/**
+ *
+ * @param src   {String} the name of the card
+ * @param tradeFor  {String} the name of the card
+ */
+    CommandsData.tradeWithBank = function (src, tradeFor) {
+        return {'src': src, 'tradeFor': tradeFor};
     };
 
 
@@ -160,11 +206,19 @@ let edge = function (vertex1, vertex2) {
         return true;
     };
 
+    let checkInput = function (input) {
+        _.each(input, function (param) {
+            if (typeof myVar == 'undefined') {
+                alert("Invalid input");
+                return false;
+            }
+        })
+    }
+
 
     let update = function (room) {
         if (room.match) {
-
-        Map.addHelperFunctions(room.match.map);
+            Map.addHelperFunctions(room.match.map);
         }
 
     // modify room here

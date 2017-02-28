@@ -2,12 +2,11 @@
  * Created by emol on 2/18/17.
  */
 let Cost = module.exports = {};
-let Enum = require('./Enum.js');
 
 //reference: http://www.unc.edu/~rvp/GameRules/RulesSettlersCitiesAndKnights.html 
 //TODO: progress cards + city improvements. 
 Cost.buildSettlement = {[Enum.Resource.Lumber]: 1, [Enum.Resource.Wool]: 1, [Enum.Resource.Brick]: 1, [Enum.Resource.Grain]: 1};
-Cost.buildCity ={[Enum.Resource.Brick]: 1, [Enum.Resource.Lumber]: 1, [Enum.Resource.Grain]: 1, [Enum.Resource.Wool]: 1};
+Cost.upgradeToCity ={[Enum.Resource.Brick]: 1, [Enum.Resource.Lumber]: 1, [Enum.Resource.Grain]: 1, [Enum.Resource.Wool]: 1};
 Cost.settlementToCity = {[Enum.Resource.Ore]: 3, [Enum.Resource.Grain]: 2};
 Cost.buildRoad = {[Enum.Resource.Lumber]: 1, [Enum.Resource.Brick]: 1};
 Cost.buildShip = {[Enum.Resource.Lumber]: 1, [Enum.Resource.Wool]: 1};
