@@ -128,6 +128,11 @@ Map.createMap = function (hexTileNum) {
     }
 
 
+    /**
+     *
+     * @param edge
+     * @return {Array} each item: [{int}hexTileID, {String}positionOfTheEdgeInThisHex]
+     */
     map.getHexTileByEdge = function(edge){
         let t1 = map.getHexTileByVertex(edge[0]);
         let t2 = map.getHexTileByVertex(edge[1]);
@@ -409,6 +414,19 @@ function edge(v1, v2, map) {
 function edgeKey(edge) {
     return edge[0] + '-' + edge[1];
 }
+
+
+/**
+ *
+ * @param edge  {edge}
+ * @param vertex    {int} this end
+ * @return {int} the other end
+ */
+Map.getOtherEndOfEdge = function (edge, vertex) {
+    if (edge[0] == vertex) return edge[1];
+    return edge[0];
+}
+
 /**
  *
  * @param arr
@@ -419,6 +437,7 @@ function PickRandomItem(arr) {
     let index = Math.random()*arr.length;
     return (arr.splice(index, 1))[0];
 }
+
 
 /**
  * helper function
@@ -436,6 +455,5 @@ function readMapInputToGenStrList(data) {
     }
     return result;
 }
-
-
 Map.setUpPartMap = setUpPartMap;
+

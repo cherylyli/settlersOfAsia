@@ -149,7 +149,7 @@ Commands.buildEstablishment = function (userName, roomID, data) {
     if (establishmentLv == 2){
         let building = player.getBuilding(position);
         building.upgradeToCity();
-        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'settlementToCity');
+        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'upgradeToCity');
     }
 
     else{
@@ -174,7 +174,7 @@ Commands.buildEstablishment = function (userName, roomID, data) {
 Commands.buildRoad = function (userName, roomID, data) {
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, data, match.map, 'road');
+    Building.buildRoad(player, data, match, 'road');
 
     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
 };
@@ -189,7 +189,7 @@ Commands.buildShip = function (userName, roomID, data) {
     //TODO: improvement, combine buildRoad and buildShip
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, data, match.map, 'ship');
+    Building.buildRoad(player, data, match, 'ship');
 
     match.bank.updatePlayerAsset(player,'buildShip');
 };

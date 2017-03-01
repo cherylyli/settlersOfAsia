@@ -31,6 +31,7 @@ Player.createPlayer = function (name, user) {
     player.progressCards = [];
     player.progressCardsCnt = 0;
     player.buildings = {};  //key: position (vertex index / int); value: building object
+    player.settlementCnt = 0;   //the number of settlements player has. used in check function -> player cannot have more than 5 settlements (he has to upgrade one to city build he builds another settlement
     player.roads = [];  // a list of edges
     player.ships = []  // a list of edges
     player.harbors = [];
