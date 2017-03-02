@@ -96,10 +96,14 @@ $(document).ready(function() {
     }
 
     function createAndPlaceAtLocation(x, y, id) {
-        createVertice(x - 10 + "px", (y + hex_height / 2) + "px", getVerticeId());
-        createVertice(x + hex_width_correction + "px", y + "px", getVerticeId());
-        x = x + "px";
-        y = y + "px";
+        // createVertice(x - 10 + "px", (y + hex_height / 2) + "px", getVerticeId());
+        // createVertice(x+ hex_width_correction + "px", y + "px", getVerticeId());
+
+        // createVertice(x*2.25 - 20 + "px", (y*2.25 + hex_height / 2) + "px", getVerticeId());
+        createVertice(x*1.6+ 100 + "px", y*2.25 + 20 + "px", getVerticeId());
+
+        x = x *1.8+ "px";
+        y = y *2.0+ "px";
         var newNode = document.createElement("div");
         newNode.setAttribute("data-id", "" + id);
         newNode.setAttribute("class", "hexagon");

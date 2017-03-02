@@ -11,10 +11,10 @@
 
 #board .hexagon {
     position: absolute;
-    width: 50px; 
-    height: 50px;
+    width: 110px; 
+    height: 110px;
     background:url("/img/room/hex.png");
-    background-size: 50px 50px;
+    background-size: 110px 110px;
     transition: all 0.15s;
     z-index: 0;  
     cursor: pointer;
