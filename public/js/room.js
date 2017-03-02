@@ -69,8 +69,15 @@ $(window).on('imready', function(im){
 
 
     sock.on('NEW_PLAYER_JOINED', function (msg) {
-       //alert('NEW_PLAYER_JOINED');
-       //change ui
+    });
+
+
+    sock.on('NEW_ROOM_OWNER', function (msg) {
+        alert("Now you are the owner of this room!");
+        //TODO: maybe gives the room owner some priviledge like setting the map etc
+    });
+
+    sock.on('A_PLAYER_LEFT_ROOM', function (msg) {
     });
 
     sock.on('GAME_START', function (msg) {
@@ -81,7 +88,7 @@ $(window).on('imready', function(im){
 
     sock.on('TAKE_TURN', function (msg) {
         alert('Take turn');
-        $("button").removeAttr('disabled');
+        app.isMyTurn = true;
     });
 
     
@@ -109,7 +116,8 @@ $(window).on('imready', function(im){
             cmds: [
                 "buildEstablishment", "buildRoad", "buildShip", "buildCityWall",
                 "buyCityImprovement", "moveShip", "tradeWithBank"
-            ]
+            ],
+            isMyTurn: false
         },
         mounted: function(){
             $('body').showV();
@@ -180,6 +188,10 @@ $(window).on('imready', function(im){
 
             buildEstablishment: function () {
                 var {vertex, establishmentLV } = getInput();
+                /**
+                if (establishmentLV == 1){
+                    if (CommandCheck.buildSettlement())
+                }**/
                 Commands.buildEstablishment(vertex, establishmentLV);
             },
 

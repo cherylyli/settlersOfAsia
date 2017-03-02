@@ -3,7 +3,7 @@ var _ = require("underscore");
 var engine = require('./engine/engine.js');
 let User = require('./engine/gameLogic/User.js');
 var notify  = require('./api/notify.js');
-
+let Commands = require('./engine/Commands.js');
 
 // ------------------- helper functions -------------------
 
@@ -58,6 +58,7 @@ io.on('connection', function (socket) {
         if (!socket.room) return;
         socket.leave(socket.room, function () {
             debug(`${username} left room ${socket.room}`);
+            Commands.leaveRoom(username, socket.room);
             socket.room = null;
         });
     }

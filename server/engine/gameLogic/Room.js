@@ -33,16 +33,16 @@ Room.createRoom = function (RoomID, creatorName) {
         let gameRoomID = this.id;
         this.users[user.username] = Player.createPlayer(user.username, user);
         if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
-            this.state = enums.GameRoomStateReady;
+            this.state = enums.GameRoomState.Ready;
         }
         if (Object.keys(this.users).length  == MAX_PLAYER_NUM ){
             this.state = enums.GameRoomState.Full;
         }
-    }
+    };
 
     gameRoom.isFull = function () {
         return this.state == enums.GameRoomState.Full;
-    }
+    };
 
     /**
      * whenever a new user joins the rooms, calls this function to check whether they can start game.

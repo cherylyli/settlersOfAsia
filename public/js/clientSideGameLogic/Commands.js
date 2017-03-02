@@ -434,6 +434,7 @@ getAvailbleEdgesToMoveTo =function () {
  * @return {null}
  */
     CommandsData.endTurn = function () {
+        app.isMyTurn = false;
         return null;
     };
 

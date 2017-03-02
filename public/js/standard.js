@@ -521,6 +521,9 @@ window.FakeSocket = {
     emit: function(){}
 };
 
+window.Raw = function (data) {
+    return CircularJSON.parse(CircularJSON.stringify(data));
+}
 
 
 $( document ).ready(function () {
@@ -798,7 +801,9 @@ $( document ).ready(function () {
         else window.history.back();
     });
 
-    
+
+
+
 
 
 
