@@ -230,22 +230,36 @@ $(window).on('imready', function(im){
     });
 
 
+
+
+
+
     // ----------------------------------------- Command Table ----------------------------------------- //
 
     $('#cmd-table').draggable();
 
-    // display symbol table
-    $(document).on('click', '#trigger-cmd-table', function(){
+    // display command table
+    function showCmdTable(){
         $('#cmd-table').show();
         if (!$('#cmd-table .cmd.chosen').length) $('#cmd-table .cmd').first().click();
-    });
+    }
+    $(document).on('click', '#trigger-cmd-table', showCmdTable);
 
-    // hide symbol table by clicking on 'X' or press 'ESC' key
+    // hide command table by clicking on 'X' or press 'ESC' key
     function hideCmdTable(){
-        $('#cmd-table').hide();
+        var $p = $('#cmd-table');
+        clearHighlightedCommands(); 
+        clearHighlightedVertices(); 
+        $p.find('input').val('');
+        $p.hide();
     }
     $('#cmd-table .pop_close').click(hideCmdTable);
     $(document).keyup(function(e) { if (e.keyCode == 27) hideCmdTable() });
+
+    // check if cmd table is visible
+    function isCmdTableVisible(){
+        return $('#cmd-table').is(':visible');
+    }
 
     // choose a command
     $('#cmd-table .cmd').click(function(){
@@ -276,6 +290,110 @@ $(window).on('imready', function(im){
     }
 
 
+
+
+
+
+    // ----------------------------------------- Map actions ----------------------------------------- //
+
+    // clear highlighted vertices
+    function clearHighlightedVertices($except){
+        var $p = $('#cmd-table');
+        var $map = $('#board .map');
+        $map.find('.vertice').not($except).removeClass('ctrl-clicked')
+    }
+
+    // clear highlighted commands
+    function clearHighlightedCommands(){
+        var $p = $('#cmd-table');
+        var $map = $('#board .map');
+        $p.find('.cmds .cmd').removeClass('matched'); // remove highlighted commands
+    }
+
+    // count number of highlighted vertices
+    function highlightedVertices(){
+        return $('#board .map .vertice.ctrl-clicked').length;
+    }
+
+    // highlight a vertex
+    function highlightVertex($e){
+        $e.addClass('ctrl-clicked');
+    }
+
+    // check if element has class
+    function isNot($e, cls){
+        return (!$e.hasClass(cls) && !$e.closest('.'+cls).length);
+    }
+
+    // un-highlight vertices when click elsewhere
+    $('#board').click(function(e){
+        if (isNot($(e.target), 'vertice')) clearHighlightedVertices();
+    });
+
+    // click on vertex
+    $('#board').on('click', '.vertice', function(e){
+        if (isCmdTableVisible()) return false;
+        // if more than 2 select, clear
+        if (highlightedVertices() > 2) clearHighlightedVertices();
+        // when vertex is clicked while ctrl is pressed, select it
+        if (e.ctrlKey) highlightVertex($(this));
+        // if ctrl-clicked vertices accumulate to 2 -> edge operation
+        if (highlightedVertices() == 2) {
+            showEdgeOperations();
+        }
+        // if click on single vertex -> vertex operation
+        else if (!e.ctrlKey){
+            highlightVertex($(this));
+            showVertexOpeartions($(this));
+        }
+    });
+
+    // click on 1 vertex
+    function showVertexOpeartions($e){
+        var id = $e.attr('data-id');
+        var $p = $('#cmd-table');
+        var $ops = $p.find(`[vertex-needed="1"]`);
+        var cmds = $ops.map(function(){
+            return $(this).closest('.op').attr("data-cmd");
+        });
+        var $btns = $p.find('.cmds .cmd').filter(function(){
+            return _.contains(cmds, $(this).attr('data-cmd'));
+        });
+        // highlight buttons for each matched opration
+        $btns.addClass('matched');
+        // fill vertex id for each matched operation
+        $ops.find('input').val(id);
+        // display first matched opeartion
+        showCmdTable();
+        $btns.first().click();
+    }
+
+    // click on 2 vertices
+    function showEdgeOperations(){
+        var $map = $('#board .map');
+        var $cmd = $('#cmd-table');
+        var $v1 = $map.find('.ctrl-clicked').eq(0);
+        var $v2 = $map.find('.ctrl-clicked').eq(1);
+        var id1 = $v1.attr('data-id');
+        var id2 = $v2.attr('data-id');
+        var $ops = $cmd.find(`[vertex-needed="2"]`);
+        var cmds = $ops.map(function(){
+            return $(this).closest('.op').attr("data-cmd");
+        });
+        var $btns = $cmd.find('.cmds .cmd').filter(function(){
+            return _.contains(cmds, $(this).attr('data-cmd'));
+        });  
+        // highlight buttons for each matched opration
+        $btns.addClass('matched');
+        // fill vertex id for each matched operation
+        $ops.each(function(){
+            $(this).find('input').eq(0).val(id1);
+            $(this).find('input').eq(1).val(id2);
+        });
+        // display first matched opeartion
+        showCmdTable();
+        $btns.first().click();
+    }
 
 
 
