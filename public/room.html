@@ -13,6 +13,7 @@
     <link href="/css/plugins/rateyo.css" rel="stylesheet">
     <link href="/css/plugins/qtip.css" rel="stylesheet">
     <link href="/css/standard.css" rel="stylesheet">
+    <link href="/css/board.css" rel="stylesheet">
     <link href="/css/room.css" rel="stylesheet">
     <!-- <link href="/css/lobby.css" rel="stylesheet"> -->
 </head>
@@ -21,11 +22,10 @@
     <div id='page'>
         <div id='left-screen'>
             <div id='board' class='box-shadow-light'>
-                <button v-on:click='buildRoad'> hey</button>
-                <input type="text" name="input1">
-                <input type="text" name="input2">
+                <div class='map'></div>
 
             </div>
+
             <div id='utils' class='box-shadow-light'>
                 <div class='me'>
                     <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${me.profile_pic})`}'>
@@ -104,7 +104,7 @@
 
                         <!-- build establishment -->
                         <div v-if='command == "buildEstablishment"'>
-                            <div class="weui-cells weui-cells_form">
+                            <div class="weui-cells weui-cells_form" vertex-needed='1'>
                                 <div class="weui-cell">
                                     <div class="weui-cell__hd"><label class="weui-label">Vertex ID</label></div>
                                     <div class="weui-cell__bd">
@@ -126,7 +126,7 @@
 
 
                         <!-- build road -->
-                        <div v-else-if='command == "buildRoad"'>
+                        <div v-else-if='command == "buildRoad"' vertex-needed='2'>
                             <div class="weui-cells weui-cells_form">
                                 <div class="weui-cell">
                                     <div class="weui-cell__hd"><label class="weui-label">Vertex 1</label></div>
@@ -145,7 +145,7 @@
 
 
                         <!-- build ship -->
-                        <div v-else-if='command == "buildShip"'>
+                        <div v-else-if='command == "buildShip"' vertex-needed='2'>
                             <div class="weui-cells weui-cells_form">
                                 <div class="weui-cell">
                                     <div class="weui-cell__hd"><label class="weui-label">Vertex 1</label></div>
@@ -164,7 +164,7 @@
 
 
                         <!-- build city wall -->
-                        <div v-else-if='command == "buildCityWall"'>
+                        <div v-else-if='command == "buildCityWall"' vertex-needed='1'>
                             <div class="weui-cells weui-cells_form">
                                 <div class="weui-cell">
                                     <div class="weui-cell__hd"><label class="weui-label">Vertex</label></div>
@@ -273,6 +273,7 @@
     <script src="/js/clientSideGameLogic/Cost.js"></script>
     <script src="/js/clientSideGameLogic/Map.js"></script>
     <script src="/js/clientSideGameLogic/Commands.js"></script>
+    <script src="/js/board.js"></script>
     <script src="/js/room.js"></script>
 </body>
 </html>
