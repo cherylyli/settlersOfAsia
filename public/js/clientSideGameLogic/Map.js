@@ -59,6 +59,11 @@ Map.addHelperFunctions = function (map) {
     };
 
 
+    /**
+     *
+     * @param edge
+     * @return {Array} each item: [{int}hexTileID, {String}positionOfTheEdgeInThisHex]
+     */
     map.getHexTileByEdge = function(edge){
         let t1 = map.getHexTileByVertex(edge[0]);
         let t2 = map.getHexTileByVertex(edge[1]);
@@ -108,4 +113,15 @@ Map.edge= function(v1, v2) {
  */
 function edgeKey(edge) {
     return edge[0] + '-' + edge[1];
+}
+
+/**
+ *
+ * @param edge  {edge}
+ * @param vertex    {int} this end
+ * @return {int} the other end
+ */
+Map.getOtherEndOfEdge = function (edge, vertex) {
+    if (edge[0] == vertex) return edge[1];
+    return edge[0];
 }

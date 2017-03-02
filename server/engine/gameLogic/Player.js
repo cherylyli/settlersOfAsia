@@ -31,12 +31,13 @@ Player.createPlayer = function (name, user) {
     player.progressCards = [];
     player.progressCardsCnt = 0;
     player.buildings = {};  //key: position (vertex index / int); value: building object
-    player.roads = [];  // a list of edges
-    player.ships = []  // a list of edges
+    player.settlementCnt = 0;   //the number of settlements player has. used in check function -> player cannot have more than 5 settlements (he has to upgrade one to city build he builds another settlement
+    player.roads = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
+    player.ships = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
     player.harbors = [];
     player.knights = [];
     player.metropolitans = [];  //a list of integer -> position of the metropolitan
-    player.cityImprovement = {'trade': 0, 'politics': 0, 'science': 0};
+    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
 
 
     /**TODO: Yuan change this later. Some stuff may not be able to trade!!
@@ -66,7 +67,7 @@ Player.createPlayer = function (name, user) {
             sum += currentPlayer.resourceAndCommandities[card];
         }
         return sum;
-    }
+    };
 
     /**
      * this player is stolen by another player, will return the card type that's being stoled.
@@ -92,7 +93,7 @@ Player.createPlayer = function (name, user) {
         player.resourceAndCommandities[keys[stolenCard]]--;
         
         return keys[stolenCard];
-    }
+    };
 
     /**
      *
@@ -101,7 +102,7 @@ Player.createPlayer = function (name, user) {
     player.updateVP = function(points){
         player.VP += points;
         player.match.checkPlayerVP(this);
-    }
+    };
 
 
     /**
@@ -111,7 +112,7 @@ Player.createPlayer = function (name, user) {
      */
     player.getBuilding = function (vertex) {
         return player.buildings[vertex];
-    }
+    };
 
 
     /**
@@ -126,7 +127,7 @@ Player.createPlayer = function (name, user) {
             }
         }
         return cities;
-    }
+    };
 
     /**
      *
@@ -139,7 +140,7 @@ Player.createPlayer = function (name, user) {
             }
         }
         return settlements;
-    }
+    };
 
 
     /**
@@ -150,7 +151,7 @@ Player.createPlayer = function (name, user) {
     player.progCardSum = function(){
         player.progressCardsCnt = player.progressCards.length;
         return player.progressCardsCnt;
-    }
+    };
 
     //player.progressCards = ["Bishop","Alchemist","Crane"];
     //var disProgCards = [ "Crane","Alchemist"];
@@ -165,7 +166,7 @@ Player.createPlayer = function (name, user) {
             }
         }
         player.progCardSum();
-    }
+    };
 
     /*
     console.log(player.progCardSum());
@@ -272,7 +273,7 @@ Player.createPlayer = function (name, user) {
             max = Math.max (curLen, max);
         }
         console.log("length of longest road is " + max);**/
-    }
+    };
 
 
     /**
@@ -283,7 +284,7 @@ Player.createPlayer = function (name, user) {
     player.buyCityImprovement = function(cityImprovementCategory){
         player.cityImprovement[cityImprovementCategory] ++;
         return player.cityImprovement[cityImprovementCategory];
-    }
+    };
 
     return player;
 

@@ -37,6 +37,7 @@ Building.buildSettlement = function (player, vertex, map) {
 
         building.cityWall = false;
         building.owner.updateVP(VP.upgradeTocity);
+        building.owner.settlementCnt --;    //because one of the settlement is upgraded to city
     }
 
     building.buildCityWall = function(){
@@ -75,14 +76,14 @@ Building.buildSettlement = function (player, vertex, map) {
  *  build road or ship
  * @param player {Player}
  * @param edge {Edge}
- * @param map {Map}
+ * @param match {Match}
  * @param type {String} road/ ship
  */
-Building.buildRoad = function (player, edge, map, type) {
+Building.buildRoad = function (player, edge, match, type) {
     //-----------------improvement needed-----------------
     let road = {'owner': player, 'type': type};
     //update map info
-    map.setEdgeInfo(road, edge);
+    match.map.setEdgeInfo(road, edge);
    /**
     let neighborHexTiles = map.getHexTileByEdge(edge);
     for (let i = 0; i<neighborHexTiles.length; i++){
@@ -93,7 +94,7 @@ Building.buildRoad = function (player, edge, map, type) {
     }**/
 
     //update player info
-    player[ type + 's'].push(edge);
+    player[ type + 's'][Map.edgeKey(edge)] = edge;
     player.calculateLongestRoad();
 
     if (type == 'ship'){
@@ -103,11 +104,30 @@ Building.buildRoad = function (player, edge, map, type) {
          * @param oldPosition {Edge}
          * @param newPostion  {Edge}
          */
-        road.move = function(oldPosition, newPostion){
-            map.setEdgeInfo(undefined, oldPosition);
-            map.setEdgeInfo(this, newPostion);
+        road.move = function(oldPosition, newPosition){
+            match.map.setEdgeInfo(undefined, oldPosition);
+            match.map.setEdgeInfo(this, newPosition);
+            delete player[type + 's'][Map.edgeKey(oldPosition)];
+            player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
+
+
             this.owner.calculateLongestRoad();
-        }
+        };
+
+        road.builtTurnNum = match.turnNum;
+
+
+        /**
+         * TODO: implement this
+         * @return {Array<edge>}
+         */
+        road.getAvailbleEdgesToMoveTo = function () {
+            return [];
+        };
+
+        road.getPositionToPlaceAnShip = function () {
+            return [];
+        };
     }
     //-----------------------------------------------------
 }
@@ -135,5 +155,6 @@ function updateInfo(map, building){
     //update player info
     building.owner.buildings[building.position] = building;
     building.owner.updateVP(VP.buildSettlement);
+    building.owner.settlementCnt ++;
 }
 

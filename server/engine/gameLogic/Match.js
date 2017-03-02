@@ -36,9 +36,11 @@ Match.createNewMatch = function (scenario, players) {
     match.map = match.scenario.setUpMap(match.scenario.data);
     match.dice = Dice.createDice();
     match.diceRolled = false;
+    match.shipMoved = false;
     match.bank = Bank.createBank(match);
     match.longestRoad = 0;
     match.phase = null;
+    match.turnNum = 0;
    // match.currentPlayer =
 
     assignColors(match);
@@ -69,6 +71,7 @@ Match.createNewMatch = function (scenario, players) {
         if (this.playersToTakeTurn.length == 0){
             //all players have token turn, start from the first player again
             this.playersToTakeTurn = Object.keys(this.players);
+            this.turnNum ++;
 
             switch (this.phase){
                 case null:
@@ -95,6 +98,8 @@ Match.createNewMatch = function (scenario, players) {
             if (this.phase == Enum.MatchPhase.TurnPhase){
                 match.diceRolled = false;
                 match.dice.productionDiceSet = false;
+                match.shipMoved = false;
+
             }
         }
         return match.currentPlayer;

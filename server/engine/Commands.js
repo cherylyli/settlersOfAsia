@@ -148,8 +148,10 @@ Commands.buildEstablishment = function (userName, roomID, data) {
     //!!payment and action are separate!!
     if (establishmentLv == 2){
         let building = player.getBuilding(position);
+        //TODO: for testing, delete later
+        if (!building) building = Building.buildSettlement(player, position, map);
         building.upgradeToCity();
-        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'settlementToCity');
+        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'upgradeToCity');
     }
 
     else{
@@ -174,7 +176,7 @@ Commands.buildEstablishment = function (userName, roomID, data) {
 Commands.buildRoad = function (userName, roomID, data) {
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, data, match.map, 'road');
+    Building.buildRoad(player, data, match, 'road');
 
     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
 };
@@ -189,7 +191,7 @@ Commands.buildShip = function (userName, roomID, data) {
     //TODO: improvement, combine buildRoad and buildShip
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, data, match.map, 'ship');
+    Building.buildRoad(player, data, match, 'ship');
 
     match.bank.updatePlayerAsset(player,'buildShip');
 };
@@ -225,9 +227,10 @@ Commands.chooseCityToBePillaged = function (userName, roomID, vertex) {
  * @param roomID {String}
  * @param cityImprovementCategory {String}
  */
-Commands.buyCityImprovement = function (userName, roomID, cityImprovementCategory) {
+Commands.buyCityImprovement = function (userName, roomID, data) {
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
+    let cityImprovementCategory = data.cityImprovementCategory;
     let level = player.buyCityImprovement(cityImprovementCategory);
 
     match.bank.updatePlayerAsset(player, 'cityImprove_' + cityImprovementCategory + '_' + level);
@@ -239,8 +242,10 @@ Commands.buyCityImprovement = function (userName, roomID, cityImprovementCategor
  * @param oldPosition {[int, int]} Edge
  * @param newPosition {[int, int]} Edge
  */
-Commands.moveShip = function (userName, roomID, oldPosition, newPosition) {
+Commands.moveShip = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
+    let oldPosition = data.oldPosition;
+    let newPosition = data.newPosition;
     let ship = match.map.getEdgeInfo(oldPosition);
     ship.move(oldPosition, newPosition);
 };
@@ -320,7 +325,9 @@ Commands.chaseAwayThief = function (userName, roomID, position, thiefPosition, n
 /**
  *
  */
-Commands.tradeWithBank = function (userName, roomID, src, tradeFor) {
+Commands.tradeWithBank = function (userName, roomID, data) {
+    let src = data.src;
+    let tradeFor = data.tradeFor;
     let player = DATA.getPlayer(userName, roomID);
     let match = DATA.getMatch(roomID);
     match.bank.tradeWithBank(player, src, tradeFor);
