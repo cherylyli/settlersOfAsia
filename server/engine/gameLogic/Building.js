@@ -83,7 +83,7 @@ Building.buildRoad = function (player, edge, match, type) {
     //-----------------improvement needed-----------------
     let road = {'owner': player, 'type': type};
     //update map info
-    map.setEdgeInfo(road, edge);
+    match.map.setEdgeInfo(road, edge);
    /**
     let neighborHexTiles = map.getHexTileByEdge(edge);
     for (let i = 0; i<neighborHexTiles.length; i++){
@@ -94,7 +94,7 @@ Building.buildRoad = function (player, edge, match, type) {
     }**/
 
     //update player info
-    player[ type + 's'].push(edge);
+    player[ type + 's'][Map.edgeKey(edge)] = edge;
     player.calculateLongestRoad();
 
     if (type == 'ship'){
@@ -107,8 +107,12 @@ Building.buildRoad = function (player, edge, match, type) {
         road.move = function(oldPosition, newPosition){
             match.map.setEdgeInfo(undefined, oldPosition);
             match.map.setEdgeInfo(this, newPosition);
+            delete player[type + 's'][Map.edgeKey(oldPosition)];
+            player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
+
+
             this.owner.calculateLongestRoad();
-        }
+        };
 
         road.builtTurnNum = match.turnNum;
 
@@ -119,11 +123,11 @@ Building.buildRoad = function (player, edge, match, type) {
          */
         road.getAvailbleEdgesToMoveTo = function () {
             return [];
-        }
+        };
 
         road.getPositionToPlaceAnShip = function () {
             return [];
-        }
+        };
     }
     //-----------------------------------------------------
 }

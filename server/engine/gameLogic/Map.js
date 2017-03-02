@@ -74,7 +74,7 @@ Map.createMap = function (hexTileNum) {
      * @return {Building}
      */
     map.getEdgeInfo = function (edge) {
-        return map.edgeInfo[edgeKey(edge)];
+        return map.edgeInfo[Map.edgeKey(edge)];
     }
 
 
@@ -94,7 +94,7 @@ Map.createMap = function (hexTileNum) {
      * @param edge {edge}
      */
     map.setEdgeInfo = function (edgeUnit, edge) {
-        map.edgeInfo[edgeKey(edge)] = edgeUnit;
+        map.edgeInfo[Map.edgeKey(edge)] = edgeUnit;
     };
 
 
@@ -289,12 +289,12 @@ function setHexTileVertices(map){
 function setHexTileEdges(map){
     for (let id = 1; id < map.hexTiles.length; id++){
         let hexTile = map.hexTiles[id - 1];
-        hexTile.edge.TopLeft = edge(hexTile.vertices.TopLeft, hexTile.vertices.Top, map);
-        hexTile.edge.TopRight = edge(hexTile.vertices.Top, hexTile.vertices.TopRight, map);
-        hexTile.edge.Right = edge(hexTile.vertices.TopRight, hexTile.vertices.BottomRight, map);
-        hexTile.edge.BottomRight = edge(hexTile.vertices.Bottom, hexTile.vertices.BottomRight, map);
-        hexTile.edge.BottomLeft = edge(hexTile.vertices.BottomLeft, hexTile.vertices.Bottom, map);
-        hexTile.edge.Left = edge(hexTile.vertices.TopLeft, hexTile.vertices.BottomLeft, map);
+        hexTile.edge.TopLeft = Map.edge(hexTile.vertices.TopLeft, hexTile.vertices.Top, map);
+        hexTile.edge.TopRight = Map.edge(hexTile.vertices.Top, hexTile.vertices.TopRight, map);
+        hexTile.edge.Right = Map.edge(hexTile.vertices.TopRight, hexTile.vertices.BottomRight, map);
+        hexTile.edge.BottomRight = Map.edge(hexTile.vertices.Bottom, hexTile.vertices.BottomRight, map);
+        hexTile.edge.BottomLeft = Map.edge(hexTile.vertices.BottomLeft, hexTile.vertices.Bottom, map);
+        hexTile.edge.Left = Map.edge(hexTile.vertices.TopLeft, hexTile.vertices.BottomLeft, map);
     }
 }
 
@@ -393,15 +393,15 @@ function setUpPartMap(map, tilesData, typeData, numsData){
 
 
 //edge is just a array of two vertices (integer), the smaller integer is the first one
-function edge(v1, v2, map) {
+Map.edge = function(v1, v2, map) {
     let e = null;
     if (v1 < v2) {
         e = [v1, v2];
     }
     else e = [v2, v1];
 
-    map.edgeMap[v1][edgeKey(e)] = e;
-    map.edgeMap[v2][edgeKey(e)] = e;
+    map.edgeMap[v1][Map.edgeKey(e)] = e;
+    map.edgeMap[v2][Map.edgeKey(e)] = e;
     return e;
 }
 
@@ -411,7 +411,7 @@ function edge(v1, v2, map) {
  * @param edge {edge}
  * @return {string}
  */
-function edgeKey(edge) {
+Map.edgeKey = function(edge) {
     return edge[0] + '-' + edge[1];
 }
 

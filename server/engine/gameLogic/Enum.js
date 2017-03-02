@@ -7,6 +7,9 @@
 
 let Enum = module.exports = {};
 let PlayerState = {"LOBBY":'LOBBY', "GAME_ROOM":'GAME_ROOM'};
+Enum.SettlementLV = 1;
+Enum.CityLV = 2;
+Enum.cityImprovementCategory = {"Trade": "Trade", "Politics": "Politics", "Science": "Science"};
 
 /**
  * "Waiting" : Player number in the room is under the minimum required player number to start a game
