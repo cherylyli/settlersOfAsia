@@ -10,47 +10,33 @@
 let Enum = require('./Enum.js');
 let _ = require('underscore');
 let HexTile = require('./HexTile.js');
+let Scenario = require('./Scenario.js');
+let Harbor = require('./Harbor.js');
 
-let Map = module.exports = {};
+let Map = {} = module.exports;
 
-let mapHexTypeData = {'Sea':2, 'GoldField':2, 'Desert':1, 'Field':4, 'Forest':2, 'Pasture':4, 'Mountains':1, 'Hills':0};
-let mapTokenDate = {'5':3, '2':4, '9':9};
-let tileIDs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
 
-const numToken = {'2':1, '3':2, '4':3, '5':4, '6':5, '8':5, '9':4, '10':3, '11':2, '12':1};
+//const numToken = {'2':1, '3':2, '4':3, '5':4, '6':5, '8':5, '9':4, '10':3, '11':2, '12':1};
 
-Map.createMap = function (hexTileNum) {
+
+Map.createMap = function (scenarioData) {
     let map = {};
 
-    map.hexTileNum = hexTileNum;
+    map.hexTileNum = scenarioData.hexTileNum;
     map.hexTiles = [];
     map.vertexInfo = [];
     map.edgeInfo = {}; //key: "vertes1-vertex2", e.g. edge[12, 23] -> "12-23"
     map.hexTileInfo = [];
-    map.edgeMap = [150];
+    map.verticesToEdges = initVerticesToEdges(scenarioData.vertexNum);
+    //start from 1 (just use vertex id)
+    map.verticesToHex = initVerticesToHex(scenarioData.vertexNum);
+    map.row = initRow(scenarioData.hexTileNum);
+    map.numTokenToHexTiles = initNumTokenToHexTiles();
 
-    for (let i = 0; i<150; i++){
-        map.edgeMap[i] = {};
-    }
 
     map.piratePositon = 1;  //for testing, change it later
     map.robborPositon = 2;
-
-    //start from 1 (just use vertex id)
-    map.verticesToHex = [250];
-    //may be use edge map too
-    for (let i = 0; i<250; i++){
-        map.verticesToHex[i] = [];
-    }
-
-    //for number 3, numTokenToHexTiles[3]
-    map.numTokenToHexTiles = [13];
-    for (let i = 0; i< 13; i++){
-        map.numTokenToHexTiles[i] = [];
-    }
-
-
-    map.row = (hexTileNum == 37)? [4, 5, 6, 7, 6, 5, 4] : (hexTileNum == 44)? [4, 5, 6, 7, 7, 6, 5, 4] : [4, 5, 6, 7, 7, 7, 6, 5, 4];
+    map.harbors = {};   //key: edgeKey, value: harbor
 
 
     generateHexTiles(map);
@@ -65,7 +51,7 @@ Map.createMap = function (hexTileNum) {
      */
     map.getVertexInfo = function(vertex){
         return map.vertexInfo[vertex];
-    }
+    };
 
 
     /**
@@ -104,7 +90,7 @@ Map.createMap = function (hexTileNum) {
      * @return {Array<edge>}
      */
     map.getEdgeByVertex = function (vertex) {
-        return Object.values(map.edgeMap[vertex]);
+        return Object.values(map.verticesToEdges[vertex]);
     };
 
     /**
@@ -115,7 +101,7 @@ Map.createMap = function (hexTileNum) {
     map.getHexTileById = function(hexTileId){
         if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
         return map.hexTiles[hexTileId - 1];
-    }
+    };
 
     /**
      *
@@ -125,7 +111,7 @@ Map.createMap = function (hexTileNum) {
     map.getHexTileByVertex = function(vertex){
         if (vertex < 1 || vertex >= 250 || !map.verticesToHex[vertex]) throw "Invalid vertex";
         return map.verticesToHex[vertex];
-    }
+    };
 
 
     /**
@@ -152,7 +138,7 @@ Map.createMap = function (hexTileNum) {
         }
         if (!result) throw "Invalid edge";
         return result;
-    }
+    };
 
     /**
      * @return a list of hexTiles (not id, hexTile objec)
@@ -160,7 +146,7 @@ Map.createMap = function (hexTileNum) {
      */
     map.getHexTileByNumToken = function(map, numToken){
         return map.numTokenToHexTiles[numToken];
-    }
+    };
 
 
 
@@ -168,6 +154,61 @@ Map.createMap = function (hexTileNum) {
     return map;
 };
 
+
+Map.setUpHarbors = function (map, harborPositions, harborTypesData) {
+    let harborTypes = readMapInputToGenStrList(harborTypesData);
+    while (harborPositions.length > 0){
+        let edge = PickRandomItem(harborPositions);
+        let harborType = PickRandomItem(harborTypes);
+        map.harbors[Map.edgeKey(edge)] = Harbor.createHarbor(edge, harborType);
+    }
+};
+
+function initNumTokenToHexTiles() {
+    let numTokenToHexTiles = [13];
+    for (let i = 0; i< 13; i++){
+        numTokenToHexTiles[i] = [];
+    }
+    return numTokenToHexTiles;
+}
+
+/**
+ * @param vertexNum {int}
+ * @return {[[]]}
+ */
+function initVerticesToEdges(vertexNum) {
+    let verticesToEdges = [vertexNum + 1];
+    for (let i = 0; i <= vertexNum; i++){
+        verticesToEdges[i] = {};
+    }
+    return verticesToEdges;
+}
+
+/**
+ *
+ * @param vertexNum
+ * @return {[[]]}
+ */
+function initVerticesToHex(vertexNum) {
+    let verticesToHex = [vertexNum + 1];
+    for (let i = 0; i <= vertexNum; i++){
+        verticesToHex[i] = [];
+    }
+    return verticesToHex;
+}
+
+
+/**
+ *
+ * @param hexTileNum {int}
+ * @return {[number,number,number,number,number,number,number]}
+ */
+function initRow(hexTileNum) {
+    let row = (hexTileNum == 37)? [4, 5, 6, 7, 6, 5, 4] :
+        (hexTileNum == 44)?
+            [4, 5, 6, 7, 7, 6, 5, 4] : [4, 5, 6, 7, 7, 7, 6, 5, 4];
+    return row;
+}
 
 
 function generateHexTiles(map){
@@ -363,8 +404,7 @@ function setHexTilesRandomNumToken(map, hexTiles, numTokens){
     while(hexTiles.length > 0){
         hexId = PickRandomItem(hexTiles);
         token = PickRandomItem(numTokens);
-        if (numToken[token]) putNumTokenOnHexTile(map, parseInt(token), hexId);
-        else throw  "numToken does not exist";
+        putNumTokenOnHexTile(map, parseInt(token), hexId);
     }
 }
 
@@ -400,8 +440,8 @@ Map.edge = function(v1, v2, map) {
     }
     else e = [v2, v1];
 
-    map.edgeMap[v1][Map.edgeKey(e)] = e;
-    map.edgeMap[v2][Map.edgeKey(e)] = e;
+    map.verticesToEdges[v1][Map.edgeKey(e)] = e;
+    map.verticesToEdges[v2][Map.edgeKey(e)] = e;
     return e;
 }
 
@@ -425,12 +465,12 @@ Map.edgeKey = function(edge) {
 Map.getOtherEndOfEdge = function (edge, vertex) {
     if (edge[0] == vertex) return edge[1];
     return edge[0];
-}
+};
 
 /**
  *
  * @param arr
- * @returns {Array.<T>}
+ * @return {*|T}
  * @constructor
  */
 function PickRandomItem(arr) {
@@ -441,7 +481,7 @@ function PickRandomItem(arr) {
 
 /**
  * helper function
- * @param data (a object that specify map data) for mapHexTypeData and mapTokenDate
+ * @param data (a object that specify map data) for mapHexTypeData, mapTokenData and harborTypeData
  * @returns {Array} string array
  */
 function readMapInputToGenStrList(data) {

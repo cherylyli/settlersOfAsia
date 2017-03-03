@@ -156,5 +156,14 @@ function updateInfo(map, building){
     building.owner.buildings[building.position] = building;
     building.owner.updateVP(VP.buildSettlement);
     building.owner.settlementCnt ++;
+
+
+    //check if the the vertex can acquire unoccupied harbor
+    for (let edgeKey in map.harbors){
+        let harbor = map.harbors[edgeKey];
+        if (((harbor.position[0] == building.position) || (harbor.position[1] == building.position)) && !harbor.owner){
+            harbor.owner = building.owner;
+        }
+    }
 }
 

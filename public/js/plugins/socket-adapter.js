@@ -47,8 +47,8 @@
 
     // disconnect
     sock.disconnect = function(){
-    	socket.disconnect();
-        console.log('[Socket] disconnected.');
+    	//socket.disconnect();
+        //console.log('[Socket] disconnected.');
     };
 
     // original socket object
@@ -56,7 +56,7 @@
 
     // when page closes, disconnect socket
     window.onbeforeunload = function(e){
-        sock.emit('disconnect');
+        //sock.emit('disconnect');
     };
 
 
