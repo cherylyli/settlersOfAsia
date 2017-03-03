@@ -106,8 +106,8 @@ $(document).ready(function() {
 
         
 
-        x = x *1.8+ "px";
-        y = y *2.0+ "px";
+        xPx = x *1.8+ "px";
+        yPx = y *2.0+ "px";
         var newNode = document.createElement("div");
         newNode.setAttribute("data-id", "" + id);
         // newNode.setAttribute("class", "hexagon " + app.room.match.map.hexTiles[id-1]);
@@ -116,11 +116,18 @@ $(document).ready(function() {
         //     console.log(window.app.room);
         //     classAttr += window.app.room.match.map.hexTiles[id-1];
         // }
-        newNode.setAttribute("class", "hexagon Goldfield");
+        newNode.setAttribute("class", "hexagon");
         // newNode.setAttribute("class", "Sea");
         
-        newNode.style.top = y;
-        newNode.style.left = x;
+        newNode.style.top = yPx;
+        newNode.style.left = xPx;
+        var numNode = document.createElement("div");
+        numNode.setAttribute("data-id", "" + id);
+        numNode.setAttribute("class", "num");
+        numNode.style.top = y*2.0 + 50 + "px";
+        numNode.style.left = x*1.8 + 50+"px";
+
+        placeIntoWebpage(numNode);
         placeIntoWebpage(newNode);
     }
 

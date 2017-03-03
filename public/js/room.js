@@ -159,6 +159,7 @@ $(window).on('imready', function(im){
         },
         updated: function(){
             console.log('view updated');
+            updateHexTiles()
             adjustUI();
         },
         filters: {
@@ -283,7 +284,23 @@ $(window).on('imready', function(im){
 
     // change hex tile depending on room object
     function updateHexTiles(){
-        
+        console.log(app.room.match.map.hexTiles);
+        // for each hex tile, add class 
+        // $("#board.hexagon").find("[data-slide='" + current + "']");
+        if (app.room && app.room.match){
+            var hextiles = app.room.match.map.hexTiles;
+            for (var i = 0; i< hextiles.length; i++){
+                var select = ".hexagon[data-id='" + (i+1) + "']";
+                $(select).addClass(hextiles[i].type);
+                // console.log(select);
+                var selectNum = ".num[data-id='" + (i+1) + "']";
+                // console.log($(selectNum));
+                // console.log(hextiles[i].productionNum);
+                $(selectNum).attr('class', hextiles[i].productionNum+" num");
+                
+            }
+
+        }
     }
 
 
