@@ -81,14 +81,47 @@ $(window).on('imready', function(im){
     });
 
     sock.on('GAME_START', function (msg) {
-        alert('Game start');
+        swal({
+            title: 'GAME START!',
+            text: 'Are you prepared?',
+            timer: 10000
+        }).then(
+            function () {},
+            // handling the promise rejection
+            function (dismiss) {
+                if (dismiss === 'timer') {
+                    //TODO: .... maybe blur the map before the popup disappear?
+                }
+            }
+        );
+        /**
+        swal({
+            title: 'Game Start',
+            html: $('<div>')
+                .addClass('some-class')
+            animation: false,
+            customClass: 'animated tada'
+        });**/
+        //alert('Game start');
         //entry point for max's code
 
     });
 
     sock.on('TAKE_TURN', function (msg) {
-        alert('Take turn');
         app.isMyTurn = true;
+        swal({
+            title: 'TAKE TURN!',
+            text: 'Are you prepared?',
+            timer: 5000
+        }).then(
+            function () {},
+            // handling the promise rejection
+            function (dismiss) {
+                if (dismiss === 'timer') {
+                    //TODO: .... maybe blur the map before the popup disappear?
+                }
+            }
+        );
     });
 
 

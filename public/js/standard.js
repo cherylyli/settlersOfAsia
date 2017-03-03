@@ -467,6 +467,25 @@ window.swalError = function(){
     });
 };
 
+//swel error msg that allows customized error msg
+window.swalError2 = function (errMsg) {
+    swal(
+        'Oops...',
+        errMsg,
+        'error'
+    )
+};
+
+window.swalSucc = function (msg) {
+    swal(
+        'Good job!',
+        msg,
+        'success'
+    )
+
+};
+
+
 // a swal that only has title, use this if u want to only display
 // one sentence. The default swal has a gap that's awkward
 window.swal2 = function(options, cb){
@@ -479,6 +498,8 @@ window.swal2 = function(options, cb){
     options.text = "<" + tag + " style='margin-bottom:0;'>" + options.text + "</" + tag + ">";
     return swal(options, cb);
 };
+
+
 
 // alert telling use he must login/signup to use this function
 window.LoginAlert = function(){

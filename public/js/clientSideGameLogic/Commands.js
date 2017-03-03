@@ -1,7 +1,21 @@
 //(function(){
     let Commands = {};
     let CommandsData = {};
-    let CommandName = {'rollDice' : 'rollDice', 'buildSettlement': 'buildSettlement', 'upgradeToCity': 'upgradeToCity', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn', 'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement', 'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank'};
+    let CommandName = {'rollDice' : 'rollDice', 'buildSettlement': 'buildSettlement', 'upgradeToCity': 'upgradeToCity', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn', 'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement', 'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank', };
+
+    //TODO: some one good at English plz help me change this.... It's embarrassing...
+    let CommandSuccMsg = {
+        'rollDice': "Hummmmm...",
+        'buildEstablishment': 'Settlement is only the first step of our great journey.',
+        'buildSettlement': "Settlement is only the first step of our great journey.",
+        'upgradeToCity': 'Awesome, we have one more city!',
+        'buildRoad': 'We are expanding territory!',
+        'buildShip': 'The sea worths exploring.',
+        'buyCityImprovement': 'Our cities are blessed by Catan God!',
+        'moveShip': 'Sailing in the sea...',
+        'tradeWithBank': 'Deal!',
+        'endTurn': 'Hummmm... I think I am done.'
+    };
 
     //TODO: include check input & make the object not global
     let CommandCheck = {};
@@ -28,8 +42,11 @@ Commands.exec = function(commandName, data){
         };
 
         sock.on(cmd + 'Ack', function (msg) {
-            //alert(cmd + 'Ack');
             console.log(msg);
+        });
+
+        sock.on(cmd + 'Ack' + 'Owner', function (msg) {
+            swalSucc(CommandSuccMsg[cmd]);
         });
 
     });
@@ -48,7 +65,7 @@ Commands.exec = function(commandName, data){
     //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
     CommandCheck.rollDice = function () {
         if (getMatch().diceRolled){
-            alert("Dice already rolled!");
+            swalError2("Dice already rolled!");
             return false;
         } 
         return true;
@@ -81,7 +98,7 @@ Commands.exec = function(commandName, data){
 
         //set up phrase you can build one settlement for free
         if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().settlementCnt >= 1){
-            alert("You can only build one settlement in set up round one!");
+            swalError2("You can only build one settlement in set up round one!");
             return false;
         }
 
@@ -92,7 +109,7 @@ Commands.exec = function(commandName, data){
 
         //check if the vertex is not empty
         if (getMatch().map.getVertexInfo(vertex)){
-            alert("Invalid position!");
+            swalError2("Invalid position!");
             return false;
         }
 
@@ -125,18 +142,18 @@ Commands.exec = function(commandName, data){
 
 
         if (!connectedToOneRoad && (!getMatch().phase == Enum.MatchPhase.SetupRoundOne)){
-            alert("Settlement should be connected with at least one road.");
+            swalError2("Settlement should be connected with at least one road.");
             return false;
         }
 
         if (!distanceRuleSatisfied){
-            alert("Distance rule violated! All 3 of the adjacent intersections must be vacant to build a settlement!");
+            swalError2("Distance rule violated! All 3 of the adjacent intersections must be vacant to build a settlement!");
             return false;
         }
 
         //if you have more than 5 settlements, you have to upgrade one to a city before you build another one
         if (getMyPlayerObj().settlementCnt == 5){
-            alert("You already have 5 settlements! Upgrade one to city before you build another one!");
+            swalError2("You already have 5 settlements! Upgrade one to city before you build another one!");
             return false;
         }
 
@@ -169,7 +186,8 @@ Commands.exec = function(commandName, data){
             return true;
         }
 
-        alert("Invalid operation!");
+        swalError2("Invalid operation!");
+        //alert("Invalid operation!");
         return false;
     };
 
@@ -200,7 +218,7 @@ Commands.exec = function(commandName, data){
 
         //Only 1 road can be built on any given path
         if (getMatch().map.getEdgeInfo(edge)){
-            alert("Only 1 road can be built on any given path!");
+            swalError2("Only 1 road can be built on any given path!");
             return false;
         }
 
@@ -211,7 +229,7 @@ Commands.exec = function(commandName, data){
             if (getMatch().map.getHexTileById(hexID).type != Enum.HexType.Sea) adjacentToLandHex = true;
         }
         if (!adjacentToLandHex){
-            alert("You cannot build road in sea!");
+            swalError2("You cannot build road in sea!");
         }
 
 
@@ -238,7 +256,7 @@ Commands.exec = function(commandName, data){
         }
 
         if (!connected) {
-            alert("A new road must always connect to 1 of your existing roads, settlements, or cities.");
+            swalError2("A new road must always connect to 1 of your existing roads, settlements, or cities.");
             return false;
         }
 
@@ -270,7 +288,7 @@ Commands.exec = function(commandName, data){
 
         //Only 1 ship can be built on any given path
         if (getMatch().map.getEdgeInfo()){
-            alert("Only 1 ship can be built on any given path!");
+            swalError2("Only 1 ship can be built on any given path!");
             return false;
         }
 
@@ -280,7 +298,7 @@ Commands.exec = function(commandName, data){
             if (getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea) adjacentToSeaHex = true;
         }
         if (!adjacentToSeaHex){
-            alert("You cannot build road in inland area!");
+            swalError2("You cannot build road in inland area!");
         }
 
 
@@ -307,7 +325,7 @@ Commands.exec = function(commandName, data){
         }
 
         if (!connected) {
-            alert("A new ship must always connect to 1 of your existing ships, settlements, or cities.");
+            swalError2("A new ship must always connect to 1 of your existing ships, settlements, or cities.");
             return false;
         }
 
@@ -336,12 +354,12 @@ Commands.exec = function(commandName, data){
 
         let vertexUnit = getMatch().map.getVertexInfo(vertex);
         if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)){
-            alert("There is no city at this position!");
+            swalError2("There is no city at this position!");
             return false;
         }
 
         if (vertexUnit.cityWall){
-            alert("This city already has city wall!");
+            swalError2("This city already has city wall!");
             return false
         }
 
@@ -363,7 +381,7 @@ Commands.exec = function(commandName, data){
 
         // 6 = 5 + 1
         if (level >= 6){
-            alert("Maximum level of city improvement in this category is already achieved!");
+            swalError2("Maximum level of city improvement in this category is already achieved!");
             return false;
         }
 
@@ -392,23 +410,23 @@ Commands.exec = function(commandName, data){
         //You may only move 1 ship per turn, and only during your building phase.
         //TODO: check building phase
         if (getMatch().shipMoved){
-            alert("You can only move 1 ship per turn!");
+            swalError2("You can only move 1 ship per turn!");
             return false;
         }
 
         let ship = getMatch().map.getEdgeInfo(oldPosition);
 
         if (!ship || ship.type == 'ship'){
-            alert("No ship found!");
+            swalError2("No ship found!");
         }
         //You may not move a ship on the same turn you originally built it
         if (ship.builtTurnNum == getMatch().turnNum){
-            alert("You cannot move a ship on the same turn you originally built it!");
+            swalError2("You cannot move a ship on the same turn you originally built it!");
             return false;
         }
 
         if (! _.contains(getAvailbleEdgesToMoveTo(), newPosition)){
-            alert("You cannot move ship here!");
+            swalError2("You cannot move ship here!");
             return false;
         }
 
@@ -476,7 +494,7 @@ let edge = function (vertex1, vertex2) {
         let resources = getMyPlayerObj().resourcesAndCommodities;
         for (let cardName in cost){
             if (cost[cardName] > resources[cardName]){
-                alert("Not enough "+ cardName + "!");
+                swalError2("Not enough "+ cardName + "!");
                 return false
             }
         }
@@ -486,7 +504,7 @@ let edge = function (vertex1, vertex2) {
     let checkInput = function (input) {
         _.each(input, function (param) {
             if (typeof myVar == 'undefined') {
-                alert("Invalid input");
+                swalError2("Invalid input");
                 return false;
             }
         })
