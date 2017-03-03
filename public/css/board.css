@@ -9,17 +9,86 @@
     height: 100%;
 }
 
-#board .hexagon {
+#board .Sea{
     position: absolute;
     width: 110px; 
     height: 110px;
-    background:url("/img/room/hex.png");
+    background:url("/img/room/Sea.png");
     background-size: 110px 110px;
     transition: all 0.15s;
     z-index: 0;  
     cursor: pointer;
 
 }
+
+#board .Goldfield{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/Gold.png");
+    background-size: 110px 110px;
+    background-position: center;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+
+}
+
+#board .Forest{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/forest.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Hills{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/brick.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Field{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/grain.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Mountains{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/ore.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Pasture{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/sheep.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
 
 #board .hexagon:hover{
     filter: sepia(1);

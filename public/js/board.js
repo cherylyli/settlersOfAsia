@@ -95,16 +95,30 @@ $(document).ready(function() {
         }
     }
 
+
+    // app.room.match.map.hexTiles 
+    // [{
+    //  type: "Forest" , "Pasture", "Sea", "Field", "Hills", "Mountains", "GoldField"
+    //  }]
     function createAndPlaceAtLocation(x, y, id) {
         createVertice(x*1.8  + "px", (y*2.0 + hex_height) + "px", getVerticeId());
         createVertice(x*1.8 + 25 + "px", y*2.0 + "px", getVerticeId());
+
         
 
         x = x *1.8+ "px";
         y = y *2.0+ "px";
         var newNode = document.createElement("div");
         newNode.setAttribute("data-id", "" + id);
-        newNode.setAttribute("class", "hexagon");
+        // newNode.setAttribute("class", "hexagon " + app.room.match.map.hexTiles[id-1]);
+        // var classAttr = "hexagon";
+        // if (window.app && window.app.room && window.app.room.match && window.app.room.match.map){
+        //     console.log(window.app.room);
+        //     classAttr += window.app.room.match.map.hexTiles[id-1];
+        // }
+        newNode.setAttribute("class", "hexagon Goldfield");
+        // newNode.setAttribute("class", "Sea");
+        
         newNode.style.top = y;
         newNode.style.left = x;
         placeIntoWebpage(newNode);
