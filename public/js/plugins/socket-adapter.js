@@ -56,7 +56,7 @@
 
     // when page closes, disconnect socket
     window.onbeforeunload = function(e){
-        //sock.emit('disconnect');
+        sock.emit('disconnect');
     };
 
 
