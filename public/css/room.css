@@ -197,6 +197,15 @@ body{
     font-weight: bold;
 }
 
+#match-state{
+    -webkit-box-shadow: 2px 2px 3px 4px #ccc;
+    -moz-box-shadow:    2px 2px 3px 4px #ccc;
+    box-shadow:         2px 2px 3px 4px #ccc;
+    background-color: #CAED9E;
+    color: white;
+    text-align: center;
+}
+
 #users{
     border-bottom: 1px solid #e7ebf3;
     overflow: hidden;
@@ -439,4 +448,5 @@ turnEvent class contains all the buttons that can be set to disabled (if the use
     opacity: 0.4;
     pointer-events: none;
 }
+
 

@@ -25,8 +25,10 @@ let Player = require('./Player.js');
  * @param scenario {String}
  * @param players {Player[]}
  */
-Match.createNewMatch = function (scenario, players) {
+Match.createNewMatch = function (scenario, players, id) {
     let match = {};
+
+    match.id = id;
 
     // suppose it's a 3 people game, 3 is test data!!
     match.scenario = Scenario.loadScenario(3, scenario);
@@ -76,12 +78,15 @@ Match.createNewMatch = function (scenario, players) {
             switch (this.phase){
                 case null:
                     this.phase = Enum.MatchPhase.SetupRoundOne;
+                    DATA.getRoom(this.id).state = Enum.MatchPhase.SetupRoundOne;
                     break;
                 case Enum.MatchPhase.SetupRoundOne:
                     this.phase = Enum.MatchPhase.SetupRoundTwo;
+                    DATA.getRoom(this.id).state = Enum.MatchPhase.SetupRoundTwo;
                     break;
                 case Enum.MatchPhase.SetupRoundTwo:
                     this.phase = Enum.MatchPhase.TurnPhase;
+                    DATA.getRoom(this.id).state = Enum.MatchPhase.TurnPhase;
             }
 
         }
