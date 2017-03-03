@@ -9,17 +9,188 @@
     height: 100%;
 }
 
-#board .hexagon {
+#board [class="3 num"]{
     position: absolute;
-    width: 50px; 
-    height: 50px;
-    background:url("/img/room/hex.png");
-    background-size: 50px 50px;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/3.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="2 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/2.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="4 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/4.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="5 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/5.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="6 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/6.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="8 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/8.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="9 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/9.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="10 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/10.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="11 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/11.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="12 num"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/12.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+
+
+
+
+#board .Sea{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/tiles/Sea.gif");
+    background-size: 120px 120px;
     transition: all 0.15s;
     z-index: 0;  
     cursor: pointer;
 
 }
+
+#board .GoldField{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/tiles/gold.png");
+    background-size: 120px 120px;
+    background-position: center;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+/*#board .hexagon {
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    /*-moz-transform:rotate(90deg);*/
+    /* Safari and Chrome */
+    /*-webkit-transform:rotate(90deg);*/
+    /* Opera */
+    /*-o-transform:rotate(90deg);*/
+/*}*/
+#board .Forest{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/tiles/forest.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Hills{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/tiles/brick.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Field{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/tiles/weed.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Mountains{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/tiles/rock.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
+#board .Pasture{
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    background:url("/img/room/tiles/wool.png");
+    background-size: 110px 110px;
+    transition: all 0.15s;
+    z-index: 0;  
+    cursor: pointer;
+}
+
 
 #board .hexagon:hover{
     filter: sepia(1);

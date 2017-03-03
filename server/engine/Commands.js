@@ -106,23 +106,23 @@ Commands.startGame = function (roomID) {
  * @return {boolean}
  */
 Commands.leaveRoom = function (userName, roomID) {
-    let room = DATA.getRoom(roomID);
-    let user = DATA.getUser(userName);
-    if (!room) {
-        user.roomID = null;
-        return;
-    }
-    let currentOwner = room.owner;
-    user.leaveRoom();
-    let newRoom = DATA.getRoom(roomID);
-    if (newRoom && newRoom.owner != room.owner){
-        notify.user(newRoom.owner, 'NEW_ROOM_OWNER');
-        //it should only send to the rest players in the room, but I have no reference to the socket object lol and too lazy to change... For now just send to all ppl, the person who left the room will simply ignores this message
+    // let room = DATA.getRoom(roomID);
+    // let user = DATA.getUser(userName);
+    // if (!room) {
+    //     user.roomID = null;
+    //     return;
+    // }
+    // let currentOwner = room.owner;
+    // user.leaveRoom();
+    // let newRoom = DATA.getRoom(roomID);
+    // if (newRoom && newRoom.owner != room.owner){
+    //     notify.user(newRoom.owner, 'NEW_ROOM_OWNER');
+    //     //it should only send to the rest players in the room, but I have no reference to the socket object lol and too lazy to change... For now just send to all ppl, the person who left the room will simply ignores this message
 
-    }
-    if (Object.keys(newRoom.users).length > 0) {
-        notify.room(roomID, 'A_PLAYER_LEFT_ROOM', DATA.getRoom(roomID));
-    }
+    // }
+    // if (Object.keys(newRoom.users).length > 0) {
+    //     notify.room(roomID, 'A_PLAYER_LEFT_ROOM', DATA.getRoom(roomID));
+    // }
     return true;
 };
 
