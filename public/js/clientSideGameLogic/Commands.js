@@ -78,7 +78,15 @@ Commands.exec = function(commandName, data){
  */
     CommandCheck.buildSettlement = function (cmdData) {
         let vertex = cmdData.position;
-        if (!checkEnoughResource(Cost.buildSettlement)){
+
+        //set up phrase you can build one settlement for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().settlementCnt >= 1){
+            alert("You can only build one settlement in set up round one!");
+            return false;
+        }
+
+
+        if ((!getMatch().phase == Enum.MatchPhase.SetupRoundOne) && !checkEnoughResource(Cost.buildSettlement)){
             return false;
         }
 
@@ -107,7 +115,7 @@ Commands.exec = function(commandName, data){
 
             //distance rule - you may only build a settlement at an intersection if all 3 of the adjacent intersections are vacant (i.e., none are occupied by any settlements or cities—even yours
             let otherEndOfEdge = Map.getOtherEndOfEdge(e, vertex);
-            let vertexUnit = Map.getVertexInfo(otherEndOfEdge);
+            let vertexUnit = getMatch().map.getVertexInfo(otherEndOfEdge);
             if (vertexUnit && !isKnight(vertexUnit)){
                 //if the vertexUnit is not knight, then it's settlement / city
                 //-> there is a settlement / city at a adjacent intersections
@@ -115,7 +123,8 @@ Commands.exec = function(commandName, data){
             }
         }
 
-        if (!connectedToOneRoad){
+
+        if (!connectedToOneRoad && (!getMatch().phase == Enum.MatchPhase.SetupRoundOne)){
             alert("Settlement should be connected with at least one road.");
             return false;
         }
@@ -190,7 +199,7 @@ Commands.exec = function(commandName, data){
 
 
         //Only 1 road can be built on any given path
-        if (getMatch().map.getEdgeInfo()){
+        if (getMatch().map.getEdgeInfo(edge)){
             alert("Only 1 road can be built on any given path!");
             return false;
         }

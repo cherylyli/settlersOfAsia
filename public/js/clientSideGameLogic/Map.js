@@ -7,6 +7,21 @@ let Map = {};
 
 Map.addHelperFunctions = function (map) {
 
+    //add helper functions to each hexTiles
+    for (let hextile of map.hexTiles){
+        HexTile.addHelperFunctions(hextile);
+    }
+
+
+    /**
+     *
+     * @param vertex
+     * @return {Array<edge>}
+     */
+    map.getEdgeByVertex = function (vertex) {
+        return Object.values(map.edgeMap[vertex]);
+    };
+
     /**
      *
      * @param edge {edge}
