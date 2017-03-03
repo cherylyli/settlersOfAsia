@@ -42,7 +42,7 @@ $(window).on('imready', function(im){
 
     // parse a fake room data just for test
     //var room = window.room = {users: []};
-    
+
 
     // template for user
     var fakeUser = window.fakeUser = {
@@ -91,8 +91,8 @@ $(window).on('imready', function(im){
         app.isMyTurn = true;
     });
 
-    
-    
+
+
 
 
 
@@ -109,9 +109,9 @@ $(window).on('imready', function(im){
             logs: [
                 { user: null, action: 'The game starts.', system: true },
                 { user: 'Yuan', action: 'places a city.', system: true },
-                { user: 'jack', action: 'places a road.', system: true },             
-                { user: 'Max', action: "stop cheating man", system: false },             
-                { user: 'Emol', action: "i aint cheating -_-", system: false }             
+                { user: 'jack', action: 'places a road.', system: true },
+                { user: 'Max', action: "stop cheating man", system: false },
+                { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
                 "buildEstablishment", "buildRoad", "buildShip", "buildCityWall",
@@ -262,8 +262,8 @@ $(window).on('imready', function(im){
     // hide command table by clicking on 'X' or press 'ESC' key
     function hideCmdTable(){
         var $p = $('#cmd-table');
-        clearHighlightedCommands(); 
-        clearHighlightedVertices(); 
+        clearHighlightedCommands();
+        clearHighlightedVertices();
         $p.find('input').val('');
         $p.hide();
     }
@@ -310,6 +310,11 @@ $(window).on('imready', function(im){
 
     // ----------------------------------------- Map actions ----------------------------------------- //
 
+    // test if control key is pressed
+    function isCtrlPressed(e){
+        return e.ctrlKey || e.metaKey;
+    }
+
     // clear highlighted vertices
     function clearHighlightedVertices($except){
         var $p = $('#cmd-table');
@@ -350,13 +355,13 @@ $(window).on('imready', function(im){
         // if more than 2 select, clear
         if (highlightedVertices() > 2) clearHighlightedVertices();
         // when vertex is clicked while ctrl is pressed, select it
-        if (e.ctrlKey) highlightVertex($(this));
+        if (isCtrlPressed(e)) highlightVertex($(this));
         // if ctrl-clicked vertices accumulate to 2 -> edge operation
         if (highlightedVertices() == 2) {
             showEdgeOperations();
         }
         // if click on single vertex -> vertex operation
-        else if (!e.ctrlKey){
+        else if (!isCtrlPressed(e)){
             highlightVertex($(this));
             showVertexOpeartions($(this));
         }
@@ -396,7 +401,7 @@ $(window).on('imready', function(im){
         });
         var $btns = $cmd.find('.cmds .cmd').filter(function(){
             return _.contains(cmds, $(this).attr('data-cmd'));
-        });  
+        });
         // highlight buttons for each matched opration
         $btns.addClass('matched');
         // fill vertex id for each matched operation
