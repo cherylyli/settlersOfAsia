@@ -169,6 +169,11 @@ $(window).on('imready', function(im){
                 return capped;
             }
         },
+        watch: {
+            room: function(){
+                updateHexTiles();
+            }
+        },
         methods: {
             call: function(fn){
                 this[fn]();
@@ -276,6 +281,10 @@ $(window).on('imready', function(im){
         app.log(msg.username, msg.content, false);
     });
 
+    // change hex tile depending on room object
+    function updateHexTiles(){
+        
+    }
 
 
 
