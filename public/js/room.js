@@ -150,7 +150,8 @@ $(window).on('imready', function(im){
                 "buildEstablishment", "buildRoad", "buildShip", "buildCityWall",
                 "buyCityImprovement", "moveShip", "tradeWithBank"
             ],
-            isMyTurn: false
+            isMyTurn: false,
+
         },
         mounted: function(){
             $('body').showV();

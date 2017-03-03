@@ -57,17 +57,19 @@
         <div id='right-screen' class='box-shadow-light'>
             <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
             <div id='users'>
-                <div class='user' v-for='player in room.users'>
-                    <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
-                        <div class='name'>{{player.user.username}}</div>
+                <div v-for='player in room.users'>
+                    <div class='user' v-bind:waiting='room.match.currentPlayer!=player.name'>
+                        <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
+                            <div class='name'>{{player.user.username}}</div>
+                        </div>
+                        <ul class='info'>
+                            <li>Metropolis: 0</li>
+                            <li>Longest Road: {{player.longestRoad}}</li>
+                            <li>Defender of Catan: 0</li>
+                            <li>Progress Card: {{player.progressCardsCnt}}</li>
+                            <li>VP: {{player.VP}}</li>
+                        </ul>
                     </div>
-                    <ul class='info'>
-                        <li>Metropolis: 0</li>
-                        <li>Longest Road: {{player.longestRoad}}</li>
-                        <li>Defender of Catan: 0</li>
-                        <li>Progress Card: {{player.progressCardsCnt}}</li>
-                        <li>VP: {{player.VP}}</li>
-                    </ul>
                 </div>
             </div>
             <div id='log'>

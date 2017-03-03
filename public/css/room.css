@@ -218,6 +218,11 @@ body{
     overflow: hidden;
     border-bottom: 1px solid #e7ebf3;
 }
+
+#users .user[waiting]{
+    opacity: 0.4;
+}
+
 #users .user:last-child{
     border-bottom-width: 0;
 }
