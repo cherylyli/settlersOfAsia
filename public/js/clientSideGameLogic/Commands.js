@@ -321,7 +321,7 @@ Commands.exec = function(commandName, data){
     CommandCheck.buildCityWall = function (data) {
         let vertex = data.position;
 
-        if (!checkEnoughResource(Cost.buildShip)){
+        if (!checkEnoughResource(Cost.buildCityWall)){
             return false;
         }
 
@@ -358,7 +358,7 @@ Commands.exec = function(commandName, data){
             return false;
         }
 
-        return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]))
+        return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]));
 
     }
 
@@ -382,12 +382,16 @@ Commands.exec = function(commandName, data){
 
         //You may only move 1 ship per turn, and only during your building phase.
         //TODO: check building phase
-        if (match.shipMoved){
+        if (getMatch().shipMoved){
             alert("You can only move 1 ship per turn!");
             return false;
         }
 
         let ship = getMatch().map.getEdgeInfo(oldPosition);
+
+        if (!ship || ship.type == 'ship'){
+            alert("No ship found!");
+        }
         //You may not move a ship on the same turn you originally built it
         if (ship.builtTurnNum == getMatch().turnNum){
             alert("You cannot move a ship on the same turn you originally built it!");
