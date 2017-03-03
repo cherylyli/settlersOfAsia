@@ -55,6 +55,7 @@
             </div>
         </div>
         <div id='right-screen' class='box-shadow-light'>
+            <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
             <div id='users'>
                 <div class='user' v-for='player in room.users'>
                     <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
@@ -271,6 +272,7 @@
     <script src="/js/plugins/socket-adapter.js"></script>
     <script src="/js/clientSideGameLogic/Enum.js"></script>
     <script src="/js/clientSideGameLogic/Cost.js"></script>
+    <script src="/js/clientSideGameLogic/HexTile.js"></script>
     <script src="/js/clientSideGameLogic/Map.js"></script>
     <script src="/js/clientSideGameLogic/Commands.js"></script>
     <script src="/js/board.js"></script>

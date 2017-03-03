@@ -21,7 +21,7 @@ Room.createRoom = function (RoomID, creatorName) {
     let gameRoom = {};
 
     gameRoom.id = RoomID;
-    gameRoom.state = enums.GameRoomState.Waiting;
+    gameRoom.state = enums.GameRoomState.Waiting;   //after game starts, gameRoom.state = match.state
     gameRoom.owner = creatorName;
     gameRoom.users = {};    //key: userName (string), value: player data (Player object)
     //gameRoom.Users = {};    //user objects
@@ -78,7 +78,7 @@ Room.createRoom = function (RoomID, creatorName) {
             }
         }**/
         //now create the game/match based on the scenario.
-        gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, gameRoom.users);
+        gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, gameRoom.users, gameRoom.id);
         DATA.addMatch(gameRoom.id, gameRoom.match);
 
         for (let player in gameRoom.users){

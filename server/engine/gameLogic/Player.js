@@ -18,6 +18,9 @@ let initialGoldNum = 2;
 Player.createPlayer = function (name, user) {
     let player = {};
 
+
+
+
     /**
      * progressCardsCnt doesn't count Vp cards
      * progressCards includes VP cards
@@ -56,6 +59,8 @@ Player.createPlayer = function (name, user) {
 
 
 
+
+
     /**
       * count the total number of cards (Resource+Commodity) current player owns
       * @param currentPlayer {Player}
@@ -79,7 +84,7 @@ Player.createPlayer = function (name, user) {
             console.log("Not enough resource")
             return null;
         }
-        
+
         let keys = [];
         for (let card in player.resourceAndCommandities){
             if (player.resourceAndCommandities[card] > 0){
@@ -91,7 +96,7 @@ Player.createPlayer = function (name, user) {
         let stolenCard = Math.floor(Math.random() * keys.length);
         opponentPlayer.resourceAndCommandities[keys[stolenCard]] ++;
         player.resourceAndCommandities[keys[stolenCard]]--;
-        
+
         return keys[stolenCard];
     };
 

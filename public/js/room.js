@@ -81,14 +81,47 @@ $(window).on('imready', function(im){
     });
 
     sock.on('GAME_START', function (msg) {
-        alert('Game start');
+        swal({
+            title: 'GAME START!',
+            text: 'Are you prepared?',
+            timer: 10000
+        }).then(
+            function () {},
+            // handling the promise rejection
+            function (dismiss) {
+                if (dismiss === 'timer') {
+                    //TODO: .... maybe blur the map before the popup disappear?
+                }
+            }
+        );
+        /**
+        swal({
+            title: 'Game Start',
+            html: $('<div>')
+                .addClass('some-class')
+            animation: false,
+            customClass: 'animated tada'
+        });**/
+        //alert('Game start');
         //entry point for max's code
 
     });
 
     sock.on('TAKE_TURN', function (msg) {
-        alert('Take turn');
         app.isMyTurn = true;
+        swal({
+            title: 'TAKE TURN!',
+            text: 'Are you prepared?',
+            timer: 5000
+        }).then(
+            function () {},
+            // handling the promise rejection
+            function (dismiss) {
+                if (dismiss === 'timer') {
+                    //TODO: .... maybe blur the map before the popup disappear?
+                }
+            }
+        );
     });
 
 
@@ -178,52 +211,54 @@ $(window).on('imready', function(im){
             },
 
             endTurn: function () {
-                Commands.endTurn();
+                if(CommandCheck.endTurn(CommandsData.endTurn())) Commands.endTurn();
             },
 
             // roll dice
             rollDice: function(){
-                Commands.rollDice();
+                if(CommandCheck.rollDice(CommandsData.rollDice())) Commands.rollDice();
             },
 
             buildEstablishment: function () {
                 var {vertex, establishmentLV } = getInput();
-                /**
+
                 if (establishmentLV == 1){
-                    if (CommandCheck.buildSettlement())
-                }**/
-                Commands.buildEstablishment(vertex, establishmentLV);
+                    if (CommandCheck.buildSettlement(CommandsData.buildEstablishment(vertex, establishmentLV))) Commands.buildEstablishment(vertex, establishmentLV);
+                }
+                if (establishmentLV == 2){
+                    if (CommandCheck.buildSettlement(CommandsData.buildEstablishment(vertex, establishmentLV))) Commands.buildEstablishment(vertex, establishmentLV);
+                };
             },
 
             buildRoad: function () {
                 var {vertex1, vertex2} = getInput();
-                Commands.buildRoad(vertex1, vertex2);
+                if (CommandCheck.buildRoad(CommandsData.buildRoad(vertex1, vertex2)))Commands.buildRoad(vertex1, vertex2);
             },
 
             buildShip: function () {
                 var {vertex1, vertex2} = getInput();
-                Commands.buildShip(vertex1, vertex2);
+                if (CommandCheck.buildShip(CommandsData.buildShip(vertex1, vertex2))) Commands.buildShip(vertex1, vertex2);
             },
 
             buyCityImprovement: function () {
                 var {category} = getInput();
                 var cityImprovementCategory =  Enum.cityImprovementCategory[category];
-                Commands.buyCityImprovement(cityImprovementCategory);
+                if (CommandCheck.buyCityImprovement(CommandsData.buyCityImprovement(cityImprovementCategory))) Commands.buyCityImprovement(cityImprovementCategory);
             },
 
             buildCityWall: function () {
                 var {vertex} = getInput();
-                Commands.buildCityWall(vertex);
+                if (CommandCheck.buildCityWall(CommandsData.buildCityWall(vertex))) Commands.buildCityWall(vertex);
             },
 
             moveShip: function(){
                 var {oldVertex1, oldVertex2, newVertex1, newVertex2} = getInput();
-                Commands.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2);
+                if (CommandCheck.moveShip(CommandsData.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2))) Commands.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2);
             },
 
             tradeWithBank: function(){
                 var {src, tradeFor} = getInput();
-                Commands.tradeWithBank(src, tradeFor);
+                if (CommandCheck.tradeWithBank(CommandsData.tradeWithBank(src, tradeFor))) Commands.tradeWithBank(src, tradeFor);
             }
 
         }

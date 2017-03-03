@@ -93,7 +93,10 @@ module.exports = function(socket, user, roomId) {
             let currentPlayer = Commands.startGame(roomId);
             result = CircularJSON.stringify( DATA.getRoom(roomId));
             sendRoom('GAME_START', result);
-            notify.user(currentPlayer, 'TAKE_TURN');
+
+            setTimeout(function(){
+                notify.user(currentPlayer, 'TAKE_TURN');
+            }, 2000);
 
         }
     }
@@ -146,6 +149,7 @@ module.exports = function(socket, user, roomId) {
     _.each(Commands, function(fn, commandName){
         got(commandName, function(data){
             fn(user.username, roomId, data);
+            send(commandName + 'Ack' + 'Owner');
             sendRoom(commandName + 'Ack', CircularJSON.stringify(DATA.getRoom(roomId)));
         });
     });
