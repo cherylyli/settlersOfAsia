@@ -336,7 +336,7 @@ $(window).on('imready', function(im){
                 var edgeOne = edgeKey.split('-')[0];
                 var edgeTwo = edgeKey.split('-')[1];
 
-                // console.log(edgeKey + ": " + edgeOne + " and " + edgeTwo);
+           
 
                 var edgeOwner = edge.owner.color;
                 var edgeType = edge.type;
@@ -369,8 +369,7 @@ $(window).on('imready', function(im){
 
                 placeIntoWebpage(edgeElem);
 
-                // console.log(xy1);
-                // console.log(xy2);
+                
 
             }
         }

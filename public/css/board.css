@@ -101,8 +101,7 @@
 
 
 /************************************
-
-
+CITIES AND SETTLEMENTS
 ************************************/
 
 #board [class="settlement RED verticeElem"]{
@@ -177,6 +176,13 @@
     z-index: 1;  
 }
 
+
+
+
+
+/************************************
+ROADS AND SHIPS
+************************************/
 #board [class="edge RED road none"]{
     position: absolute;
     width: 55px; 
@@ -331,6 +337,171 @@
     height: 5px;
     background:url("/img/room/boardIcons/greenroad.png");
     background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
+
+#board [class="edge RED ship none"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/redboat.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+}
+
+#board [class="edge RED ship up"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/redboat.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge RED ship down"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/redboat.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
+
+
+#board [class="edge GREEN ship none"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/greenship.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+}
+
+#board [class="edge GREEN ship up"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/greenship.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge GREEN ship down"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/greenship.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
+
+#board [class="edge ORANGE ship none"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/orangeship.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+}
+
+#board [class="edge ORANGE ship up"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/orangeship.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge ORANGE ship down"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/orangeship.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
+
+#board [class="edge BLUE ship none"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/blueboat.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+}
+
+#board [class="edge BLUE ship up"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/blueboat.png");
+    background-size: 55px 25px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge BLUE ship down"]{
+    position: absolute;
+    width: 55px; 
+    height: 25px;
+    background:url("/img/room/boardIcons/blueboat.png");
+    background-size: 55px 25px;
     z-index: 1;  
     behavior:url(-ms-transform.htc);
     /* Firefox */
