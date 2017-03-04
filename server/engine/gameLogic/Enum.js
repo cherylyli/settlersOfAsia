@@ -97,10 +97,10 @@ Enum.KnightType = {
 };
 
 Enum.Color = {
-    "mediumpurple":"mediumpurple",
-    "palegoldenrod":"palegoldenrod",
-    "lightgreen":"lightgreen",
-    "indianred":"indianred"
+    "RED":"RED",
+    "GREEN":"GREEN",
+    "ORANGE":"ORANGE",
+    "BLUE":"BLUE"
 };
 
 

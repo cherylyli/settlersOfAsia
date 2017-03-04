@@ -173,6 +173,8 @@ $(window).on('imready', function(im){
             room: function(){
                 updateHexTiles();
                 addSettlementsOrCities();
+                placeRoadsAndShips();
+                
             }
         },
         methods: {
@@ -304,7 +306,7 @@ $(window).on('imready', function(im){
         // console.log(app.roo)
         var levels = ["settlement", "city", "metropolis"];
 
-        // player colors: RED, YELLOW, GREEN, ORANGE
+        // player colors: RED, ORANGE, GREEN, ORANGE
         if (app.room && app.room.match){
             var vertexInfo = app.room.match.map.vertexInfo;
             for (var vertex_i = 0; vertex_i<vertexInfo.length; vertex_i++){
@@ -315,14 +317,67 @@ $(window).on('imready', function(im){
                     var select = ".verticeElem[data-id='" + vertex_i + "']";
                     var ownerColor = vertexInfo[vertex_i].owner.color;
                     var cityLevel = levels[vertexInfo[vertex_i].level -1];
-                    console.log($(select));
-                    console.log(select);
-                    console.log('class', cityLevel + " "+ ownerColor+ " verticeElem");
+                    // console.log($(select));
+                    // console.log(select);
+                    // console.log('class', cityLevel + " "+ ownerColor+ " verticeElem");
                     $(select).attr('class', cityLevel + " "+ ownerColor+ " verticeElem");
 
                 }
             }
         }
+    }
+
+    function placeRoadsAndShips(){
+        //player colors: RED, ORANGE, BLUE, GREEN
+        if (app.room && app.room.match){
+            var edgeInfo = app.room.match.map.edgeInfo;
+            for (var edgeKey in edgeInfo){
+                var edge = edgeInfo[edgeKey];
+                var edgeOne = edgeKey.split('-')[0];
+                var edgeTwo = edgeKey.split('-')[1];
+
+                // console.log(edgeKey + ": " + edgeOne + " and " + edgeTwo);
+
+                var edgeOwner = edge.owner.color;
+                var edgeType = edge.type;
+
+                var selectVertexOne = ".vertice[data-id='"+ edgeOne +"']";
+                var selectVertexTwo = ".vertice[data-id='"+ edgeTwo +"']"; 
+                
+                var xy1 = $(selectVertexOne).attr("style");
+                var xy2 = $(selectVertexTwo).attr("style");
+                xy1 = xy1.match(/\d+/g);
+                xy2 = xy2.match(/\d+/g);
+
+
+                var edgeElem = document.createElement("div");
+                edgeElem.setAttribute("data-id", "" + edgeKey);
+                
+                edgeElem.style.left = (parseInt(xy1[1]) + parseInt(xy2[1]))/2.0 - 22 + "px";
+                edgeElem.style.top = (parseInt(xy1[0]) + parseInt(xy2[0]))/2.0+ "px";
+                // tilt down left to right
+                var straight = ["8-9", "6-7", "19-20", "4-5", "17-18", "32-33", "2-3", "15-16", "30-31", "47-48", "13-14", "28-29", "45-46", "11-12", "26-27", "43-44", "61-62", "24-25", "41-42", "59-60", "22-23", "39-40", "57-58", "74-75", "37-38", "55-56", "72-73", "35-36", "53-54", "70-71", "85-86", "51-52", "68-69", "83-84", "49-50", "66-67", "81-82", "94-95", "64-65", "79-80", "92-93", "77-78", "90-91", "88-89"];
+                var down = ["9-19", "7-17", "20-32", "5-15", "18-30", "33-47", "3-13", "16-28", "31-45", "48-63", "14-26", "29-43", "46-61", "12-24", "27-41", "44-59", "62-76", "10-22", "1-11", "25-39", "42-57", "60-74", "75-87", "58-72", "40-55", "23-37", "21-35", "38-53", "56-70", "73-85", "86-96", "71-83", "54-68", "36-51", "34-49", "52-66", "69-81", "84-94", "50-64", "67-79", "82-92", "78-88"];
+                if (straight.indexOf(edgeKey) !== -1){
+                    edgeElem.setAttribute("class", "edge "+edgeOwner+" " + edgeType + " none");
+                }
+                else if (down.indexOf(edgeKey) !== -1){
+                    edgeElem.setAttribute("class", "edge "+edgeOwner+" " + edgeType + " down");
+                } else {
+                    edgeElem.setAttribute("class", "edge "+edgeOwner+" " + edgeType + " up");
+                } 
+
+                placeIntoWebpage(edgeElem);
+
+                // console.log(xy1);
+                // console.log(xy2);
+
+            }
+        }
+    }
+
+    function placeIntoWebpage(newNode) {
+        $('#board .map').append(newNode);
     }
 
 

@@ -99,11 +99,26 @@
     z-index: 1;  
 }
 
+
+/************************************
+
+
+************************************/
+
 #board [class="settlement RED verticeElem"]{
     position: absolute;
     width: 30px; 
     height: 30px;
     background:url("/img/room/boardIcons/redsettlement.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="city RED verticeElem"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/boardIcons/redcity.png");
     background-size: 30px 30px;
     z-index: 1;  
 }
@@ -117,11 +132,29 @@
     z-index: 1;  
 }
 
-#board [class="settlement YELLOW verticeElem"]{
+#board [class="city GREEN verticeElem"]{
     position: absolute;
     width: 30px; 
     height: 30px;
-    background:url("/img/room/boardIcons/yellowsettlement.png");
+    background:url("/img/room/boardIcons/greencity.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="settlement ORANGE verticeElem"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/boardIcons/orangesettlement.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="city ORANGE verticeElem"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/boardIcons/orangecity.png");
     background-size: 30px 30px;
     z-index: 1;  
 }
@@ -135,6 +168,178 @@
     z-index: 1;  
 }
 
+#board [class="city BLUE verticeElem"]{
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/boardIcons/bluecity.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="edge RED road none"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/redroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+}
+
+#board [class="edge RED road up"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/redroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge RED road down"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/redroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
+
+#board [class="edge BLUE road none"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/blueroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+}
+
+#board [class="edge BLUE road up"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/blueroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge BLUE road down"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/blueroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
+
+#board [class="edge ORANGE road none"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/orangeroad.svg");
+    background-size: 55px 5px;
+    z-index: 1;  
+}
+
+#board [class="edge ORANGE road up"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/orangeroad.svg");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge ORANGE road down"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/orangeroad.svg");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
+
+#board [class="edge GREEN road none"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/greenroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+}
+
+#board [class="edge GREEN road up"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/greenroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(120deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(120deg);
+    /* Opera */
+    -o-transform:rotate(120deg);
+}
+
+#board [class="edge GREEN road down"]{
+    position: absolute;
+    width: 55px; 
+    height: 5px;
+    background:url("/img/room/boardIcons/greenroad.png");
+    background-size: 55px 5px;
+    z-index: 1;  
+    behavior:url(-ms-transform.htc);
+    /* Firefox */
+    -moz-transform:rotate(60deg);
+    /* Safari and Chrome */
+    -webkit-transform:rotate(60deg);
+    /* Opera */
+    -o-transform:rotate(60deg);
+}
 
 
 
