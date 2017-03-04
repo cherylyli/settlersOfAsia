@@ -514,6 +514,67 @@ ROADS AND SHIPS
 
 
 
+
+/************************************
+ROADS AND SHIPS
+************************************/
+#board [class="harbor Lumber"] {
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/woodharbor.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="harbor Wool"] {
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/sheepharbor.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="harbor General"] {
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/harbor.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="harbor Ore"] {
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/oreharbor.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="harbor Brick"] {
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/brickharbor.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+#board [class="harbor Grain"] {
+    position: absolute;
+    width: 30px; 
+    height: 30px;
+    background:url("/img/room/tiles/grainharbor.png");
+    background-size: 30px 30px;
+    z-index: 1;  
+}
+
+
+
+
 #board .Sea{
     position: absolute;
     width: 110px; 

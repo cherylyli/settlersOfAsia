@@ -174,7 +174,8 @@ $(window).on('imready', function(im){
                 updateHexTiles();
                 addSettlementsOrCities();
                 placeRoadsAndShips();
-                
+                placeHarbors();
+                changePlayerColors();
             }
         },
         methods: {
@@ -390,6 +391,76 @@ $(window).on('imready', function(im){
                 
 
             }
+        }
+    }
+
+    //place harbors into position
+    function placeHarbors(){
+        if (app.room && app.room.match){
+            var harborInfo = app.room.match.map.harbors;
+            for (var edgeKey in harborInfo){
+                var edgeOne = edgeKey.split('-')[0];
+                var edgeTwo = edgeKey.split('-')[1];
+                var resourceType = harborInfo[edgeKey].type;
+
+                var select = ".harbor[data-id='" + edgeKey + "']";
+
+                if ($(select).length){
+                    return;
+                }
+
+                var selectVertexOne = ".vertice[data-id='"+ edgeOne +"']";
+                var selectVertexTwo = ".vertice[data-id='"+ edgeTwo +"']"; 
+                
+                var xy1 = $(selectVertexOne).attr("style");
+                var xy2 = $(selectVertexTwo).attr("style");
+                xy1 = xy1.match(/\d+/g);
+                xy2 = xy2.match(/\d+/g);
+
+
+                // var select = ".vertice[data-id=''" + edgeKey + "]";
+                var harborElem = document.createElement("div");
+                harborElem.setAttribute("data-id", "" + edgeKey);
+                harborElem.setAttribute("class", "harbor " + resourceType);
+
+                harborElem.style.left = (parseInt(xy1[1]) + parseInt(xy2[1]))/2.0 - 15 + "px";
+                harborElem.style.top = (parseInt(xy1[0]) + parseInt(xy2[0]))/2.0 - 15 + "px";
+
+                placeIntoWebpage(harborElem);
+
+            }
+        }
+    }
+
+    function changePlayerColors(){
+        // get each player and change color
+        if (app.room && app.room.match){
+            var players = app.room.match.players;
+            var currentplayer = app.room.match.currentPlayer;
+            var hexColors = {
+                "BLUE": "background-color: rgba(0,0,255, ",
+                "GREEN": "background-color: rgba(0, 255, 0, ",
+                "ORANGE": "background-color: rgba(255,165,0,",
+                "RED": "background-color: rgba(255,255,0, "
+            }
+
+            for (var playerKey in players){
+                var playerName = playerKey;
+                var playerColor = players[playerKey].color;
+                var playerHex = hexColors[playerColor];
+                if (playerName === currentplayer){
+                    playerHex += "0.8)";
+                } else {
+                    playerHex += "0.4)";
+                }
+
+
+                var selector = "[data-username='"+ playerName+ "']";
+                console.log(selector);
+                // get the player
+                $(selector).parent().parent().attr("style", playerHex);
+            }
+
         }
     }
 
