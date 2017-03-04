@@ -37,6 +37,11 @@ body{
     overflow: hidden;
 }
 
+#board[disabled] {
+    opacity: 0.9;
+    pointer-events: none;
+}
+
 #utils{
     overflow: hidden;
     background: rgba(255,255,255,0.96);
