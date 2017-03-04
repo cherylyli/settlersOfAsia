@@ -56,8 +56,9 @@
             </div>
         </div>
         <div id='right-screen' class='box-shadow-light'>
-            <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
             <div id='users'>
+                <!-- FIXME: some one plz help me fix this, match-div should not be in users div, but when i put it outside users div, the position of chat box is influenced, match-ops div overlaps the chat input box, and i cannot fix it-->
+                <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
                 <div v-for='player in room.users'>
                     <div class='user' v-bind:waiting='room.match && room.match.currentPlayer!=player.name'>
                         <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
