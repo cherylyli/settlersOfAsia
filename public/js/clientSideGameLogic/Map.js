@@ -19,7 +19,7 @@ Map.addHelperFunctions = function (map) {
      * @return {Array<edge>}
      */
     map.getEdgeByVertex = function (vertex) {
-        return Object.values(map.edgeMap[vertex]);
+        return Object.values(map.verticesToEdges[vertex]);
     };
 
     /**
