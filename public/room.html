@@ -62,7 +62,7 @@
                 <div v-for='player in room.users'>
                     <div class='user' v-bind:waiting='room.match && room.match.currentPlayer!=player.name'>
                         <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
-                            <div class='name'>{{player.user.username}}</div>
+                            <div class='name' v-bind:data-username='player.name'>{{player.user.username}}</div>
                         </div>
                         <ul class='info'>
                             <li>Metropolis: 0</li>
