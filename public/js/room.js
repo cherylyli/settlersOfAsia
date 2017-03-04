@@ -84,44 +84,42 @@ $(window).on('imready', function(im){
         swal({
             title: 'GAME START!',
             text: 'Are you prepared?',
-            timer: 10000
-        }).then(
-            function () {},
-            // handling the promise rejection
-            function (dismiss) {
-                if (dismiss === 'timer') {
-                    //TODO: .... maybe blur the map before the popup disappear?
-                }
-            }
-        );
-        /**
-        swal({
-            title: 'Game Start',
-            html: $('<div>')
-                .addClass('some-class')
-            animation: false,
-            customClass: 'animated tada'
-        });**/
-        //alert('Game start');
-        //entry point for max's code
-
+            timer: 1000
+        });
     });
 
     sock.on('TAKE_TURN', function (msg) {
         app.isMyTurn = true;
-        swal({
-            title: 'TAKE TURN!',
-            text: 'Are you prepared?',
-            timer: 5000
-        }).then(
-            function () {},
-            // handling the promise rejection
-            function (dismiss) {
-                if (dismiss === 'timer') {
-                    //TODO: .... maybe blur the map before the popup disappear?
-                }
-            }
-        );
+        setTimeout(function(){
+            swal({
+                    title: "TAKE TURN",
+                    text: "Hey it's your turn now!",
+                    type: "info",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "OK",
+                    closeOnConfirm: false,
+                },
+                function(){
+                    if (getMatch().phase == Enum.MatchPhase.SetupRoundOne) {
+                        swal({
+                            title: "Set Up Phrase One",
+                            text: "Build a settlement by clicking on a vertex. Then build a road by clicking two vertices with CTRL pressed.",
+                            type: "info",
+                        });
+                    }
+                    else if (getMatch().phase == Enum.MatchPhase.SetupRoundTwo){
+                        swal({
+                            title: "Set Up Phrase Two",
+                            text: "Build a city by clicking on a vertex. Then build a road by clicking two vertices with CTRL pressed.",
+                            type: "info",
+                        });
+                    }
+                    else {
+                        swal.close();
+                    }
+                })
+        }, 3000);
+
     });
 
 

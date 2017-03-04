@@ -431,7 +431,7 @@ Commands.discardProgressCard = function (player, progressCard) {
 Commands.endTurn = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     match.nextPlayerToTakeTurn();
-    notify.user(match.currentPlayer, 'TAKE_TURN');
+    notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
 };
 
 //progress card stuff will be added later..
