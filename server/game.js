@@ -76,8 +76,9 @@ io.on('connection', function (socket) {
 
 
     // chat support
-    socket.on('send-message', function(content){
-        notify.room(socket.room, 'receive-message', {  username: username, content: content });
+    socket.on('send-message', function(msgObj){
+        msgObj.user = username;
+        notify.room(socket.room, 'receive-message', msgObj);
     });
 
 

@@ -42,6 +42,36 @@ body{
     pointer-events: none;
 }
 
+#board .dices{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#board .dice{
+    width: 110px;
+    overflow: hidden;
+    margin-bottom: 7px;
+}
+
+#board .dice .icon{
+    width: 16px;
+    height: 16px;
+    float: left;
+}
+
+#board .dice .text{
+    float: left;
+    margin-left: 6px;
+    line-height: 16px;
+    font-size: 12px;
+}
+
+#board .dice.red .icon{ background-image: url(/img/room/dice/red.svg); }
+#board .dice.yellow .icon{ background-image: url(/img/room/dice/yellow.svg); }
+#board .dice.black .icon{ background-image: url(/img/room/dice/black.svg); }
+
+
 #utils{
     overflow: hidden;
     background: rgba(255,255,255,0.96);

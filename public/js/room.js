@@ -213,9 +213,21 @@ $(window).on('imready', function(im){
 
             // chat in room
             sendMessage: function(){
-                var content = $('#log input').val();
-                sock.emit('send-message', content);
+                var msg = {
+                    action: $('#log input').val(),
+                    system: false
+                }
+                sock.emit('send-message', msg);
                 $('#log input').val('');
+            },
+
+            // send system message
+            sendSysMessage: function(action){
+                var msg = {
+                    action: action,
+                    system: true
+                }
+                sock.emit('send-message', msg);
             },
 
             endTurn: function () {
@@ -281,7 +293,13 @@ $(window).on('imready', function(im){
 
     // receive message
     sock.on('receive-message', function(msg){
-        app.log(msg.username, msg.content, false);
+        app.log(msg.user, msg.action, msg.system);
+    });
+
+    // roll dice result
+    sock.on('rollDiceAck', function(){
+        var dice = app.room.match.dice;
+        console.log(Raw(dice))
     });
 
     // change hex tile depending on room object
