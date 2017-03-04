@@ -21,10 +21,11 @@
 <body>
     <div id='page'>
         <div id='left-screen'>
-            <div id='board' class='box-shadow-light'>
-                <div class='map'></div>
 
-            </div>
+                <div id='board' v-bind:disabled='!isMyTurn' class='box-shadow-light'>
+                    <div class='map'></div>
+                </div>
+
 
             <div id='utils' class='box-shadow-light'>
                 <div class='me'>
