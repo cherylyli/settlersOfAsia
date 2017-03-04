@@ -293,10 +293,7 @@ $(window).on('imready', function(im){
             for (var i = 0; i< hextiles.length; i++){
                 var select = ".hexagon[data-id='" + (i+1) + "']";
                 $(select).addClass(hextiles[i].type);
-                // console.log(select);
                 var selectNum = ".num[data-id='" + (i+1) + "']";
-                // console.log($(selectNum));
-                // console.log(hextiles[i].productionNum);
                 $(selectNum).attr('class', hextiles[i].productionNum+" num");
                 
             }
