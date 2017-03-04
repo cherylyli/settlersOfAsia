@@ -174,3 +174,8 @@ Enum.HarborRatio = {
     'SpecialHarbor': 2,
     'GeneralHarbor': 3
 };
+
+Enum.AllowedCommands = {
+    'SetupRoundOne': ['buildEstablishment', 'buildRoad', 'buildShip'],
+    'SetupRoundTwo': ['buildEstablishment', 'buildRoad', 'buildShip']
+};
