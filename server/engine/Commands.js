@@ -16,7 +16,7 @@ let Knight = require('./gameLogic/Knight.js');
 let Trade = require('./gameLogic/Trade.js');
 let Enum = require('./gameLogic/Enum.js');
 let notify  = require('../api/notify.js');
-
+let CircularJSON = require('circular-json');
 
 let Commands = module.exports = {};
 //TODO: Yuan, you can help implement the commands, but you'd better finish other todo tasks first. Commands is an interface for all game logic class, you have to read all the game logic class before you implement them. (Actually don't implement this alone, it's better we can code this part together). This is optional if you want more task :p.
@@ -106,23 +106,23 @@ Commands.startGame = function (roomID) {
  * @return {boolean}
  */
 Commands.leaveRoom = function (userName, roomID) {
-    // let room = DATA.getRoom(roomID);
-    // let user = DATA.getUser(userName);
-    // if (!room) {
-    //     user.roomID = null;
-    //     return;
-    // }
-    // let currentOwner = room.owner;
-    // user.leaveRoom();
-    // let newRoom = DATA.getRoom(roomID);
-    // if (newRoom && newRoom.owner != room.owner){
-    //     notify.user(newRoom.owner, 'NEW_ROOM_OWNER');
-    //     //it should only send to the rest players in the room, but I have no reference to the socket object lol and too lazy to change... For now just send to all ppl, the person who left the room will simply ignores this message
-
-    // }
-    // if (Object.keys(newRoom.users).length > 0) {
-    //     notify.room(roomID, 'A_PLAYER_LEFT_ROOM', DATA.getRoom(roomID));
-    // }
+    let room = DATA.getRoom(roomID);
+    let user = DATA.getUser(userName);
+    if (!room) {
+         user.roomID = null;
+        return;
+    }
+    let currentOwner = room.owner;
+    user.leaveRoom();
+    let newRoom = DATA.getRoom(roomID);
+    if (newRoom && newRoom.owner != room.owner){
+        notify.user(newRoom.owner, 'NEW_ROOM_OWNER');
+        //it should only send to the rest players in the room, but I have no reference to the socket object lol and too lazy to change... For now just send to all ppl, the person who left the room will simply ignores this message
+    //
+    }
+    if (Object.keys(newRoom.users).length > 0) {
+        notify.room(roomID, 'A_PLAYER_LEFT_ROOM', CircularJSON.stringify(DATA.getRoom(roomID)));
+    }
     return true;
 };
 
