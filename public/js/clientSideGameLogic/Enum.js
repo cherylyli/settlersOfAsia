@@ -96,11 +96,14 @@ Enum.KnightType = {
 };
 
 
+
+
 Enum.Color = {
-    "RED":"RED",
-    "YELLOW":"YELLOW",
-    "GREEN":"GREEN",
-    "ORANGE":"ORANGE"};
+    "mediumpurple":"mediumpurple",
+    "palegoldenrod":"palegoldenrod",
+    "lightgreen":"lightgreen",
+    "indianred":"indianred"
+};
 
 Enum.HexType = {
     'Sea': 'Sea',

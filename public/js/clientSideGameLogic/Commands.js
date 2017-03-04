@@ -545,6 +545,7 @@ _.each(CommandName, function(cmd){
 
         //allowed operations
         //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
+            /**
         let phase = getMatch().phase;
         if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)){
             swalError2("This operation not allowed in "+ phase);
@@ -555,7 +556,7 @@ _.each(CommandName, function(cmd){
         //checks
         if(!CommandCheck[cmd].apply(this, arguments)){
             return;
-        }
+        }*/
 
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
