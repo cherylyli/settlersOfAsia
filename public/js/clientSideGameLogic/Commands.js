@@ -28,28 +28,6 @@
     let getMyPlayerObj = function () {
         return getMatch().players[myObj.username];
     };
-/**
-Commands.exec = function(commandName, data){
-    sock.emit(commandName, data);
-};
-**/
-
-
-    _.each(CommandName, function(cmd){
-
-        Commands[cmd] = function(){
-            sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
-        };
-
-        sock.on(cmd + 'Ack', function (msg) {
-            console.log(msg);
-        });
-
-        sock.on(cmd + 'Ack' + 'Owner', function (msg) {
-            swalSucc(CommandSuccMsg[cmd]);
-        });
-
-    });
 
 
 
@@ -87,15 +65,17 @@ Commands.exec = function(commandName, data){
     };
 
 
+    CommandCheck.buildEstablishment = function (vertex, establishmentLV) {
+        if (establishmentLV == 1) return CommandCheck.buildSettlement(vertex);
+        return CommandCheck.upgradeToCity(vertex);
+    };
 
 /**
  * TODO: test
  * @param cmdData    {CommandsData.buildSettlement}
  * @return {boolean}
  */
-    CommandCheck.buildSettlement = function (cmdData) {
-        let vertex = cmdData.position;
-
+    CommandCheck.buildSettlement = function (vertex) {
         //set up phrase you can build one settlement for free
         if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().settlementCnt >= 1){
             swalError2("You can only build one settlement in set up round one!");
@@ -175,8 +155,7 @@ Commands.exec = function(commandName, data){
     * @param data {CommandsData.upgradeToCity}
     * @return {boolean}
     */
-    CommandCheck.upgradeToCity = function (data) {
-        let vertex = data.position;
+    CommandCheck.upgradeToCity = function (vertex) {
         if (!checkEnoughResource(Cost.upgradeToCity)){
             return false;
         }
@@ -208,8 +187,8 @@ Commands.exec = function(commandName, data){
  * @param data {CommandsData.buildRoad}
  * @return {boolean}
  */
-    CommandCheck.buildRoad = function (data) {
-        let edge = data;
+    CommandCheck.buildRoad = function (vertex1, vertex2) {
+        let edge = Map.edge(vertex1, vertex2);
 
         if (!checkEnoughResource(Cost.buildRoad)){
             return false;
@@ -279,8 +258,8 @@ Commands.exec = function(commandName, data){
  * @param data {CommandsData.buildShip}
  * @return {boolean}
  */
-    CommandCheck.buildShip = function (data) {
-        let edge = data;
+    CommandCheck.buildShip = function (vertex1, vertex2) {
+        let edge = Map.edge(vertex1, vertex2);
 
         if (!checkEnoughResource(Cost.buildShip)){
             return false;
@@ -345,8 +324,7 @@ Commands.exec = function(commandName, data){
  *
  * @param data
  */
-    CommandCheck.buildCityWall = function (data) {
-        let vertex = data.position;
+    CommandCheck.buildCityWall = function (vertex) {
 
         if (!checkEnoughResource(Cost.buildCityWall)){
             return false;
@@ -375,9 +353,9 @@ Commands.exec = function(commandName, data){
     };
 
 
-    CommandCheck.buyCityImprovement = function (data) {
-        let cityImprovementCategory = data.cityImprovementCategory;
-        let level = getMyPlayerObj().cityImprovement[cityImprovementCategory] + 1;
+    CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
+        //let me = getMyPlayerObj();
+        let level = parseInt(getMyPlayerObj().cityImprovement[cityImprovementCategory]) + 1;
 
         // 6 = 5 + 1
         if (level >= 6){
@@ -397,15 +375,16 @@ Commands.exec = function(commandName, data){
  * @param newVertex2 {int}
  */
     CommandsData.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2) {
+
         let oldPosition = Map.edge(oldVertex1, oldVertex2);
         let newPosition = Map.edge(newVertex1, newVertex2);
         return {'oldPosition': oldPosition, 'newPosition': newPosition};
     };
 
 
-    CommandCheck.moveShip = function (data) {
-        let oldPosition = data.oldPosition;
-        let newPosition = data.newPosition;
+    CommandCheck.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2) {
+        let oldPosition = Map.edge(oldVertex1, oldVertex2);
+        let newPosition = Map.edge(newVertex1, newVertex2);
 
         //You may only move 1 ship per turn, and only during your building phase.
         //TODO: check building phase
@@ -446,9 +425,7 @@ getAvailbleEdgesToMoveTo =function () {
     };
 
 
-    CommandCheck.tradeWithBank = function (data) {
-        let src = data.src;
-        let tradeFor = data.tradeFor;
+    CommandCheck.tradeWithBank = function (src, tradeFor) {
         let tradeRatio = getMyPlayerObj().tradeRatio[tradeFor];
         let cost = {[src]: tradeRatio};
 
@@ -501,13 +478,13 @@ let edge = function (vertex1, vertex2) {
         return true;
     };
 
-    let checkInput = function (input) {
-        _.each(input, function (param) {
-            if (typeof myVar == 'undefined') {
-                swalError2("Invalid input");
+    let checkInput = function (data) {
+        for (let key in data){
+            if (typeof data[key] == 'undefined'){
+                swalError2("Input not complete!");
                 return false;
             }
-        })
+        }
     };
 
 
@@ -552,4 +529,45 @@ function isSettlement(vertex) {
 }
 
 //})();
+
+
+
+
+_.each(CommandName, function(cmd){
+
+    Commands[cmd] = function(){
+
+        //input complete check
+        /**
+        if (!checkInput(CommandsData[cmd].apply(this, arguments))){
+            return;
+        }**/
+
+        //allowed operations
+        //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
+        let phase = getMatch().phase;
+        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)){
+            swalError2("This operation not allowed in "+ phase);
+            return;
+        }
+
+        //comment out this part if you want to disable checks
+        //checks
+        if(!CommandCheck[cmd].apply(this, arguments)){
+            return;
+        }
+
+        //exec
+        sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
+    };
+
+    sock.on(cmd + 'Ack', function (msg) {
+        console.log(msg);
+    });
+
+    sock.on(cmd + 'Ack' + 'Owner', function (msg) {
+        swalSucc(CommandSuccMsg[cmd]);
+    });
+
+});
 

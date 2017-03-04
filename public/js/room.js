@@ -216,54 +216,54 @@ $(window).on('imready', function(im){
             },
 
             endTurn: function () {
-                if(CommandCheck.endTurn(CommandsData.endTurn())) Commands.endTurn();
+                Commands.endTurn();
             },
 
             // roll dice
             rollDice: function(){
-                if(CommandCheck.rollDice(CommandsData.rollDice())) Commands.rollDice();
+               Commands.rollDice();
             },
 
             buildEstablishment: function () {
                 var {vertex, establishmentLV } = getInput();
 
                 if (establishmentLV == 1){
-                    if (CommandCheck.buildSettlement(CommandsData.buildEstablishment(vertex, establishmentLV))) Commands.buildEstablishment(vertex, establishmentLV);
+                    Commands.buildEstablishment(vertex, establishmentLV);
                 }
                 if (establishmentLV == 2){
-                    if (CommandCheck.buildSettlement(CommandsData.buildEstablishment(vertex, establishmentLV))) Commands.buildEstablishment(vertex, establishmentLV);
+                    Commands.buildEstablishment(vertex, establishmentLV);
                 };
             },
 
             buildRoad: function () {
                 var {vertex1, vertex2} = getInput();
-                if (CommandCheck.buildRoad(CommandsData.buildRoad(vertex1, vertex2)))Commands.buildRoad(vertex1, vertex2);
+                Commands.buildRoad(vertex1, vertex2);
             },
 
             buildShip: function () {
                 var {vertex1, vertex2} = getInput();
-                if (CommandCheck.buildShip(CommandsData.buildShip(vertex1, vertex2))) Commands.buildShip(vertex1, vertex2);
+                Commands.buildShip(vertex1, vertex2);
             },
 
             buyCityImprovement: function () {
                 var {category} = getInput();
                 var cityImprovementCategory =  Enum.cityImprovementCategory[category];
-                if (CommandCheck.buyCityImprovement(CommandsData.buyCityImprovement(cityImprovementCategory))) Commands.buyCityImprovement(cityImprovementCategory);
+                Commands.buyCityImprovement(cityImprovementCategory);
             },
 
             buildCityWall: function () {
                 var {vertex} = getInput();
-                if (CommandCheck.buildCityWall(CommandsData.buildCityWall(vertex))) Commands.buildCityWall(vertex);
+                Commands.buildCityWall(vertex);
             },
 
             moveShip: function(){
                 var {oldVertex1, oldVertex2, newVertex1, newVertex2} = getInput();
-                if (CommandCheck.moveShip(CommandsData.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2))) Commands.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2);
+                Commands.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2);
             },
 
             tradeWithBank: function(){
                 var {src, tradeFor} = getInput();
-                if (CommandCheck.tradeWithBank(CommandsData.tradeWithBank(src, tradeFor))) Commands.tradeWithBank(src, tradeFor);
+                Commands.tradeWithBank(src, tradeFor);
             }
 
         }
