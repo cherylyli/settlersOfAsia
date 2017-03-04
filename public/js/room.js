@@ -172,6 +172,7 @@ $(window).on('imready', function(im){
         watch: {
             room: function(){
                 updateHexTiles();
+                addSettlementsOrCities();
             }
         },
         methods: {
@@ -283,7 +284,7 @@ $(window).on('imready', function(im){
 
     // change hex tile depending on room object
     function updateHexTiles(){
-        console.log(app.room.match.map.hexTiles);
+        
         // for each hex tile, add class 
         // $("#board.hexagon").find("[data-slide='" + current + "']");
         if (app.room && app.room.match){
@@ -296,6 +297,31 @@ $(window).on('imready', function(im){
                 
             }
 
+        }
+    }
+
+    function addSettlementsOrCities(){
+        // console.log(app.roo)
+        var levels = ["settlement", "city", "metropolis"];
+
+        // player colors: RED, YELLOW, GREEN, ORANGE
+        if (app.room && app.room.match){
+            var vertexInfo = app.room.match.map.vertexInfo;
+            for (var vertex_i = 0; vertex_i<vertexInfo.length; vertex_i++){
+                //if there's an object in the vertex
+                if (vertexInfo[vertex_i]){
+                    // get vertex owner, get vert
+                    // select the vertex
+                    var select = ".verticeElem[data-id='" + vertex_i + "']";
+                    var ownerColor = vertexInfo[vertex_i].owner.color;
+                    var cityLevel = levels[vertexInfo[vertex_i].level -1];
+                    console.log($(select));
+                    console.log(select);
+                    console.log('class', cityLevel + " "+ ownerColor+ " verticeElem");
+                    $(select).attr('class', cityLevel + " "+ ownerColor+ " verticeElem");
+
+                }
+            }
         }
     }
 

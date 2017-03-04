@@ -138,6 +138,13 @@ $(document).ready(function() {
         vertice.style.top = y;
         vertice.style.left = x;
         placeIntoWebpage(vertice);
+
+        var verticeElem = document.createElement("div");
+        verticeElem.setAttribute("data-id", "" + id);
+        verticeElem.setAttribute("class", "verticeElem");
+        verticeElem.style.top = y;
+        verticeElem.style.left = x;
+        placeIntoWebpage(verticeElem);
     }
 
     function placeIntoWebpage(newNode) {
