@@ -75,12 +75,17 @@ io.on('connection', function (socket) {
     
 
 
-    // chat support
+    // player chat
     socket.on('send-message', function(msgObj){
         msgObj.user = username;
         notify.room(socket.room, 'receive-message', msgObj);
     });
 
+    // system message
+    socket.on('send-sys-message', function(msgObj){
+        msgObj.user = username;
+        notify.room(socket.room, 'receive-sys-message', msgObj);
+    });
 
 });
 

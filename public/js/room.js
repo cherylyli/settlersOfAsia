@@ -64,10 +64,12 @@ $(window).on('imready', function(im){
 
     // upon successfully joined room, server will send back a message
     sock.on('JOIN_ROOM_SUCCESS', function(msg){
+        app.log(myObj.username, 'joined room.', true);
     });
 
 
     sock.on('NEW_PLAYER_JOINED', function (msg) {
+        app.log(app.room.newUser, 'joined room.', true);
     });
 
 
@@ -85,6 +87,7 @@ $(window).on('imready', function(im){
             text: 'Are you prepared?',
             timer: 1000
         });
+        app.log(null, 'The game starts.', true);
     });
 
     sock.on('TAKE_TURN', function (msg) {
@@ -137,11 +140,11 @@ $(window).on('imready', function(im){
             room: room,
             Enum: Enum,
             logs: [
-                { user: null, action: 'The game starts.', system: true },
-                { user: 'Yuan', action: 'places a city.', system: true },
-                { user: 'jack', action: 'places a road.', system: true },
-                { user: 'Max', action: "stop cheating man", system: false },
-                { user: 'Emol', action: "i aint cheating -_-", system: false }
+                // { user: null, action: 'The game starts.', system: true },
+                // { user: 'Yuan', action: 'places a city.', system: true },
+                // { user: 'jack', action: 'places a road.', system: true },
+                // { user: 'Max', action: "stop cheating man", system: false },
+                // { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
                 "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank"
@@ -207,20 +210,18 @@ $(window).on('imready', function(im){
             // chat in room
             sendMessage: function(){
                 var msg = {
-                    action: $('#log input').val(),
-                    system: false
-                }
+                    action: $('#log input').val()
+                };
                 sock.emit('send-message', msg);
                 $('#log input').val('');
             },
 
             // send system message
-            sendSysMessage: function(action){
+            sendSysMessage: function(words){
                 var msg = {
-                    action: action,
-                    system: true
-                }
-                sock.emit('send-message', msg);
+                    words: words
+                };
+                sock.emit('send-sys-message', msg);
             },
 
             endTurn: function () {
@@ -295,17 +296,25 @@ $(window).on('imready', function(im){
     }
     $(window).resize(adjustUI);
 
-    // receive message
+    // receive chat message
     sock.on('receive-message', function(msg){
-        app.log(msg.user, msg.action, msg.system);
+        app.log(msg.user, msg.action, false);
+    });
+
+    // receive system message
+    sock.on('receive-sys-message', function(msg){
+        var words = msg.words;
+        var plural = msg.user != myObj.username;
+        var word1 = plural ? pluralize(_.first(words)) : _.first(words);
+        var text = `${word1} ${_.rest(words).join(' ')}.`;
+        app.log(msg.user, text, true);
     });
 
     // upon receive an ack, send system message
     _.each(CommandName, function(cmd){
          sock.on(cmd + 'Ack' + 'Owner', function (msg) {
             var words = cmd.replace(/([A-Z])/g, " $1").toLowerCase().split(' ');
-            var text = `${_.first(words)}s ${_.rest(words).join(' ')}.`;
-            app.sendSysMessage(text);
+            app.sendSysMessage(words);
         });
     });
 
