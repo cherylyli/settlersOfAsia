@@ -45,7 +45,7 @@ $(window).on('imready', function(im){
 
 
     // template for user
-    var fakeUser = window.fakeUser = {
+    var fakeUser = {
         resourcesAndCommodities: {"Lumber":0,"Brick":0,"Grain":0,"Ore":0,"Wool":0,"Gold":2,"Cloth":0,"Coin":0,"Paper":0}
     };
 
@@ -64,7 +64,6 @@ $(window).on('imready', function(im){
 
     // upon successfully joined room, server will send back a message
     sock.on('JOIN_ROOM_SUCCESS', function(msg){
-        app.setMy();
     });
 
 
@@ -181,12 +180,6 @@ $(window).on('imready', function(im){
         methods: {
             call: function(fn){
                 this[fn]();
-            },
-
-            // make 'my' point to my object inside users
-            setMy: function(){
-                var my = this.room.users[myObj.username];
-                if (my) this.my = my;
             },
 
             // save match
