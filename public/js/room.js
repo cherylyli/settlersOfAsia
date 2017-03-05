@@ -420,10 +420,10 @@ $(window).on('imready', function(im){
             var players = app.room.match.players;
             var currentplayer = app.room.match.currentPlayer;
             var hexColors = {
-                "BLUE": "background-color: rgba(0,0,255, ",
-                "GREEN": "background-color: rgba(0, 255, 0, ",
-                "ORANGE": "background-color: rgba(255,165,0,",
-                "RED": "background-color: rgba(255,255,0, "
+                "BLUE": "border-bottom: 3px, solid, rgba(0,0,255, ",
+                "GREEN": "border-bottom: 3px, solid, rgba(0, 255, 0, ",
+                "ORANGE": "border-bottom: 3px, solid, rgba(255,165,0,",
+                "RED": "border-bottom: 3px, solid, rgba(255,255,0, "
             }
 
             for (var playerKey in players){
@@ -431,16 +431,16 @@ $(window).on('imready', function(im){
                 var playerColor = players[playerKey].color;
                 var playerHex = hexColors[playerColor];
                 if (playerName === currentplayer){
-                    playerHex += "0.8)";
+                    playerHex += "1.0)";
                 } else {
-                    playerHex += "0.4)";
+                    playerHex += "0.8)";
                 }
 
 
                 var selector = "[data-username='"+ playerName+ "']";
                 console.log(selector);
                 // get the player
-                $(selector).parent().parent().attr("style", playerHex);
+                $(selector).attr("style", playerHex);
             }
 
         }
