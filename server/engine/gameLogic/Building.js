@@ -31,33 +31,33 @@ Building.buildSettlement = function (player, vertex, map) {
     building.level = 1; //level 1 for settlement, 2 for city
     updateInfo(map, building);
 
-    building.upgradeToCity = function(){
+    building.upgradeToCity = function () {
         if (building.level != 1) throw "You can only upgrade a settlement to city";
         building.level = 2;
 
         building.cityWall = false;
         building.owner.updateVP(VP.upgradeTocity);
-        building.owner.settlementCnt --;    //because one of the settlement is upgraded to city
+        building.owner.settlementCnt--;    //because one of the settlement is upgraded to city
     }
 
-    building.buildCityWall = function(){
+    building.buildCityWall = function () {
         if (building.level != 2) throw  "You can only build city wall on city";
         if (building.cityWall) throw "You may only build one city wall under each city";
         if (building.owner.cityWallNum == 3) throw "You can build at most 3 city walls";
-        building.owner.cityWallNum ++;
+        building.owner.cityWallNum++;
         building.owner.maxSafeCardNum += 2;
         building.cityWall = true;
     }
 
-    building.removeCityWall = function(){
-        building.owner.cityWallNum --;
+    building.removeCityWall = function () {
+        building.owner.cityWallNum--;
         building.owner.maxSafeCardNum -= 2;
         building.cityWall = false;
     }
 
     //pillage a city, pre: building is a city
     building.pillage = function () {
-        if(building.cityWall) building.removeCityWall();
+        if (building.cityWall) building.removeCityWall();
         else {
             //city becomes a settlement
             building.level = 1;
@@ -69,7 +69,6 @@ Building.buildSettlement = function (player, vertex, map) {
     return building;
 
 }
-
 
 
 /**
@@ -84,9 +83,9 @@ Building.buildRoad = function (player, edge, match, type) {
     let road = {'owner': player, 'type': type};
     //update map info
     match.map.setEdgeInfo(road, edge);
-   /**
-    let neighborHexTiles = map.getHexTileByEdge(edge);
-    for (let i = 0; i<neighborHexTiles.length; i++){
+    /**
+     let neighborHexTiles = map.getHexTileByEdge(edge);
+     for (let i = 0; i<neighborHexTiles.length; i++){
         let [hexTileId, positionInHex] = neighborHexTiles[i];
         let hexTile = map.getHexTileById(hexTileId);
         if (hexTile.edgeInfo[positionInHex]) throw "You can only build road on empty road";
@@ -94,17 +93,17 @@ Building.buildRoad = function (player, edge, match, type) {
     }**/
 
     //update player info
-    player[ type + 's'][Map.edgeKey(edge)] = edge;
+    player[type + 's'][Map.edgeKey(edge)] = edge;
     player.calculateLongestRoad();
 
-    if (type == 'ship'){
+    if (type == 'ship') {
 
         /**
          *
          * @param oldPosition {Edge}
          * @param newPostion  {Edge}
          */
-        road.move = function(oldPosition, newPosition){
+        road.move = function (oldPosition, newPosition) {
             match.map.setEdgeInfo(undefined, oldPosition);
             match.map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];
@@ -133,19 +132,18 @@ Building.buildRoad = function (player, edge, match, type) {
 }
 
 
-
 /**
  * TODO: improvement: make updateInfo universal for vertex unit and edge unit
  * private helper method for vertex unit
  * @param map {Map}
  * @param building {Building}
  */
-function updateInfo(map, building){
+function updateInfo(map, building) {
     //update hexTile info
     map.setVertexInfo(building, building.position);
     /**
-    let neighborHexTiles = map.getHexTileByVertex(building.position);
-    for (let i = 0; i<neighborHexTiles.length; i++){
+     let neighborHexTiles = map.getHexTileByVertex(building.position);
+     for (let i = 0; i<neighborHexTiles.length; i++){
         let [hexTileId, positionInHex] = neighborHexTiles[i];
         let hexTile = map.getHexTileById(hexTileId);
         if (hexTile.verticesInfo[positionInHex]) throw "You can only build settlement/city on empty vertex";
@@ -155,14 +153,16 @@ function updateInfo(map, building){
     //update player info
     building.owner.buildings[building.position] = building;
     building.owner.updateVP(VP.buildSettlement);
-    building.owner.settlementCnt ++;
+    building.owner.settlementCnt++;
 
 
     //check if the the vertex can acquire unoccupied harbor
-    for (let edgeKey in map.harbors){
-        let harbor = map.harbors[edgeKey];
-        if (((harbor.position[0] == building.position) || (harbor.position[1] == building.position)) && !harbor.owner){
-            harbor.owner = building.owner;
+    for (let edgeKey in map.harbors) {
+        if (map.harbors.hasOwnProperty(edgeKey)) {
+            let harbor = map.harbors[edgeKey];
+            if (((harbor.position[0] == building.position) || (harbor.position[1] == building.position)) && !harbor.owner) {
+                harbor.acquireBy(building.owner);
+            }
         }
     }
 }

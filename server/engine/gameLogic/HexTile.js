@@ -95,9 +95,10 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
             if (hexTile.vertices.hasOwnProperty(vertex)) {
                 //there is a builidng on the vertex
                 let building = map.getVertexInfo(hexTile.vertices[vertex]);
-                let player = building.owner;
-
-                hexTile.produceResourceToSingleUser(map, player, building);
+                if (building){
+                    let player = building.owner;
+                    hexTile.produceResourceToSingleUser(map, player, building);
+                }
             }
         }
     };
