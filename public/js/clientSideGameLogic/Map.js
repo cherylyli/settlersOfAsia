@@ -73,6 +73,15 @@ Map.addHelperFunctions = function (map) {
         return map.verticesToHex[vertex];
     };
 
+    /**
+     *
+     * @param vertex
+     * @return {Array<int>}
+     */
+    map.getHexTileArrayByVertex = function (vertex) {
+        return _.zip.apply(this, map.getHexTileByVertex(vertex))[0];
+    };
+
 
     /**
      *
@@ -104,7 +113,7 @@ Map.addHelperFunctions = function (map) {
      * @return a list of hexTiles (not id, hexTile objec)
      * @param numToken int
      */
-    map.getHexTileByNumToken = function(map, numToken){
+    map.getHexTileByNumToken = function(numToken){
         return map.numTokenToHexTiles[numToken];
     };
 

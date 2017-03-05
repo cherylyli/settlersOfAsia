@@ -21,15 +21,36 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
     hexTile.productionNum = productionNum;
     hexTile.visible = visible;
     hexTile.edge =  {'TopRight': null, 'Right': null, 'BottomRight': null, 'BottomLeft': null, 'Left': null, 'TopLeft': null};
-    //Now map is responsible for edge info and vertex info
-    //hexTile.edgeInfo =  {'TopRight': null, 'Right': null, 'BottomRight': null, 'BottomLeft': null, 'Left': null, 'TopLeft': null};
     hexTile.vertices = {'Top': undefined, 'TopLeft': undefined, 'BottomLeft': undefined, 'Bottom': undefined, 'BottomRight': undefined, 'TopRight': undefined};
-    //hexTile.verticesInfo = {'Top': null, 'TopLeft': null, 'BottomLeft': null, 'Bottom': null, 'BottomRight': null, 'TopRight': null};
     hexTile.blockedByRobber = false;
 
     hexTile.getVertices = function(){
         return hexTile.vertices;
-    }
+    };
+
+
+    /**
+     *
+     * @param map {Map}
+     * @return {object} key:hexID, value:hexTile
+     */
+    hexTile.getNeighbors = function (map) {
+      let neighbors = {};
+      for (let edgePosition in hexTile.edge){
+          if (hexTile.edge.hasOwnProperty(edgePosition)){
+              if (!hexTile.edge[edgePosition]){
+                  console.log("he");
+              }
+              for (let [hexID, edgeP] of map.getHexTileByEdge(hexTile.edge[edgePosition])){
+                  neighbors[hexID] = map.getHexTileById(hexID);
+              }
+          }
+      }
+
+      //delete ourselves
+        delete neighbors[this.id];
+        return neighbors;
+    };
 
     /**
      * find the edge position in hex
@@ -58,12 +79,12 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
         }
 
         return undefined;
-    }
+    };
 
 
     hexTile.getEdges = function(){
         return hexTile.edge;
-    }
+    };
 
     /**
      *
@@ -74,28 +95,36 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
             if (hexTile.vertices.hasOwnProperty(vertex)) {
                 //there is a builidng on the vertex
                 let building = map.getVertexInfo(hexTile.vertices[vertex]);
-                let player = building.owner;
-                let resource = Enum.SettlementResources[this.type];
-                if (resource == Enum.SettlementResources.GoldField) {
-                    if (building.level == 1) {
-                        player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
-                    }
-                    else {
-                        player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForCity;
-                    }
-                }
-                else {
-                    player.resourcesAndCommodities[resource]++;
-                    if (building.level == 2) {
-                        resource = AdditionalCityResources[hexTile.type];
-                        player.resourcesAndCommodities[resource]++;
-                    }
+                if (building){
+                    let player = building.owner;
+                    hexTile.produceResourceToSingleUser(map, player, building);
                 }
             }
         }
-    }
+    };
+
+    hexTile.produceResourceToSingleUser = function (map, player, building) {
+        let resource = Enum.SettlementResources[this.type];
+        if (resource == Enum.SettlementResources.GoldField) {
+            if (building.level == 1) {
+                player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
+            }
+            else {
+                player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForCity;
+            }
+        }
+        else {
+            player.resourcesAndCommodities[resource]++;
+            if (building.level == 2) {
+                resource = AdditionalCityResources[hexTile.type];
+                player.resourcesAndCommodities[resource]++;
+            }
+        }
+        player.resourceCardNum = player.resourceCardTotalNum();
+    };
+
     return hexTile;
-}
+};
 
 
 

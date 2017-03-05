@@ -37,7 +37,7 @@ $(window).on('imready', function(im){
     let CircularJSON = window.CircularJSON;
 
     window.myObj = im.myObj;
-    //console.log(window.myObj);
+    // console.log(window.myObj);
     let roomId = window.location.pathname.split("/").pop();
 
     // parse a fake room data just for test
@@ -45,15 +45,15 @@ $(window).on('imready', function(im){
 
 
     // template for user
-    var fakeUser = window.fakeUser = {
+    var fakeUser = {
         resourcesAndCommodities: {"Lumber":0,"Brick":0,"Grain":0,"Ore":0,"Wool":0,"Gold":2,"Cloth":0,"Coin":0,"Paper":0}
     };
 
     // on page load, join room
     sock.emit('JOIN_ROOM', roomId);
 
-    //test data
-    //for now, assume player choose this map
+    // test data
+    // for now, assume player choose this map
     let mapConfig = {'scenario':'Heading For New Shores'};
     sock.emit('MAP_CONFIG', mapConfig);
 
@@ -64,11 +64,12 @@ $(window).on('imready', function(im){
 
     // upon successfully joined room, server will send back a message
     sock.on('JOIN_ROOM_SUCCESS', function(msg){
-        app.setMy();
+        app.log(myObj.username, 'joined room.', true);
     });
 
 
     sock.on('NEW_PLAYER_JOINED', function (msg) {
+        app.log(app.room.newUser, 'joined room.', true);
     });
 
 
@@ -86,6 +87,7 @@ $(window).on('imready', function(im){
             text: 'Are you prepared?',
             timer: 1000
         });
+        app.log(null, 'The game starts.', true);
     });
 
     sock.on('TAKE_TURN', function (msg) {
@@ -138,15 +140,14 @@ $(window).on('imready', function(im){
             room: room,
             Enum: Enum,
             logs: [
-                { user: null, action: 'The game starts.', system: true },
-                { user: 'Yuan', action: 'places a city.', system: true },
-                { user: 'jack', action: 'places a road.', system: true },
-                { user: 'Max', action: "stop cheating man", system: false },
-                { user: 'Emol', action: "i aint cheating -_-", system: false }
+                // { user: null, action: 'The game starts.', system: true },
+                // { user: 'Yuan', action: 'places a city.', system: true },
+                // { user: 'jack', action: 'places a road.', system: true },
+                // { user: 'Max', action: "stop cheating man", system: false },
+                // { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
-                "buildEstablishment", "buildRoad", "buildShip", "buildCityWall",
-                "buyCityImprovement", "moveShip", "tradeWithBank"
+                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank"
             ],
             isMyTurn: false,
 
@@ -183,12 +184,6 @@ $(window).on('imready', function(im){
                 this[fn]();
             },
 
-            // make 'my' point to my object inside users
-            setMy: function(){
-                var my = this.room.users[myObj.username];
-                if (my) this.my = my;
-            },
-
             // save match
             save: function(){
                 Toast.show('Saved!');
@@ -215,20 +210,18 @@ $(window).on('imready', function(im){
             // chat in room
             sendMessage: function(){
                 var msg = {
-                    action: $('#log input').val(),
-                    system: false
-                }
+                    action: $('#log input').val()
+                };
                 sock.emit('send-message', msg);
                 $('#log input').val('');
             },
 
             // send system message
-            sendSysMessage: function(action){
+            sendSysMessage: function(words){
                 var msg = {
-                    action: action,
-                    system: true
-                }
-                sock.emit('send-message', msg);
+                    words: words
+                };
+                sock.emit('send-sys-message', msg);
             },
 
             endTurn: function () {
@@ -240,6 +233,17 @@ $(window).on('imready', function(im){
                Commands.rollDice();
             },
 
+            buildSettlement: function () {
+                var {vertex} = getInput();
+                Commands.buildSettlement(vertex);
+            },
+
+            upgradeToCity: function () {
+                var {vertex} = getInput();
+                Commands.upgradeToCity(vertex);
+            },
+
+            /**
             buildEstablishment: function () {
                 var {vertex, establishmentLV } = getInput();
 
@@ -249,7 +253,7 @@ $(window).on('imready', function(im){
                 if (establishmentLV == 2){
                     Commands.buildEstablishment(vertex, establishmentLV);
                 };
-            },
+            },**/
 
             buildRoad: function () {
                 var {vertex1, vertex2} = getInput();
@@ -292,15 +296,26 @@ $(window).on('imready', function(im){
     }
     $(window).resize(adjustUI);
 
-    // receive message
+    // receive chat message
     sock.on('receive-message', function(msg){
-        app.log(msg.user, msg.action, msg.system);
+        app.log(msg.user, msg.action, false);
     });
 
-    // roll dice result
-    sock.on('rollDiceAck', function(){
-        var dice = app.room.match.dice;
-        console.log(Raw(dice))
+    // receive system message
+    sock.on('receive-sys-message', function(msg){
+        var words = msg.words;
+        var plural = msg.user != myObj.username;
+        var word1 = plural ? pluralize(_.first(words)) : _.first(words);
+        var text = `${word1} ${_.rest(words).join(' ')}.`;
+        app.log(msg.user, text, true);
+    });
+
+    // upon receive an ack, send system message
+    _.each(CommandName, function(cmd){
+         sock.on(cmd + 'Ack' + 'Owner', function (msg) {
+            var words = cmd.replace(/([A-Z])/g, " $1").toLowerCase().split(' ');
+            app.sendSysMessage(words);
+        });
     });
 
     // change hex tile depending on room object
@@ -626,15 +641,6 @@ $(window).on('imready', function(im){
 
 
 
-
-
-
-
-
-
-    //game stuff, maybe move to another js file later
-    //here are just tests, call the functions when the certain button is pressed.
-    //sock.emit('rollDice', roomId);
 
 
 

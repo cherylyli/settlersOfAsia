@@ -82,8 +82,13 @@
             return false;
         }
 
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getBuildingCnt() >= 2){
+            swalError2("You can only build one settlement in set up round two!");
+            return false;
+        }
 
-        if ((!getMatch().phase == Enum.MatchPhase.SetupRoundOne) && !checkEnoughResource(Cost.buildSettlement)){
+
+        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildSettlement)){
             return false;
         }
 
@@ -131,11 +136,27 @@
             return false;
         }
 
+
+        //cannot build in sea
+        let inSea = true;
+        for (let hexID of getMatch().map.getHexTileArrayByVertex(vertex)){
+            if (!(getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea)){
+                inSea = false;
+            }
+        }
+
+        if (inSea){
+            swalError2("Cannot build settlement in sea!");
+            return false;
+        }
+
         //if you have more than 5 settlements, you have to upgrade one to a city before you build another one
         if (getMyPlayerObj().settlementCnt == 5){
             swalError2("You already have 5 settlements! Upgrade one to city before you build another one!");
             return false;
         }
+
+
 
         return true;
     };
@@ -156,18 +177,25 @@
     * @return {boolean}
     */
     CommandCheck.upgradeToCity = function (vertex) {
-        if (!checkEnoughResource(Cost.upgradeToCity)){
+
+        if (!(getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && !checkEnoughResource(Cost.upgradeToCity)){
             return false;
         }
 
         //check if there is a settlement in the vertex
-        if (isSettlement(vertex)){
-            return true;
+        if (!isSettlement(vertex)){
+            swalError2("You can only update a settlement!");
+            return false;
         }
 
-        swalError2("Invalid operation!");
-        //alert("Invalid operation!");
-        return false;
+        //you can only update one city
+        if ((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (getMyPlayerObj().getCities().length >= 1)){
+            swalError2("You can only update one settlement during set up round two!");
+            return false;
+        }
+
+        return true;
+
     };
 
 
@@ -190,10 +218,22 @@
     CommandCheck.buildRoad = function (vertex1, vertex2) {
         let edge = Map.edge(vertex1, vertex2);
 
-        if (!checkEnoughResource(Cost.buildRoad)){
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().getRoadAndShipCnt() >= 1){
+            swalError2("You can only build one road or ship in set up round one!");
             return false;
         }
 
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getRoadAndShipCnt() >= 2){
+            swalError2("You can only build one road or ship in set up round two!");
+            return false;
+        }
+
+
+        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)){
+            return false;
+        }
 
         //Only 1 road can be built on any given path
         if (getMatch().map.getEdgeInfo(edge)){
@@ -209,6 +249,7 @@
         }
         if (!adjacentToLandHex){
             swalError2("You cannot build road in sea!");
+            return false;
         }
 
 
@@ -228,7 +269,7 @@
 
             //... connected with settlements, or cities.
             let vertexUnit = getMatch().map.getVertexInfo(vertex);
-            if (vertexUnit && !isKnight(vertexUnit)){
+            if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == myObj.username){
                 connected = true;
                 break;
             }
@@ -261,12 +302,33 @@
     CommandCheck.buildShip = function (vertex1, vertex2) {
         let edge = Map.edge(vertex1, vertex2);
 
-        if (!checkEnoughResource(Cost.buildShip)){
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().getRoadAndShipCnt() >= 1){
+            swalError2("You can only build one road or ship in set up round one!");
             return false;
         }
 
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getRoadAndShipCnt() >= 2){
+            swalError2("You can only build one road or ship in set up round two!");
+            return false;
+        }
+
+
+        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)){
+            return false;
+        }
+
+        return shipPostionTest(edge);
+
+
+    };
+
+
+
+    function shipPostionTest(edge) {
         //Only 1 ship can be built on any given path
-        if (getMatch().map.getEdgeInfo()){
+        if (getMatch().map.getEdgeInfo(edge)){
             swalError2("Only 1 ship can be built on any given path!");
             return false;
         }
@@ -278,6 +340,7 @@
         }
         if (!adjacentToSeaHex){
             swalError2("You cannot build road in inland area!");
+            return false;
         }
 
 
@@ -309,7 +372,7 @@
         }
 
         return true;
-    };
+    }
 
 /**
  *
@@ -386,8 +449,11 @@
         let oldPosition = Map.edge(oldVertex1, oldVertex2);
         let newPosition = Map.edge(newVertex1, newVertex2);
 
-        //You may only move 1 ship per turn, and only during your building phase.
-        //TODO: check building phase
+        //You may only move 1 ship per turn, and only during your building phase -> dice rolled
+        if (!getMatch().diceRolled){
+            swalError2("You can only move ship during building phase!");
+        }
+
         if (getMatch().shipMoved){
             swalError2("You can only move 1 ship per turn!");
             return false;
@@ -404,7 +470,10 @@
             return false;
         }
 
-        if (! _.contains(getAvailbleEdgesToMoveTo(), newPosition)){
+
+
+        ship.remove(getMatch().map, oldPosition);
+        if (!shipPostionTest(newPosition)){
             swalError2("You cannot move ship here!");
             return false;
         }
@@ -491,6 +560,9 @@ let edge = function (vertex1, vertex2) {
     let update = function (room) {
         if (room.match) {
             Map.addHelperFunctions(room.match.map);
+            for (let name in room.users){
+                if (room.users.hasOwnProperty(name)) Player.addHelperFunctions(room.users[name]);
+            }
         }
 
     // modify room here
@@ -545,7 +617,7 @@ _.each(CommandName, function(cmd){
 
         //allowed operations
         //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-            /**
+
         let phase = getMatch().phase;
         if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)){
             swalError2("This operation not allowed in "+ phase);
@@ -556,7 +628,7 @@ _.each(CommandName, function(cmd){
         //checks
         if(!CommandCheck[cmd].apply(this, arguments)){
             return;
-        }*/
+        }
 
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));

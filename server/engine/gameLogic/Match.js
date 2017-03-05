@@ -19,6 +19,7 @@ let DATA = require('../Data.js');
 let Dice = require('./Dice.js');
 let Bank = require('./Bank.js');
 let Player = require('./Player.js');
+let notify  = require('../../api/notify.js');
 
 // users is a list of String, names of the user in the room
 /**
@@ -44,6 +45,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.longestRoad = 0;
     match.phase = null;
     match.turnNum = 0;
+    match.winningVP = 12;
    // match.currentPlayer =
 
     assignColors(match);
@@ -52,20 +54,24 @@ Match.createNewMatch = function (scenario, players, id) {
     match.rollDice = function () {
         match.dice.rollEventDice();
         match.dice.rollProductionDice();
-    }
+        match.dice.configureResult(match.map);
+        match.diceRolled = true;
+    };
 
     match.getPlayer = function (UserName) {
         return match.players[UserName];
-    }
+    };
 
     match.checkPlayerVP = function(player){
-        if (player.VP >= match.winningVP) match.endGame();
-    }
+        if (player.VP >= match.winningVP) {
+            match.winner = player.name;
+            match.endGame();
+        }
+    };
 
     match.endGame = function(){
-        //TODO:
-        console.log("Game ends!");
-    }
+        notify.room(roomId, "GAME_ENDS", DATA.getRoom(match.id));
+    };
     /**
      *
      * @return {String} the name of the player to take turn
@@ -111,7 +117,7 @@ Match.createNewMatch = function (scenario, players, id) {
         return match.currentPlayer;
         //notify the player to take turn
 
-    }
+    };
 
 
 
@@ -132,7 +138,7 @@ Match.createNewMatch = function (scenario, players, id) {
     return match;
 
     //match.
-}
+};
 
 function assignColors(match) {
     let colors = _.values(Enum.Color);

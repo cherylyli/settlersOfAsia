@@ -179,8 +179,8 @@ Enum.HarborRatio = {
 };
 
 Enum.AllowedCommands = {
-    'SetupRoundOne': ['buildEstablishment', 'buildRoad', 'buildShip'],
-    'SetupRoundTwo': ['buildEstablishment', 'buildRoad', 'buildShip']
+    'SetupRoundOne': ["buildSettlement", 'buildRoad', 'buildShip', 'endTurn'],
+    'SetupRoundTwo': ["buildSettlement", "upgradeToCity", 'buildRoad', 'buildShip', 'endTurn']
 };
 
 

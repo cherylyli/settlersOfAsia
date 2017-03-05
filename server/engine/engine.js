@@ -81,7 +81,9 @@ module.exports = function(socket, user, roomId) {
 
     if(DATA.existRoom(roomId)){
         Commands.joinRoom(user, roomId);
-        result = CircularJSON.stringify( DATA.getRoom(roomId));
+        let cloneRoom = _.clone(DATA.getRoom(roomId));
+        cloneRoom['newUser'] = user.username;
+        result = CircularJSON.stringify(cloneRoom);
         send('JOIN_ROOM_SUCCESS', result);
 
         //notify other users in the room about the new player
