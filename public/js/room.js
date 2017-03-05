@@ -300,6 +300,15 @@ $(window).on('imready', function(im){
         app.log(msg.user, msg.action, msg.system);
     });
 
+    // upon receive an ack, send system message
+    _.each(CommandName, function(cmd){
+         sock.on(cmd + 'Ack' + 'Owner', function (msg) {
+            var words = cmd.replace(/([A-Z])/g, " $1").toLowerCase().split(' ');
+            var text = `${_.first(words)}s ${_.rest(words).join(' ')}.`;
+            app.sendSysMessage(text);
+        });
+    });
+
     // change hex tile depending on room object
     function updateHexTiles(){
         
