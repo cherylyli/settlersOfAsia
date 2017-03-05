@@ -297,12 +297,6 @@ $(window).on('imready', function(im){
         app.log(msg.user, msg.action, msg.system);
     });
 
-    // roll dice result
-    sock.on('rollDiceAck', function(){
-        var dice = app.room.match.dice;
-        console.log(Raw(dice))
-    });
-
     // change hex tile depending on room object
     function updateHexTiles(){
         
