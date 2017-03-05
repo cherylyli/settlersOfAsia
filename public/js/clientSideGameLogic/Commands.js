@@ -136,11 +136,27 @@
             return false;
         }
 
+
+        //cannot build in sea
+        let inSea = true;
+        for (let hexID of getMatch().map.getHexTileArrayByVertex(vertex)){
+            if (!(getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea)){
+                inSea = false;
+            }
+        }
+
+        if (inSea){
+            swalError2("Cannot build settlement in sea!");
+            return false;
+        }
+
         //if you have more than 5 settlements, you have to upgrade one to a city before you build another one
         if (getMyPlayerObj().settlementCnt == 5){
             swalError2("You already have 5 settlements! Upgrade one to city before you build another one!");
             return false;
         }
+
+
 
         return true;
     };
@@ -226,6 +242,7 @@
         }
         if (!adjacentToLandHex){
             swalError2("You cannot build road in sea!");
+            return false;
         }
 
 
@@ -296,7 +313,7 @@
         }
 
         //Only 1 ship can be built on any given path
-        if (getMatch().map.getEdgeInfo()){
+        if (getMatch().map.getEdgeInfo(edge)){
             swalError2("Only 1 ship can be built on any given path!");
             return false;
         }
@@ -308,6 +325,7 @@
         }
         if (!adjacentToSeaHex){
             swalError2("You cannot build road in inland area!");
+            return false;
         }
 
 
