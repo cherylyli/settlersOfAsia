@@ -82,7 +82,7 @@
             return false;
         }
 
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().settlementCnt >= 2){
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getBuildingCnt() >= 2){
             swalError2("You can only build one settlement in set up round two!");
             return false;
         }
@@ -177,18 +177,25 @@
     * @return {boolean}
     */
     CommandCheck.upgradeToCity = function (vertex) {
-        if (!checkEnoughResource(Cost.upgradeToCity)){
+
+        if (!(getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && !checkEnoughResource(Cost.upgradeToCity)){
             return false;
         }
 
         //check if there is a settlement in the vertex
-        if (isSettlement(vertex)){
-            return true;
+        if (!isSettlement(vertex)){
+            swalError2("You can only update a settlement!");
+            return false;
         }
 
-        swalError2("Invalid operation!");
-        //alert("Invalid operation!");
-        return false;
+        //you can only update one city
+        if ((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (getMyPlayerObj().getCities().length >= 1)){
+            swalError2("You can only update one settlement during set up round two!");
+            return false;
+        }
+
+        return true;
+
     };
 
 
@@ -262,7 +269,7 @@
 
             //... connected with settlements, or cities.
             let vertexUnit = getMatch().map.getVertexInfo(vertex);
-            if (vertexUnit && !isKnight(vertexUnit)){
+            if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == myObj.username){
                 connected = true;
                 break;
             }

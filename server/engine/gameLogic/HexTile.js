@@ -96,25 +96,31 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
                 //there is a builidng on the vertex
                 let building = map.getVertexInfo(hexTile.vertices[vertex]);
                 let player = building.owner;
-                let resource = Enum.SettlementResources[this.type];
-                if (resource == Enum.SettlementResources.GoldField) {
-                    if (building.level == 1) {
-                        player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
-                    }
-                    else {
-                        player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForCity;
-                    }
-                }
-                else {
-                    player.resourcesAndCommodities[resource]++;
-                    if (building.level == 2) {
-                        resource = AdditionalCityResources[hexTile.type];
-                        player.resourcesAndCommodities[resource]++;
-                    }
-                }
+
+                hexTile.produceResourceToSingleUser(map, player, building);
             }
         }
     };
+
+    hexTile.produceResourceToSingleUser = function (map, player, building) {
+        let resource = Enum.SettlementResources[this.type];
+        if (resource == Enum.SettlementResources.GoldField) {
+            if (building.level == 1) {
+                player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
+            }
+            else {
+                player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForCity;
+            }
+        }
+        else {
+            player.resourcesAndCommodities[resource]++;
+            if (building.level == 2) {
+                resource = AdditionalCityResources[hexTile.type];
+                player.resourcesAndCommodities[resource]++;
+            }
+        }
+    };
+
     return hexTile;
 };
 

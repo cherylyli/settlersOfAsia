@@ -18,6 +18,14 @@ Player.addHelperFunctions = function (player) {
 
 
 
+    /**
+     *
+     * @return {Number}
+     */
+    player.getBuildingCnt = function () {
+        return Object.keys(player.buildings).length;
+    }
+
 
     /**
      *

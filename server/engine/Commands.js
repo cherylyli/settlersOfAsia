@@ -152,7 +152,14 @@ Commands.buildSettlement = function (userName, roomID, data){
     let match = DATA.getMatch(roomID);
     let map = match.map;
 
-    Building.buildSettlement(player, position, map);
+    let building = Building.buildSettlement(player, position, map);
+    if (match.phase == Enum.MatchPhase.SetupRoundTwo){
+        //collect resource immediately
+        let hexIDs = map.getHexTileArrayByVertex(position);
+        for (let id of hexIDs){
+            map.getHexTileById(id).produceResourceToSingleUser(map, player, building);
+        }
+    }
     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
 };
 
@@ -167,9 +174,10 @@ Commands.upgradeToCity = function (userName, roomID, data){
     //TODO: for testing, delete later
     if (!building) building = Building.buildSettlement(player, position, map);
     building.upgradeToCity();
-    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAss
+    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'upgradeToCity');
 
-}
+};
+
 /**
  * build settlement or city (!!at full price!!)
  * @param userName {String}
@@ -207,8 +215,8 @@ Commands.buildEstablishment = function (userName, roomID, data) {
         //update assest
     }
 
-};
-**/
+};**/
+
 
 
 

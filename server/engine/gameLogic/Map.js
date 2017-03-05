@@ -114,6 +114,15 @@ Map.createMap = function (scenarioData) {
         return map.verticesToHex[vertex];
     };
 
+    /**
+     *
+     * @param vertex
+     * @return {Array<int>}
+     */
+    map.getHexTileArrayByVertex = function (vertex) {
+        return _.zip.apply(this, map.getHexTileByVertex(vertex))[0];
+    };
+
 
     /**
      *

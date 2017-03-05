@@ -58,6 +58,14 @@ Player.createPlayer = function (name, user) {
 
     /**
      *
+     * @return {Number}
+     */
+    player.getBuildingCnt = function () {
+        return Object.keys(player.buildings).length;
+    }
+
+    /**
+     *
      * @return {number}
      */
     player.getRoadAndShipCnt = function () {
