@@ -56,9 +56,13 @@ Player.createPlayer = function (name, user) {
     //player.match = null;
 
 
-
-
-
+    /**
+     *
+     * @return {number}
+     */
+    player.getRoadAndShipCnt = function () {
+        return Object.keys(this.ships).length + Object.keys(this.roads).length;
+    };
 
 
     /**

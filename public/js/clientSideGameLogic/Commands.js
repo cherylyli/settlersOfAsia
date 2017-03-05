@@ -82,8 +82,13 @@
             return false;
         }
 
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().settlementCnt >= 2){
+            swalError2("You can only build one settlement in set up round two!");
+            return false;
+        }
 
-        if ((!getMatch().phase == Enum.MatchPhase.SetupRoundOne) && !checkEnoughResource(Cost.buildSettlement)){
+
+        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildSettlement)){
             return false;
         }
 
@@ -190,10 +195,22 @@
     CommandCheck.buildRoad = function (vertex1, vertex2) {
         let edge = Map.edge(vertex1, vertex2);
 
-        if (!checkEnoughResource(Cost.buildRoad)){
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().getRoadAndShipCnt() >= 1){
+            swalError2("You can only build one road or ship in set up round one!");
             return false;
         }
 
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getRoadAndShipCnt() >= 2){
+            swalError2("You can only build one road or ship in set up round two!");
+            return false;
+        }
+
+
+        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)){
+            return false;
+        }
 
         //Only 1 road can be built on any given path
         if (getMatch().map.getEdgeInfo(edge)){
@@ -261,7 +278,20 @@
     CommandCheck.buildShip = function (vertex1, vertex2) {
         let edge = Map.edge(vertex1, vertex2);
 
-        if (!checkEnoughResource(Cost.buildShip)){
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().getRoadAndShipCnt() >= 1){
+            swalError2("You can only build one road or ship in set up round one!");
+            return false;
+        }
+
+        //set up phrase you can build one road for free
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getRoadAndShipCnt() >= 2){
+            swalError2("You can only build one road or ship in set up round two!");
+            return false;
+        }
+
+
+        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)){
             return false;
         }
 
@@ -491,6 +521,9 @@ let edge = function (vertex1, vertex2) {
     let update = function (room) {
         if (room.match) {
             Map.addHelperFunctions(room.match.map);
+            for (let name in room.users){
+                if (room.users.hasOwnProperty(name)) Player.addHelperFunctions(room.users[name]);
+            }
         }
 
     // modify room here
@@ -545,7 +578,7 @@ _.each(CommandName, function(cmd){
 
         //allowed operations
         //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-            /**
+
         let phase = getMatch().phase;
         if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)){
             swalError2("This operation not allowed in "+ phase);
@@ -556,7 +589,7 @@ _.each(CommandName, function(cmd){
         //checks
         if(!CommandCheck[cmd].apply(this, arguments)){
             return;
-        }*/
+        }
 
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));

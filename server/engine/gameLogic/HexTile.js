@@ -38,6 +38,9 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
       let neighbors = {};
       for (let edgePosition in hexTile.edge){
           if (hexTile.edge.hasOwnProperty(edgePosition)){
+              if (!hexTile.edge[edgePosition]){
+                  console.log("he");
+              }
               for (let [hexID, edgeP] of map.getHexTileByEdge(hexTile.edge[edgePosition])){
                   neighbors[hexID] = map.getHexTileById(hexID);
               }

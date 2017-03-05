@@ -334,7 +334,7 @@ function setHexTileVertices(map){
  * set vertices first
  */
 function setHexTileEdges(map){
-    for (let id = 1; id < map.hexTiles.length; id++){
+    for (let id = 1; id <= map.hexTiles.length; id++){
         let hexTile = map.hexTiles[id - 1];
         hexTile.edge.TopLeft = Map.edge(hexTile.vertices.TopLeft, hexTile.vertices.Top, map);
         hexTile.edge.TopRight = Map.edge(hexTile.vertices.Top, hexTile.vertices.TopRight, map);
