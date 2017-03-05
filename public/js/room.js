@@ -454,11 +454,9 @@ $(window).on('imready', function(im){
                     playerHex += "0.4)";
                 }
 
-
-                var selector = "[data-username='"+ playerName+ "']";
-                console.log(selector);
-                // get the player
-                $(selector).parent().parent().attr("style", playerHex);
+                $(`#users .user[data-username="${playerName}"] .color`).css({
+                    'background-color': playerHex
+                });
             }
 
         }
