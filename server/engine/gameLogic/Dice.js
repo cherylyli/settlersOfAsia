@@ -1,3 +1,4 @@
+let HexTile = require('./HexTile.js');
 let Dice = module.exports = {};
 const eventDie = Object.freeze({"BlueCityGate":"BlueCityGate", "GreenCityGate":"GreenCityGate", "YellowCityGate":"YellowCityGate", "Ship":"Ship" });
 
@@ -26,7 +27,7 @@ Dice.createDice = function () {
             default:
                 dice.eventDie = eventDie.Ship;
         }
-    }
+    };
 
     dice.rollProductionDice = function (){
         if (dice.productionDiceSet) return;
@@ -34,13 +35,24 @@ Dice.createDice = function () {
         dice.yellowDie = random;
         random = Math.floor(Math.random() * 6 + 1);
         dice.redDie = random;
-    }
+    };
 
     dice.setProductionDice = function(yellowDie, redDie){
         dice.yellowDie = yellowDie;
         dice.redDie = redDie;
         dice.productionDiceSet = true;
-    }
+    };
+
+    dice.configureResult = function (map) {
+        //TODO: event die
+
+        //number dice produce resource
+        let productionNum = dice.yellowDie + dice.redDie;
+        let hexTileIDs = map.getHexTileByNumToken(productionNum);
+        for (let id of hexTileIDs){
+            map.getHexTileById(id).produceResource(map);
+        }
+    };
 
     return dice;
-}
+};

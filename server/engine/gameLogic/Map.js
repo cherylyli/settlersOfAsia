@@ -44,6 +44,7 @@ Map.createMap = function (scenarioData) {
     setHexTileEdges(map);
 
 
+
     /**
      *
      * @param vertex {int}
@@ -113,6 +114,15 @@ Map.createMap = function (scenarioData) {
         return map.verticesToHex[vertex];
     };
 
+    /**
+     *
+     * @param vertex
+     * @return {Array<int>}
+     */
+    map.getHexTileArrayByVertex = function (vertex) {
+        return _.zip.apply(this, map.getHexTileByVertex(vertex))[0];
+    };
+
 
     /**
      *
@@ -164,6 +174,11 @@ Map.setUpHarbors = function (map, harborPositions, harborTypesData) {
     }
 };
 
+/**
+ * helper function
+ * NumTokenToHexTiles is a map that map each number token to a list of hextile that has this num token. So we can get hextiles by number token
+ * @return {[number]}
+ */
 function initNumTokenToHexTiles() {
     let numTokenToHexTiles = [13];
     for (let i = 0; i< 13; i++){
@@ -328,7 +343,7 @@ function setHexTileVertices(map){
  * set vertices first
  */
 function setHexTileEdges(map){
-    for (let id = 1; id < map.hexTiles.length; id++){
+    for (let id = 1; id <= map.hexTiles.length; id++){
         let hexTile = map.hexTiles[id - 1];
         hexTile.edge.TopLeft = Map.edge(hexTile.vertices.TopLeft, hexTile.vertices.Top, map);
         hexTile.edge.TopRight = Map.edge(hexTile.vertices.Top, hexTile.vertices.TopRight, map);
@@ -393,18 +408,39 @@ function setHexTilesFixedType(map, hexTiles, type){
 
 /**
  *
- * @param hexTiles int[], a list of HexTile id
- * @param numTokens String[], a list of numTokens like ['1','1','2','4','5','5','6'] (1*2, 2*1, 3*0, 4*1, 5*2, 6*1)
+ * @param hexTiles {int[]}, a list of HexTile id
+ * @param numTokens {String[]}, a list of numTokens like ['1','1','2','4','5','5','6'] (1*2, 2*1, 3*0, 4*1, 5*2, 6*1)
+ * @param check {boolean} a flag, true if we r assigning 6 and 8s.
  */
 
-function setHexTilesRandomNumToken(map, hexTiles, numTokens){
-    if (hexTiles.length != numTokens.length) throw "HexTile number should be equal to numTokens numbers";
+function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
+
     let hexId = null;
     let token = null;
-    while(hexTiles.length > 0){
+    //we first assign 6, 8 so the hexTiles.length > numTokens.length (which only contains 6 & 8)
+    while(numTokens.length > 0){
         hexId = PickRandomItem(hexTiles);
-        token = PickRandomItem(numTokens);
-        putNumTokenOnHexTile(map, parseInt(token), hexId);
+        if (!token) token = PickRandomItem(numTokens);
+        let canPut = true;
+
+        if (check) {
+            //we do the check because we r assigning 6 & 8s
+            let neighbors = map.getHexTileById(hexId).getNeighbors(map);
+            for (let id in neighbors){
+                if (neighbors[id].productionNum == 8 || neighbors[id].productionNum == 6){
+                    // we cannot put 8/6 here
+                    // put the number token back and hex back
+                    hexTiles.push(hexId);
+                    canPut = false;
+                    break;
+                }
+            }
+
+        }
+        if (canPut) {
+            putNumTokenOnHexTile(map, parseInt(token), hexId);
+            token = null;
+        }
     }
 }
 
@@ -425,7 +461,9 @@ function putNumTokenOnHexTile(map, numToken, hexId){
 
 function setUpPartMap(map, tilesData, typeData, numsData){
     let landTiles = setHexTilesRandomType(map, _.clone(tilesData), readMapInputToGenStrList(typeData));
-    setHexTilesRandomNumToken(map, landTiles, readMapInputToGenStrList(numsData));
+    let [result6And8, resultN] = readNumTokenMapInputToGenStrList(_.clone(numsData));
+    setHexTilesRandomNumToken(map, landTiles, result6And8, true);
+    setHexTilesRandomNumToken(map, landTiles, resultN, false);
     //bank should have a copy of numberTokenToTile mapping list
 }
 
@@ -494,6 +532,22 @@ function readMapInputToGenStrList(data) {
         }
     }
     return result;
+}
+
+function readNumTokenMapInputToGenStrList(data) {
+    let keys = Object.keys(data);
+    let resultN = [];
+    let result6And8 = [];
+    for (let key of keys){
+        let cnt = data[key];
+        for (let i = 0; i<cnt; i++){
+            if (key == 6 || key == 8){
+                result6And8.push(key);
+            }
+            else resultN.push(key);
+        }
+    }
+    return [result6And8, resultN];
 }
 Map.setUpPartMap = setUpPartMap;
 
