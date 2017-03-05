@@ -113,7 +113,7 @@ Map.addHelperFunctions = function (map) {
      * @return a list of hexTiles (not id, hexTile objec)
      * @param numToken int
      */
-    map.getHexTileByNumToken = function(map, numToken){
+    map.getHexTileByNumToken = function(numToken){
         return map.numTokenToHexTiles[numToken];
     };
 

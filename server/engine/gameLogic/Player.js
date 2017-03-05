@@ -31,6 +31,7 @@ Player.createPlayer = function (name, user) {
     player.color = null;
     player.VP = 0;
     player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+    player.resourceCardNum = initialGoldNum;
     player.progressCards = [];
     player.progressCardsCnt = 0;
     player.buildings = {};  //key: position (vertex index / int); value: building object
@@ -78,10 +79,10 @@ Player.createPlayer = function (name, user) {
       * @param currentPlayer {Player}
       * @return sum {Integer}
       */
-    player.resourceCardTotalNum = function(currentPlayer){
+    player.resourceCardTotalNum = function(){
         let sum = 0;
-        for (let card in currentPlayer.resourceAndCommandities){
-            sum += currentPlayer.resourceAndCommandities[card];
+        for (let card in player.resourcesAndCommodities){
+            sum += player.resourcesAndCommodities[card];
         }
         return sum;
     };
