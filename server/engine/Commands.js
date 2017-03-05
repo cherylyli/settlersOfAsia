@@ -145,6 +145,31 @@ Commands.rollDice = function (userName, matchID, data) {
 
 
 //----------------------------------Establishment and routes------------------
+
+Commands.buildSettlement = function (userName, roomID, data){
+    let position = data.position;
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    let map = match.map;
+
+    Building.buildSettlement(player, position, map);
+    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
+};
+
+Commands.upgradeToCity = function (userName, roomID, data){
+    let position = data.position;
+
+    let player = DATA.getPlayer(userName, roomID);
+    let match = DATA.getMatch(roomID);
+    let map = match.map;
+
+    let building = player.getBuilding(position);
+    //TODO: for testing, delete later
+    if (!building) building = Building.buildSettlement(player, position, map);
+    building.upgradeToCity();
+    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAss
+
+}
 /**
  * build settlement or city (!!at full price!!)
  * @param userName {String}
@@ -152,6 +177,7 @@ Commands.rollDice = function (userName, matchID, data) {
  * @param position {int}   vertex id
  * @param establishmentLv {int} level 1 : settlement, level 2: city, level 3: metropolitan
  */
+/**
 Commands.buildEstablishment = function (userName, roomID, data) {
     let position = data.position;
     let establishmentLv = data.establishmentLV;
@@ -182,7 +208,7 @@ Commands.buildEstablishment = function (userName, roomID, data) {
     }
 
 };
-
+**/
 
 
 

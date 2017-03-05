@@ -120,8 +120,7 @@
                 </div>
                 <div class='ops'>
                     <div class="op" v-for='command in cmds' v-bind:data-cmd="command">
-
-                        <!-- build establishment -->
+                        <!--
                         <div v-if='command == "buildEstablishment"'>
                             <div class="weui-cells weui-cells_form" vertex-needed='1'>
                                 <div class="weui-cell">
@@ -138,6 +137,31 @@
                                             <option value="2">City</option>
                                             <option value="3">Metropolitan</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         -->
+
+                        <!-- build settlement -->
+                        <div v-if='command == "buildSettlement"' vertex-needed='1'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Vertex</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- upgradeToCity -->
+                        <div v-else-if='command == "upgradeToCity"' vertex-needed='1'>
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">Vertex</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="Enter vertex ID" name='vertex'>
                                     </div>
                                 </div>
                             </div>

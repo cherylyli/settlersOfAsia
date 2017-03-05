@@ -145,8 +145,7 @@ $(window).on('imready', function(im){
                 { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
-                "buildEstablishment", "buildRoad", "buildShip", "buildCityWall",
-                "buyCityImprovement", "moveShip", "tradeWithBank"
+                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank"
             ],
             isMyTurn: false,
 
@@ -240,6 +239,17 @@ $(window).on('imready', function(im){
                Commands.rollDice();
             },
 
+            buildSettlement: function () {
+                var {vertex} = getInput();
+                Commands.buildSettlement(vertex);
+            },
+
+            upgradeToCity: function () {
+                var {vertex} = getInput();
+                Commands.upgradeToCity(vertex);
+            },
+
+            /**
             buildEstablishment: function () {
                 var {vertex, establishmentLV } = getInput();
 
@@ -249,7 +259,7 @@ $(window).on('imready', function(im){
                 if (establishmentLV == 2){
                     Commands.buildEstablishment(vertex, establishmentLV);
                 };
-            },
+            },**/
 
             buildRoad: function () {
                 var {vertex1, vertex2} = getInput();
@@ -624,15 +634,6 @@ $(window).on('imready', function(im){
 
 
 
-
-
-
-
-
-
-    //game stuff, maybe move to another js file later
-    //here are just tests, call the functions when the certain button is pressed.
-    //sock.emit('rollDice', roomId);
 
 
 
