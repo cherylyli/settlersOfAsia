@@ -98,6 +98,8 @@ Building.buildRoad = function (player, edge, match, type) {
 
     if (type == 'ship') {
 
+
+
         /**
          *
          * @param oldPosition {Edge}

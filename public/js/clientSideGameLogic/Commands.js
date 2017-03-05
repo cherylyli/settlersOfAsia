@@ -319,6 +319,14 @@
             return false;
         }
 
+        return shipPostionTest(edge);
+
+
+    };
+
+
+
+    function shipPostionTest(edge) {
         //Only 1 ship can be built on any given path
         if (getMatch().map.getEdgeInfo(edge)){
             swalError2("Only 1 ship can be built on any given path!");
@@ -364,7 +372,7 @@
         }
 
         return true;
-    };
+    }
 
 /**
  *
@@ -441,8 +449,11 @@
         let oldPosition = Map.edge(oldVertex1, oldVertex2);
         let newPosition = Map.edge(newVertex1, newVertex2);
 
-        //You may only move 1 ship per turn, and only during your building phase.
-        //TODO: check building phase
+        //You may only move 1 ship per turn, and only during your building phase -> dice rolled
+        if (!getMatch().diceRolled){
+            swalError2("You can only move ship during building phase!");
+        }
+
         if (getMatch().shipMoved){
             swalError2("You can only move 1 ship per turn!");
             return false;
@@ -459,7 +470,10 @@
             return false;
         }
 
-        if (! _.contains(getAvailbleEdgesToMoveTo(), newPosition)){
+
+
+        ship.remove(getMatch().map, oldPosition);
+        if (!shipPostionTest(newPosition)){
             swalError2("You cannot move ship here!");
             return false;
         }
