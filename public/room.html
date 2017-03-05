@@ -35,7 +35,7 @@
                         </div>
                          <div class='dice black'>
                             <div class='icon center-cropped'></div>
-                            <div class='text'>{{ room.match ? (Enum.DieResult[room.match.dice.eventDie]) : 'Not Rolled' }}</div>
+                            <div class='text'>{{ (room.match ? Enum.DieResult[room.match.dice.eventDie] : 'Not Rolled') | startCase }}</div>
                         </div>
                     </div>
                 </div>
