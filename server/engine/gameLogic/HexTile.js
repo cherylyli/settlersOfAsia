@@ -119,6 +119,7 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
                 player.resourcesAndCommodities[resource]++;
             }
         }
+        player.resourceCardNum = player.resourceCardTotalNum();
     };
 
     return hexTile;

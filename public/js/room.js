@@ -37,7 +37,7 @@ $(window).on('imready', function(im){
     let CircularJSON = window.CircularJSON;
 
     window.myObj = im.myObj;
-    //console.log(window.myObj);
+    // console.log(window.myObj);
     let roomId = window.location.pathname.split("/").pop();
 
     // parse a fake room data just for test
@@ -52,8 +52,8 @@ $(window).on('imready', function(im){
     // on page load, join room
     sock.emit('JOIN_ROOM', roomId);
 
-    //test data
-    //for now, assume player choose this map
+    // test data
+    // for now, assume player choose this map
     let mapConfig = {'scenario':'Heading For New Shores'};
     sock.emit('MAP_CONFIG', mapConfig);
 

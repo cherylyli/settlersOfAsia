@@ -154,8 +154,8 @@ Map.createMap = function (scenarioData) {
      * @return a list of hexTiles (not id, hexTile objec)
      * @param numToken int
      */
-    map.getHexTileByNumToken = function(map, numToken){
-        return map.numTokenToHexTiles[numToken];
+    map.getHexTileByNumToken = function(numToken){
+        return this.numTokenToHexTiles[numToken];
     };
 
 

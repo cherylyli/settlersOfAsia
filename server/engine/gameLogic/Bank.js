@@ -44,7 +44,11 @@ Bank.createBank = function (match) {
                 player.resourcesAndCommodities[card] += trade.offer[card];
             }
         }
-    }
+
+        playerA.resourceCardNum = playerA.resourceCardTotalNum();
+        playerB.resourceCardNum = playerB.resourceCardTotalNum();
+
+    };
 
 
     /**
@@ -60,6 +64,8 @@ Bank.createBank = function (match) {
 
         player.resourcesAndCommodities[src] -= ratio;
         player.resourcesAndCommodities[tradeFor] += 1;
+
+        player.resourceCardNum = player.resourceCardTotalNum();
     }
 
     /**
@@ -78,7 +84,9 @@ Bank.createBank = function (match) {
                 player.resourcesAndCommodities[card] -= cost[card];
             }
         }
-    }
+
+        player.resourceCardNum = player.resourceCardTotalNum();
+    };
 
 
     return bank;
