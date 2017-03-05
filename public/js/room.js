@@ -322,23 +322,19 @@ $(window).on('imready', function(im){
     }
 
     function addSettlementsOrCities(){
-        // console.log(app.roo)
         var levels = ["settlement", "city", "metropolis"];
 
-        // player colors: RED, ORANGE, GREEN, ORANGE
         if (app.room && app.room.match){
             var vertexInfo = app.room.match.map.vertexInfo;
             for (var vertex_i = 0; vertex_i<vertexInfo.length; vertex_i++){
+
                 //if there's an object in the vertex
                 if (vertexInfo[vertex_i]){
-                    // get vertex owner, get vert
                     // select the vertex
                     var select = ".verticeElem[data-id='" + vertex_i + "']";
                     var ownerColor = vertexInfo[vertex_i].owner.color;
                     var cityLevel = levels[vertexInfo[vertex_i].level -1];
-                    // console.log($(select));
-                    // console.log(select);
-                    // console.log('class', cityLevel + " "+ ownerColor+ " verticeElem");
+
                     $(select).attr('class', cityLevel + " "+ ownerColor+ " verticeElem");
 
                 }
@@ -437,29 +433,6 @@ $(window).on('imready', function(im){
         if (app.room && app.room.match){
             var players = app.room.match.players;
             var hexColors = {
-// <<<<<<< HEAD
-//                 "BLUE": "border-bottom: 3px, solid, rgba(0,0,255, ",
-//                 "GREEN": "border-bottom: 3px, solid, rgba(0, 255, 0, ",
-//                 "ORANGE": "border-bottom: 3px, solid, rgba(255,165,0,",
-//                 "RED": "border-bottom: 3px, solid, rgba(255,255,0, "
-//             }
-
-//             for (var playerKey in players){
-//                 var playerName = playerKey;
-//                 var playerColor = players[playerKey].color;
-//                 var playerHex = hexColors[playerColor];
-//                 if (playerName === currentplayer){
-//                     playerHex += "1.0)";
-//                 } else {
-//                     playerHex += "0.8)";
-//                 }
-
-
-//                 var selector = "[data-username='"+ playerName+ "']";
-//                 console.log(selector);
-//                 // get the player
-//                 $(selector).attr("style", playerHex);
-// =======
                 "BLUE"  : "rgba(0, 105, 198, 0.6)",
                 "GREEN" : "rgba(0, 163, 14, 0.6)",
                 "ORANGE": "rgba(213, 100, 0, 0.6)",
@@ -470,7 +443,6 @@ $(window).on('imready', function(im){
                 $(`#users .user[data-username="${username}"] .pic .name`).css({
                     'background-color': hexColors[color]
                 });
-// >>>>>>> 5c7c09a863f559f0d950a8aefafe524daf5ccbb4
             }
         }
     }
