@@ -182,3 +182,6 @@ Enum.AllowedCommands = {
     'SetupRoundOne': ['buildEstablishment', 'buildRoad', 'buildShip'],
     'SetupRoundTwo': ['buildEstablishment', 'buildRoad', 'buildShip']
 };
+
+
+Enum.DieResult = Object.freeze({"BlueCityGate":"BlueCityGate", "GreenCityGate":"GreenCityGate", "YellowCityGate":"YellowCityGate", "Ship":"Ship" });

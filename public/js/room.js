@@ -214,9 +214,21 @@ $(window).on('imready', function(im){
 
             // chat in room
             sendMessage: function(){
-                var content = $('#log input').val();
-                sock.emit('send-message', content);
+                var msg = {
+                    action: $('#log input').val(),
+                    system: false
+                }
+                sock.emit('send-message', msg);
                 $('#log input').val('');
+            },
+
+            // send system message
+            sendSysMessage: function(action){
+                var msg = {
+                    action: action,
+                    system: true
+                }
+                sock.emit('send-message', msg);
             },
 
             endTurn: function () {
@@ -282,7 +294,13 @@ $(window).on('imready', function(im){
 
     // receive message
     sock.on('receive-message', function(msg){
-        app.log(msg.username, msg.content, false);
+        app.log(msg.user, msg.action, msg.system);
+    });
+
+    // roll dice result
+    sock.on('rollDiceAck', function(){
+        var dice = app.room.match.dice;
+        console.log(Raw(dice))
     });
 
     // change hex tile depending on room object
@@ -418,31 +436,42 @@ $(window).on('imready', function(im){
         // get each player and change color
         if (app.room && app.room.match){
             var players = app.room.match.players;
-            var currentplayer = app.room.match.currentPlayer;
             var hexColors = {
-                "BLUE": "border-bottom: 3px, solid, rgba(0,0,255, ",
-                "GREEN": "border-bottom: 3px, solid, rgba(0, 255, 0, ",
-                "ORANGE": "border-bottom: 3px, solid, rgba(255,165,0,",
-                "RED": "border-bottom: 3px, solid, rgba(255,255,0, "
+// <<<<<<< HEAD
+//                 "BLUE": "border-bottom: 3px, solid, rgba(0,0,255, ",
+//                 "GREEN": "border-bottom: 3px, solid, rgba(0, 255, 0, ",
+//                 "ORANGE": "border-bottom: 3px, solid, rgba(255,165,0,",
+//                 "RED": "border-bottom: 3px, solid, rgba(255,255,0, "
+//             }
+
+//             for (var playerKey in players){
+//                 var playerName = playerKey;
+//                 var playerColor = players[playerKey].color;
+//                 var playerHex = hexColors[playerColor];
+//                 if (playerName === currentplayer){
+//                     playerHex += "1.0)";
+//                 } else {
+//                     playerHex += "0.8)";
+//                 }
+
+
+//                 var selector = "[data-username='"+ playerName+ "']";
+//                 console.log(selector);
+//                 // get the player
+//                 $(selector).attr("style", playerHex);
+// =======
+                "BLUE"  : "rgba(0, 105, 198, 0.6)",
+                "GREEN" : "rgba(0, 163, 14, 0.6)",
+                "ORANGE": "rgba(213, 100, 0, 0.6)",
+                "RED"   : "rgba(220, 0, 0, 0.6)"
             }
-
-            for (var playerKey in players){
-                var playerName = playerKey;
-                var playerColor = players[playerKey].color;
-                var playerHex = hexColors[playerColor];
-                if (playerName === currentplayer){
-                    playerHex += "1.0)";
-                } else {
-                    playerHex += "0.8)";
-                }
-
-
-                var selector = "[data-username='"+ playerName+ "']";
-                console.log(selector);
-                // get the player
-                $(selector).attr("style", playerHex);
+            for (var username in players){
+                var color = players[username].color;
+                $(`#users .user[data-username="${username}"] .pic .name`).css({
+                    'background-color': hexColors[color]
+                });
+// >>>>>>> 5c7c09a863f559f0d950a8aefafe524daf5ccbb4
             }
-
         }
     }
 
