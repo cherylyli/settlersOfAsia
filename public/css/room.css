@@ -252,10 +252,11 @@ body{
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid #e7ebf3;
+    transition: all 0.3s;
 }
 
-#users .user[waiting]{
-    opacity: 0.4;
+#users .user[active]{
+    background: linear-gradient(to right, rgb(235, 202, 46) 0%, rgba(252, 255, 82, 0.18) 100%);
 }
 
 #users .user:last-child{
@@ -293,16 +294,6 @@ body{
     padding-left: 10px;
     font-size: 11px;
     line-height: 16px;
-}
-
-#users .user .color{
-    position: absolute;
-    top: 10px;
-    right: 8px;
-    width: 8px;
-    height: 10px;
-    /*border-radius: 100px;*/
-    background-color: transparent;
 }
 
 #log{

@@ -436,29 +436,18 @@ $(window).on('imready', function(im){
         // get each player and change color
         if (app.room && app.room.match){
             var players = app.room.match.players;
-            var currentplayer = app.room.match.currentPlayer;
             var hexColors = {
-                "BLUE": "background-color: rgba(0,0,255, ",
-                "GREEN": "background-color: rgba(0, 255, 0, ",
-                "ORANGE": "background-color: rgba(255,165,0,",
-                "RED": "background-color: rgba(255,255,0, "
+                "BLUE"  : "rgba(0, 105, 198, 0.6)",
+                "GREEN" : "rgba(0, 163, 14, 0.6)",
+                "ORANGE": "rgba(213, 100, 0, 0.6)",
+                "RED"   : "rgba(220, 0, 0, 0.6)"
             }
-
-            for (var playerKey in players){
-                var playerName = playerKey;
-                var playerColor = players[playerKey].color;
-                var playerHex = hexColors[playerColor];
-                if (playerName === currentplayer){
-                    playerHex += "0.8)";
-                } else {
-                    playerHex += "0.4)";
-                }
-
-                $(`#users .user[data-username="${playerName}"] .color`).css({
-                    'background-color': playerHex
+            for (var username in players){
+                var color = players[username].color;
+                $(`#users .user[data-username="${username}"] .pic .name`).css({
+                    'background-color': hexColors[color]
                 });
             }
-
         }
     }
 

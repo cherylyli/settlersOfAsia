@@ -5,6 +5,7 @@
 /**
  * Created by emol on 1/10/17.
  */
+let _ = require('underscore');
 let Enum = require('./Enum.js');
 //import {ProgressCardDeck} from './ProgressCard.js';
 //import {Dice} from './Dice.js';
@@ -134,8 +135,8 @@ Match.createNewMatch = function (scenario, players, id) {
 }
 
 function assignColors(match) {
-    let colors = Object.values(Enum.Color);
-    let players = Object.values(match.players);
+    let colors = _.values(Enum.Color);
+    let players = _.values(match.players);
     for (let i = 0; i < players.length; i++){
         /**
          *

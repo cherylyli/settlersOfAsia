@@ -35,7 +35,7 @@
                         </div>
                          <div class='dice black'>
                             <div class='icon center-cropped'></div>
-                            <div class='text'>{{ room.match ? (Enum.DieResult[room.match.dice.eventDie] | startCase) : 'Not Rolled' }}</div>
+                            <div class='text'>{{ room.match ? (Enum.DieResult[room.match.dice.eventDie]) : 'Not Rolled' }}</div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                 <!-- FIXME: some one plz help me fix this, match-div should not be in users div, but when i put it outside users div, the position of chat box is influenced, match-ops div overlaps the chat input box, and i cannot fix it-->
                 <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
                 <div v-for='player in room.users'>
-                    <div class='user' v-bind:waiting='room.match && room.match.currentPlayer!=player.name' v-bind:data-username='player.name'>
+                    <div class='user' v-bind:active='room.match && room.match.currentPlayer==player.name' v-bind:data-username='player.name'>
                         <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
                             <div class='name' v-bind:data-username='player.name'>{{player.user.username}}</div>
                         </div>
@@ -85,7 +85,6 @@
                             <li>Progress Card: {{player.progressCardsCnt}}</li>
                             <li>VP: {{player.VP}}</li>
                         </ul>
-                        <div class='color'></div>
                     </div>
                 </div>
             </div>
