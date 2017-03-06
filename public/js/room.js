@@ -327,7 +327,8 @@ $(window).on('imready', function(im){
             var hextiles = app.room.match.map.hexTiles;
             for (var i = 0; i< hextiles.length; i++){
                 var select = ".hexagon[data-id='" + (i+1) + "']";
-                $(select).addClass(hextiles[i].type);
+                $(select).attr("class", "hexagon "+ hextiles[i].type);
+                // $(select).addClass(hextiles[i].type);
                 var selectNum = ".num[data-id='" + (i+1) + "']";
                 $(selectNum).attr('class', hextiles[i].productionNum+" num");
                 
