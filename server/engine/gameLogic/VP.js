@@ -8,7 +8,7 @@ VP.buildSettlement = 1;
  * @type {number}
  */
 VP.buildSettlement = 1;
-VP.upgradeTocity = 2;
+VP.upgradeTocity = 1;
 VP.longestRoad = 2;
 //VP.largestArmy = 2; no longest army in cities and knights
 VP.defenderOfCatan = 1;

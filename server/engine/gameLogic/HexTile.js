@@ -116,7 +116,7 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
         else {
             player.resourcesAndCommodities[resource]++;
             if (building.level == 2) {
-                resource = AdditionalCityResources[hexTile.type];
+                resource = Enum.AdditionalCityResources[hexTile.type];
                 player.resourcesAndCommodities[resource]++;
             }
         }
