@@ -182,6 +182,7 @@ $(window).on('imready', function(im){
         methods: {
             call: function(fn){
                 this[fn]();
+                hideCmdTable(); // close cmd table
             },
 
             // save match
@@ -320,8 +321,8 @@ $(window).on('imready', function(im){
 
     // change hex tile depending on room object
     function updateHexTiles(){
-        
-        // for each hex tile, add class 
+
+        // for each hex tile, add class
         // $("#board.hexagon").find("[data-slide='" + current + "']");
         if (app.room && app.room.match){
             var hextiles = app.room.match.map.hexTiles;
@@ -331,7 +332,7 @@ $(window).on('imready', function(im){
                 // $(select).addClass(hextiles[i].type);
                 var selectNum = ".num[data-id='" + (i+1) + "']";
                 $(selectNum).attr('class', hextiles[i].productionNum+" num");
-                
+
             }
 
         }
@@ -367,14 +368,14 @@ $(window).on('imready', function(im){
                 var edgeOne = edgeKey.split('-')[0];
                 var edgeTwo = edgeKey.split('-')[1];
 
-           
+
 
                 var edgeOwner = edge.owner.color;
                 var edgeType = edge.type;
 
                 var selectVertexOne = ".vertice[data-id='"+ edgeOne +"']";
-                var selectVertexTwo = ".vertice[data-id='"+ edgeTwo +"']"; 
-                
+                var selectVertexTwo = ".vertice[data-id='"+ edgeTwo +"']";
+
                 var xy1 = $(selectVertexOne).attr("style");
                 var xy2 = $(selectVertexTwo).attr("style");
                 xy1 = xy1.match(/\d+/g);
@@ -383,7 +384,7 @@ $(window).on('imready', function(im){
 
                 var edgeElem = document.createElement("div");
                 edgeElem.setAttribute("data-id", "" + edgeKey);
-                
+
                 edgeElem.style.left = (parseInt(xy1[1]) + parseInt(xy2[1]))/2.0 - 22 + "px";
                 edgeElem.style.top = (parseInt(xy1[0]) + parseInt(xy2[0]))/2.0+ "px";
                 // tilt down left to right
@@ -396,11 +397,11 @@ $(window).on('imready', function(im){
                     edgeElem.setAttribute("class", "edge "+edgeOwner+" " + edgeType + " down");
                 } else {
                     edgeElem.setAttribute("class", "edge "+edgeOwner+" " + edgeType + " up");
-                } 
+                }
 
                 placeIntoWebpage(edgeElem);
 
-                
+
 
             }
         }
@@ -422,8 +423,8 @@ $(window).on('imready', function(im){
                 }
 
                 var selectVertexOne = ".vertice[data-id='"+ edgeOne +"']";
-                var selectVertexTwo = ".vertice[data-id='"+ edgeTwo +"']"; 
-                
+                var selectVertexTwo = ".vertice[data-id='"+ edgeTwo +"']";
+
                 var xy1 = $(selectVertexOne).attr("style");
                 var xy2 = $(selectVertexTwo).attr("style");
                 xy1 = xy1.match(/\d+/g);
