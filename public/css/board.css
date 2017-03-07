@@ -1,102 +1,100 @@
 
 #board .map{
     position: absolute;
-    top: 20px; 
-    left: 50px;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
+    top: 20px;
+    left: 20px;
+    bottom: 10px;
+    right: 140px;
 }
 
 #board [class="3 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/3.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="2 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/2.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="4 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/4.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="5 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/5.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="6 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/6.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="8 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/8.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="9 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/9.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="10 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/10.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="11 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/11.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="12 num"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/12.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 
@@ -106,74 +104,74 @@ CITIES AND SETTLEMENTS
 
 #board [class="settlement RED verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/redsettlement.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="city RED verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/redcity.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="settlement GREEN verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/greensettlement.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="city GREEN verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/greencity.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="settlement ORANGE verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/orangesettlement.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="city ORANGE verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/orangecity.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="settlement BLUE verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/bluesettlement.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="city BLUE verticeElem"]{
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/boardIcons/bluecity.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 
@@ -185,20 +183,20 @@ ROADS AND SHIPS
 ************************************/
 #board [class="edge RED road none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/redroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge RED road up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/redroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -210,11 +208,11 @@ ROADS AND SHIPS
 
 #board [class="edge RED road down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/redroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -226,20 +224,20 @@ ROADS AND SHIPS
 
 #board [class="edge BLUE road none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/blueroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge BLUE road up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/blueroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -251,11 +249,11 @@ ROADS AND SHIPS
 
 #board [class="edge BLUE road down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/blueroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -267,20 +265,20 @@ ROADS AND SHIPS
 
 #board [class="edge ORANGE road none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/orangeroad.svg");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge ORANGE road up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/orangeroad.svg");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -292,11 +290,11 @@ ROADS AND SHIPS
 
 #board [class="edge ORANGE road down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/orangeroad.svg");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -308,20 +306,20 @@ ROADS AND SHIPS
 
 #board [class="edge GREEN road none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/greenroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge GREEN road up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/greenroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -333,11 +331,11 @@ ROADS AND SHIPS
 
 #board [class="edge GREEN road down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 5px;
     background:url("/img/room/boardIcons/greenroad.png");
     background-size: 55px 5px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -349,20 +347,20 @@ ROADS AND SHIPS
 
 #board [class="edge RED ship none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/redboat.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge RED ship up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/redboat.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -374,11 +372,11 @@ ROADS AND SHIPS
 
 #board [class="edge RED ship down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/redboat.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -391,20 +389,20 @@ ROADS AND SHIPS
 
 #board [class="edge GREEN ship none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/greenship.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge GREEN ship up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/greenship.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -416,11 +414,11 @@ ROADS AND SHIPS
 
 #board [class="edge GREEN ship down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/greenship.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -432,20 +430,20 @@ ROADS AND SHIPS
 
 #board [class="edge ORANGE ship none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/orangeship.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge ORANGE ship up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/orangeship.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -457,11 +455,11 @@ ROADS AND SHIPS
 
 #board [class="edge ORANGE ship down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/orangeship.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -473,20 +471,20 @@ ROADS AND SHIPS
 
 #board [class="edge BLUE ship none"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/blueboat.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="edge BLUE ship up"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/blueboat.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(120deg);
@@ -498,11 +496,11 @@ ROADS AND SHIPS
 
 #board [class="edge BLUE ship down"]{
     position: absolute;
-    width: 55px; 
+    width: 55px;
     height: 25px;
     background:url("/img/room/boardIcons/blueboat.png");
     background-size: 55px 25px;
-    z-index: 1;  
+    z-index: 1;
     behavior:url(-ms-transform.htc);
     /* Firefox */
     -moz-transform:rotate(60deg);
@@ -520,56 +518,56 @@ ROADS AND SHIPS
 ************************************/
 #board [class="harbor Lumber"] {
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/woodharbor.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="harbor Wool"] {
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/sheepharbor.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="harbor General"] {
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/harbor.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="harbor Ore"] {
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/oreharbor.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="harbor Brick"] {
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/brickharbor.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 #board [class="harbor Grain"] {
     position: absolute;
-    width: 30px; 
+    width: 30px;
     height: 30px;
     background:url("/img/room/tiles/grainharbor.png");
     background-size: 30px 30px;
-    z-index: 1;  
+    z-index: 1;
 }
 
 
@@ -577,80 +575,80 @@ ROADS AND SHIPS
 
 #board .Sea{
     position: absolute;
-    width: 110px; 
+    width: 110px;
     height: 110px;
     background:url("/img/room/tiles/sea.gif");
     background-size: 120px 120px;
     transition: all 0.15s;
-    z-index: 0;  
+    z-index: 0;
     cursor: pointer;
 
 }
 
 #board .GoldField{
     position: absolute;
-    width: 110px; 
+    width: 110px;
     height: 110px;
     background:url("/img/room/tiles/gold.png");
     background-size: 120px 120px;
     background-position: center;
     transition: all 0.15s;
-    z-index: 0;  
+    z-index: 0;
     cursor: pointer;
 }
 
 #board .Forest{
     position: absolute;
-    width: 110px; 
+    width: 110px;
     height: 110px;
     background:url("/img/room/tiles/forest.png");
     background-size: 110px 110px;
     transition: all 0.15s;
-    z-index: 0;  
+    z-index: 0;
     cursor: pointer;
 }
 
 #board .Hills{
     position: absolute;
-    width: 110px; 
+    width: 110px;
     height: 110px;
     background:url("/img/room/tiles/brick.png");
     background-size: 110px 110px;
     transition: all 0.15s;
-    z-index: 0;  
+    z-index: 0;
     cursor: pointer;
 }
 
 #board .Field{
     position: absolute;
-    width: 110px; 
+    width: 110px;
     height: 110px;
     background:url("/img/room/tiles/weed.png");
     background-size: 110px 110px;
     transition: all 0.15s;
-    z-index: 0;  
+    z-index: 0;
     cursor: pointer;
 }
 
 #board .Mountains{
     position: absolute;
-    width: 110px; 
+    width: 110px;
     height: 110px;
     background:url("/img/room/tiles/rock.png");
     background-size: 110px 110px;
     transition: all 0.15s;
-    z-index: 0;  
+    z-index: 0;
     cursor: pointer;
 }
 
 #board .Pasture{
     position: absolute;
-    width: 110px; 
+    width: 110px;
     height: 110px;
     background:url("/img/room/tiles/wool.png");
     background-size: 110px 110px;
     transition: all 0.15s;
-    z-index: 0;  
+    z-index: 0;
     cursor: pointer;
 }
 
@@ -662,7 +660,7 @@ ROADS AND SHIPS
 
 #board .vertice{
     position: absolute;
-    width: 5px; 
+    width: 5px;
     height: 5px;
     /*border-radius: 100px;*/
     background-color: brown;
