@@ -247,7 +247,7 @@ Commands.buildShip = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     Building.buildRoad(player, data, match, 'ship');
 
-    match.bank.updatePlayerAsset(player,'buildShip');
+    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildShip');
 };
 
 

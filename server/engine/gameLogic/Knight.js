@@ -33,6 +33,10 @@ Knight.createKnight = function (player, map) {
         this.active = true;
     }
 
+    knight.deactivate = function(){
+        this.active = false;
+    }
+    
     knight.promote = function () {
         this.level ++;
     }

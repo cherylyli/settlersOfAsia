@@ -91,7 +91,7 @@ Map.createMap = function (scenarioData) {
      * @return {Array<edge>}
      */
     map.getEdgeByVertex = function (vertex) {
-        return Object.values(map.verticesToEdges[vertex]);
+        return _.values(map.verticesToEdges[vertex]);
     };
 
     /**
