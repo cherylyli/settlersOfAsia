@@ -51,9 +51,13 @@ Player.createPlayer = function (name, user) {
     player.tradeRatio = {[Enum.Resource.Lumber] : Cost.defaultTradeRatio, [Enum.Resource.Brick] : Cost.defaultTradeRatio, [Enum.Resource.Grain]: Cost.defaultTradeRatio, [Enum.Resource.Ore]: Cost.defaultTradeRatio, [Enum.Resource.Wool]: Cost.defaultTradeRatio, [Enum.Commodity.Cloth]: Cost.defaultTradeRatio, [Enum.Commodity.Coin]: Cost.defaultTradeRatio, [Enum.Commodity.Paper]: Cost.defaultTradeRatio};
 
     player.longestRoad = 0;
+    player.rolledSeven = false;
+    player.defenderOfCatan = false;
 
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
+
+
     //player.match = null;
 
 
@@ -120,7 +124,7 @@ Player.createPlayer = function (name, user) {
     player.updateVP = function(points){
         player.VP += points;
         player.match.checkPlayerVP(this);
-    };
+    }; //HERE
 
 
     /**
@@ -186,111 +190,42 @@ Player.createPlayer = function (name, user) {
         player.progCardSum();
     };
 
-    /*
-    console.log(player.progCardSum());
-    console.log(player.progressCards);
-    player.discardProgressCards(disProgCards);
-    console.log(player.progressCards);
-    console.log(player.progressCardsCnt);
+
+
+    /*TODO:
+    map structure: engin/document/map-37.png
+    	1.find a way to store start node of each edge.
+    		a).-- flatten list then remove duplicates?  NO :(
+    			expected input (clockwise):
+    				[1,2],[2,3],[3,13],[13,12],[12,11] - start nodes: 1,2,3,13,12
+    			received input:
+    				[1,2],[2,3],[3,13],[12,13],[11,12] - start nodes: 1,2,3,12,11 -
+    			flatten remove duplicates (use underscore flatten): 1,2,3,11,12,13 -> extra 11..
+    		b). create a set of list to store the partial connected road.
+    				e.g [ [[1,2],[2,3]], [[12,13]], [[15,16],[16,17],[17,18]] :/ then BFS?
+    	2. Deal with opponent player's interrupt. - place one settlement on a vertex will split the road apart.
+    		[1,2], [2,3],[3,4],[4,5],[5,6],[6,7] - start nodes : 1,2,3,4,5,6 longest road: 6
+    		- opponent player's settlement on vertex 2
+    		- remove vertex 2 -> start noes: 1,3,4,5,6 - then increment curLen by 1 - return 5
+    	3.Road-Ship connection.
+    		create a new list - add all start nodes of roadlist to that new list
+    		store start nodes of ship.
+    		compare ship nodes with road nodes
+    			if contains same start node ->
+    				check whether there is a settlement/city of that vertex, if so add the ship node to new list
+    				else - skip and continue.
+    			else (not sharing same node) just add the ship to list (won't affect counter)
+    		ships: can have 2 type of ship route:
+    			open: one end of the ship route connects to a city/settelement
+    			closed: both ends of the ship route attach to a city/settlemnt
     */
-
-
-    /*
-     calculate longest road based on player.ships and player.roads
-     @return length of the longest road of current player. 
-     so far : only works for roadList. 
-        e.g if player.road =  [[1,2],[13,12],[3,13],[12,11],[2,3]]; //return 5
-            if player.road =  [[1,2], [3,4], [10,11],[11,12],[2,3]]; //return 3 
-        Note: edge should be stored in clockwise direction(refer to map-51.png):  1-2-3-13-12 
-                [13,12] will work but [12,13] won't work in this case. 
-    TODO: 
-    1.verify the connection between ships and roads. <- not sure how to do this. ??????
-            1.ships-settlement-roads 
-            2.ships-roads  
-    2.longest road was interrupted by a settlement (opponent's settlement)
-        Longest Road - How can I interrupt an opponent's Longest Road?
-        By building a settlement on an intersection of the Longest Road.
-    */
-    
-        //For example:
-        //player.roads = [[1,2], [2,3],[3,4], [10,11]]
-        //player.ships = [[1,5]]
-        //if there is settlement at vertex 1: longest road is [1,5]-[1,2]-[2,3]-[3,4] (4); if not then [1,5] is not in the route, the route length is 3
-
-        //if larger than 5, also check whether with match.longestRoad to see whether the player can get the longest road card, also update VP
-    
+    //For example:
+    //player.roads = [[1,2], [2,3],[3,4], [10,11]]
+    //player.ships = [[1,5]]
+    //if there is settlement at vertex 1: longest road is [1,5]-[1,2]-[2,3]-[3,4] (4); if not then [1,5] is not in the route, the route length is 3
+    //if larger than 5, also check whether with match.longestRoad to see whether the player can get the longest road card, also update VP
     player.calculateLongestRoad = function(){
-    //var roadList = [[1,2], [2,3],[3,4], [6,7], [10,11],[11,12]]; //should return 3 
-    //var roadList = [[1,2],[13,12],[3,13],[12,11],[2,3]]; //return 5
-/**
-        var road = player.roadList;
 
-        //if player owns less than 5 roads 
-        if(road.length<5){
-            console.log("road length less than 5");
-            return 0;   
-        }
-
-        //else
-        var count;
-        var pre; //left
-        var post; //right
-        var up;
-        var down;
-
-        var max = 0;
-        var curLen;
-        var set=[];
-        var map = {};
-        var visited = [];
-
-        for(var i=0; i<road.length;i++){
-            node = road[i][0]; //start node. 
-            //pre = road[i][0];
-            //next = road[i][1];  
-            set.push(node); 
-            //map: key = node[i][0], value = i 
-            map[set[i]] = i; 
-        }
-        
-        //console.log(set.toString());
-        for (var val in map){
-            var i = map[val];
-            if (visited[i])
-                continue;
-
-            pre = val - 1;
-            post = val + 1;
-            up = val - 10; 
-            down = val + 10; //e.g jump from 3 to 13 
-            curLen = 1;
-            
-            //if map contains value pre. 
-            while (map.hasOwnProperty(pre)) {
-                visited[map[pre]] = true;
-                curLen++;
-                pre--;
-
-            }
-            while (map.hasOwnProperty(post)) {
-                visited[map[post]] = true;
-                curLen++;
-                post++;
-            }
-             while (map.hasOwnProperty(up)) {
-                visited[map[up]] = true;
-                curLen++;
-                up--;
-
-            }   
-             while (map.hasOwnProperty(down)) {
-                visited[map[down]] = true;
-                curLen++;
-                down--;
-            } 
-            max = Math.max (curLen, max);
-        }
-        console.log("length of longest road is " + max);**/
     };
 
 
@@ -302,6 +237,100 @@ Player.createPlayer = function (name, user) {
     player.buyCityImprovement = function(cityImprovementCategory){
         player.cityImprovement[cityImprovementCategory] ++;
         return player.cityImprovement[cityImprovementCategory];
+    };
+
+    //TODO test & add comment below
+    /**
+     * When a seven is rolled, all players who have more than 7 resources cards need to discard half of their cards (round down)
+     * calculate the number of resource cards player needs to discard.
+     * @return number of cards to be discarded {Integer}
+     */
+    //return the total # of cards a player needs to discard.
+    player.totalToBeDiscarded = function(){
+      var numToBeDiscarded = -1;
+      if(player.resourceCardTotalNum <= player.maxSafeCardNum){
+        return 0;
+      }
+      else {
+        numToBeDiscarded = Math.floor(player.resourceCardTotalNum/2);
+      }
+      return numToBeDiscarded;
+    }
+
+
+    //var disProgResCards = ["Wood":2,"Brick":1];
+  //  player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+
+    player.discardResourceCards = function(cards){
+      let keys = [];
+      for (var card in player.resourceAndCommandities){
+        for (var discard in cards){
+          //TODO
+          //hasOwnProperty;
+
+          }
+
+        }
+      player.resourceCardTotalNum(player);
+    }
+
+    //TODO comment
+    player.getCitySum = function(){
+      var sum = 0;
+      for(var i in player.buildings){
+        if(player.buildings[i].level == 2 && player.buildings.hasOwnProperty(i))
+          sum++
+      }
+      return sum;
+    };
+
+
+    player.getKnightsSum = function(){
+      var sum = 0;
+      for(var i in player.knights){
+        if(player.knights[i].active == true){
+          sum += player.knights[i].level;
+          //strength ??? catan ?
+        }
+      }
+      return sum;
+    };
+
+    player.offerTrade = function(offer,receiver){
+      //TODO
+
+    };
+
+    player.acceptTrade = function(offer,willAccept){
+      //TODO
+
+    };
+
+    player.printKnightInfo = function(){
+      console.log("player : " + player.name);
+      for (var knight in player.knights){
+        console.log("active knight " +player.knights[knight].active);
+        console.log("knight level " + player.knights[knight].level)
+      }
+     console.log("knight/barbarian strength" + player.getKnightsSum());
+   };
+
+    player.printBuildingInfo = function(){
+      console.log("player : " + player.name);
+      for(var building in player.buildings){
+        if (player.buildings.hasOwnProperty(building)){
+          console.log("building level " + player.buildings[building].level);
+        }
+      }
+      console.log("city/catan strength" + player.getCitySum());
+    };
+
+    player.setDefenderOfCatan = function(result){
+      player.defenderOfCatan = result;
+    };
+
+    player.getDefenderOfCatan = function(){
+      return player.defenderOfCatan;
     };
 
     return player;
