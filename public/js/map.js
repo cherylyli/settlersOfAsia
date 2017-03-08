@@ -12,8 +12,9 @@ mapUI.populate_base_game = function() {
 function generateHexDivs() {
     let borderSpace = 40;
     // calculate hexTile height
-    let hexHeight = ($('#board .map').height() - borderSpace)/DATA.getMap().row.length;
-    let hexWidth = hexHeight * 1.1547; //hexagon width to heigth ratio: 2 : 3^(1/2)
+    let hexHeight =  ($('#board .map').height() - borderSpace) / ((DATA.getMap().row.length - 2) * 0.5 + 2);
+    let hexWidth = 0.866 * hexHeight;
+    //hexagon height to width ratio: 2 : 3^(1/2)
     let $map = $('#board .map');
 
     for (let hextile of DATA.getMap().hexTiles) {
@@ -30,17 +31,17 @@ function generateHexDivs() {
         // $hex.text(hextile.productionNum);
 
         // hex positions
-        let top = (hextile.row - 1) * hexHeight;
+        let top = (hextile.row - 1) * hexHeight * 0.75;
         let left = ((7 - DATA.getMap().row[hextile.row - 1]) * hexWidth / 2 + (hextile.posInRow - 1) * hexWidth);
-        //let backgroundPic = "../img/room/tiles/" + hextile.type + ".png";
+        let backgroundPic = "../img/room/tiles/" + hextile.type + ".png";
         $hex.css({
             //position
             'top': top,
             'left': left,
             //background pic
-            //'background': 'url(' + backgroundPic + ')',
-            //'background-size': '100%',
-            //'z-index': 0
+            'background': 'url(' + backgroundPic + ')',
+            'background-size': '100%',
+            'z-index': 1
         });
 
         //setUpVertices(hextile, hexHeight, top, left);
