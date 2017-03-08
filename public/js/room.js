@@ -102,14 +102,14 @@ $(window).on('imready', function(im){
                     closeOnConfirm: false,
                 },
                 function(){
-                    if (getMatch().phase == Enum.MatchPhase.SetupRoundOne) {
+                    if (DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) {
                         swal({
                             title: "Set Up Phrase One",
                             text: "Build a settlement by clicking on a vertex. Then build a road by clicking two vertices with CTRL pressed.",
                             type: "info",
                         });
                     }
-                    else if (getMatch().phase == Enum.MatchPhase.SetupRoundTwo){
+                    else if (DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo){
                         swal({
                             title: "Set Up Phrase Two",
                             text: "Build a city by clicking on a vertex. Then build a road by clicking two vertices with CTRL pressed.",
@@ -172,11 +172,17 @@ $(window).on('imready', function(im){
         },
         watch: {
             room: function(){
+                /**
                 updateHexTiles();
                 addSettlementsOrCities();
                 placeRoadsAndShips();
                 placeHarbors();
-                changePlayerColors();
+                changePlayerColors();**/
+            },
+
+            'room.match': function(){
+                console.log(DATA.getMap().hexTiles)
+                mapUI.populate_base_game();
             }
         },
         methods: {
@@ -293,10 +299,11 @@ $(window).on('imready', function(im){
     // adjust UI when resize screen
     function adjustUI(){
         // adjust system log height
-        $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight());
+        $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
     }
     $(window).resize(adjustUI);
 
+    //Why put chat inside adjustUI ??
     // receive chat message
     sock.on('receive-message', function(msg){
         app.log(msg.user, msg.action, false);

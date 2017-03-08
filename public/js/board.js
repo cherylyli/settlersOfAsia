@@ -108,6 +108,7 @@ $(document).ready(function() {
 
         xPx = x *1.8+ "px";
         yPx = y *2.0+ "px";
+        //$("#map").
         var newNode = document.createElement("div");
         newNode.setAttribute("data-id", "" + id);
         // newNode.setAttribute("class", "hexagon " + app.room.match.map.hexTiles[id-1]);

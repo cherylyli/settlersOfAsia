@@ -13,9 +13,10 @@
     <link href="/css/plugins/rateyo.css" rel="stylesheet">
     <link href="/css/plugins/qtip.css" rel="stylesheet">
     <link href="/css/standard.css" rel="stylesheet">
-    <link href="/css/board.css" rel="stylesheet">
+    <!--link href="/css/board.css" rel="stylesheet"-->
+    <link href="/css/map.css" rel="stylesheet">
     <link href="/css/room.css" rel="stylesheet">
-    <!-- <link href="/css/lobby.css" rel="stylesheet"> -->
+    <!--<link href="/css/lobby.css" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -70,9 +71,8 @@
             </div>
         </div>
         <div id='right-screen' class='box-shadow-light'>
+            <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
             <div id='users'>
-                <!-- FIXME: some one plz help me fix this, match-div should not be in users div, but when i put it outside users div, the position of chat box is influenced, match-ops div overlaps the chat input box, and i cannot fix it-->
-                <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
                 <div v-for='player in room.users'>
                     <div class='user' v-bind:active='room.match && room.match.currentPlayer==player.name' v-bind:data-username='player.name'>
                         <div class='pic center-cropped' v-bind:style='{backgroundImage:`url(${player.user.profile_pic})`}'>
@@ -314,6 +314,7 @@
     <script src="/js/standard.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/plugins/socket-adapter.js"></script>
+    <script src="/js/DATA.js"></script>
     <script src="/js/clientSideGameLogic/Enum.js"></script>
     <script src="/js/clientSideGameLogic/Cost.js"></script>
     <script src="/js/clientSideGameLogic/HexTile.js"></script>
@@ -321,7 +322,8 @@
     <script src="/js/clientSideGameLogic/Player.js"></script>
     <script src="/js/clientSideGameLogic/Building.js"></script>
     <script src="/js/clientSideGameLogic/Commands.js"></script>
-    <script src="/js/board.js"></script>
+    <!--script src="/js/board.js"></script-->
+    <script src="/js/map.js"></script>
     <script src="/js/room.js"></script>
 </body>
 </html>

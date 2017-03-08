@@ -33,7 +33,7 @@ Building.addHelperFunctions = function (building) {
 Building.buildSettlementCheck = function (vertex) {
     /**
     function phaseCheck() {
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().settlementCnt >= 1){
+        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().settlementCnt >= 1){
             swalError2("You can only build one settlement in set up round one!");
             return false;
         }

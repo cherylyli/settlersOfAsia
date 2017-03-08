@@ -235,6 +235,7 @@ Commands.buildRoad = function (userName, roomID, data) {
     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
 };
 
+
 /**
  * build a ship
  * @param userName {String}
@@ -273,7 +274,7 @@ Commands.chooseCityToBePillaged = function (userName, roomID, vertex) {
     let match = DATA.getMatch(roomID);
     let city = match.map.getVertexInfo(vertex);
     city.pillage();
-}
+};
 
 
 /**

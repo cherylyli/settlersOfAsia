@@ -1,0 +1,23 @@
+#board .Sea{
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    background:url("../img/room/tiles/sea.gif");
+    background-size: 120px 120px;
+    transition: all 0.15s;
+    z-index: 0;
+    cursor: pointer;
+
+}
+
+#board .map .hex{
+    /** number token **/
+    text-align: center;
+    position: absolute;
+    background:url("../img/room/tiles/wood.png");
+    background-size: 100%;
+    transition: all 0.15s;
+    z-index: 0;
+    cursor: pointer;
+
+}

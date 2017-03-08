@@ -8,7 +8,7 @@ function start()
 
 window.addEventListener( "load", start, false );
 
-
+/**
 function populate_base_game(){
    var game_map = document.getElementById("game");
    var height = 50;
@@ -47,4 +47,5 @@ function populate_base_game(){
       }
       game_map.appendChild(newNode);
    }
-}
+   **/
+//}

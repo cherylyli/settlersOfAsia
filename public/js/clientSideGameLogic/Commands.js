@@ -21,14 +21,6 @@
     let CommandCheck = {};
 
     let room = {users: {}};
-    let getMatch = function () {
-        return  window.app.room.match;
-    };
-
-    let getMyPlayerObj = function () {
-        return getMatch().players[myObj.username];
-    };
-
 
 
 
@@ -42,7 +34,7 @@
 
     //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
     CommandCheck.rollDice = function () {
-        if (getMatch().diceRolled){
+        if (DATA.getMatch().diceRolled){
             swalError2("Dice already rolled!");
             return false;
         } 
@@ -77,23 +69,23 @@
  */
     CommandCheck.buildSettlement = function (vertex) {
         //set up phrase you can build one settlement for free
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().settlementCnt >= 1){
+        if((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().settlementCnt >= 1){
             swalError2("You can only build one settlement in set up round one!");
             return false;
         }
 
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getBuildingCnt() >= 2){
+        if((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getBuildingCnt() >= 2){
             swalError2("You can only build one settlement in set up round two!");
             return false;
         }
 
 
-        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildSettlement)){
+        if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildSettlement)){
             return false;
         }
 
         //check if the vertex is not empty
-        if (getMatch().map.getVertexInfo(vertex)){
+        if (DATA.getMatch().map.getVertexInfo(vertex)){
             swalError2("Invalid position!");
             return false;
         }
@@ -102,14 +94,14 @@
          *
          * @type {Array.<edge>}
          */
-        let connectedEdges = getMatch().map.getEdgeByVertex(vertex);
+        let connectedEdges = DATA.getMatch().map.getEdgeByVertex(vertex);
         //flags
         let connectedToOneRoad = false;
         let distanceRuleSatisfied = true;
 
         for (let e of connectedEdges){
             //check if connected to one road
-            let road = getMatch().map.getEdgeInfo(e);
+            let road = DATA.getMatch().map.getEdgeInfo(e);
             if (road && road.owner.name == myObj.username){
                 //we have a road connected with the settlement
                 connectedToOneRoad = true;
@@ -117,7 +109,7 @@
 
             //distance rule - you may only build a settlement at an intersection if all 3 of the adjacent intersections are vacant (i.e., none are occupied by any settlements or cities—even yours
             let otherEndOfEdge = Map.getOtherEndOfEdge(e, vertex);
-            let vertexUnit = getMatch().map.getVertexInfo(otherEndOfEdge);
+            let vertexUnit = DATA.getMatch().map.getVertexInfo(otherEndOfEdge);
             if (vertexUnit && !isKnight(vertexUnit)){
                 //if the vertexUnit is not knight, then it's settlement / city
                 //-> there is a settlement / city at a adjacent intersections
@@ -126,7 +118,7 @@
         }
 
 
-        if (!connectedToOneRoad && (!getMatch().phase == Enum.MatchPhase.SetupRoundOne)){
+        if (!connectedToOneRoad && (!DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne)){
             swalError2("Settlement should be connected with at least one road.");
             return false;
         }
@@ -139,8 +131,8 @@
 
         //cannot build in sea
         let inSea = true;
-        for (let hexID of getMatch().map.getHexTileArrayByVertex(vertex)){
-            if (!(getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea)){
+        for (let hexID of DATA.getMatch().map.getHexTileArrayByVertex(vertex)){
+            if (!(DATA.getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea)){
                 inSea = false;
             }
         }
@@ -151,7 +143,7 @@
         }
 
         //if you have more than 5 settlements, you have to upgrade one to a city before you build another one
-        if (getMyPlayerObj().settlementCnt == 5){
+        if (DATA.getMyPlayer().settlementCnt == 5){
             swalError2("You already have 5 settlements! Upgrade one to city before you build another one!");
             return false;
         }
@@ -178,7 +170,7 @@
     */
     CommandCheck.upgradeToCity = function (vertex) {
 
-        if (!(getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && !checkEnoughResource(Cost.upgradeToCity)){
+        if (!(DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && !checkEnoughResource(Cost.upgradeToCity)){
             return false;
         }
 
@@ -189,7 +181,7 @@
         }
 
         //you can only update one city
-        if ((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (getMyPlayerObj().getCities().length >= 1)){
+        if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (DATA.getMyPlayer().getCities().length >= 1)){
             swalError2("You can only update one settlement during set up round two!");
             return false;
         }
@@ -219,13 +211,13 @@
         let edge = Map.edge(vertex1, vertex2);
 
         //set up phrase you can build one road for free
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().getRoadAndShipCnt() >= 1){
+        if((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().getRoadAndShipCnt() >= 1){
             swalError2("You can only build one road or ship in set up round one!");
             return false;
         }
 
         //set up phrase you can build one road for free
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getRoadAndShipCnt() >= 2){
+        if((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getRoadAndShipCnt() >= 2){
             swalError2("You can only build one road or ship in set up round two!");
             return false;
         }
@@ -244,7 +236,7 @@
 
         //valid position check -- you cannot build road in sea -> one adjacent hexTile should be land
         let adjacentToLandHex = false;  //flag
-        for (let [hexID, edgePosition] of getMatch().map.getHexTileByEdge(edge)){
+        for (let [hexID, edgePosition] of DATA.getMatch().map.getHexTileByEdge(edge)){
             if (getMatch().map.getHexTileById(hexID).type != Enum.HexType.Sea) adjacentToLandHex = true;
         }
         if (!adjacentToLandHex){
@@ -259,7 +251,7 @@
         for (let vertex of edge){
 
             //if the new road is connected with roads on this vertex
-            for (let e of getMatch().map.getEdgeByVertex(vertex)){
+            for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)){
                 let edgeUnit = getMatch().map.getEdgeInfo(e);
                 if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == myObj.username){
                     connected = true;
@@ -268,7 +260,7 @@
             }
 
             //... connected with settlements, or cities.
-            let vertexUnit = getMatch().map.getVertexInfo(vertex);
+            let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
             if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == myObj.username){
                 connected = true;
                 break;
@@ -303,19 +295,19 @@
         let edge = Map.edge(vertex1, vertex2);
 
         //set up phrase you can build one road for free
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && getMyPlayerObj().getRoadAndShipCnt() >= 1){
+        if((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().getRoadAndShipCnt() >= 1){
             swalError2("You can only build one road or ship in set up round one!");
             return false;
         }
 
         //set up phrase you can build one road for free
-        if((getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && getMyPlayerObj().getRoadAndShipCnt() >= 2){
+        if((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getRoadAndShipCnt() >= 2){
             swalError2("You can only build one road or ship in set up round two!");
             return false;
         }
 
 
-        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)){
+        if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)){
             return false;
         }
 
@@ -328,14 +320,14 @@
 
     function shipPostionTest(edge) {
         //Only 1 ship can be built on any given path
-        if (getMatch().map.getEdgeInfo(edge)){
+        if (DATA.getMatch().map.getEdgeInfo(edge)){
             swalError2("Only 1 ship can be built on any given path!");
             return false;
         }
 
         //valid position check -- you cannot build road in inland area -> one adjacent hexTile should be sea
         let adjacentToSeaHex = false;  //flag
-        for (let [hexID, edgePosition] of getMatch().map.getHexTileByEdge(edge)){
+        for (let [hexID, edgePosition] of DATA.getMatch().map.getHexTileByEdge(edge)){
             if (getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea) adjacentToSeaHex = true;
         }
         if (!adjacentToSeaHex){
@@ -350,7 +342,7 @@
         for (let vertex of edge){
 
             //if the new ship is connected with roads on this vertex
-            for (let e of getMatch().map.getEdgeByVertex(vertex)){
+            for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)){
                 let edgeUnit = getMatch().map.getEdgeInfo(e);
                 if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == myObj.username){
                     connected = true;
@@ -359,7 +351,7 @@
             }
 
             //... connected with settlements, or cities.
-            let vertexUnit = getMatch().map.getVertexInfo(vertex);
+            let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
             if (vertexUnit && !isKnight(vertexUnit)){
                 connected = true;
                 break;
@@ -393,7 +385,7 @@
             return false;
         }
 
-        let vertexUnit = getMatch().map.getVertexInfo(vertex);
+        let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
         if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)){
             swalError2("There is no city at this position!");
             return false;
@@ -417,8 +409,8 @@
 
 
     CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
-        //let me = getMyPlayerObj();
-        let level = parseInt(getMyPlayerObj().cityImprovement[cityImprovementCategory]) + 1;
+        //let me = DATA.getMyPlayer();
+        let level = parseInt(DATA.getMyPlayer().cityImprovement[cityImprovementCategory]) + 1;
 
         // 6 = 5 + 1
         if (level >= 6){
@@ -450,29 +442,29 @@
         let newPosition = Map.edge(newVertex1, newVertex2);
 
         //You may only move 1 ship per turn, and only during your building phase -> dice rolled
-        if (!getMatch().diceRolled){
+        if (!DATA.getMatch().diceRolled){
             swalError2("You can only move ship during building phase!");
         }
 
-        if (getMatch().shipMoved){
+        if (DATA.getMatch().shipMoved){
             swalError2("You can only move 1 ship per turn!");
             return false;
         }
 
-        let ship = getMatch().map.getEdgeInfo(oldPosition);
+        let ship = DATA.getMatch().map.getEdgeInfo(oldPosition);
 
         if (!ship || ship.type == 'ship'){
             swalError2("No ship found!");
         }
         //You may not move a ship on the same turn you originally built it
-        if (ship.builtTurnNum == getMatch().turnNum){
+        if (ship.builtTurnNum == DATA.getMatch().turnNum){
             swalError2("You cannot move a ship on the same turn you originally built it!");
             return false;
         }
 
 
 
-        ship.remove(getMatch().map, oldPosition);
+        ship.remove(DATA.getMatch().map, oldPosition);
         if (!shipPostionTest(newPosition)){
             swalError2("You cannot move ship here!");
             return false;
@@ -495,7 +487,7 @@ getAvailbleEdgesToMoveTo =function () {
 
 
     CommandCheck.tradeWithBank = function (src, tradeFor) {
-        let tradeRatio = getMyPlayerObj().tradeRatio[tradeFor];
+        let tradeRatio = DATA.getMyPlayer().tradeRatio[tradeFor];
         let cost = {[src]: tradeRatio};
 
         return (checkEnoughResource(cost));
@@ -537,7 +529,7 @@ let edge = function (vertex1, vertex2) {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
     let checkEnoughResource = function (cost) {
-        let resources = getMyPlayerObj().resourcesAndCommodities;
+        let resources = DATA.getMyPlayer().resourcesAndCommodities;
         for (let cardName in cost){
             if (cost[cardName] > resources[cardName]){
                 swalError2("Not enough "+ cardName + "!");
@@ -595,7 +587,7 @@ function isKnight(vertexUnit){
  * @param vertex
  */
 function isSettlement(vertex) {
-    let vertexUnit = getMatch().map.getVertexInfo(vertex);
+    let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
     if (!_.isObject(vertexUnit) || isKnight(vertexUnit)) return false;
     return (vertexUnit.level == 1);
 }
@@ -618,7 +610,7 @@ _.each(CommandName, function(cmd){
         //allowed operations
         //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
 
-        let phase = getMatch().phase;
+        let phase = DATA.getMatch().phase;
         if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)){
             swalError2("This operation not allowed in "+ phase);
             return;
