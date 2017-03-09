@@ -22,6 +22,11 @@ Enum.cityImprovementCategory = {
     "Science": "Science"
 };
 
+Enum.BarbarianResult = {
+    "WIN" : "WIN",
+    "LOSE" : "LOSE",
+    "WIN_TIE" : "WIN_TIE"
+};
 /**
  * "Waiting" : Player number in the room is under the minimum required player number to start a game
  * "Ready" : Player number in the room satisfy the minimum number (new player can still join the game room if the game did not start)

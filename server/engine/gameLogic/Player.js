@@ -71,6 +71,13 @@ Player.createPlayer = function (name, user) {
 
     /**
      *
+     * @return {Number}
+     */
+    player.getCityCnt = function () {
+        return player.getCities().length;
+    }
+    /**
+     *
      * @return {number}
      */
     player.getRoadAndShipCnt = function () {
@@ -141,6 +148,7 @@ Player.createPlayer = function (name, user) {
      *
      * @return {Array<Building>}
      */
+
     player.getCities = function () {
         let cities = [];
         for (let vertex in player.buildings){
@@ -150,7 +158,6 @@ Player.createPlayer = function (name, user) {
         }
         return cities;
     };
-
     /**
      *
      */
@@ -274,7 +281,7 @@ Player.createPlayer = function (name, user) {
       player.resourceCardTotalNum(player);
     }
 
-    //TODO comment
+
     player.getCitySum = function(){
       var sum = 0;
       for(var i in player.buildings){

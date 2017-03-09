@@ -20,6 +20,8 @@ let Dice = require('./Dice.js');
 let Bank = require('./Bank.js');
 let Player = require('./Player.js');
 let notify  = require('../../api/notify.js');
+let Barbarian = require('./Barbarian.js');
+
 
 // users is a list of String, names of the user in the room
 /**
@@ -46,7 +48,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.phase = null;
     match.turnNum = 0;
     match.winningVP = 12;
-   // match.currentPlayer =
+    match.barbarian = Barbarian.createBarbarian();
 
     assignColors(match);
 
