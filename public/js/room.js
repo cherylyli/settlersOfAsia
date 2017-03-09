@@ -300,10 +300,13 @@ $(window).on('imready', function(im){
     function adjustUI(){
         // adjust system log height
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
+        // adjust map size
+        if (DATA.getMatch()) mapUI.positionMap();
     }
+
+
     $(window).resize(adjustUI);
 
-    //Why put chat inside adjustUI ??
     // receive chat message
     sock.on('receive-message', function(msg){
         app.log(msg.user, msg.action, false);
@@ -550,19 +553,19 @@ $(window).on('imready', function(im){
     function clearHighlightedVertices($except){
         var $p = $('#cmd-table');
         var $map = $('#board .map');
-        $map.find('.vertice').not($except).removeClass('ctrl-clicked')
+        $map.find('.vertex').not($except).removeClass('ctrl-clicked')
     }
 
     // clear highlighted commands
     function clearHighlightedCommands(){
         var $p = $('#cmd-table');
-        var $map = $('#board .map');
+        //var $map = $('#board .map');
         $p.find('.cmds .cmd').removeClass('matched'); // remove highlighted commands
     }
 
     // count number of highlighted vertices
     function highlightedVertices(){
-        return $('#board .map .vertice.ctrl-clicked').length;
+        return $('#board .map .vertex.ctrl-clicked').length;
     }
 
     // highlight a vertex
@@ -577,11 +580,11 @@ $(window).on('imready', function(im){
 
     // un-highlight vertices when click elsewhere
     $('#board').click(function(e){
-        if (isNot($(e.target), 'vertice')) clearHighlightedVertices();
+        if (isNot($(e.target), 'vertex')) clearHighlightedVertices();
     });
 
     // click on vertex
-    $('#board').on('click', '.vertice', function(e){
+    $('#board').on('click', '.vertex', function(e){
         if (isCmdTableVisible()) return false;
         // if more than 2 select, clear
         if (highlightedVertices() > 2) clearHighlightedVertices();

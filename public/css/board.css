@@ -658,18 +658,18 @@ ROADS AND SHIPS
 }
 
 
-#board .vertice{
+#board .vertex{
     position: absolute;
     width: 5px;
     height: 5px;
     /*border-radius: 100px;*/
-    background-color: brown;
+    background-color: transparent;
     cursor: pointer;
     z-index: 10;
 }
 
 
-#board .vertice::after{
+#board .vertex::after{
     content: "";
     border-radius: 100px;
     background-color: rgba(255, 0, 0, 0.22); /*0, 178, 255*/
@@ -683,6 +683,6 @@ ROADS AND SHIPS
     transition: all 0.3s;
 }
 
-#board .vertice:hover::after, #board .vertice.ctrl-clicked::after{
+#board .vertex:hover::after, #board .vertex.ctrl-clicked::after{
     opacity: 1;
 }

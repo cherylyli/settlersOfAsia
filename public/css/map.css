@@ -1,25 +1,56 @@
-#board .Sea{
+#board .map{
     position: absolute;
-    width: 110px;
-    height: 110px;
-    background:url("../img/room/tiles/sea.gif");
-    background-size: 120px 120px;
+    top: 20px;
+    left: 20px;
+    bottom: 10px;
+    right: 140px;
+}
+
+
+#board .map .hex{
+    /** center number token **/
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    /** num token font **/
+    font-size: 100%;
+    font-weight: bold;
+    color: white;
+
+    position: absolute;
     transition: all 0.15s;
-    z-index: 0;
-    cursor: pointer;
+    cursor: default;
 
 }
 
-#board .map .hex{
-    /** number token **/
-    text-align: center;
+#board .vertex{
     position: absolute;
-    background:url("../img/room/tiles/wood.png");
-    background-size: 100%;
-    transition: all 0.15s;
-    z-index: 0;
+    width: 5px;
+    height: 5px;
+    /*border-radius: 100px;*/
+   background-color: transparent;
     cursor: pointer;
-
+    z-index: 10;
 }
 
 /*#board .map .hex*/
+
+#board .vertex::after{
+    content: "";
+    border-radius: 100px;
+    background-color: rgba(255, 0, 0, 0.22); /*0, 178, 255*/
+    width: 21px;
+    height: 21px;
+    left: -8px;
+    top: -8px;
+    /*border: 1px solid rgba(255, 0, 0, 0.3);*/
+    position: absolute;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+#board .vertex:hover::after, #board .vertex.ctrl-clicked::after{
+    opacity: 1;
+}

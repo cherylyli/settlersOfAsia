@@ -36,11 +36,11 @@ body{
     border-bottom: 0px solid #e7ebf3;
     overflow: hidden;
 }
-
+/**
 #board .map{
     width: 100%;
     height: 100%
-}
+}**/
 
 #board[disabled] {
     opacity: 0.9;
