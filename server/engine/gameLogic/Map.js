@@ -33,9 +33,9 @@ Map.createMap = function (scenarioData) {
     map.row = initRow(scenarioData.hexTileNum);
     map.numTokenToHexTiles = initNumTokenToHexTiles();
 
-
+    map.robber = Robber.createRobber();
+    //map.robberPosition = 2;
     map.piratePositon = 1;  //for testing, change it later
-    map.robbor = roober.create..sfd;
     map.harbors = {};   //key: edgeKey, value: harbor
 
 
