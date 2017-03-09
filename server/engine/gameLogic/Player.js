@@ -253,9 +253,9 @@ Player.createPlayer = function (name, user) {
      * @return number of cards to be discarded {Integer}
      */
     //return the total # of cards a player needs to discard.
-    player.totalToBeDiscarded = function(){
+    player.discardedCardsCnt = function(){
       var numToBeDiscarded = -1;
-      if(player.resourceCardTotalNum <= player.maxSafeCardNum){
+      if(player.resourceCardTotalNum() <= player.maxSafeCardNum){
         return 0;
       }
       else {

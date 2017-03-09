@@ -35,7 +35,7 @@ Map.createMap = function (scenarioData) {
 
 
     map.piratePositon = 1;  //for testing, change it later
-    map.robborPositon = 2;
+    map.robbor = roober.create..sfd;
     map.harbors = {};   //key: edgeKey, value: harbor
 
 
@@ -550,4 +550,3 @@ function readNumTokenMapInputToGenStrList(data) {
     return [result6And8, resultN];
 }
 Map.setUpPartMap = setUpPartMap;
-

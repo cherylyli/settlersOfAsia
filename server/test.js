@@ -42,27 +42,26 @@ Commands.hireKnight("Max","123",7);
 //Commands.activateKnight("Max","123",7);
 Commands.upgradeToCity("Max", "123", 7);
 
+let players = data.getMatch("123").players;
 
+/*
+//barbarian
+let my = data.getMatch("123");
 data.getMatch("123").barbarian.toMove(data.getMatch("123").dice);
 console.log(data.getMatch("123").getPlayer("Emol").getKnightsSum());
-
-let my = data.getMatch("123");
 my.barbarian.toMove(data.getMatch("123").dice);
 my.barbarian.toMove(data.getMatch("123").dice);
-
 console.log("barbarian curPos " + my.barbarian.getCurrentPosition());
-
 let barStrength = data.getMatch("123").barbarian.getStrength(data.getMatch("123").players);
-
-
 console.log(my.barbarian.getAttackResult(my.players));
 console.log(my.barbarian.applyResult(my.players));
-//let rest = data.getMatch("123").barbarian.applyResult(data.getMatch("123").players);
-
 console.log(my.barbarian.getPlayerContribution());
+*/
 
-//console.log(rest);
-
+//robber
+let my = data.getMatch("123").map;
+console.log(my.robber.canMove(1,2));
+console.log(my.robber.hasToDiscardCards(players));
 
 Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
