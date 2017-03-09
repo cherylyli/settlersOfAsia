@@ -35,8 +35,13 @@ Commands.buildSettlement("Emol", "123", 8);
 Commands.buildSettlement("Emol", "123", 9);
 Commands.upgradeToCity("Emol", "123", 7);
 
-data.getMatch("123").barbarian.getStrength(data.getMatch("123").players));
-data.getMatch("123").barbarian.applyResult(data.getMatch("123").players));
+
+/*
+data.getMatch("123").barbarian.toMove(data.getMatch("123").dice);
+data.getMatch("123").barbarian.getStrength(data.getMatch("123").players);
+data.getMatch("123").barbarian.applyResult(data.getMatch("123").players);
+*/
+
 
 Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
