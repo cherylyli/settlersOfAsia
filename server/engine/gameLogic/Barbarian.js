@@ -79,18 +79,6 @@ Barbarian.createBarbarian = function(){
     if(barbarian.toAttack() == false){
       return -1;
     }
-    /*
-    for(var i in players){
-      //restart
-      if(players[i].getDefenderOfCatan == true){
-        players[i].setDefenderOfCatan(false);
-      }
-      if(players[i].getCityCnt() > 0){
-        //push it to hasCity!! TODO
-        hasCity.push(players[i]); //for later pillage if catan loses.
-      }
-    }
-    */
 
     /*
     if barbarian win :
@@ -145,7 +133,6 @@ Barbarian.createBarbarian = function(){
       //TIE
       if(counter > 0){
         for(var i = 0; i < tie.length; i++){
-          //TODO
           //console.log("tie players" + players[tie[i]].name);
           //tie, each player can get a progress card of their choice.
           //players[tie[i]].getProgressCard
