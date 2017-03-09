@@ -12,6 +12,7 @@ let _ = require('underscore');
 let HexTile = require('./HexTile.js');
 let Scenario = require('./Scenario.js');
 let Harbor = require('./Harbor.js');
+let Robber = require('./Robber.js');
 
 let Map = {} = module.exports;
 
