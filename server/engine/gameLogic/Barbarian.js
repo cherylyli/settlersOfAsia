@@ -9,7 +9,7 @@ Barbarian.createBarbarian = function(){
   let barbarian = {};
 
   barbarian.curPos = 0;
-  barbarian.playerContribution = [];
+  barbarian.playerContribution = {};
   barbarian.win = false;
 
   barbarian.toMove = function(dice){
@@ -22,7 +22,7 @@ Barbarian.createBarbarian = function(){
 
   barbarian.init = function(){
     barbarian.curPos = 0;
-    barbarian.playerContribution = [];
+    barbarian.playerContribution = {};
     barbarian.win = false;
   }
 
@@ -40,11 +40,10 @@ Barbarian.createBarbarian = function(){
   barbarian.getStrength = function(players){
     var strength = 0;
     for(var i in players){
-      barbarian.strength += players[i].getCityCnt();
+      strength += players[i].getCityCnt();
     }
     return strength;
   }
-
 
   /**
    *
@@ -52,34 +51,40 @@ Barbarian.createBarbarian = function(){
    */
   barbarian.getAttackResult = function(players){
     var catanStrength = 0;
-    var result = {};
+    var result = [];
 
     for(var i in players){
       catanStrength += players[i].getKnightsSum();
-      barbarian.playerContribution.push(players[i].getKnightsSum());
+      var playerName = players[i].name;
+      barbarian.playerContribution[playerName] = players[i].getKnightsSum();
     }
     //return the result
     if(catanStrength < barbarian.getStrength(players)){
       barbarian.win = true;
     }
+    //console.log(barbarian.playerContribution);
     return barbarian.win;
+  }
+
+  barbarian.getPlayerContribution = function(){
+    return barbarian.playerContribution;
   }
 
   /**
    *
-   * @return {result:[Enum.BarbarianResult], toPlayers:Array{players}}
+   * @return {result:[Enum.BarbarianResult], toPlayers:Array{playerName}
    */
   //NOTE! player.buildings  player.buildings = {};  //key: position (vertex index / int); value: building object
   barbarian.applyResult = function(players){
     var catanStrength = 0;
     var fewest;
     var most;
-    var applyOn = [];
-
+    var affectedPlayers = [];
+/*
     if(barbarian.toAttack() == false){
       return -1;
     }
-
+*/
     /*
     if barbarian win :
     player with the fewest active knights:
@@ -94,22 +99,30 @@ Barbarian.createBarbarian = function(){
       city wall of that city being reduced is also gone.
     */
 
+    let contribution = Object.keys(barbarian.playerContribution).map(function(knights){
+      return barbarian.playerContribution[knights]
+    });
+
     if(barbarian.win == true){
       //barbarian stronger
-      console.log(barbarian.playerContribution);
-      var min = Math.min(...barbarian.playerContribution);
+      //console.log(barbarian.playerContribution);
+
+      var min = Math.min(...contribution);
       console.log("min is " + min);
-      for(var i in barbarian.playerContribution){
+      for(var i in barbarian.playerContribution ){
+      //  console.log("player name " + players[i].name);
+      //  console.log("player is " + players[i].getCityCnt());
         if(barbarian.playerContribution[i] == min && players[i].getCityCnt() > 0){
-          applyOn.push(players[i].name);
+          affectedPlayers.push(i);
           //CLIENTSIDE let player to choose which city he wants to pillage.
           //city reduces to a settlement
           //destroy the city wall if any
+          /*
           let cities = players[i].getCities();
           console.log("need to be pillage" + cities[0]);
           cities[0].pillage();
-          //console.log(cities);
-          return {result:[Enum.BarbarianResult.LOSE], toPlayers:addOn};
+          */
+          return {result:[Enum.BarbarianResult.CATAN_LOSE], toPlayers:affectedPlayers};
         }
       }
     }
@@ -118,17 +131,19 @@ Barbarian.createBarbarian = function(){
       if TIE: each player gets one progress card of their choice //how
       */
       //barbarian.win = false;
-      var max = Math.max(...barbarian.playerContribution);
+      var max = Math.max(...contribution);
       console.log("max is " + max);
+
       var tie = []; //store the index of tied players.
       var counter = -1;
       for(var i in barbarian.playerContribution){
         if(barbarian.playerContribution[i] == max){
-          applyOn.push(barbarian.playerContribution[i]);
+          affectedPlayers.push(i);
           counter++;
           tie.push(i);
         }
       }
+      console.log("counter is "+ counter);
 
       //TIE
       if(counter > 0){
@@ -136,14 +151,15 @@ Barbarian.createBarbarian = function(){
           //console.log("tie players" + players[tie[i]].name);
           //tie, each player can get a progress card of their choice.
           //players[tie[i]].getProgressCard
-          return {result:[Enum.BarbarianResult.WIN_TIE], toPlayers:applyOn};
+          return {result:[Enum.BarbarianResult.CATAN_WIN_TIE], toPlayers:affectedPlayers};
         }
       }
       else if (counter == 0){
-        players[tie[0]].setDefenderOfCatan(true);
+        //players[tie[0]].setDefenderOfCatan(true);
         //console.log("defender of catan "+players[tie[0]].name);
         //defender of catan
-          return {result:[Enum.BarbarianResult.WIN], toPlayers:applyOn};
+        console.log();
+          return {result:[Enum.BarbarianResult.CATAN_WIN], toPlayers:affectedPlayers};
       }
       else {
         console.log("Error. ")
@@ -167,10 +183,22 @@ Barbarian.createBarbarian = function(){
     barbarian.init();
   }
 
+  barbarian.ifCatanWin = function(){
+
+  }
+
+  barbarian.ifCatanWinDuplicate = function(){
+
+  }
+
+  barbarian.ifCatanLose = function(){
+
+  }
+
   return barbarian;
 }
 
-//tester
+/*
 var barbarian = new Barbarian.createBarbarian();
 var dice = new Dice.createDice();
 dice.eventDie = "Ship";
@@ -179,7 +207,6 @@ for(var i=0;i<7;i++){
   //console.log("barbarian to move: " + barbarian.toMove(dice));
 }
 
-/*
 cases:
 lose: active knights < # of cities
 win: active knights >= # of cities

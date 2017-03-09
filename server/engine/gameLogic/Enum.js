@@ -23,9 +23,9 @@ Enum.cityImprovementCategory = {
 };
 
 Enum.BarbarianResult = {
-    "WIN" : "WIN",
-    "LOSE" : "LOSE",
-    "WIN_TIE" : "WIN_TIE"
+    "CATAN_WIN" : "CATAN_WIN",
+    "CATAN_LOSE" : "CATAN_LOSE",
+    "CATAN_WIN_TIE" : "CATAN_WIN_TIE"
 };
 /**
  * "Waiting" : Player number in the room is under the minimum required player number to start a game
