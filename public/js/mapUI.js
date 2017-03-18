@@ -65,8 +65,9 @@ function generateHexDivs() {
 
 
 mapUI.positionMap = function () {
+    let $map = $('.map');
     // calculate hexTile height
-    let hexHeight =  ($('.map').height()) / (DATA.getMap().row.length * 0.75 + 0.75);
+    let hexHeight =  ($map.height()) / (DATA.getMap().row.length * 0.75 + 0.75);
     let hexWidth = 0.866 * hexHeight;
     // hexagon height to width ratio: 2 : 3^(1/2)
 
@@ -89,28 +90,27 @@ mapUI.positionMap = function () {
         // FIXME: there are duplicate assignments here, but I am not sure how to improve
 
         //-------------------WILL CHANGE THIS PART TMR------------
-
-        $('.vertex[data-id=' + hex.vertices.TopLeft + ']').css({
+        $map.find('.vertex[data-id=' + hex.vertices.TopLeft + ']').css({
             'top': top + 0.25 * hexHeight,
             'left': left
         });
-        $('.vertex[data-id=' + hex.vertices.Top + ']').css({
+        $map.find('.vertex[data-id=' + hex.vertices.Top + ']').css({
             'top': top,
             'left': left + 0.5 * hexWidth
         });
-        $('vertex[data-id=' + hex.vertices.TopRight +']').css({
+        $map.find('vertex[data-id=' + hex.vertices.TopRight +']').css({
             'top': top + 0.25 * hexHeight,
             'left': left + hexWidth
         });
-        $('.vertex[data-id=' + hex.vertices.BottomLeft + ']').css({
+        $map.find('.vertex[data-id=' + hex.vertices.BottomLeft + ']').css({
             'top': top + 0.75 * hexHeight,
             'left': left
         });
-        $('.vertex[data-id=' + hex.vertices.Bottom + ']').css({
+        $map.find('.vertex[data-id=' + hex.vertices.Bottom + ']').css({
             'top': top + hexHeight,
             'left': left + 0.5 * hexWidth
         });
-        $('.vertex[data-id=' + hex.vertices.BottomRight+ ']').css({
+        $map.find('.vertex[data-id=' + hex.vertices.BottomRight+ ']').css({
             'top': top + 0.75 * hexHeight,
             'left': left + hexWidth
         });
