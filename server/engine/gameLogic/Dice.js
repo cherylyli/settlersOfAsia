@@ -45,7 +45,6 @@ Dice.createDice = function () {
 
     dice.configureResult = function (map) {
         //TODO: event die
-
         //number dice produce resource
         let productionNum = dice.yellowDie + dice.redDie;
         let hexTileIDs = map.getHexTileByNumToken(productionNum);

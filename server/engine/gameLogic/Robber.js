@@ -7,7 +7,7 @@ let Die = require('./Dice.js');
 
 Robber.createRobber = function(){
   let robber = {};
-  robber.pos = 0;
+  robber.pos = null;
   robber.move = false;
 
   robber.canMove = function(redDie,yellowDie){
@@ -20,17 +20,20 @@ Robber.createRobber = function(){
 
   //from, to - 2 land hextiles
   robber.moveTo = function(from,to){
-    robber.pos = to;
-    //release hextile_from
-    /*
+
     if(robber.move == false)
       return -1;
-    */
+    //release hextile_from to robber free
+    from.blockedByRobber = false;
+    to.blockedByRobber = true;
     robber.move = false;
+
+    robber.pos = to;
     //player.rolledSeven = false;
-    return robber.pos;
+//    return robber.pos;
   }
 
+  //@return
   robber.hasToDiscardCards = function(players){
     // if players has more than 7 cards, discard half (round down)
     var discardCards = {};
@@ -40,26 +43,29 @@ Robber.createRobber = function(){
     return discardCards;
   }
 
-  //TODO
   robber.stealFrom = function(hextile){
     var stealable = [];
     //get players who have one or more settlements/cities on the vertice of that hextile.
-
+    for(var vertex in hextile.vertices.hasOwnProperty(vertex)){
+      if(building){
+        var player = building.owner;
+        stealable.push(player);
+      }
+    }
     return stealable;
   }
 
   robber.stealCard = function(thief,victim){
-    if(thief.rolledSeven == true){
-      victim.stolenBy(thief);
-    }
-    thief.rolledSeven = false;
+    victim.stolenBy(thief);
   }
 
   //TODO knight&robber
 
   robber.moveAway = function(){
-    //resume the number of this hextile.
-    //start producing resource
+    //off the board
+    //hexTile.blockedByRobber 
+    robber.pos.blockedByRobber = false;
+    robber.pos = null;
   }
   //check distribute resource, get player that is adjacent to vertex ?
   return robber;

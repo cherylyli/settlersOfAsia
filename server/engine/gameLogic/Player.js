@@ -7,6 +7,7 @@
 let Enum = require('./Enum.js');
 let Cost = require('./Cost.js');
 let Building = require('./Building.js');
+let Robber = require('./Robber.js');
 
 /**
  * Player stores the game info of a user in a game.
@@ -34,10 +35,15 @@ Player.createPlayer = function (name, user) {
     player.resourceCardNum = initialGoldNum;
     player.progressCards = [];
     player.progressCardsCnt = 0;
+    //!!!! - player can only place at most 5 settlements and 4 cities 
     player.buildings = {};  //key: position (vertex index / int); value: building object
     player.settlementCnt = 0;   //the number of settlements player has. used in check function -> player cannot have more than 5 settlements (he has to upgrade one to city build he builds another settlement
     player.roads = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
     player.ships = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
+    player.fishHex = [];
+    player.fishToken = {[Enum.fishToken.ONE_FISH] : 0, [Enum.fishToken.TWO_FISH] : 0, [Enum.fishToken.THREE_FISH] : 0, [Enum.fishToken.BOOT] : 0};  //key: enum.fishToken, value: num
+    player.hasBoot = false;
+    player.fishSum = 0;
     player.harbors = [];
     player.knights = [];
     player.metropolitans = [];  //a list of integer -> position of the metropolitan
@@ -56,7 +62,6 @@ Player.createPlayer = function (name, user) {
 
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
-
 
     //player.match = null;
 
@@ -84,6 +89,114 @@ Player.createPlayer = function (name, user) {
         return Object.keys(this.ships).length + Object.keys(this.roads).length;
     };
 
+    player.setFishSum = function(newSum){
+      let player.fishSum = newSum;
+      return player.fishSum;
+    }
+
+    player.getFishSum = function(){
+      return player.fishSum;
+    }
+
+    //TODO if player has a boot, then player requires to have 1 extra VP to win. i.e 10 VP
+    player.drawRandomFish = function(){
+      let keys = [];
+      for (var fish in player.fishToken){
+        keys.push(fish);
+      }
+      //generate a random index
+      let randomToken = Math.floor(Math.random() * keys.length);
+      switch(randomToken){
+        case 0 : //one fish
+          player.fishSum += 1;
+        case 1 : //two fish
+          player.fishSum += 2;
+        case 2 : //three fish
+          player.fishSum += 3;
+        case 3 : //boot TODO: only one boot
+          player.hasBoot = true;
+      }
+      //player.fishToken[keys[randomToken]]++;
+      return keys[randomToken];
+    }
+
+    /**
+      * @param action Enum.fishEvent
+      * @param data whatever the data is
+      * @return player's current fishSum
+      */
+    player.spendFishToken = function(action, data){
+      let newSum = 0;
+      switch(action){
+        case "MOVE_ROBBER" :
+        //TODO check knight chase away thief.
+          if(player.getFishSum() >= 2){
+            robber.moveAway();
+            newSum = player.fishSum - 2;
+            player.setFishSum(newSum);
+          }
+          break;
+
+        case "MOVE_PIRATE" :
+          if(player.getFishSum() >= 2){
+            pirate.moveAway();
+            newSum = player.fishSum - 2;
+            player.setFishSum(newSum);
+          }
+          break;
+
+        case "STEAL_CARD" :
+          if(player.getFishSum() >= 3){
+            player.stealCard(data);
+            newSum = player.fishSum - 3;
+            player.setFishSum(newSum);
+          }
+          break;
+
+        case "DRAW_RES_FROM_BANK" :
+          if(player.getFishSum() >= 4){
+            //draw one resource card but not Commodity
+            player.resourcesAndCommodities[card]++;
+            newSum = player.fish - 4;
+            player.setFishSum(newSum);
+          }
+          break;
+
+        case "BUILD_ROAD" :
+          if(player.getFishSum() >= 5){
+            //TODO
+
+            newSum = player.fish - 5;
+            player.setFishSum(newSum);
+          }
+
+        case "BUILD_SHIP" :
+        if(player.getFishSum() >= 5){
+          //TODO
+          newSum = player.fish - 5;
+          player.setFishSum(newSum);
+        }
+
+        case "DRAW_PROG" :
+        if(player.getFishSum() >= 7){
+          player.drawOneProgressCard(data);
+          newSum = player.fish - 7;
+          player.setFishSum(newSum);
+        }
+      }
+      return player.fishSum;
+    }
+
+    player.giveAwayBoat = function(opponentPlayer){
+      if(player.VP <= opponentPlayer.VP){
+        opponentPlayer.hasBoot = true;
+        player.hasBoot = false;
+        return true;
+      }
+      else
+        return false;
+
+    }
 
     /**
       * count the total number of cards (Resource+Commodity) current player owns
@@ -97,6 +210,16 @@ Player.createPlayer = function (name, user) {
         }
         return sum;
     };
+
+    /**
+     * Add one progress card of player's choice to player's current progressCards.
+     * @param progCard  progress card of player's choice
+     * @return player.progressCards {String}
+     */
+    player.drawOneProgressCard = function(progCard){
+      player.progressCards.push(progCard);
+      return player.progressCards;
+    }
 
     /**
      * this player is stolen by another player, will return the card type that's being stoled.
@@ -124,6 +247,26 @@ Player.createPlayer = function (name, user) {
         return keys[stolenCard];
     };
 
+    player.stealCard = function (opponentPlayer) {
+        if (resourceCardTotalNum(opponentPlayer) < 1){
+            console.log("Not enough resource")
+            return null;
+        }
+
+        let keys = [];
+        for (let card in opponentPlayer.resourceAndCommandities){
+            if (opponentPlayer.resourceAndCommandities[card] > 0){
+                for (var i = 0; i < opponentPlayer.resourceAndCommandities[card]; i++)
+                    keys.push(card);
+            }
+        }
+        //generate a random index
+        let stolenCard = Math.floor(Math.random() * keys.length);
+        player.resourceAndCommandities[keys[stolenCard]] ++;
+        opponentPlayer.resourceAndCommandities[keys[stolenCard]]--;
+
+        return keys[stolenCard];
+    };
     /**
      *
      * @param points may be negative or positive, int

@@ -23,7 +23,7 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
     hexTile.edge =  {'TopRight': null, 'Right': null, 'BottomRight': null, 'BottomLeft': null, 'Left': null, 'TopLeft': null};
     hexTile.vertices = {'Top': undefined, 'TopLeft': undefined, 'BottomLeft': undefined, 'Bottom': undefined, 'BottomRight': undefined, 'TopRight': undefined};
     hexTile.blockedByRobber = false;
-
+    hexTile.blockedByPirate = false;
     hexTile.getVertices = function(){
         return hexTile.vertices;
     };
@@ -86,6 +86,17 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
         return hexTile.edge;
     };
 
+    hexTile.getPlayerAround = function(map){
+      let players = [];
+      for(var vertex in hextile.vertices.hasOwnProperty(vertex)){
+        if(building){
+          var player = building.owner;
+          players.push(player);
+        }
+      }
+      return players;
+    }
+
     /**
      *
      * add resources to all players that has a building on its vertices
@@ -125,6 +136,3 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
 
     return hexTile;
 };
-
-
-
