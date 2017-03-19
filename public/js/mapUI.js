@@ -46,8 +46,13 @@ function generateHexDivs() {
             'data-positionInRow': hextile.posInRow
         });
 
-        // put number token on top of div
-        $hex.text(hextile.productionNum);
+        // put number token on top of div -> only for land tiles
+        if (hextile.productionNum){
+            let $numToken = $("<div class='num-token'></div>");
+            $numToken.text(hextile.productionNum);
+            $hex.append($numToken);
+        }
+
 
         // hex positions
         let backgroundPic = "../img/room/tiles/" + hextile.type + ".png";
@@ -91,28 +96,28 @@ mapUI.positionMap = function () {
 
         //-------------------WILL CHANGE THIS PART TMR------------
         $map.find('.vertex[data-id=' + hex.vertices.TopLeft + ']').css({
-            'top': top + 0.25 * hexHeight,
-            'left': left
+            'top': top + 0.25 * hexHeight - 2.5,
+            'left': left - 2.5
         });
         $map.find('.vertex[data-id=' + hex.vertices.Top + ']').css({
-            'top': top,
-            'left': left + 0.5 * hexWidth
+            'top': top - 2.5,
+            'left': left + 0.5 * hexWidth - 2.5
         });
-        $map.find('vertex[data-id=' + hex.vertices.TopRight +']').css({
-            'top': top + 0.25 * hexHeight,
-            'left': left + hexWidth
+        $map.find('.vertex[data-id=' + hex.vertices.TopRight +']').css({
+            'top': top + 0.25 * hexHeight - 2.5,
+            'left': left + hexWidth - 2.5
         });
         $map.find('.vertex[data-id=' + hex.vertices.BottomLeft + ']').css({
-            'top': top + 0.75 * hexHeight,
-            'left': left
+            'top': top + 0.75 * hexHeight - 2.5,
+            'left': left - 2.5
         });
         $map.find('.vertex[data-id=' + hex.vertices.Bottom + ']').css({
-            'top': top + hexHeight,
-            'left': left + 0.5 * hexWidth
+            'top': top + hexHeight - 2.5,
+            'left': left + 0.5 * hexWidth - 2.5
         });
         $map.find('.vertex[data-id=' + hex.vertices.BottomRight+ ']').css({
-            'top': top + 0.75 * hexHeight,
-            'left': left + hexWidth
+            'top': top + 0.75 * hexHeight - 2.5,
+            'left': left + hexWidth - 2.5
         });
         //---------------------------------------------------------
     });

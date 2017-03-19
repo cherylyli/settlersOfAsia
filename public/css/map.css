@@ -8,29 +8,37 @@
 
 
 #board .map .hex{
-    /** center number token **/
+    position: absolute;
+    transition: all 0.15s;
+    cursor: default;
+
+    /* center number token*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#board .map .hex .num-token{
+    /* center text*/
     display: flex;
     justify-content: center;
     flex-direction: column;
     text-align: center;
 
-    /** num token font **/
+    border-radius: 100px;
+    color: black;
+    background-color: white;
+    width: 24px;
+    height: 24px;
     font-size: 100%;
     font-weight: bold;
-    color: white;
-
-    position: absolute;
-    transition: all 0.15s;
-    cursor: default;
-
 }
 
 #board .vertex{
     position: absolute;
     width: 5px;
-    height: 5px;
-    /*border-radius: 100px;*/
-   background-color: transparent;
+    height: 5px;    background-color: transparent;
     cursor: pointer;
     z-index: 10;
 }
