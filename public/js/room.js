@@ -186,6 +186,7 @@ $(window).on('imready', function(im){
 
             'room.match': function(){
                 mapUI.addSettlementsOrCities();
+                mapUI.placeRoadsAndShips();
             }
         },
         methods: {
@@ -339,26 +340,6 @@ $(window).on('imready', function(im){
     });
 
 
-    function addSettlementsOrCities(){
-        var levels = ["settlement", "city", "metropolis"];
-
-        if (app.room && app.room.match){
-            var vertexInfo = app.room.match.map.vertexInfo;
-            for (var vertex_i = 0; vertex_i<vertexInfo.length; vertex_i++){
-
-                //if there's an object in the vertex
-                if (vertexInfo[vertex_i]){
-                    // select the vertex
-                    var select = ".verticeElem[data-id='" + vertex_i + "']";
-                    var ownerColor = vertexInfo[vertex_i].owner.color;
-                    var cityLevel = levels[vertexInfo[vertex_i].level -1];
-
-                    $(select).attr('class', cityLevel + " "+ ownerColor+ " verticeElem");
-
-                }
-            }
-        }
-    }
 
     function placeRoadsAndShips(){
         //player colors: RED, ORANGE, BLUE, GREEN

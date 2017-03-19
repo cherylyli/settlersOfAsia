@@ -223,12 +223,12 @@
         }
 
 
-        if ((getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)){
+        if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)){
             return false;
         }
 
         //Only 1 road can be built on any given path
-        if (getMatch().map.getEdgeInfo(edge)){
+        if (DATA.getMatch().map.getEdgeInfo(edge)){
             swalError2("Only 1 road can be built on any given path!");
             return false;
         }
@@ -237,7 +237,7 @@
         //valid position check -- you cannot build road in sea -> one adjacent hexTile should be land
         let adjacentToLandHex = false;  //flag
         for (let [hexID, edgePosition] of DATA.getMatch().map.getHexTileByEdge(edge)){
-            if (getMatch().map.getHexTileById(hexID).type != Enum.HexType.Sea) adjacentToLandHex = true;
+            if (DATA.getMatch().map.getHexTileById(hexID).type != Enum.HexType.Sea) adjacentToLandHex = true;
         }
         if (!adjacentToLandHex){
             swalError2("You cannot build road in sea!");
@@ -252,7 +252,7 @@
 
             //if the new road is connected with roads on this vertex
             for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)){
-                let edgeUnit = getMatch().map.getEdgeInfo(e);
+                let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
                 if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == myObj.username){
                     connected = true;
                     break;
@@ -328,7 +328,7 @@
         //valid position check -- you cannot build road in inland area -> one adjacent hexTile should be sea
         let adjacentToSeaHex = false;  //flag
         for (let [hexID, edgePosition] of DATA.getMatch().map.getHexTileByEdge(edge)){
-            if (getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea) adjacentToSeaHex = true;
+            if (DATA.getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea) adjacentToSeaHex = true;
         }
         if (!adjacentToSeaHex){
             swalError2("You cannot build road in inland area!");
@@ -343,7 +343,7 @@
 
             //if the new ship is connected with roads on this vertex
             for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)){
-                let edgeUnit = getMatch().map.getEdgeInfo(e);
+                let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
                 if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == myObj.username){
                     connected = true;
                     break;

@@ -123,7 +123,7 @@ let mapUI = (function () {
     }
 
     /**
-    function setUpUtils() {
+     function setUpUtils() {
         //set up dices
         //$('.dices').show();
     }**/
@@ -132,28 +132,22 @@ let mapUI = (function () {
     function changePlayerColors() {
         // get each player and change color
         let players = app.room.match.players;
-        let hexColors = {
-            "BLUE": "rgba(0, 105, 198, 0.6)",
-            "GREEN": "rgba(0, 163, 14, 0.6)",
-            "ORANGE": "rgba(213, 100, 0, 0.6)",
-            "RED": "rgba(220, 0, 0, 0.6)"
-        };
-        for (var username in players){
+        for (var username in players) {
             var color = players[username].color;
             $(`#users .user[data-username="${username}"] .pic .name`).css({
-                'background-color': hexColors[color]
+                'background-color': Enum.CSSColors[color]
             });
         }
     }
 
 
     // add settlement or city to map UI
-    function addSettlementsOrCities(){
+    function addSettlementsOrCities() {
         let $map = $('.map');
         _.forEach(DATA.getMap().vertexInfo, function (vertexUnit) {
             // TODO: change this later for knight, use vertexUnit
 
-            if (vertexUnit){    //some may be null
+            if (vertexUnit) {    //some may be null
                 Building.addHelperFunctions(vertexUnit);
 
                 let $vertex = $map.find('.vertex[data-id=' + vertexUnit.position + ']');
@@ -181,11 +175,35 @@ let mapUI = (function () {
     }
 
 
-    // public methods
-    return {
-        initializeGame,
-        positionMap,
-        addSettlementsOrCities
+    function placeRoadsAndShips() {
+        let $map = $('.map');
+        let edgeInfo = DATA.getMap().edgeInfo;
+        for (let edgeKey in edgeInfo) {
+            if (edgeInfo.hasOwnProperty(edgeKey)) {
+                if (!edgeInfo[edgeKey]) continue;
+
+                let [vertex1, vertex2] =  Map.getEdgeByEdgeKey(edgeKey);
+                let edgeUnit = edgeInfo[edgeKey];
+                $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
+                $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
+
+                $vertex1.connections({
+                    to: $vertex2,
+                    'class': edgeUnit.type + ' ' + edgeUnit.owner.color
+                });
+            }
+        }
     }
 
-})();
+
+        // public methods
+        return {
+            initializeGame,
+            positionMap,
+            addSettlementsOrCities,
+            placeRoadsAndShips
+        }
+
+    }
+
+    )();

@@ -128,7 +128,7 @@ Map.edge= function(v1, v2) {
     //check here if valid edge
     if (v1 < v2) return [v1, v2];
     return [v2, v1];
-}
+};
 
 /**
  * convert edge to edge key used in map.edgeInfo
@@ -137,7 +137,7 @@ Map.edge= function(v1, v2) {
  */
 function edgeKey(edge) {
     return edge[0] + '-' + edge[1];
-}
+};
 
 /**
  *
@@ -148,4 +148,15 @@ function edgeKey(edge) {
 Map.getOtherEndOfEdge = function (edge, vertex) {
     if (edge[0] == vertex) return edge[1];
     return edge[0];
-}
+};
+
+
+/**
+ *
+ * @param edgeKey {String}
+ */
+Map.getEdgeByEdgeKey = function (edgeKey) {
+    let vertexOne = edgeKey.split('-')[0];
+    let vertexTwo = edgeKey.split('-')[1];
+    return Map.edge(vertexOne, vertexTwo);
+};

@@ -117,6 +117,13 @@ Enum.Color = {
     "BLUE":"BLUE"
 };
 
+Enum.CSSColors = {
+    "BLUE": "rgba(0, 105, 198, 0.6)",
+    "GREEN": "rgba(0, 163, 14, 0.6)",
+    "ORANGE": "rgba(213, 100, 0, 0.6)",
+    "RED": "rgba(220, 0, 0, 0.6)"
+};
+
 Enum.HexType = {
     'Sea': 'Sea',
     'GoldField': 'GoldField',
