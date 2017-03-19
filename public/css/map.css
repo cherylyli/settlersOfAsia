@@ -39,7 +39,7 @@
     position: absolute;
     width: 5px;
     height: 5px;
-    background-color: transparent;
+    /*background-color: transparent;*/
     cursor: pointer;
     z-index: 10;
 }
@@ -63,3 +63,6 @@
 #board .vertex:hover::after, #board .vertex.ctrl-clicked::after{
     opacity: 1;
 }
+
+
+

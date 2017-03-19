@@ -6,6 +6,18 @@ Enum.PlayerState = {
     "GAME_ROOM":'GAME_ROOM'
 };
 
+Enum.VertexUnitType = {
+
+};
+
+Enum.Building = {
+    "Settlement": "Settlement",
+    "City": "City",
+    "Science": "Science",
+    "Trade": "Trade",
+    "Politics": "Politics"
+};
+
 Enum.SettlementLV = 1;
 
 Enum.CityLV = 2;

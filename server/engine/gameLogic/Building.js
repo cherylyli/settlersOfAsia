@@ -8,6 +8,7 @@ let Map = require('./Map.js');
 let HexTile = require('./HexTile.js');
 let Player = require('./Player.js');
 let VP = require('./VP.js');
+let Enum = require('./Enum.js');
 
 
 /**
@@ -28,47 +29,48 @@ Building.buildSettlement = function (player, vertex, map) {
     let building = {};
     building.owner = player;
     building.position = vertex;
-    building.level = 1; //level 1 for settlement, 2 for city
+    building.level = Enum.Building.Settlement;
     updateInfo(map, building);
 
     building.upgradeToCity = function () {
-        if (building.level != 1) throw "You can only upgrade a settlement to city";
-        building.level = 2;
+        building.level = Enum.Building.City;
 
         building.cityWall = false;
         building.owner.updateVP(VP.upgradeTocity);
         building.owner.settlementCnt--;    //because one of the settlement is upgraded to city
-    }
+    };
 
     building.buildCityWall = function () {
+        /**
         if (building.level != 2) throw  "You can only build city wall on city";
         if (building.cityWall) throw "You may only build one city wall under each city";
         if (building.owner.cityWallNum == 3) throw "You can build at most 3 city walls";
+        **/
         building.owner.cityWallNum++;
         building.owner.maxSafeCardNum += 2;
         building.cityWall = true;
-    }
+    };
 
     building.removeCityWall = function () {
         building.owner.cityWallNum--;
         building.owner.maxSafeCardNum -= 2;
         building.cityWall = false;
-    }
+    };
 
     //pillage a city, pre: building is a city
     building.pillage = function () {
         if (building.cityWall) building.removeCityWall();
         else {
             //city becomes a settlement
-            building.level = 1;
+            building.level = Enum.Building.Settlement;
             building.owner.updateVP(-VP.upgradeTocity)
             //TODO: if it is the last city, what will happen to city improvement??
         }
-    }
+    };
 
     return building;
 
-}
+};
 
 
 /**

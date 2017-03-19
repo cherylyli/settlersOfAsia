@@ -1,5 +1,4 @@
 let mapUI = (function () {
-
     /**
      * populate the base map based on the map object
      */
@@ -8,9 +7,10 @@ let mapUI = (function () {
         generateHexDivs();
         generateVertices();
         positionMap();
-        setUpUtils();
+        //setUpUtils();
 
         changePlayerColors();
+        UIinitialized = true;
     }
 
 // generate vertex divs without positioning
@@ -34,7 +34,6 @@ let mapUI = (function () {
 // generate hex divs without positioning
     function generateHexDivs() {
         let $map = $('.map');
-
         for (let hextile of DATA.getMap().hexTiles) {
             let $hex = $("<div class='hex'></div>");
 
@@ -123,11 +122,13 @@ let mapUI = (function () {
         });
     }
 
+    /**
     function setUpUtils() {
         //set up dices
         //$('.dices').show();
-    }
+    }**/
 
+    // display player color in UI
     function changePlayerColors() {
         // get each player and change color
         let players = app.room.match.players;
@@ -145,10 +146,46 @@ let mapUI = (function () {
         }
     }
 
+
+    // add settlement or city to map UI
+    function addSettlementsOrCities(){
+        let $map = $('.map');
+        _.forEach(DATA.getMap().vertexInfo, function (vertexUnit) {
+            // TODO: change this later for knight, use vertexUnit
+
+            if (vertexUnit){    //some may be null
+                Building.addHelperFunctions(vertexUnit);
+
+                let $vertex = $map.find('.vertex[data-id=' + vertexUnit.position + ']');
+                let backgroundPic = "../img/room/boardIcons/" + vertexUnit.getUIType() + ".png";
+                let $vertexUnit = $("<div class='vertex-unit'></div>");
+
+                /**
+                 * TODO: change vertex size to responsive
+                 */
+                $vertexUnit.css({
+                    'position': 'absolute',
+                    'top': '-100%',
+                    'left': '-100%',
+                    'height': '300%',
+                    'width': '300%',
+                    'background': 'url(' + backgroundPic + ')',
+                    'background-size': '100%',
+                });
+
+                $vertex.append($vertexUnit);
+
+            }
+        });
+
+    }
+
+
     // public methods
     return {
         initializeGame,
-        positionMap
+        positionMap,
+        addSettlementsOrCities
     }
 
 })();

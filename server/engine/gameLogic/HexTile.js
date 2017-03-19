@@ -106,7 +106,7 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
     hexTile.produceResourceToSingleUser = function (map, player, building) {
         let resource = Enum.SettlementResources[this.type];
         if (resource == Enum.SettlementResources.GoldField) {
-            if (building.level == 1) {
+            if (building.level == Enum.Building.Settlement) {
                 player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
             }
             else {
@@ -115,7 +115,7 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
         }
         else {
             player.resourcesAndCommodities[resource]++;
-            if (building.level == 2) {
+            if (building.level == Enum.Building.City) {
                 resource = Enum.AdditionalCityResources[hexTile.type];
                 player.resourcesAndCommodities[resource]++;
             }
