@@ -7,7 +7,7 @@ let Die = require('./Dice.js');
 
 Pirate.createPirate = function(){
   let pirate = {};
-  pirate.pos = null;
+  pirate.pos = 0;
   pirate.move = false;
 
   pirate.canMove = function(redDie,yellowDie){
@@ -32,19 +32,22 @@ Pirate.createPirate = function(){
   //  return pirate.pos;
   }
 
-  pirate.stealFrom = function(hextile){
-    var steable = hextile.getPlayerAround()
+  pirate.stealFrom = function(hexTile, map){
     var stealable = [];
-    //get players who have a ship on the edge of that hextile.
-    //edges:
-    for(var edge in hextile.edge.hasOwnProperty(edge)){
-      if(building){
-        var player = building.owner;
-        stealable.push(player);
-      }
+    //get players who have one or more settlements/cities on the vertice of that hextile.
+    for (let vertex in hexTile.vertices) {
+        if (hexTile.vertices.hasOwnProperty(vertex)) {
+            //there is a builidng on the vertex
+            let building = map.getVertexInfo(hexTile.vertices[vertex]);
+            if (building){
+                let player = building.owner;
+                stealable.push(player);
+            }
+        }
     }
     return stealable;
   }
+
 
   //can't build new ships along the pirate hex
   //cannot move a ship along the pirate hex
@@ -56,7 +59,7 @@ Pirate.createPirate = function(){
 
   pirate.moveAway = function(){
     pirate.pos.blockedByPirate = false;
-    pirate.pos = null;
+    pirate.pos = 0;
   }
 
   return pirate;

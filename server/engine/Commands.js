@@ -17,6 +17,8 @@ let Trade = require('./gameLogic/Trade.js');
 let Enum = require('./gameLogic/Enum.js');
 let notify  = require('../api/notify.js');
 let CircularJSON = require('circular-json');
+let Robber = require('./gameLogic/Robber.js');
+let Pirate = require('./gameLogic/Pirate.js');
 
 let Commands = module.exports = {};
 //TODO: Yuan, you can help implement the commands, but you'd better finish other todo tasks first. Commands is an interface for all game logic class, you have to read all the game logic class before you implement them. (Actually don't implement this alone, it's better we can code this part together). This is optional if you want more task :p.
@@ -386,6 +388,7 @@ Commands.tradeWithBank = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     match.bank.tradeWithBank(player, src, tradeFor);
 };
+//TODO special case trade with bank - fishmen ver, only trade resources.
 
 /**
  *
@@ -435,6 +438,18 @@ Commands.tradeWithPlayer = function (userNameA, userNameB, roomID, trade) {
     match.bank.tradeWithPlayer(playerA, playerB, trade);
 };
 
+//spend fish tokens  + add checkers
+Commands.moveRobber = function (userName, roomID, position, newPosition) {
+    let match = DATA.getMatch(roomID);
+    let robber = DATA.getMatch(roomID).map.robber;
+    robber.moveTo(position,newPosition);
+};
+
+Commands.moveRobber = function (userName, roomID, position, newPosition) {
+    let match = DATA.getMatch(roomID);
+    let pirate = DATA.getMatch(roomID).map.pirate;
+    pirate.moveTo(position,newPosition);
+};
 
 /**
  * @param theif {Player}
@@ -446,15 +461,26 @@ Commands.stealCard = function (thiefUserName, victimUserName, roomID) {
     playerB.stolenBy(playerA);
 };
 
+Commands.drawOneProgressCard = function (userName, roomID, data) {
+   let player = DATA.getPlayer(userName, roomID);
+   player.drawOneProgressCard(data);
+};
 
 /**
  *
  * @param player {Player}
- * @param progressCard {String} progress card
+ * @param progressCard List<String> progress card
  */
-Commands.discardProgressCard = function (player, progressCard) {
+Commands.discardProgressCards = function (userName, roomID, data) {
+  let player = DATA.getPlayer(userName, roomID);
+  player.discardProgressCards(data);
+}
 
-};
+Commands.giveAwayBoat = function(thiefUserName, victimUserName, roomID){
+  let playerA = DATA.getPlayer(thiefUserName, roomID);
+  let playerB = DATA.getPlayer(victimUserName, roomID);
+  playerA.giveAwayBoat(playerB);
+}
 
 
 /**

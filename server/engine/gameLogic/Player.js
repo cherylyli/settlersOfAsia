@@ -35,7 +35,7 @@ Player.createPlayer = function (name, user) {
     player.resourceCardNum = initialGoldNum;
     player.progressCards = [];
     player.progressCardsCnt = 0;
-    //!!!! - player can only place at most 5 settlements and 4 cities 
+    //TODO - player can only place at most 5 settlements
     player.buildings = {};  //key: position (vertex index / int); value: building object
     player.settlementCnt = 0;   //the number of settlements player has. used in check function -> player cannot have more than 5 settlements (he has to upgrade one to city build he builds another settlement
     player.roads = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
@@ -90,7 +90,7 @@ Player.createPlayer = function (name, user) {
     };
 
     player.setFishSum = function(newSum){
-      let player.fishSum = newSum;
+      player.fishSum = newSum;
       return player.fishSum;
     }
 
@@ -119,6 +119,7 @@ Player.createPlayer = function (name, user) {
       //player.fishToken[keys[randomToken]]++;
       return keys[randomToken];
     }
+
 
     /**
       * @param action Enum.fishEvent
@@ -195,7 +196,6 @@ Player.createPlayer = function (name, user) {
       }
       else
         return false;
-
     }
 
     /**
@@ -218,6 +218,7 @@ Player.createPlayer = function (name, user) {
      */
     player.drawOneProgressCard = function(progCard){
       player.progressCards.push(progCard);
+      player.progressCardsCnt++;
       return player.progressCards;
     }
 
@@ -227,16 +228,17 @@ Player.createPlayer = function (name, user) {
      * @return card {String}
      */
     player.stolenBy = function (opponentPlayer) {
-        if (resourceCardTotalNum(player) < 1){
+        if (player.resourceCardTotalNum() < 1){
             console.log("Not enough resource")
-            return null;
+            return false;
         }
-
         let keys = [];
-        for (let card in player.resourceAndCommandities){
-            if (player.resourceAndCommandities[card] > 0){
-                for (var i = 0; i < player.resourceAndCommandities[card]; i++)
-                    keys.push(card);
+        for (let card in player.resourcesAndCommodities){
+            if (player.resourcesAndCommodities[card] > 0){
+              for(var i = 0; i < player.resourcesAndCommodities[card]; i++){
+                keys.push(card);
+                console.log(card);
+              }
             }
         }
         //generate a random index
@@ -248,11 +250,6 @@ Player.createPlayer = function (name, user) {
     };
 
     player.stealCard = function (opponentPlayer) {
-        if (resourceCardTotalNum(opponentPlayer) < 1){
-            console.log("Not enough resource")
-            return null;
-        }
-
         let keys = [];
         for (let card in opponentPlayer.resourceAndCommandities){
             if (opponentPlayer.resourceAndCommandities[card] > 0){
@@ -328,10 +325,9 @@ Player.createPlayer = function (name, user) {
     //player.progressCards = ["Bishop","Alchemist","Crane"];
     //var disProgCards = [ "Crane","Alchemist"];
     player.discardProgressCards = function(cards){
-        if (player.progCardSum < 1)
-            return null;
-
-        for (var i=0; i<cards.length; i++) {
+        if (player.progressCardsCnt < 1)
+            return false;
+        for (var i=0; i < player.progressCardsCnt; i++) {
             var found = player.progressCards.indexOf(cards[i]);
             if (found > -1) {
                 player.progressCards.splice(found, 1);

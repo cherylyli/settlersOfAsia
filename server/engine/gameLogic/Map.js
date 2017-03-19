@@ -13,6 +13,7 @@ let HexTile = require('./HexTile.js');
 let Scenario = require('./Scenario.js');
 let Harbor = require('./Harbor.js');
 let Robber = require('./Robber.js');
+let Pirate = require('./Pirate.js');
 
 let Map = {} = module.exports;
 
@@ -35,6 +36,7 @@ Map.createMap = function (scenarioData) {
     map.numTokenToHexTiles = initNumTokenToHexTiles();
 
     map.robber = Robber.createRobber();
+    map.pirate = Pirate.createPirate();
     //map.robberPosition = 2;
     map.piratePositon = 1;  //for testing, change it later
     map.harbors = {};   //key: edgeKey, value: harbor

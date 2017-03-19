@@ -28,7 +28,6 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
         return hexTile.vertices;
     };
 
-
     /**
      *
      * @param map {Map}
@@ -87,15 +86,21 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
     };
 
     hexTile.getPlayerAround = function(map){
-      let players = [];
-      for(var vertex in hextile.vertices.hasOwnProperty(vertex)){
-        if(building){
-          var player = building.owner;
-          players.push(player);
+        var stealable = [];
+        //get players who have one or more settlements/cities on the vertice of that hextile.
+        for (let vertex in hexTile.vertices) {
+            if (hexTile.vertices.hasOwnProperty(vertex)) {
+                //there is a builidng on the vertex
+                let building = map.getVertexInfo(hexTile.vertices[vertex]);
+                if (building){
+                    let player = building.owner;
+                    console.log("building owner is " + player);
+                    stealable.push(player);
+                }
+            }
         }
+        return stealable;
       }
-      return players;
-    }
 
     /**
      *
