@@ -26,6 +26,31 @@ body{
     left: 15px;
 }
 
+#waiting-page {
+    position: absolute;
+    bottom: 0;
+    /*top: 0;*/
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    /*background-color: #3A79B8;*/
+    overflow: hidden;
+    transition: 2.5s ease;
+    z-index: 11;
+
+}
+
+#waiting-page img{
+
+    overflow: hidden;
+}
+
+#waiting-page[inGame] {
+    width: 0;
+    left: 100%;
+}
+
 #board{
     position: absolute;
     top: 0; left: 0;

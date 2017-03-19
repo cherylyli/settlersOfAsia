@@ -38,7 +38,8 @@
 #board .vertex{
     position: absolute;
     width: 5px;
-    height: 5px;    background-color: transparent;
+    height: 5px;
+    background-color: transparent;
     cursor: pointer;
     z-index: 10;
 }

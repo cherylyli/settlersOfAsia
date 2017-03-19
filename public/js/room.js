@@ -81,13 +81,15 @@ $(window).on('imready', function(im){
     sock.on('A_PLAYER_LEFT_ROOM', function (msg) {
     });
 
+
     sock.on('GAME_START', function (msg) {
+        /**
         swal({
             title: 'GAME START!',
             text: 'Are you prepared?',
             timer: 1000
         });
-        app.log(null, 'The game starts.', true);
+        app.log(null, 'The game starts.', true);**/
     });
 
     sock.on('TAKE_TURN', function (msg) {
@@ -172,17 +174,18 @@ $(window).on('imready', function(im){
         },
         watch: {
             room: function(){
+                //mapUI.addSettlementsOrCities();
+
                 /**
                 updateHexTiles();
                 addSettlementsOrCities();
                 placeRoadsAndShips();
-                placeHarbors();
-                changePlayerColors();**/
+                placeHarbors();**/
+                //changePlayerColors();
             },
 
             'room.match': function(){
-                console.log(DATA.getMap().hexTiles)
-                mapUI.populate_base_game();
+                mapUI.initializeGame();
             }
         },
         methods: {
@@ -300,8 +303,14 @@ $(window).on('imready', function(im){
     function adjustUI(){
         // adjust system log height
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
+
         // adjust map size
         if (DATA.getMatch()) mapUI.positionMap();
+
+        else {
+            //waiting pic
+            $('#waiting-page img').width($('#board').width());
+        }
     }
 
 
@@ -455,24 +464,7 @@ $(window).on('imready', function(im){
         }
     }
 
-    function changePlayerColors(){
-        // get each player and change color
-        if (app.room && app.room.match){
-            var players = app.room.match.players;
-            var hexColors = {
-                "BLUE"  : "rgba(0, 105, 198, 0.6)",
-                "GREEN" : "rgba(0, 163, 14, 0.6)",
-                "ORANGE": "rgba(213, 100, 0, 0.6)",
-                "RED"   : "rgba(220, 0, 0, 0.6)"
-            }
-            for (var username in players){
-                var color = players[username].color;
-                $(`#users .user[data-username="${username}"] .pic .name`).css({
-                    'background-color': hexColors[color]
-                });
-            }
-        }
-    }
+
 
     function placeIntoWebpage(newNode) {
         $('#board .map').append(newNode);
