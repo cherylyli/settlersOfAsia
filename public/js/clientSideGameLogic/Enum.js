@@ -107,7 +107,27 @@ Enum.KnightType = {
     "Mighty": "Mighty"
 };
 
+Enum.BarbarianResult = {
+    "CATAN_WIN" : "CATAN_WIN",
+    "CATAN_LOSE" : "CATAN_LOSE",
+    "CATAN_WIN_TIE" : "CATAN_WIN_TIE"
+};
 
+Enum.fishToken = {
+  "ONE_FISH" : "ONE_FISH",
+  "TWO_FISH" : "TWO_FISH",
+  "THREE_FISH" : "THREE_FISH",
+  "BOOT" : "BOOT"
+};
+
+Enum.fishEvent = {
+  "MOVE_ROBBER" : "MOVE_ROBBER",
+  "MOVE_PIRATE" : "MOVE_PIRATE",
+  "STEAL_CARD" : "STEAL_CARD",
+  "BUILD_ROAD" : "BUILD_ROAD",
+  "BUILD_SHIP" : "BUILD_SHIP",
+  "DRAW_PROG" : "DRAW_PROG"
+};
 
 
 Enum.Color = {

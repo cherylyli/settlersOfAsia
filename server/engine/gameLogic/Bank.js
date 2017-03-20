@@ -25,9 +25,12 @@ Bank.createBank = function (match) {
     bank.allocateResources = function(yellowDie, redDie){
         let hexTileIDs = bank.map.getHexTileByNumToken(yellowDie + redDie);
         for (let id of hexTileIDs) {
-            bank.map.getHexTileById(id).produceResource();
+            let hextile = bank.map.getHexTileById(id);
+            if (!hextile.blockedByRobber){
+                hextile.produceResource();
+            }
         }
-    }
+    };
 
 
     bank.tradeWithPlayer = function (playerA, playerB, trade) {
