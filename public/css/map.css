@@ -64,20 +64,22 @@
     opacity: 1;
 }
 
-
+/**
 connection {
     opacity: 0.8;
-    border: 4px;
-    /*border-radius: 31px;*/
-}
+    width: 8px;
 
+    /**border: 4px;
+    /**border-radius: 100%;**/
+/**}
+/**
 .road {
     border-style: solid;
 }
 
 .ship {
     border-style: dotted;
-}
+}**/
 
 
 .RED {

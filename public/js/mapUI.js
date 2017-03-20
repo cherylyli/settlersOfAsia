@@ -177,6 +177,20 @@ let mapUI = (function () {
 
     function placeRoadsAndShips() {
         let $map = $('.map');
+        //$map.svg();
+        //let svg = $map.svg('get');
+
+        let ship = svg.group({
+            strokeWidth: 20,
+            strokeLinecap: 'round',
+            strokeDasharray: '1, 30'
+        });
+        let road = svg.group({
+            strokeWidth: 20,
+        });
+
+        let types = {'road': road, 'ship': ship};
+
         let edgeInfo = DATA.getMap().edgeInfo;
         for (let edgeKey in edgeInfo) {
             if (edgeInfo.hasOwnProperty(edgeKey)) {
@@ -184,17 +198,28 @@ let mapUI = (function () {
 
                 let [vertex1, vertex2] =  Map.getEdgeByEdgeKey(edgeKey);
                 let edgeUnit = edgeInfo[edgeKey];
+                /**let $edgeUnit = $("<div class='edge-unit'></div>");**/
+                // $edgeUnit.attr("data-id", edgeKey);
                 $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
                 $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
 
-                $vertex1.connections({
-                    to: $vertex2,
-                    'class': edgeUnit.type + ' ' + edgeUnit.owner.color
-                });
+                // $edgeUnit.svg();
+                // $edgeUnit.find('svg').line([edgeUnit.type], )
+                //svg.line(types[edgeUnit.type], $vertex1.position().left, $vertex1.position().top, $vertex2.position().left, $vertex2.position().top, {stroke: Enum.CSSColors[edgeUnit.owner.color]});
+
+                //let $svg =
+                // $vertex1.connections({
+                //     to: $vertex2,
+                //     'class': edgeUnit.type + ' ' + edgeUnit.owner.color
+                // });
             }
         }
     }
-
+/**
+    function drawEdgeUnit(svg,type, x1, y1, x2, y2, color) {
+        svg.line(svg, )
+    }
+**/
 
         // public methods
         return {
