@@ -37,9 +37,6 @@ Commands.activateKnight("Emol","123",7);
 Commands.hireKnight("Max","123",7);
 //Commands.activateKnight("Max","123",7);
 
-Commands.buildSettlement("Max", "123", 3);
-
-Commands.buildSettlement("Yuan", "123", 11);
 
 let players = data.getMatch("123").players;
 /*
@@ -73,12 +70,19 @@ console.log("now move away : blocked :" + myHex2.blockedByRobber);
 
 //TODO: test hasToDiscardCards, stealFrom
 //!!!!not working - steable player list
-let p = myHex1.getPlayerAround(my);
-console.log("players on 1" + p);
-let steal = my.robber.stealFrom(myHex2, my);
 */
 //???? steal card from player
 //Commands.stealCard("Emol", "Max", "123");
+
+//TODO: test hasToDiscardCards, stealFrom
+//!!!!not working - steable player list
+
+Commands.buildSettlement("Max", "123", 3);
+Commands.buildSettlement("Yuan", "123", 11);
+let p = myHex1.getPlayerAround(my);
+console.log("players on hextile1" + p);
+//let steal = my.robber.stealFrom(myHex2, my);
+
 
 //produceResource
 myHex1.produceResource(my);
@@ -97,8 +101,12 @@ let player2 = data.getMatch("123").getPlayer("Yuan");
 /*allocating fish token when red+yellow dice = lake number token / player has a settlement/city on fish hex
 player.drawRandomFish();
 */
-//TODO: test these commands
 
+Commands.stealCard("Emol","Yuan","123");
+
+//TODO: test these commands
+console.log("random fish: " + player1.drawRandomFish());
+console.log("random fish no boat: " + player1.drawRandomFishNoBoat());
 //progress cards
 //draw one progress card
 player1.drawOneProgressCard("111");

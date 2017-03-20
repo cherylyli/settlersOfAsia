@@ -120,6 +120,24 @@ Player.createPlayer = function (name, user) {
       return keys[randomToken];
     }
 
+    player.drawRandomFishNoBoat = function(){
+      let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,
+      Enum.fishToken.THREE_FISH
+      ];
+      //generate a random index
+      let randomToken = Math.floor(Math.random() * keys.length);
+      switch(randomToken){
+        case 0 : //one fish
+          player.fishSum += 1;
+        case 1 : //two fish
+          player.fishSum += 2;
+        case 2 : //three fish
+          player.fishSum += 3;
+      }
+      //player.fishToken[keys[randomToken]]++;
+      return keys[randomToken];
+    }
+
 
     /**
       * @param action Enum.fishEvent
