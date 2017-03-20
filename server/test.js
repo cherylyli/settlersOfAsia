@@ -29,8 +29,8 @@ let map2 = data.getMatch("123").map;
 //console.log(map.getHexTileByEdge([2,3]));
 Commands.buildRoad("Emol", "123", [53, 54]);
 Commands.buildShip("Emol", "123", [53, 54]);
-Commands.buildSettlement("Emol", "123", 1);
-Commands.upgradeToCity("Emol", "123", 1);
+Commands.buildSettlement("Emol", "123", {'position': 1});
+Commands.upgradeToCity("Emol", "123", {'position': 1});
 
 Commands.hireKnight("Emol","123",7);
 Commands.activateKnight("Emol","123",7);

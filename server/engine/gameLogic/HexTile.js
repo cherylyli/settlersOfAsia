@@ -100,7 +100,7 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
             }
         }
         return stealable;
-      }
+      };
 
     /**
      *

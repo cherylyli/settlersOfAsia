@@ -47,6 +47,7 @@ Player.createPlayer = function (name, user) {
     player.harbors = [];
     player.knights = [];
     player.metropolitans = [];  //a list of integer -> position of the metropolitan
+    player.winningVP = 10;
     player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
 
 
@@ -261,24 +262,24 @@ Player.createPlayer = function (name, user) {
         }
         //generate a random index
         let stolenCard = Math.floor(Math.random() * keys.length);
-        opponentPlayer.resourceAndCommandities[keys[stolenCard]] ++;
-        player.resourceAndCommandities[keys[stolenCard]]--;
+        opponentPlayer.resourcesAndCommodities[keys[stolenCard]] ++;
+        player.resourcesAndCommodities[keys[stolenCard]]--;
 
         return keys[stolenCard];
     };
 
     player.stealCard = function (opponentPlayer) {
         let keys = [];
-        for (let card in opponentPlayer.resourceAndCommandities){
-            if (opponentPlayer.resourceAndCommandities[card] > 0){
-                for (var i = 0; i < opponentPlayer.resourceAndCommandities[card]; i++)
+        for (let card in opponentPlayer.resourcesAndCommodities){
+            if (opponentPlayer.resourcesAndCommodities[card] > 0){
+                for (var i = 0; i < opponentPlayer.resourcesAndCommodities[card]; i++)
                     keys.push(card);
             }
         }
         //generate a random index
         let stolenCard = Math.floor(Math.random() * keys.length);
-        player.resourceAndCommandities[keys[stolenCard]] ++;
-        opponentPlayer.resourceAndCommandities[keys[stolenCard]]--;
+        player.resourcesAndCommodities[keys[stolenCard]] ++;
+        opponentPlayer.resourcesAndCommodities[keys[stolenCard]]--;
 
         return keys[stolenCard];
     };

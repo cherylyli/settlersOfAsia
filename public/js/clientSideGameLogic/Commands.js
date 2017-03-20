@@ -470,6 +470,9 @@
             return false;
         }
 
+        // TODO: YUAN hEHHRERE
+        // check if pirate is in the old position or the new position
+
 
 
         ship.remove(getMatch().map, oldPosition);
