@@ -116,12 +116,13 @@ Player.createPlayer = function (name, user) {
           player.fishSum += 3;
         case 3 : //boot TODO: only one boot
           player.hasBoot = true;
+          player.winningVP += 1;
       }
       //player.fishToken[keys[randomToken]]++;
       return keys[randomToken];
     }
 
-    player.drawRandomFishNoBoat = function(){
+    player.drawRandomFishNoBoot = function(){
       let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,
       Enum.fishToken.THREE_FISH
       ];
@@ -134,9 +135,20 @@ Player.createPlayer = function (name, user) {
           player.fishSum += 2;
         case 2 : //three fish
           player.fishSum += 3;
-      }
       //player.fishToken[keys[randomToken]]++;
       return keys[randomToken];
+    }
+
+    player.giveAwayBoot = function(opponentPlayer){
+      if(player.VP <= opponentPlayer.VP){
+        opponentPlayer.hasBoot = true;
+        opponentPlayer.winningVP += 1;
+        player.hasBoot = false;
+        player.winningVP -= 1;
+        return true;
+      }
+      else
+        return false;
     }
 
 
@@ -203,18 +215,11 @@ Player.createPlayer = function (name, user) {
           newSum = player.fish - 7;
           player.setFishSum(newSum);
         }
+
+        default:
+          console.log("ERROR");
       }
       return player.fishSum;
-    }
-
-    player.giveAwayBoat = function(opponentPlayer){
-      if(player.VP <= opponentPlayer.VP){
-        opponentPlayer.hasBoot = true;
-        player.hasBoot = false;
-        return true;
-      }
-      else
-        return false;
     }
 
     /**

@@ -477,7 +477,7 @@ Commands.discardProgressCards = function (userName, roomID, data) {
   player.discardProgressCards(data);
 }
 
-Commands.giveAwayBoat = function(thiefUserName, victimUserName, roomID){
+Commands.giveAwayBoot = function(thiefUserName, victimUserName, roomID){
   let playerA = DATA.getPlayer(thiefUserName, roomID);
   let playerB = DATA.getPlayer(victimUserName, roomID);
   playerA.giveAwayBoat(playerB);

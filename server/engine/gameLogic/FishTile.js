@@ -29,10 +29,11 @@ FishTile.createFishTile = function(id, row, posInRow, HexType = 'FishTile', prod
 
 
     /**
-     *
+     * @param map {Map}
+     * @param players List<Player>
      * add resources to all players that has a building on its vertices
      */
-    fishTile.produceResource = function(map) {
+    fishTile.produceResource = function(map, players) {
         for (let vertex in fishTile.vertices) {
             if (fishTile.vertices.hasOwnProperty(vertex)) {
                 //there is a builidng on the vertex
@@ -40,14 +41,28 @@ FishTile.createFishTile = function(id, row, posInRow, HexType = 'FishTile', prod
                 if (building){
                     let player = building.owner;
                     fishTile.produceResourceToSingleUser(map, player, building);
+
                 }
             }
         }
     };
 
-    fishTile.produceResourceToSingleUser = function (map, player, building) {
-        // TODO:HERE!!!!!!!!
-        let token = player.drawFishToken();
+    fishTile.produceResourceToSingleUser = function (map, player, building, players) {
+        var boot = 0;
+        var token;
+        for(var p in players){
+          if(players[p].hasBoot == true){
+            boot = 1;
+          }
+        }
+
+        if(boot){ //boot has been distributed previously
+          token = player.drawRandomFishNoBoot();
+        }
+        else{
+          token = player.drawRandomFish();
+        }
+        return token;         
     };
 
     return fishTile;

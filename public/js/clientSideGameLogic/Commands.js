@@ -37,7 +37,7 @@
         if (DATA.getMatch().diceRolled){
             swalError2("Dice already rolled!");
             return false;
-        } 
+        }
         return true;
     };
 
@@ -466,7 +466,6 @@
         // check if pirate is in the old position or the new position
 
 
-
         ship.remove(DATA.getMatch().map, oldPosition);
         if (!shipPostionTest(newPosition)){
             swalError2("You cannot move ship here!");
@@ -638,4 +637,3 @@ _.each(CommandName, function(cmd){
     });
 
 });
-

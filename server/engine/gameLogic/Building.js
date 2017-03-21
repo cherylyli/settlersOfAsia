@@ -83,6 +83,8 @@ Building.buildSettlement = function (player, vertex, map) {
 Building.buildRoad = function (player, edge, match, type) {
     //-----------------improvement needed-----------------
     let road = {'owner': player, 'type': type};
+    road.canBuild = false;
+    road.canMove = false;
     //update map info
     match.map.setEdgeInfo(road, edge);
     /**
@@ -106,13 +108,20 @@ Building.buildRoad = function (player, edge, match, type) {
          *
          * @param oldPosition {Edge}
          * @param newPostion  {Edge}
+         * @param map {Map}
          */
-        road.move = function (oldPosition, newPosition) {
+
+        //can't build new ships along the pirate hex
+        //cannot move a ship along the pirate hex
+        road.move = function (oldPosition, newPosition, map) {
+          var info = map.getHexTileByEdge(newPosition);
+          var hexTile = map.getHexTileById(info[0]);
+          if(hexTile.blockedByPirate == false){
             match.map.setEdgeInfo(undefined, oldPosition);
             match.map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];
             player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
-
+          }
 
             this.owner.calculateLongestRoad();
         };

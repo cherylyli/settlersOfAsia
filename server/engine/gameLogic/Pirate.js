@@ -33,6 +33,8 @@ Pirate.createPirate = function(){
   }
 
   pirate.stealFrom = function(hexTile, map){
+    var stealable = hexTile.getPlayersAroundByShips(map);
+    /*
     var stealable = [];
     //get players who have one or more settlements/cities on the vertice of that hextile.
     for (let vertex in hexTile.vertices) {
@@ -45,17 +47,20 @@ Pirate.createPirate = function(){
             }
         }
     }
+    */
     return stealable;
   }
 
 
   //can't build new ships along the pirate hex
   //cannot move a ship along the pirate hex
-  pirate.applyAction = function(players){
+  /*pirate.applyAction = function(players){
     for(var player in players){
+
 
     }
   }
+  */
 
   pirate.moveAway = function(){
     pirate.pos.blockedByPirate = false;
