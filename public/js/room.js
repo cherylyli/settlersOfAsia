@@ -306,7 +306,7 @@ $(window).on('imready', function(im){
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
 
         // adjust map size
-        if (DATA.getMatch()) mapUI.positionMap();
+        if (DATA.getMatch()) mapUI.resizeMap();
 
         else {
             //waiting pic

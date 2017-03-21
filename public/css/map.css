@@ -3,7 +3,7 @@
     top: 20px;
     left: 20px;
     bottom: 10px;
-    right: 140px;
+    /*right: 140px;*/
 }
 
 
@@ -70,9 +70,7 @@
     border-top: 4px;
     width: 100%;
 
-    /**border: 4px;
-    /**border-radius: 100%;**/
-/**}**/
+}
 
 .road {
     border-style: solid;
@@ -82,7 +80,7 @@
     border-style: dotted;
 }
 
-
+**/
 .RED {
     border-color: rgba(220, 0, 0, 0.6);
 }
