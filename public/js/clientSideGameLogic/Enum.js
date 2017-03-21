@@ -113,6 +113,16 @@ Enum.BarbarianResult = {
     "CATAN_WIN_TIE" : "CATAN_WIN_TIE"
 };
 
+/**
+ * TODO :Fdsafdf
+ * @type {{CATAN_WIN: string, CATAN_LOSE: string, CATAN_WIN_TIE: string}}
+ */
+Enum.BarbarianAction = {
+    "CATAN_WIN" : "Drawfsdaffa",
+    "CATAN_LOSE" : "CATAN_LOSE",
+    "CATAN_WIN_TIE" : "CATAN_WIN_TIE"
+}
+
 Enum.fishToken = {
   "ONE_FISH" : "ONE_FISH",
   "TWO_FISH" : "TWO_FISH",

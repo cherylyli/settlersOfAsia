@@ -141,6 +141,11 @@ Match.createNewMatch = function (scenario, players, id) {
 
             }
         }
+
+        if (match.barbarian.curPos == 7){
+            match.barbarian.restart();
+        }
+
         return match.currentPlayer;
         //notify the player to take turn
 

@@ -11,6 +11,7 @@ Barbarian.createBarbarian = function(){
   barbarian.curPos = 0;
   barbarian.playerContribution = {};
   barbarian.win = false;
+  barbarian.result = null;
 
   barbarian.toMove = function(eventDie){
     if(eventDie === "Ship"){
@@ -24,6 +25,7 @@ Barbarian.createBarbarian = function(){
     barbarian.curPos = 0;
     barbarian.playerContribution = {};
     barbarian.win = false;
+    barbarian.result = null;
   }
 
   barbarian.getCurrentPosition = function(){

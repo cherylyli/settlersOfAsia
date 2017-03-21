@@ -1,6 +1,7 @@
 let HexTile = require('./HexTile.js');
 let Dice = module.exports = {};
 const eventDie = Object.freeze({"BlueCityGate":"BlueCityGate", "GreenCityGate":"GreenCityGate", "YellowCityGate":"YellowCityGate", "Ship":"Ship" });
+let Barbarian = require('./Barbarian.js');
 
 Dice.createDice = function () {
     let dice = {};
@@ -43,7 +44,7 @@ Dice.createDice = function () {
         dice.productionDiceSet = true;
     };
 
-    dice.configureResult = function (map) {
+    dice.configureResult = function (match) {
         //TODO: event die
         /*TODO: add Enum for eventDie result
           1.robber & pirate. if (productionNum == 7) player should choose between move robber/ move pirate
@@ -58,15 +59,16 @@ Dice.createDice = function () {
         }
         switch (event){
           case "Ship" :
-          /*
-            if(map.barbarian.toAttack()){
+
+            if(match.map.barbarian.toAttack()){
               result.event = "Barbarian Attack";
+                match.map.barbarian.result = match.map.barbarian.applyResult(match.players);
             }
             else{
-              map.barbarian.canMove(event);
+                match.map.barbarian.canMove(event);
               result.event = "Barbarian Move";
             }
-            */
+
             //active barbarian
             break;
           case "BlueCityGate" :
@@ -79,10 +81,10 @@ Dice.createDice = function () {
             console.log("Error");
         }
 
-        let hexTileIDs = map.getHexTileByNumToken(productionNum);
+        let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
         for (let id of hexTileIDs){
-          if(!map.getHexTileById(id).blockedByRobber){
-              map.getHexTileById(id).produceResource(map);
+          if(!match.map.getHexTileById(id).blockedByRobber){
+              match.map.getHexTileById(id).produceResource(match.map);
           }
         }
         return result;

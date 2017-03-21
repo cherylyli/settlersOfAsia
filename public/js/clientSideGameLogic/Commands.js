@@ -887,6 +887,14 @@ _.each(CommandName, function(cmd){
 
     Commands[cmd] = function(){
 
+        // if not my turn and barbarian result, operation is limited
+        if (app.barbarianResult && !app.isMyTurn){
+            if (cmd != "chooseCityToBePillaged" || cmd != "drawOneProgressCard"){
+                swalError2("Please " + Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
+                return;
+            }
+        }
+
         //input complete check
         /**
         if (!checkInput(CommandsData[cmd].apply(this, arguments))){
@@ -906,6 +914,11 @@ _.each(CommandName, function(cmd){
         //checks
         if(!CommandCheck[cmd].apply(this, arguments)){
             return;
+        }
+
+        // if barbarian result commands
+        if (app.barbarianResult){
+            app.barbarianResult = false;
         }
 
         //exec
