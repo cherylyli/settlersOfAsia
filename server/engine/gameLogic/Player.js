@@ -48,7 +48,7 @@ Player.createPlayer = function (name, user) {
     player.knights = [];
     player.metropolitans = [];  //a list of integer -> position of the metropolitan
     player.winningVP = 10;
-    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
+    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 1, [Enum.cityImprovementCategory.Trade]: 1, [Enum.cityImprovementCategory.Science]: 1};
 
 
     /**TODO: Yuan change this later. Some stuff may not be able to trade!!
@@ -137,6 +137,7 @@ Player.createPlayer = function (name, user) {
           player.fishSum += 3;
       //player.fishToken[keys[randomToken]]++;
       return keys[randomToken];
+      }
     }
 
     player.giveAwayBoot = function(opponentPlayer){
@@ -409,6 +410,7 @@ Player.createPlayer = function (name, user) {
         return player.cityImprovement[cityImprovementCategory];
     };
 
+
     //TODO test & add comment below
     /**
      * When a seven is rolled, all players who have more than 7 resources cards need to discard half of their cards (round down)
@@ -476,25 +478,6 @@ Player.createPlayer = function (name, user) {
 
     };
 
-    player.printKnightInfo = function(){
-      console.log("player : " + player.name);
-      for (var knight in player.knights){
-        console.log("active knight " +player.knights[knight].active);
-        console.log("knight level " + player.knights[knight].level)
-      }
-     console.log("knight/barbarian strength" + player.getKnightsSum());
-   };
-
-    player.printBuildingInfo = function(){
-      console.log("player : " + player.name);
-      for(var building in player.buildings){
-        if (player.buildings.hasOwnProperty(building)){
-          console.log("building level " + player.buildings[building].level);
-        }
-      }
-      console.log("city/catan strength" + player.getCitySum());
-    };
-
     player.setDefenderOfCatan = function(result){
       player.defenderOfCatan = result;
     };
@@ -504,48 +487,4 @@ Player.createPlayer = function (name, user) {
     };
 
     return player;
-
-
-
-
-
-
-    /**
-     *
-     * @return {number} the card number players hold
-     *//**
-     getCardNums(){
-        let num = 0;
-        for (let card in this.resourcesAndCommodities){
-            if (this.hasOwnProperty(card)) num += this.resourcesAndCommodities[card];
-        }
-        return num;
-    }
-     hasToDiscardCards(){
-        return this.maxSafeCardNum < this.getCardNums();
-    }**/
-
-    /**
-     *
-     * @param cards a list of string (card type), the cards player choose to discard
-     *//**
-     discardCards(cards){
-        for (let card of cards){
-            this.resourcesAndCommodities[card] --;
-        }
-    }
-     /**
-     *
-     * @return {string[]} resource selected
-     *//**
-     selectResource(num){
-        //change later
-        if (num > 2) throw "Num should be smaller or equal to 2.";
-        if (num == 2) return [Resource.Wool, Resource.Grain];
-        return [Resource.Brick];
-    }**/
-
-
-
-
 }

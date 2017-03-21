@@ -70,6 +70,18 @@ Match.createNewMatch = function (scenario, players, id) {
         }
     };
 
+    //
+    match.distributeMetropolis = function(cityImprovementCategory){
+      var tradeLevel = [];
+      /*
+      for(var i in match.players.cityImprovement){
+        if(match.players[i].cityImprovement[i] >= 4){
+
+        }
+      }*/
+
+    }
+
     match.endGame = function(){
         notify.room(roomId, "GAME_ENDS", DATA.getRoom(match.id));
     };

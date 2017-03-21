@@ -45,7 +45,7 @@ Robber.createRobber = function(){
   }
 
   robber.stealFrom = function(hexTile, map){
-    var steable = hexTile.getPlayersAroundByBuildings(map);
+    var stealable = hexTile.getPlayersAroundByBuildings(map);
     /*
     var stealable = [];
     //get players who have one or more settlements/cities on the vertice of that hextile.

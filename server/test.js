@@ -53,12 +53,11 @@ console.log(my.barbarian.applyResult(my.players));
 console.log(my.barbarian.getPlayerContribution());
 */
 
-//robber
 let my = data.getMatch("123").map;
 let myHex1 = my.getHexTileById(1);
 let myHex2 = my.getHexTileById(2);
 
-/*
+//robber
 //move robber from 1 to 2
 my.robber.moveTo(myHex1,myHex2);
 console.log("robber removed: blocked :" + myHex1.blockedByRobber);
@@ -70,28 +69,18 @@ console.log("now move away : blocked :" + myHex2.blockedByRobber);
 
 //TODO: test hasToDiscardCards, stealFrom
 //!!!!not working - steable player list
-*/
-//???? steal card from player
-//Commands.stealCard("Emol", "Max", "123");
-
-//TODO: test hasToDiscardCards, stealFrom
-//!!!!not working - steable player list
 
 Commands.buildSettlement("Max", "123", 3);
 Commands.buildSettlement("Yuan", "123", 11);
-let p = myHex1.getPlayerAround(my);
+let p = myHex1.getPlayersAroundByBuildings(my);
 console.log("players on hextile1" + p);
-//let steal = my.robber.stealFrom(myHex2, my);
-
+let steal = my.robber.stealFrom(myHex2, my);
+console.log(steal);
 
 //produceResource
 myHex1.produceResource(my);
 let player1 = data.getMatch("123").getPlayer("Emol");
 let player2 = data.getMatch("123").getPlayer("Yuan");
-//console.log(player1.resourcesAndCommodities);
-//console.log(player1.resourceCardTotalNum());
-//->>>> error let card = player2.stolenBy(player1);
-//console.log("steal card result" + card);
 
 //pirate
 //TODO test stealFrom, applyAction
@@ -102,11 +91,15 @@ let player2 = data.getMatch("123").getPlayer("Yuan");
 player.drawRandomFish();
 */
 
+//city improvement
+let myMatch = data.getMatch("123");
+//myMatch.distributeMetropolis("Trade");
+
 Commands.stealCard("Emol","Yuan","123");
 
-//TODO: test these commands
+//test these commands - work :)
 console.log("random fish: " + player1.drawRandomFish());
-console.log("random fish no boat: " + player1.drawRandomFishNoBoat());
+console.log("random fish no boot: " + player1.drawRandomFishNoBoot());
 //progress cards
 //draw one progress card
 player1.drawOneProgressCard("111");

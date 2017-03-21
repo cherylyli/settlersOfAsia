@@ -89,7 +89,7 @@ Barbarian.createBarbarian = function(){
     if barbarian win :
     player with the fewest active knights:
     1. if only 1 settlement -> won't lose anything
-    2. metropolis???
+    2. if city has a metropolis on top -> can't be pillaged.
      https://boardgamegeek.com/thread/405470/simple-rule-question-about-metropolis
     3. if player has at least one city on the map
       a.player / tie players who barbarian.playerContribution the least value of kinghts
@@ -182,7 +182,7 @@ Barbarian.createBarbarian = function(){
   barbarian.restart = function(){
     barbarian.init();
   }
-
+  /*
   barbarian.ifCatanWin = function(){
 
   }
@@ -194,7 +194,7 @@ Barbarian.createBarbarian = function(){
   barbarian.ifCatanLose = function(){
 
   }
-
+  */
   return barbarian;
 }
 
