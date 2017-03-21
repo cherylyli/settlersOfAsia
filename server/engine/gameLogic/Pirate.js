@@ -10,17 +10,18 @@ Pirate.createPirate = function(){
   pirate.pos = 0;
   pirate.move = false;
 
-  pirate.canMove = function(redDie,yellowDie){
-    if (redDie + yellowDie == 7){
+  pirate.canMove = function(productionNum){
+    if (productionNum == 7){
       pirate.move = true;
     }
     return pirate.move;
   }
   //from, to - 2 water hex tiles
   pirate.moveTo = function(from,to){
+    /*
     if(pirate.move == false)
       return -1;
-
+      */
     //release hextile_from
     from.blockedByPirate = false;
     to.blockedByPirate = true;

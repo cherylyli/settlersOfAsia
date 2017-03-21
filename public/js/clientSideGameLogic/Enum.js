@@ -145,6 +145,7 @@ Enum.CSSColors = {
 };
 
 Enum.HexType = {
+  //TODO replace desert by lake 
     'Sea': 'Sea',
     'GoldField': 'GoldField',
     'Desert':'Desert',

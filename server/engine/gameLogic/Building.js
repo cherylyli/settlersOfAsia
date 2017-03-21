@@ -30,6 +30,7 @@ Building.buildSettlement = function (player, vertex, map) {
     building.owner = player;
     building.position = vertex;
     building.level = Enum.Building.Settlement;
+    building.hasMetropolis = false;
     updateInfo(map, building);
 
     building.upgradeToCity = function () {
@@ -57,6 +58,13 @@ Building.buildSettlement = function (player, vertex, map) {
         building.cityWall = false;
     };
 
+    building.addMetropolis = function(){
+      building.hasMetropolis = true;
+    }
+
+    building.removeMetropolis = function(){
+      building.hasMetropolis = false;
+    }
     //pillage a city, pre: building is a city
     building.pillage = function () {
         if (building.cityWall) building.removeCityWall();

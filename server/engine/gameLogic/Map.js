@@ -14,7 +14,6 @@ let Scenario = require('./Scenario.js');
 let Harbor = require('./Harbor.js');
 let Robber = require('./Robber.js');
 let Pirate = require('./Pirate.js');
-
 let Map = {} = module.exports;
 
 
@@ -34,7 +33,6 @@ Map.createMap = function (scenarioData) {
     map.verticesToHex = initVerticesToHex(scenarioData.vertexNum);
     map.row = initRow(scenarioData.hexTileNum);
     map.numTokenToHexTiles = initNumTokenToHexTiles();
-
     map.robber = Robber.createRobber();
     map.pirate = Pirate.createPirate();
     //map.robberPosition = 2;

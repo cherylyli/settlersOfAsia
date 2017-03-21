@@ -70,21 +70,35 @@ Match.createNewMatch = function (scenario, players, id) {
         }
     };
 
-    //
+    /**
+     * TODO!!!!!!!!!!!!!!!!!!! change hasMetropolis to  player.Metropolis {enum : true/false}
+     * First player who enters level 4 can get a metropolis -> later this metropolis will pass to the player who has highest improvement level
+     * @param cityImprovementCategory {Enum.cityImprovementCategory}
+     * @return playerName {String} player who gets the metropolis of the cityImprovementCategory
+     */
     match.distributeMetropolis = function(cityImprovementCategory){
-      var tradeLevel = [];
-      /*
-      for(var i in match.players.cityImprovement){
-        if(match.players[i].cityImprovement[i] >= 4){
-
+      var improvementLevel = {};
+      let players = match.players;
+      for(var player in players){
+        if(players[player].cityImprovement[cityImprovementCategory] >= 4){
+//          players[player].hasMetropolis = false;
+          improvementLevel[players[player].name] = players[player].cityImprovement[cityImprovementCategory];
         }
-      }*/
-
+      }
+      //console.log("imrovementL" + improvementLevel);
+      var maxKey = _.max(Object.keys(improvementLevel), function(player){
+        return improvementLevel[player];
+      });
+      //console.log("max key is " + maxKey);
+      var player = match.getPlayer(maxKey);
+    //  player.hasMetropolis = true;
+      return maxKey;
     }
 
     match.endGame = function(){
         notify.room(roomId, "GAME_ENDS", DATA.getRoom(match.id));
     };
+
     /**
      *
      * @return {String} the name of the player to take turn

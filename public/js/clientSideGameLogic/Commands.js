@@ -1,7 +1,30 @@
 //(function(){
     let Commands = {};
     let CommandsData = {};
-    let CommandName = {'rollDice' : 'rollDice', 'buildSettlement': 'buildSettlement', 'upgradeToCity': 'upgradeToCity', 'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn', 'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement', 'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank', };
+    let CommandName = {
+      //old ones
+      'rollDice' : 'rollDice', 'buildSettlement': 'buildSettlement', 'upgradeToCity': 'upgradeToCity',
+      'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn',
+      'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement',
+      'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank',
+
+      //need to test.
+      'addMetropolis' : 'addMetropolis',
+      'chooseCityToBePillaged' : 'chooseCityToBePillaged',
+      'moveRobber' : 'moveRobber' , 'movePirate' : 'movePirate',
+      'stealCard' :'stealCard','discardProgressCards' : 'discardProgressCards',
+      'giveAwayBoot' : 'giveAwayBoot',
+      'drawOneResourceCard' : 'drawOneResourceCard', 'spendFishToken' : 'spendFishToken',
+      'buildRoadUseFish' : 'buildRoadUseFish', 'buildShipUseFish' : 'buildShipUseFish',
+
+      //TODO:
+      'hireKnight' : 'hireKnight', 'activateKnight' : 'activateKnight', 'promoteKnight' : 'promoteKnight', 'moveKnight' : 'moveKnight',
+      'displaceKnight' : 'displaceKnight', 'chaseAwayThief' : 'chaseAwayThief',
+      'discardResourceCards' : 'discardResourceCards',
+      'requestTrade' : 'requestTrade', 'acceptTrade' : 'acceptTrade', 'tradeWithPlayer' : 'tradeWithPlayer',
+      'drawOneProgressCard' : 'drawOneProgressCard'
+
+    };
 
     //TODO: some one good at English plz help me change this.... It's embarrassing...
     let CommandSuccMsg = {
@@ -23,7 +46,269 @@
     let room = {users: {}};
 
 
+//============================REQUIRE TEST ==============================
 
+/**
+ *
+ * @param vertex {int}
+ * @return {{position: int}}
+ */
+    CommandsData.addMetropolis = function (username, vertex) {
+        return {'username' : username, 'position': vertex};
+    };
+
+    CommandCheck.addMetropolis = function (username, vertex) {
+        let player = DATA.getPlayer(username);
+        if (!player.hasMetropolis){
+            swalError2("Player doesn't have any metropolis to add on the city");
+            return false;
+        }
+        let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
+        if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)){
+            swalError2("There is no city at this position!");
+            return false;
+        }
+        if (vertexUnit.hasMetropolis){
+            swalError2("This city already has metropolis!");
+            return false;
+        }
+        return true;
+    };
+
+    CommandsData.chooseCityToBePillaged = function(userName, vertex){
+      return {'username': username, 'position' : vertex}
+    }
+
+    CommandCheck.chooseCityToBePillaged = function(username, vertex){
+      let match = DATA.getMatch(roomID);
+      let player = DATA.getPlayer(username);
+      let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
+      if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)){
+          swalError2("There is no city at this position!");
+          return false;
+      }
+      if(vertexUnit.hasMetropolis){
+        swalError2("City has a metropolis, can't be pillaged");
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+    /**
+     * moveRobber
+     * @return true/false
+     */
+    CommandsData.moveRobber = function (oldHexID, newHexID){
+      return {'oldHexID' : oldPosition, 'newHexID' : newPostion};
+    }
+
+    CommandCheck.moveRobber = function(oldHexID,newHexID){
+      var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
+      var newHex = DATA.getMatch().map.getHexTileById(newHexID);
+      if(oldHex.blockedByRobber == true && oldHex.type != Enum.HexType.Sea && oldHex.type != Enum.HexType.Lake){
+        if(newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake){
+          return true;
+        }
+      }
+      else{
+        swalError2("Invalid Position. Please select a landTile to perform such action.")
+        return false;
+      }
+    }
+
+    CommandsData.movePirate  = function (oldHexID, newHexID){
+      return {'oldHexID' : oldPosition, 'newHexID' : newPostion};
+    }
+
+    /**
+     * moveRobber
+     * @return true/false
+     */
+    CommandCheck.movePirate = function(oldHexID,newHexID){
+      var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
+      var newHex = DATA.getMatch().map.getHexTileById(newHexID);
+      if(oldHex.blockedByPirate == true && oldHex.type == Enum.HexType.Sea){
+        if(newHex.blockedByPirate == false && newHex.type == Enum.HexType.Sea){
+          return true;
+        }
+      }
+      else{
+        swalError2("Invalid Position. Please select a seaTile.")
+        return false;
+      }
+    }
+
+    CommandsData.stealCard = function(thiefUserName, victimUserName){
+      //var victim = DATA.getPlayer(victimUserName);
+      return {'thief': thief, 'victim': victimUserName};
+    }
+
+    CommandCheck.stealCard = function(thiefUserName, victimUserName){
+      let victim = DATA.getPlayer(victimUserName);
+      if(victim.resourceCardTotalNum() < 1){
+        swalError2("The victim player doesn't have enough resources to be stoled");
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+
+    CommandsData.drawOneProgressCard = function (progCard){
+      return {'progCard' : progCard} ;
+    }
+
+    //TODO milestone 5 constraint : progress card part !!!!
+    CommandCheck.drawOneProgressCard = function(progCard){
+      if(progCard.length > 1){
+        swalError2("Player can only draw one progress card");
+        return false;
+      }
+      //TODO
+    }
+
+    CommandsData.drawOneResourceCard = function(resCard){
+      return {'resCard' : resCard};
+    }
+
+    CommandCheck.drawOneResourceCard = function(resCard){
+      if(resCard.length > 1){
+        swalError2("Player can only draw one resource card");
+        return false;
+      }
+      var res = ['Grain','Lumber','Wool','Brick','Ore'];
+      var found = 0;
+      for(var i in res){
+        if(res[i] == resCard){
+          found = 1;
+        }
+      }
+      if(found){
+        return true;
+      }
+      else{
+        swalError2("Player can only use the fish token to draw one resource card");
+        return false;
+      }
+    }
+
+
+    CommandsData.discardProgressCards = function(progCard){
+      return progCard;
+    }
+
+    CommandCheck.discardProgressCards = function(progCard){
+      let player = DATA.getMyPlayer();
+      if(player.progressCardsCnt < 1){
+        swalError2("Player doesn't have enough progress cards");
+        return false;
+      }
+      for(var i = 0; i < player.progressCardsCnt; i++){
+        var found = player.progressCards.indexOf(cards[i]);
+      }
+      if(found > 0){
+        return true;
+      }
+      else{
+        swalError2("Card not found!");
+        return false;
+      }
+    }
+
+    CommandsData.giveAwayBoot = function(bootHolder, transferTo){
+      //var victim = DATA.getPlayer(victimUserName);
+      return {'bootHolder': thief, 'transferTo': victimUserName};
+    }
+
+    CommandCheck.giveAwayBoot = function(holder, transferTo){
+      let playerA = DATA.getPlayer(holder);
+      let playerB = DATA.getPlayer(transferTo);
+      if(playerA.hasBoot == true && playerB.hasBoot == false){
+        if(playerA.VP <= playerB.VP){
+          return true;
+        }
+        else{
+          swalError2("Transfer boot failed because selected player doesn't have enough vp.")
+        }
+      }
+      else{
+        swalError2("Transfer boot failed.")
+      }
+    }
+    /*
+    //TODO hereeeeeeeeeeeeeeee
+    CommandCheck.giveAwayBoot = function(data){
+      let playerA = DATA.getPlayer(data.holder);
+      let playerB = DATA.getPlayer(data.transferTo);
+      if(playerA.hasBoot == true && playerB.hasBoot == false){
+        if(playerA.VP <= playerB.VP){
+          return true;
+        }
+        else{
+          swalError2("Transfer boot failed because selected player doesn't have enough vp.")
+        }
+      }
+      else{
+        swalError2("Transfer boot failed.")
+      }
+    }*/
+
+    /**
+     *
+     * @param vertex1 {int} vertex 1 is smaller than vertex2
+     * @param vertex2
+     */
+        CommandsData.buildRoadUseFish = function (vertex1, vertex2) {
+            return Map.edge(vertex1, vertex2);
+        };
+
+    /**
+     *
+     * @param data {CommandsData.buildRoad}
+     * @return {boolean}
+     */
+        CommandCheck.buildRoadUseFish = function (vertex1, vertex2) {
+            CommandCheck.buildRoad();
+        };
+
+    /**
+     * @param vertex1
+     * @param vertex2
+     */
+        CommandsData.buildShipUseFish = function (vertex1, vertex2) {
+            return Map.edge(vertex1, vertex2);
+        };
+
+    /**
+     * TODO: modularize. reduce duplication
+     * @param data {CommandsData.buildShip}
+     * @return {boolean}
+     */
+        CommandCheck.buildShipUseFish = function (vertex1, vertex2) {
+          CommandCheck.buildShip();
+        };
+
+
+    CommandsData.spendFishToken = function(action, data){
+      let player = DATA.getMyPlayer();
+      let match = DATA.getMatch();
+      return { 'username' : player.name, 'action': action, 'data' : data, 'match' : match};
+    }
+
+    CommandCheck.spendFishToken = function(username, action, data){
+      //checkers done on server side.
+      let player = DATA.getPlayer(userName);
+      if(player.getFishSum() < 2){
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+
+
+//=================================================================================
 /**
  * rollDice does not take any arguments
  * @return {null}
@@ -40,7 +325,6 @@
         }
         return true;
     };
-
 /**
  *
  * @param vertex {int}   vertex id

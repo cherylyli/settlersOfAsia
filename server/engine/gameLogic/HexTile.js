@@ -11,7 +11,7 @@ let HexTile = {} = module.exports;
 
 let goldNumForSettlement = 2;
 let goldNumForCity = 4;
-
+//TODO hextile type checker - for robber & pirate
 HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionNum = undefined, visible = true) {
     let hexTile = {};
     hexTile.id = id;

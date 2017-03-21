@@ -45,12 +45,47 @@ Dice.createDice = function () {
 
     dice.configureResult = function (map) {
         //TODO: event die
+        /*TODO: add Enum for eventDie result
+          1.robber & pirate. if (productionNum == 7) player should choose between move robber/ move pirate
+          2.barbarian. if ship event - barbarian move 1 step. if barbarian.toAttack() -> attack catan
+        */
+        let event = dice.eventDie;
+        let result = {};
         //number dice produce resource
         let productionNum = dice.yellowDie + dice.redDie;
+        if(productionNum == 7){
+          result.event = "Choose Between Robber Pirate"
+        }
+        switch (event){
+          case "Ship" :
+          /*
+            if(map.barbarian.toAttack()){
+              result.event = "Barbarian Attack";
+            }
+            else{
+              map.barbarian.canMove(event);
+              result.event = "Barbarian Move";
+            }
+            */
+            //active barbarian
+            break;
+          case "BlueCityGate" :
+            break;
+          case "YellowCityGate" :
+            break;
+          case "GreenCityGate" :
+            break;
+          default:
+            console.log("Error");
+        }
+
         let hexTileIDs = map.getHexTileByNumToken(productionNum);
         for (let id of hexTileIDs){
-            map.getHexTileById(id).produceResource(map);
+          if(!map.getHexTileById(id).blockedByRobber){
+              map.getHexTileById(id).produceResource(map);
+          }
         }
+        return result;
     };
 
     return dice;

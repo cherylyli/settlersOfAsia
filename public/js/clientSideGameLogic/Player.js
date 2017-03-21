@@ -26,7 +26,21 @@ Player.addHelperFunctions = function (player) {
         return Object.keys(player.buildings).length;
     }
 
+    /**
+     *
+     * @return {Number}
+     */
+    player.getCityCnt = function () {
+        return player.getCities().length;
+    }
 
+    /**
+     *
+     * @return {Number}
+     */
+    player.getFishSum = function(){
+      return player.fishSum;
+    }
     /**
      *
      * @return {number}

@@ -10,8 +10,8 @@ Robber.createRobber = function(){
   robber.pos = 0;
   robber.move = false;
 
-  robber.canMove = function(redDie,yellowDie){
-    if (redDie + yellowDie == 7){
+  robber.canMove = function(productionNum){
+    if (productionNum == 7){
       robber.move = true;
       //player.rolledSeven = true;
     }
@@ -34,40 +34,28 @@ Robber.createRobber = function(){
 //    return robber.pos;
   }
 
-  //@return
+  //@return {playerName {String} : number of cards that need to be discarded: {Int}}
   robber.hasToDiscardCards = function(players){
     // if players has more than 7 cards, discard half (round down)
     var discardCards = {};
     for(var player in players){
-        discardCards[players[player].name] = players[player].discardedCardsCnt();
+      //console.log("name" + players[player].name );
+      //console.log("discard cards num " + players[player].discardedCardsCnt());
+      discardCards[players[player].name] = players[player].discardedCardsCnt();
     }
+    //console.log(discardCards);
     return discardCards;
   }
 
   robber.stealFrom = function(hexTile, map){
     var stealable = hexTile.getPlayersAroundByBuildings(map);
-    /*
-    var stealable = [];
-    //get players who have one or more settlements/cities on the vertice of that hextile.
-    for (let vertex in hexTile.vertices) {
-        if (hexTile.vertices.hasOwnProperty(vertex)) {
-            //there is a builidng on the vertex
-            let building = map.getVertexInfo(hexTile.vertices[vertex]);
-            if (building){
-                let player = building.owner;
-                stealable.push(player);
-            }
-        }
-    }
-    */
     return stealable;
   }
 
-/*
   robber.stealCard = function(thief,victim){
     victim.stolenBy(thief);
   }
-*/
+
   //TODO knight&robber
 
   robber.moveAway = function(){
