@@ -30,7 +30,7 @@ Building.buildSettlement = function (player, vertex, map) {
     building.owner = player;
     building.position = vertex;
     building.level = Enum.Building.Settlement;
-    building.hasMetropolis = false;
+    //building.hasMetropolis = false;
     updateInfo(map, building);
 
     building.upgradeToCity = function () {
@@ -123,8 +123,14 @@ Building.buildRoad = function (player, edge, match, type) {
         //cannot move a ship along the pirate hex
         road.move = function (oldPosition, newPosition, map) {
           var info = map.getHexTileByEdge(newPosition);
-          var hexTile = map.getHexTileById(info[0]);
-          if(hexTile.blockedByPirate == false){
+
+          let blockedByPirate = false;
+          for (let hexTileInfo of info){
+              let hexTile = map.getHexTileById(hexTileInfo[0]);
+              if (hexTile.blockedByPirate) blockedByPirate = true;
+          }
+
+          if(blockedByPirate == false){
             match.map.setEdgeInfo(undefined, oldPosition);
             match.map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];

@@ -124,6 +124,10 @@ for(var i in steal){
   console.log(steal[i].name);
 }
 
+
+Commands.buildShip("Yuan", "123", [72,73]);
+Commands.moveShip("Yuan", "123", {'oldPosition': [72,73], 'newPosition' :[71,72]});
+
 //Commands.moveShip = function (userName, roomID, data)
 Commands.moveShip("Emol", "123", [44,45]);
 //Error: Map.js 494: return edge[0] + '-' edge[1]; -> cannot read property '0' of undefined

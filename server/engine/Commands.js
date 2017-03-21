@@ -297,7 +297,7 @@ let Commands = module.exports = {};
      let oldPosition = data.oldPosition;
      let newPosition = data.newPosition;
      let ship = match.map.getEdgeInfo(oldPosition);
-     ship.move(oldPosition, newPosition);
+     ship.move(oldPosition, newPosition, match.map);
  };
 
 
@@ -463,7 +463,7 @@ Commands.drawOneProgressCard = function (userName, roomID, data){
 Commands.drawOneResourceCard = function (userName, roomID, data){
   let player = DATA.getPlayer(userName, roomID);
   player.drawOneResourceCard(data.resCard);
-}
+};
 /**
  *
  * @param player {Player}
@@ -472,13 +472,13 @@ Commands.drawOneResourceCard = function (userName, roomID, data){
 Commands.discardProgressCards = function (userName, roomID, data) {
   let player = DATA.getPlayer(userName, roomID);
   player.discardProgressCards(data);
-}
+};
 
 Commands.giveAwayBoot = function(userName, roomID, data){
   let playerA = DATA.getPlayer(data.bootHolder, roomID);
   let playerB = DATA.getPlayer(data.transferTo, roomID);
   playerA.giveAwayBoat(playerB);
-}
+};
 
 /**
   * @param action Enum.fishEvent
@@ -511,11 +511,12 @@ Commands.giveAwayBoot = function(userName, roomID, data){
       Building.buildRoad(player, data, match, 'ship');
   };
 
+
 Commands.spendFishToken = function(userName, roomID, action, data){
     let player = DATA.getPlayer(username,roomID);
     let match = DATA.getMatch(roomID);
     player.spendFishToken(data.action, data.data, data.match);
-}
+};
 
 /**
  *

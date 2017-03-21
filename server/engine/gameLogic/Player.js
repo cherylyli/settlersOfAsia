@@ -46,11 +46,10 @@ Player.createPlayer = function (name, user) {
     player.fishSum = 0;
     player.harbors = [];
     player.knights = [];
-    player.metropolitans = [];  //a list of integer -> position of the metropolitan ????????
+    //player.metropolitans = [];  //a list of integer -> position of the metropolitan ????????
     player.winningVP = 10;
     player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 1, [Enum.cityImprovementCategory.Trade]: 1, [Enum.cityImprovementCategory.Science]: 1};
-    player.hasMetropolis = false;
-    player.Metropolis = {[Enum.cityImprovementCategory.Politics]: false, [Enum.cityImprovementCategory.Trade] : false, [Enum.cityImprovementCategory.Science] : false};
+    player.Metropolis = null;   //Building object
 
     /**TODO: Yuan change this later. Some stuff may not be able to trade!!
      * delete all resourece that cannot be trade, add stuff can can be traded
@@ -71,7 +70,7 @@ Player.createPlayer = function (name, user) {
      */
     player.getBuildingCnt = function () {
         return Object.keys(player.buildings).length;
-    }
+    };
 
     /**
      *
@@ -79,7 +78,7 @@ Player.createPlayer = function (name, user) {
      */
     player.getCityCnt = function () {
         return player.getCities().length;
-    }
+    };
     /**
      *
      * @return {number}
@@ -91,34 +90,39 @@ Player.createPlayer = function (name, user) {
     player.setFishSum = function(newSum){
       player.fishSum = newSum;
       return player.fishSum;
-    }
+    };
 
     player.getFishSum = function(){
       return player.fishSum;
-    }
+    };
 
     //TODO if player has a boot, then player requires to have 1 extra VP to win. i.e 10 VP
     player.drawRandomFish = function(){
       let keys = [];
-      for (var fish in player.fishToken){
-        keys.push(fish);
+      for (let fish in player.fishToken){
+          if (player.fishToken.hasOwnProperty(fish)){
+              keys.push(fish);
+          }
       }
       //generate a random index
       let randomToken = Math.floor(Math.random() * keys.length);
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
+            break;
         case 1 : //two fish
           player.fishSum += 2;
+            break;
         case 2 : //three fish
           player.fishSum += 3;
+            break;
         case 3 : //boot TODO: only one boot
           player.hasBoot = true;
           player.winningVP += 1;
       }
       //player.fishToken[keys[randomToken]]++;
       return keys[randomToken];
-    }
+    };
 
     player.drawRandomFishNoBoot = function(){
       let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,
@@ -129,14 +133,17 @@ Player.createPlayer = function (name, user) {
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
+            break;
         case 1 : //two fish
           player.fishSum += 2;
+            break;
         case 2 : //three fish
-          player.fishSum += 3;
+            player.fishSum += 3;
+            break;
       //player.fishToken[keys[randomToken]]++;
       return keys[randomToken];
       }
-    }
+    };
 
     player.giveAwayBoot = function(opponentPlayer){
       if(player.VP <= opponentPlayer.VP){
@@ -148,7 +155,7 @@ Player.createPlayer = function (name, user) {
       }
       else
         return false;
-    }
+    };
 
 
     /**
