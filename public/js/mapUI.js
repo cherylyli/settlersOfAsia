@@ -144,6 +144,9 @@ let mapUI = (function () {
     // add settlement or city to map UI
     function addSettlementsOrCities() {
         let $map = $('.map');
+        // repaint preparation
+        $map.find(".vertex-unit").remove();
+
         _.forEach(DATA.getMap().vertexInfo, function (vertexUnit) {
             // TODO: change this later for knight, use vertexUnit
 
@@ -177,31 +180,44 @@ let mapUI = (function () {
 
     function placeRoadsAndShips() {
         let $map = $('.map');
-        //$map.svg();
-        //let svg = $map.svg('get');
+        // repaint preparation
+        $map.find(".edge-unit").remove();
 
-        let ship = svg.group({
-            strokeWidth: 20,
-            strokeLinecap: 'round',
-            strokeDasharray: '1, 30'
-        });
-        let road = svg.group({
-            strokeWidth: 20,
-        });
-
-        let types = {'road': road, 'ship': ship};
 
         let edgeInfo = DATA.getMap().edgeInfo;
         for (let edgeKey in edgeInfo) {
             if (edgeInfo.hasOwnProperty(edgeKey)) {
                 if (!edgeInfo[edgeKey]) continue;
-
                 let [vertex1, vertex2] =  Map.getEdgeByEdgeKey(edgeKey);
+                let $edgeUnit = $("<div class='edge-unit'></div>");
                 let edgeUnit = edgeInfo[edgeKey];
-                /**let $edgeUnit = $("<div class='edge-unit'></div>");**/
-                // $edgeUnit.attr("data-id", edgeKey);
+
+                $map.append($edgeUnit);
                 $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
                 $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
+
+                let divLeft = $vertex1.position().left < $vertex2.position().left ?  $vertex1.position().left : $vertex2.position().left;
+                let divTop = $vertex1.position().top < $vertex2.position().top ? $vertex1.position().top : $vertex2.position().top;
+
+                $edgeUnit.attr({
+                    'id': edgeKey,
+                    'data-type': edgeUnit.type,
+                    // 'left': divLeft,
+                    // 'top': divTop,
+                });
+                $edgeUnit.css({
+                    'left': divLeft,
+                    'top': divTop,
+                    'position': 'absolute',
+                    'z-index': 11
+                });
+
+                    let draw = SVG(edgeKey);
+                    let x1 = $vertex1.position().left - divLeft;
+                    let y1 = $vertex1.position().top - divTop;
+                    let x2 = $vertex2.position().left - divLeft;
+                    let y2 = $vertex2.position().top - divTop;
+                    draw.line(x1, y1, x2, y2).stroke({width: 5});
 
                 // $edgeUnit.svg();
                 // $edgeUnit.find('svg').line([edgeUnit.type], )
@@ -215,11 +231,17 @@ let mapUI = (function () {
             }
         }
     }
-/**
-    function drawEdgeUnit(svg,type, x1, y1, x2, y2, color) {
-        svg.line(svg, )
+    
+    function drawShip() {
+        
     }
-**/
+    
+    function drawRoad() {
+
+    }
+
+
+
 
         // public methods
         return {
