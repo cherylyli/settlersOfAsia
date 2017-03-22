@@ -123,7 +123,6 @@ Building.buildRoad = function (player, edge, match, type) {
         //cannot move a ship along the pirate hex
         road.move = function (oldPosition, newPosition, map) {
           var info = map.getHexTileByEdge(newPosition);
-
           let blockedByPirate = false;
           for (let hexTileInfo of info){
               let hexTile = map.getHexTileById(hexTileInfo[0]);
@@ -131,8 +130,8 @@ Building.buildRoad = function (player, edge, match, type) {
           }
 
           if(blockedByPirate == false){
-            match.map.setEdgeInfo(undefined, oldPosition);
-            match.map.setEdgeInfo(this, newPosition);
+            map.setEdgeInfo(undefined, oldPosition);
+            map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];
             player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
           }
