@@ -125,11 +125,11 @@ Player.createPlayer = function (name, user) {
     };
 
     player.drawRandomFishNoBoot = function(){
-      let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,
-      Enum.fishToken.THREE_FISH
-      ];
+      let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,Enum.fishToken.THREE_FISH];
       //generate a random index
       let randomToken = Math.floor(Math.random() * keys.length);
+      console.log("hhhhh" + randomToken);
+      console.log(keys[randomToken]);
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
@@ -140,9 +140,10 @@ Player.createPlayer = function (name, user) {
         case 2 : //three fish
             player.fishSum += 3;
             break;
-      //player.fishToken[keys[randomToken]]++;
+      //player.fishToken[keys[randomToken]]++;、
+    }
       return keys[randomToken];
-      }
+
     };
 
     player.giveAwayBoot = function(opponentPlayer){
@@ -173,6 +174,7 @@ Player.createPlayer = function (name, user) {
     player.spendFishToken = function(userName, roomID, action, data){
       let newSum = 0;
       let username = player.name;
+      console.log("sssss" + action);
       switch(action){
         case "MOVE_ROBBER" :
         //TODO check knight chase away thief.
@@ -249,6 +251,7 @@ Player.createPlayer = function (name, user) {
 
         case "DRAW_PROG" :
           if(player.getFishSum() >= 7){
+            console.log("dsdsd");
             Commands.drawOneProgressCard(userName, roomID, data);
             newSum = player.fish - 7;
             player.setFishSum(newSum);
@@ -256,11 +259,9 @@ Player.createPlayer = function (name, user) {
           else{
             return false;
           }
-          break;
 
-        default:
-          console.log("ERROR");
       }
+
       return player.fishSum;
     }
 
