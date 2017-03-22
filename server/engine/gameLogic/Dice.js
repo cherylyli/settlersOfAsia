@@ -84,7 +84,7 @@ Dice.createDice = function () {
         let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
         for (let id of hexTileIDs){
           if(!match.map.getHexTileById(id).blockedByRobber){
-              match.map.getHexTileById(id).produceResource(match.map);
+              match.map.getHexTileById(id).produceResource(match);
           }
         }
         return result;

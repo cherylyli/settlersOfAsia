@@ -33,11 +33,14 @@ Map.createMap = function (scenarioData) {
     map.verticesToHex = initVerticesToHex(scenarioData.vertexNum);
     map.row = initRow(scenarioData.hexTileNum);
     map.numTokenToHexTiles = initNumTokenToHexTiles();
+
+
     map.robber = Robber.createRobber();
     map.pirate = Pirate.createPirate();
-    //map.robberPosition = 2;
-    map.piratePositon = 1;  //for testing, change it later
-    map.harbors = {};   //key: edgeKey, value: harbor
+
+    map.lakePos = null;
+    map.fishTiles = [];  // fishTile object
+    map.harbors = {};   // key: edgeKey, value: harbor
 
 
     generateHexTiles(map);
@@ -63,7 +66,7 @@ Map.createMap = function (scenarioData) {
      */
     map.getEdgeInfo = function (edge) {
         return map.edgeInfo[Map.edgeKey(edge)];
-    }
+    };
 
 
     /**
@@ -73,7 +76,7 @@ Map.createMap = function (scenarioData) {
      */
     map.setVertexInfo = function (vertexUnit, vertex) {
         map.vertexInfo[vertex] = vertexUnit;
-    }
+    };
 
 
     /**
@@ -482,7 +485,7 @@ Map.edge = function(v1, v2, map) {
     map.verticesToEdges[v1][Map.edgeKey(e)] = e;
     map.verticesToEdges[v2][Map.edgeKey(e)] = e;
     return e;
-}
+};
 
 
 /**
@@ -492,7 +495,7 @@ Map.edge = function(v1, v2, map) {
  */
 Map.edgeKey = function(edge) {
     return edge[0] + '-' + edge[1];
-}
+};
 
 
 /**
