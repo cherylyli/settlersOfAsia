@@ -136,11 +136,13 @@ $(window).on('imready', function(im){
                 }, function () {
                     if (_.contains(DATA.getMatch().barbarian.result.toPlayers, DATA.getMyPlayer().name)){
                         app.barbarianResult = true;
+                        var action = DATA.getMatch().barbarian.result.result;
                         swal({
                             title: DATA.getMatch().barbarian.result.result
+                            text: Enum.BarbarianAction.action;
                         });
 
-                        applyBarbarianAction(DATA.getMatch().barbarian.result.result);
+                        //applyBarbarianAction(DATA.getMatch().barbarian.result.result);
 
                     }
                     else {

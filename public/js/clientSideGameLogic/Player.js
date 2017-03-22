@@ -112,9 +112,11 @@ Player.addHelperFunctions = function (player) {
         return player.progressCardsCnt;
     };
 
-
     return player;
 
+    player.setDefenderOfCatan = function(result){
+      player.defenderOfCatan = result;
+    }
 
 
 

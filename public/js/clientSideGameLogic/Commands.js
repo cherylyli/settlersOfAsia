@@ -9,6 +9,7 @@
       'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank',
 
       //need to test.
+      'setDefenderOfCatan' : 'setDefenderOfCatan',
       'addMetropolis' : 'addMetropolis',
       'chooseCityToBePillaged' : 'chooseCityToBePillaged',
       'moveRobber' : 'moveRobber' , 'movePirate' : 'movePirate',
@@ -16,10 +17,11 @@
       'giveAwayBoot' : 'giveAwayBoot',
       'drawOneResourceCard' : 'drawOneResourceCard', 'spendFishToken' : 'spendFishToken',
       'buildRoadUseFish' : 'buildRoadUseFish', 'buildShipUseFish' : 'buildShipUseFish',
+      'hireKnight' : 'hireKnight', 'activateKnight' : 'activateKnight', 'promoteKnight' : 'promoteKnight',
 
       //TODO:
-      'hireKnight' : 'hireKnight', 'activateKnight' : 'activateKnight', 'promoteKnight' : 'promoteKnight', 'moveKnight' : 'moveKnight',
-      'displaceKnight' : 'displaceKnight', 'chaseAwayThief' : 'chaseAwayThief',
+      'moveKnight' : 'moveKnight', 'displaceKnight' : 'displaceKnight',
+      'chaseAwayThief' : 'chaseAwayThief',
       'discardResourceCards' : 'discardResourceCards',
       'requestTrade' : 'requestTrade', 'acceptTrade' : 'acceptTrade', 'tradeWithPlayer' : 'tradeWithPlayer',
       'drawOneProgressCard' : 'drawOneProgressCard'
@@ -47,7 +49,14 @@
 
 
 //============================REQUIRE TEST ==============================
+  CommandsData.setDefenderOfCatan = function () {
+      return null;
+  };
 
+
+  CommandCheck.setDefenderOfCatan = function () {
+    return true;
+  };
 /**
  *
  * @param vertex {int}
@@ -57,12 +66,15 @@
         return {'username' : username, 'position': vertex};
     };
 
+
     CommandCheck.addMetropolis = function (username, vertex) {
         let player = DATA.getPlayer(username);
+        /*
         if (!player.hasMetropolis){
             swalError2("Player doesn't have any metropolis to add on the city");
             return false;
         }
+        */
         let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
         if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)){
             swalError2("There is no city at this position!");
@@ -305,6 +317,72 @@
       else {
         return true;
       }
+    }
+
+    CommandsData.hireKnight = function(position = null){
+      return {'position' : null}
+    }
+
+    CommandCheck.hireKnight = function(position = null){
+      if(!checkEnoughResource(Cost.basicKnights)){
+        swalError2("Not enough resource to purchase a knight");
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+
+    CommandsData.activateKnight = function(position){
+      return { 'position' : position};
+    }
+
+    CommandCheck.activateKnight = function(position){
+      if(!checkEnoughResource(Cost.activateKnight)){
+        swalError2("Not enough resource to activate a knight");
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+
+    CommandsData.promoteKnight = function(position){
+      return {'position' : position};
+    }
+
+    CommandCheck.promoteKnight = function(position){
+      if(!checkEnoughResource(Cost.promoteKnight)){
+        swalError2("Not enough resource to promote a knight");
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+    //TODO
+    CommandsData.moveKnight = function(position, newPosition){
+      return {'position' :position, 'newPosition' :newPosition }
+    }
+
+    CommandCheck.moveKnight = function(position, newPosition){
+
+    }
+
+    CommandsData.displaceKnight = function(position, newPosition){
+      return {'position' :position, 'newPosition' :newPosition }
+    }
+
+    CommandCheck.displaceKnight = function(position, newPosition){
+
+    }
+
+    CommandsData.chaseAwayThief = function(position, thiefPosition, newPosition){
+      return {'position': position, 'thiefPosition' : thiefPosition, 'newPosition' : newPosition}
+    }
+
+    CommandCheck.chaseAwayThief = function(position, thiefPosition, newPosition){
+
     }
 
 
@@ -889,12 +967,33 @@ _.each(CommandName, function(cmd){
 
         // if not my turn and barbarian result, operation is limited
         if (app.barbarianResult && !app.isMyTurn){
-            if (cmd != "chooseCityToBePillaged" || cmd != "drawOneProgressCard"){
-                swalError2("Please " + Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
+          switch (DATA.getMatch().barbarian.result.result) {
+            case Enum.barbarianResult.CATAN_WIN_TIE :
+              if(cmd != "drawOneProgressCard"){
+                swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
                 return;
-            }
-        }
+              }
+              break;
 
+            case Enum.barbarianResult.CATAN_LOSE :
+              if(cmd != "chooseCityToBePillaged"){
+                swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
+                return;
+              }
+              break;
+
+            case Enum.barbarianResult.CATAN_WIN :
+              if(cmd != "setDefenderOfCatan"){
+                swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
+                return;
+              }
+              break;
+
+            default:
+              return;
+          }
+
+      }
         //input complete check
         /**
         if (!checkInput(CommandsData[cmd].apply(this, arguments))){
