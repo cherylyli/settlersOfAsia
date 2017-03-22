@@ -12,6 +12,7 @@ var User    = require('../../models/user.js');
 var notify  = require('../api/notify.js');
 var fs = require("fs"); // Has to be installed first with “npm install fs”
 let CircularJSON = require('circular-json');
+let fakeRoom = require('../test.js');
 
 
 let DATA = require('./Data.js');
@@ -84,17 +85,24 @@ module.exports = function(socket, user, roomId) {
         let cloneRoom = _.clone(DATA.getRoom(roomId));
         cloneRoom['newUser'] = user.username;
         result = CircularJSON.stringify(cloneRoom);
-        send('JOIN_ROOM_SUCCESS', result);
+
+        // TODO: TESTING!!!
+        //send('JOIN_ROOM_SUCCESS', result);
+        send('JOIN_ROOM_SUCCESS', CircularJSON.stringify(fakeRoom.room));
+        sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
+
+
 
         //notify other users in the room about the new player
-        broadcast('NEW_PLAYER_JOINED', result);
+        //broadcast('NEW_PLAYER_JOINED', result);
 
         //if now we have 4 players, game start
         console.log(Object.keys(DATA.getRoom(roomId).users).length);
         if(Object.keys(DATA.getRoom(roomId).users).length == 4){
             let currentPlayer = Commands.startGame(roomId);
             result = CircularJSON.stringify( DATA.getRoom(roomId));
-            sendRoom('GAME_START', result);
+            //sendRoom('GAME_START', result);
+            sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
 
             setTimeout(function(){
                 notify.user(currentPlayer, 'TAKE_TURN');
@@ -122,7 +130,9 @@ module.exports = function(socket, user, roomId) {
                 if (err) throw err;
             });**/
 
-            send('JOIN_ROOM_SUCCESS', result);
+            //send('JOIN_ROOM_SUCCESS', result);
+            send('JOIN_ROOM_SUCCESS', CircularJSON.stringify(fakeRoom.room));
+            sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
 
         });
 
