@@ -129,7 +129,7 @@ Commands.buildShip("Yuan", "123", [72,73]);
 Commands.moveShip("Yuan", "123", {'oldPosition': [72,73], 'newPosition' :[71,72]});
 
 //Commands.moveShip = function (userName, roomID, data)
-Commands.moveShip("Emol", "123", [44,45]);
+//Commands.moveShip("Emol", "123", [44,45]);
 //Error: Map.js 494: return edge[0] + '-' edge[1]; -> cannot read property '0' of undefined
 
 //TODO test apply action
@@ -177,6 +177,7 @@ player1.discardProgressCards(discard);
 console.log(player1.progressCards);
 console.log(player1.progressCardsCnt);
 */
+/**
 
 Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
@@ -184,7 +185,7 @@ Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
-
+**/
 /**
 Commands.buyCityImprovement("Emol", '123', 'trade');
 Commands.moveShip('123', [53, 54], [1, 2]);

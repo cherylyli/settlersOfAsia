@@ -21,7 +21,9 @@ let Robber = require('./gameLogic/Robber.js');
 let Pirate = require('./gameLogic/Pirate.js');
 
 let Commands = module.exports = {};
-//TODO: Yuan, you can help implement the commands, but you'd better finish other todo tasks first. Commands is an interface for all game logic class, you have to read all the game logic class before you implement them. (Actually don't implement this alone, it's better we can code this part together). This is optional if you want more task :p.
+let CommandsCheck = {};
+
+
 
 //TODO: change return value of commands, some commands may not need to return anything
 //Payment and action are separate!
@@ -265,11 +267,24 @@ let Commands = module.exports = {};
   * @param roomID {String}
   * @param vertex {int}
   */
- Commands.chooseCityToBePillaged = function (userName, roomID, vertex) {
+ // TODO: chagne vertex to data
+
+ Commands.chooseCityToBePillaged = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
+     let vertex = data.position
      let city = match.map.getVertexInfo(vertex);
      city.pillage();
- }
+ };
+
+/**
+ *
+ * @param vertex {int}
+ */
+CommandsCheck.chooseCityToBePillaged = function (vertex) {
+    // test
+
+    return true;
+ };
 
 
  /**

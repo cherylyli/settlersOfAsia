@@ -87,8 +87,8 @@
         return true;
     };
 
-    CommandsData.chooseCityToBePillaged = function(userName, vertex){
-      return {'username': username, 'position' : vertex}
+    CommandsData.chooseCityToBePillaged = function(vertex){
+      return {'position' : vertex}
     }
 
     CommandCheck.chooseCityToBePillaged = function(username, vertex){
