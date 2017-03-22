@@ -9,9 +9,8 @@ let Building = (function () {
          */
         building.getUIType = function () {
             // return building.level + building.owner.color;
-            if (building.level == Enum.Building.Settlement || building.level == Enum.Building.City)
-                return building.level;
-            return "Metropolis";
+            if (building.level == Enum.Building.Settlement || building.level == Enum.Building.City) return building.level + building.owner.color;
+            return "Metropolis" + building.owner.color;
         };
 
         building.upgradeToCityCheck = function () {

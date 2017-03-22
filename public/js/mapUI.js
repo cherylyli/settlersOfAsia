@@ -1,4 +1,7 @@
 let mapUI = (function () {
+    //mapUI.hexLength = null;
+    let vertexRadius = 6;
+    let edgeWidth = 5;
         /**
          * populate the base map based on the map object
          */
@@ -98,7 +101,7 @@ let mapUI = (function () {
                 // position vertices
                 // FIXME: there are duplicate assignments here, but I am not sure how to improve
 
-                let vertexRadius = 2.5;
+                //let vertexRadius = 6;
                 $map.find('.vertex[data-id=' + hex.vertices.TopLeft + ']').css({
                     'top': top + 0.25 * hexHeight - vertexRadius,
                     'left': left - vertexRadius
@@ -124,6 +127,8 @@ let mapUI = (function () {
                     'left': left + hexWidth - vertexRadius
                 });
             });
+
+            //mapUI.hexLength = $map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top;
         }
 
         /**
@@ -158,7 +163,7 @@ let mapUI = (function () {
                     Building.addHelperFunctions(vertexUnit);
 
                     let $vertex = $map.find('.vertex[data-id=' + vertexUnit.position + ']');
-                    let backgroundPic = "../img/room/boardIcons/" + vertexUnit.getUIType() + ".png";
+                    let backgroundPic = "../img/room/finalIcons/" + vertexUnit.getUIType() + ".png";
                     let $vertexUnit = $("<div class='vertex-unit'></div>");
 
                     /**
@@ -209,22 +214,25 @@ let mapUI = (function () {
                         // 'left': divLeft,
                         // 'top': divTop,
                     });
+
+                    let width = Math.abs($vertex1.position().left - $vertex2.position().left);
+
                     $edgeUnit.css({
-                        'left': divLeft - 2.5,
-                        'top': divTop,
-                        'width': Math.abs($vertex1.position().left - $vertex2.position().left),
+                        'left': width > 0 ? divLeft + vertexRadius : divLeft + vertexRadius - edgeWidth/2,
+                        'top': divTop + vertexRadius,
+                        'width': width > 0 ? width : 10,
                         'height':  Math.abs($vertex1.position().top - $vertex2.position().top),
                         'position': 'absolute',
                         'z-index': 1
                     });
 
                     let draw = SVG(edgeKey);
-                    let x1 = $vertex1.position().left - divLeft;
+                    let x1 = width > 0 ? $vertex1.position().left - divLeft : $vertex1.position().left - divLeft + edgeWidth/2;
                     let y1 = $vertex1.position().top - divTop;
-                    let x2 = $vertex2.position().left - divLeft;
+                    let x2 = width > 0 ? $vertex2.position().left - divLeft : $vertex2.position().left - divLeft + edgeWidth/2;
                     let y2 = $vertex2.position().top - divTop;
                     let line = draw.line(x1, y1, x2, y2).stroke({
-                        width: 5,
+                        width: edgeWidth,
                         color: Enum.CSSColors[edgeUnit.owner.color]
 
                     });

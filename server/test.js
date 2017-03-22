@@ -28,9 +28,17 @@ Commands.joinRoom(userC, "123");
 Commands.joinRoom(userD, "123");
 
 Commands.startGame("123");
+data.getMatch("123").map.getHexTileById(1).type = 'Lake';
 //console.log(map.getHexTileByEdge([2,3]));
 Commands.buildRoad("Emol", "123", [53, 54]);
 Commands.buildShip("Emol", "123", [54, 55]);
+Commands.buildShip("Emol", "123", [14, 15]);
+Commands.buildShip("Emol", "123", [15, 16]);
+Commands.buildShip("Emol", "123", [16, 28]);
+Commands.buildShip("Emol", "123", [27, 28]);
+Commands.buildShip("Emol", "123", [14, 26]);
+Commands.buildShip("Emol", "123", [26, 27]);
+
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 
@@ -75,8 +83,6 @@ Commands.buildSettlement("Yuan", "123", 11);
 
 
 //produceResource
-let player1 = data.getMatch("123").getPlayer("Emol");
-let player2 = data.getMatch("123").getPlayer("Yuan");
 
 //pirate
 //TODO test stealFrom, applyAction
@@ -85,7 +91,7 @@ let player2 = data.getMatch("123").getPlayer("Yuan");
 //commands: giveAwayBoat, moveRobber, movePirate, drawOneProgressCard, buildRoad, buildShip, tradeWithBank(special ver)
 /*allocating fish token when red+yellow dice = lake number token / player has a settlement/city on fish hex
 player.drawRandomFish();
-*/
+*//**
 
 Commands.stealCard("Emol","Yuan","123");
 
@@ -97,7 +103,7 @@ player1.drawOneProgressCard("333");
 //discard multiple progress cards
 let discard = ["111","222"];
 player1.discardProgressCards(discard);
-
+**/
 /**
 Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
