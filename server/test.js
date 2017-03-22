@@ -157,13 +157,18 @@ player1.drawRandomFishNoBoot();
 player1.drawRandomFishNoBoot();
 player1.drawRandomFishNoBoot();
 player1.drawRandomFishNoBoot();
+player1.drawRandomFishNoBoot();
 console.log(player1.getFishSum());
 console.log("here " + player1.getFishSum());
 
-/*
 //test these commands - work :)
 console.log("random fish: " + player1.drawRandomFish());
 console.log("random fish no boot: " + player1.drawRandomFishNoBoot());
+
+Commands.spendFishToken("Emol","123",{'action' : Enum.fishEvent.DRAW_PROG, 'data' : "SHUI", 'match' : match})
+//Commands.spendFishToken("Emol","123",Enum.fishEvent.DRAW_PROG,"SHUI");
+console.log(player1.progressCards);
+/*
 //progress cards
 //draw one progress card
 player1.drawOneProgressCard("111");

@@ -527,9 +527,10 @@ Commands.giveAwayBoot = function(userName, roomID, data){
   };
 
 
-Commands.spendFishToken = function(userName, roomID, action, data){
-    let player = DATA.getPlayer(username,roomID);
+Commands.spendFishToken = function(userName, roomID, data){
+    let player = DATA.getPlayer(userName,roomID);
     let match = DATA.getMatch(roomID);
+    console.log("here" + data.action);
     player.spendFishToken(data.action, data.data, data.match);
 };
 
