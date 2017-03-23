@@ -3,7 +3,7 @@
  */
 "use strict"
 
-let fakeRoom = module.exports = {};
+//let fakeRoom = module.exports = {};
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
