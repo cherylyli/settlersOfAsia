@@ -18,13 +18,15 @@
       'drawOneResourceCard' : 'drawOneResourceCard', 'spendFishToken' : 'spendFishToken',
       'buildRoadUseFish' : 'buildRoadUseFish', 'buildShipUseFish' : 'buildShipUseFish',
       'hireKnight' : 'hireKnight', 'activateKnight' : 'activateKnight', 'promoteKnight' : 'promoteKnight',
+      'moveKnight' : 'moveKnight','chaseAwayThief' : 'chaseAwayThief',
+      'discardResourceCards' : 'discardResourceCards',
+      'drawOneProgressCard' : 'drawOneProgressCard',
 
       //TODO:
-      'moveKnight' : 'moveKnight', 'displaceKnight' : 'displaceKnight',
-      'chaseAwayThief' : 'chaseAwayThief',
-      'discardResourceCards' : 'discardResourceCards',
-      'requestTrade' : 'requestTrade', 'acceptTrade' : 'acceptTrade', 'tradeWithPlayer' : 'tradeWithPlayer',
-      'drawOneProgressCard' : 'drawOneProgressCard'
+      'displaceKnight' : 'displaceKnight',
+      'requestTrade' : 'requestTrade',
+      'acceptTrade' : 'acceptTrade', 'tradeWithPlayer' : 'tradeWithPlayer'
+
 
     };
 
@@ -62,13 +64,13 @@
  * @param vertex {int}
  * @return {{position: int}}
  */
-    CommandsData.addMetropolis = function (username, vertex) {
-        return {'username' : username, 'position': vertex};
+    CommandsData.addMetropolis = function (userName, vertex) {
+        return {'userName' : userName, 'position': vertex};
     };
 
 
-    CommandCheck.addMetropolis = function (username, vertex) {
-        let player = DATA.getPlayer(username);
+    CommandCheck.addMetropolis = function (userName, vertex) {
+        let player = DATA.getPlayer(userName);
         /*
         if (!player.hasMetropolis){
             swalError2("Player doesn't have any metropolis to add on the city");
@@ -91,9 +93,9 @@
       return {'position' : vertex}
     }
 
-    CommandCheck.chooseCityToBePillaged = function(username, vertex){
+    CommandCheck.chooseCityToBePillaged = function(vertex){
       let match = DATA.getMatch(roomID);
-      let player = DATA.getPlayer(username);
+      let player = DATA.getMyPlayer();
       let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
       if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)){
           swalError2("There is no city at this position!");
@@ -172,12 +174,27 @@
     }
 
     //TODO milestone 5 constraint : progress card part !!!!
+    //Do we need to respect the total number and type of progress cards in the game? YES
     CommandCheck.drawOneProgressCard = function(progCard){
       if(progCard.length > 1){
         swalError2("Player can only draw one progress card");
         return false;
       }
+      currentProgCards = [];
+      var players = DATA.getMatch().players;
+      for(var i in players){
+        progCardList.push(players[i].progressCards);
+      }
+
       //TODO
+      var intersection = _.intersection(progCardList, progCard);
+
+      if(intersection.length > 0){
+        swalError2("This progress card has been distributed to someone else");
+        return false;
+      }
+      return true;
+
     }
 
     CommandsData.drawOneResourceCard = function(resCard){
@@ -248,23 +265,6 @@
         swalError2("Transfer boot failed.")
       }
     }
-    /*
-    //TODO hereeeeeeeeeeeeeeee
-    CommandCheck.giveAwayBoot = function(data){
-      let playerA = DATA.getPlayer(data.holder);
-      let playerB = DATA.getPlayer(data.transferTo);
-      if(playerA.hasBoot == true && playerB.hasBoot == false){
-        if(playerA.VP <= playerB.VP){
-          return true;
-        }
-        else{
-          swalError2("Transfer boot failed because selected player doesn't have enough vp.")
-        }
-      }
-      else{
-        swalError2("Transfer boot failed.")
-      }
-    }*/
 
     /**
      *
@@ -305,10 +305,10 @@
     CommandsData.spendFishToken = function(action, data){
       let player = DATA.getMyPlayer();
       let match = DATA.getMatch();
-      return { 'username' : player.name, 'action': action, 'data' : data, 'match' : match};
+      return { 'userName' : player.name, 'action': action, 'data' : data, 'match' : match};
     }
 
-    CommandCheck.spendFishToken = function(username, action, data){
+    CommandCheck.spendFishToken = function(userName, action, data){
       //checkers done on server side.
       let player = DATA.getPlayer(userName);
       if(player.getFishSum() < 2){
@@ -366,6 +366,16 @@
     }
 
     CommandCheck.moveKnight = function(position, newPosition){
+      var knight = DATA.getMatch().map.getVertexInfo(position);
+      //var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
+      if(knight.hasMovedThisTurn || !knight.active){
+        swalError2("Error, knight has been moved this turn or selected knight is not active");
+        return false;
+      }
+      else{
+        return true;
+      }
+      }
 
     }
 
@@ -374,18 +384,70 @@
     }
 
     CommandCheck.displaceKnight = function(position, newPosition){
+      var knight = DATA.getMatch().map.getVertexInfo(position);
+      //TODO
 
     }
 
     CommandsData.chaseAwayThief = function(position, thiefPosition, newPosition){
       return {'position': position, 'thiefPosition' : thiefPosition, 'newPosition' : newPosition}
     }
-
+    //pos, theifpos, new pos : hextile ID
     CommandCheck.chaseAwayThief = function(position, thiefPosition, newPosition){
+      var knight = DATA.getMatch().map.getVertexInfo(position);
+      if(!knight.active){
+        swalError2("This knight is not active!");
+        return false;
+      }
+      return true;
+    }
+
+    CommandsData.discardResourceCards = function(cards){
+      return {'cards' : cards}
+    }
+
+    CommandCheck.discardResourceCards = function(cards){
+      var player = DATA.getMyPlayer();
+      var counter = 0;
+      for (var card in player.resourcesAndCommodities){
+        for(var discard in cards){
+          if(card == discard && player.resourcesAndCommodities[card] >= cards[discard]){
+            //true
+          }
+          counter++;
+        }
+      }
+      if(counter > 0){
+        return false;
+        swalError2("Not enough resource!");
+      }
+      return true;
+    }
+
+    CommandsData.requestTrade = function(offer, request){
+      return {'offer' : offer, 'request' : request};
+    }
+
+    CommandCheck.requestTrade = function(offer, request){
+      //what need to check?
+    }
+
+    CommandsData.acceptTrade = function(){
 
     }
 
+    CommandCheck.acceptTrade = function(){
 
+    }
+
+    CommandsData.tradeWithPlayer = function(userNameA, userNameB, trade){
+      return {'userNameA' : userNameA, 'userNameB' : userNameB, 'trade' : trade};
+
+    }
+
+    CommandCheck.tradeWithPlayer = function(userNameA, userNameB, trade){
+
+    }
 //=================================================================================
 /**
  * rollDice does not take any arguments
@@ -420,8 +482,17 @@
 
 
     CommandCheck.buildEstablishment = function (vertex, establishmentLV) {
-        if (establishmentLV == 1) return CommandCheck.buildSettlement(vertex);
-        return CommandCheck.upgradeToCity(vertex);
+        var player = DATA.getMyPlayer();
+        if(establishmentLV == 1){
+          if(player.getSettlements().length <= 5)
+            return CommandCheck.buildSettlement(vertex);
+        }
+        else if (player.getCityCnt() <= 4){
+         return CommandCheck.upgradeToCity(vertex);
+        }
+        else{
+          swalError2("You can only place 5 settlements and 4 cities");
+        }
     };
 
 /**
@@ -464,7 +535,7 @@
         for (let e of connectedEdges){
             //check if connected to one road
             let road = DATA.getMatch().map.getEdgeInfo(e);
-            if (road && road.owner.name == myObj.username){
+            if (road && road.owner.name == myObj.userName){
                 //we have a road connected with the settlement
                 connectedToOneRoad = true;
             }
@@ -615,7 +686,7 @@
             //if the new road is connected with roads on this vertex
             for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)){
                 let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
-                if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == myObj.username){
+                if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == myObj.userName){
                     connected = true;
                     break;
                 }
@@ -623,7 +694,7 @@
 
             //... connected with settlements, or cities.
             let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
-            if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == myObj.username){
+            if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == myObj.userName){
                 connected = true;
                 break;
             }
@@ -706,7 +777,7 @@
             //if the new ship is connected with roads on this vertex
             for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)){
                 let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
-                if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == myObj.username){
+                if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == myObj.userName){
                     connected = true;
                     break;
                 }

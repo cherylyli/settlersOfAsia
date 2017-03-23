@@ -55,18 +55,26 @@ Dice.createDice = function () {
         //number dice produce resource
         let productionNum = dice.yellowDie + dice.redDie;
         if(productionNum == 7){
-          result.event = "Choose Between Robber Pirate"
+          result.event = "Choose Between Robber Pirate";
         }
+
         switch (event){
           case "Ship" :
-
-            if(match.map.barbarian.toAttack()){
-              result.event = "Barbarian Attack";
-                match.map.barbarian.result = match.map.barbarian.applyResult(match.players);
+            if(match.barbarian){
+              if(match.barbarian.toAttack()){
+                result.event = "Barbarian Attack";
+                match.barbarian.getAttackResult(match.players);
+                //player is undefined : console.log(match.players);
+                match.barbarian.result = match.barbarian.applyResult(match.players);
+              }
+              else{
+                match.barbarian.canMove(event);
+                result.event = "Barbarian Move";
+                console.log(match.barbarian.curPos);
+              }
             }
             else{
-                match.map.barbarian.canMove(event);
-              result.event = "Barbarian Move";
+              match.barbarian = Barbarian.createBarbarian();
             }
 
             //active barbarian
@@ -81,10 +89,12 @@ Dice.createDice = function () {
             console.log("Error");
         }
 
-        let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
-        for (let id of hexTileIDs){
-          if(!match.map.getHexTileById(id).blockedByRobber){
-              match.map.getHexTileById(id).produceResource(match);
+        if(match.map){
+          let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
+          for (let id of hexTileIDs){
+            if(!match.map.getHexTileById(id).blockedByRobber){
+                match.map.getHexTileById(id).produceResource(match);
+            }
           }
         }
         return result;

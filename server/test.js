@@ -32,109 +32,138 @@ Commands.buildRoad("Emol", "123", [53, 54]);
 Commands.buildShip("Emol", "123", [53, 54]);
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
+Commands.buildSettlement("Yuan", "123", {'position': 3});
 
 Commands.hireKnight("Emol","123",7);
 Commands.activateKnight("Emol","123",7);
 Commands.hireKnight("Max","123",7);
-//Commands.activateKnight("Max","123",7);
+Commands.activateKnight("Max","123",7);
 
 let my = data.getMatch("123").map;
+let map = data.getMatch("123").map;
 let match = data.getMatch("123");
 let myHex1 = my.getHexTileById(1);
 let myHex2 = my.getHexTileById(2);
 let player1 = data.getMatch("123").getPlayer("Emol");
 let player2 = data.getMatch("123").getPlayer("Yuan");
+
 let players = data.getMatch("123").players;
+//TODO test barbarian applyResult + robber produce resource from bank
 /*
 //barbarian
-let my = data.getMatch("123");
-data.getMatch("123").barbarian.toMove(data.getMatch("123").dice.eventDie);
-console.log(data.getMatch("123").getPlayer("Emol").getKnightsSum());
-my.barbarian.toMove(data.getMatch("123").dice);
-my.barbarian.toMove(data.getMatch("123").dice);
-console.log("barbarian curPos " + my.barbarian.getCurrentPosition());
-let barStrength = data.getMatch("123").barbarian.getStrength(data.getMatch("123").players);
-console.log(my.barbarian.getAttackResult(my.players));
-console.log(my.barbarian.applyResult(my.players));
-console.log(my.barbarian.getPlayerContribution());
+console.log("dice result" + data.getMatch("123").dice.eventDie);
+data.getMatch("123").barbarian.canMove(data.getMatch("123").dice.eventDie);
+console.log(match.barbarian.getAttackResult(players));
+console.log("barbarian curPos " + match.barbarian.getCurrentPosition());
+////console.log(match.barbarian.getAttackResult(my.players));
+console.log(match.barbarian.applyResult(my.players));
+console.log(match.barbarian.getPlayerContribution());
 */
 
-/* robber test done
 //robber
-//move robber from 1 to 2
-my.robber.moveTo(myHex1,myHex2);
-console.log("robber removed: blocked :" + myHex1.blockedByRobber);
-console.log("robber placed :blocked:" + myHex2.blockedByRobber);
+//move test - working
+/*
+console.log(match.map.getHexTileById(2).blockedByRobber);
+Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
+console.log(match.map.getHexTileById(2).blockedByRobber);
+Commands.moveRobber("Emol", "123", {'oldHexID' : 2, 'newHexID' : 1});
+console.log(match.map.getHexTileById(2).blockedByRobber);
+console.log(match.map.getHexTileById(1).blockedByRobber);
 
-//move away - assume hexid 0 = off the board
-my.robber.moveAway();
-console.log("now move away : blocked :" + myHex2.blockedByRobber);
-
-//get stealable player list
+//get stealFrom - working
 Commands.buildSettlement("Max", "123", 3);
 Commands.buildSettlement("Yuan", "123", 11);
-//let p = myHex1.getPlayersAroundByBuildings(my);
+let p = myHex1.getPlayersAroundByBuildings(my);
 let steal = my.robber.stealFrom(myHex1, my);
 for(var i in steal){
   console.log(steal[i].name);
 }
 
-//hasToDiscardCards - test player > 7
-myHex1.produceResource(my);
-myHex1.produceResource(my);
-myHex1.produceResource(my);
-myHex1.produceResource(my);
-myHex1.produceResource(my);
-myHex1.produceResource(my);
-console.log(player1.resourcesAndCommodities);
-console.log("total cards " + player1.resourceCardTotalNum());
-console.log("# to be discarded " + player1.discardedCardsCnt());
-console.log(my.robber.hasToDiscardCards(players));
 
+//steal card - working : Error -1 grain
+console.log(player1.resourceCardTotalNum());
+Commands.stealCard("Emol", "123", {'thief' : "Emol", 'victim' : "Yuan"});
+console.log(player1.resourceCardTotalNum());
+
+//hasToDiscardCards - test player > 7
+
+//player2
+//Commands.moveRobber("Emol", "123", {'oldHexID' : 1, 'newHexID' : 2});
+Commands.buildSettlement("Yuan", "123", {'position': 4});
+Commands.moveRobber("Emol", "123", {'oldHexID' : 2, 'newHexID' : 1});
+console.log("myhex1 " + myHex1.productionNum);
+console.log("myhex2 " + myHex2.productionNum);
+console.log("myHex1 blocked " + myHex1.blockedByRobber);
+console.log("myHex2 blocked " + myHex2.blockedByRobber);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+myHex2.produceResource(match);
+Commands.buildCityWall("Yuan", "123", {'position': 4});
+//player1
+console.log(match.map.getHexTileById(2).blockedByRobber);
+console.log("total cards player 2 : " + player2.resourceCardTotalNum());
+console.log("# to be discarded " + player2.discardedCardsCnt());
+console.log(my.robber.hasToDiscardCards(players));
+*/
+
+/*
 //discard resource cards - working
 console.log(player1.resourceCardTotalNum());
-console.log(player1.resourcesAndCommodities);
 var ds = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: 1, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
-player1.discardResourceCards(ds);
+Commands.discardResourceCards("Emol","123",{'cards' : ds});
+//player1.discardResourceCards(ds);
 console.log(player1.resourcesAndCommodities);
 console.log(player1.resourceCardTotalNum());
+*/
+
+/*drawOneProgressCard - woking
+Commands.drawOneProgressCard("Emol","123",{'progCard' : "sdjiosjdojao"});
+console.log(player1.progressCards);
 */
 
 //produceResource
 //TODO MOVE SHIP IN COMMANDS !!!!!!!!!!! BARBARIAN IN DICE!!!!!!!!!!
 //pirate
 //move pirate from 1 to 2
-let myHex3 = my.getHexTileById(21);
-let myHex4 = my.getHexTileById(27);
-my.pirate.moveTo(myHex3,myHex4);
+let myHex3 = my.getHexTileById(10);
+let myHex4 = my.getHexTileById(17);
+Commands.movePirate("Emol", "123", {'oldHexID' : 10 , 'newHexID' : 17})
 console.log("pirate removed: blocked :" + myHex3.blockedByPirate);
 console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
-//move away - assume hexid 0 = off the board
-my.pirate.moveAway();
-console.log("now move away : blocked :" + myHex4.blockedByRobber);
-//get stealable player list
-//TODO HERE
 
-Commands.buildShip("Max", "123", [44,45]);
-console.log(my.getEdgeInfo([44,45]));
-Commands.buildShip("Yuan", "123", [72,73]);
+
+//TODO check this:
+Commands.buildShip("Yuan", "123", [52,53]);
+Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
+Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
+console.log(player1);
+
+//move away - assume hexid 0 = off the board
+//Commands.movePirate("Emol", "123", {'oldHexID' : 17 , 'newHexID' : null})
+//console.log("now move away : blocked :" + myHex4.blockedByRobber);
+
+//get stealable player list - working
+/*
+Commands.buildShip("Emol", "123", [21,22]);
+Commands.buildShip("Yuan", "123", [51,52]);
 //let p = myHex1.getPlayersAroundByBuildings(my);
-let steal = my.pirate.stealFrom(myHex1, my);
+//get stealable player list - working
+let steal = my.pirate.stealFrom(myHex4, my);
 for(var i in steal){
   console.log(steal[i].name);
 }
+*/
 
 
-Commands.buildShip("Yuan", "123", [72,73]);
-Commands.moveShip("Yuan", "123", {'oldPosition': [72,73], 'newPosition' :[71,72]});
-
-//Commands.moveShip = function (userName, roomID, data)
-//Commands.moveShip("Emol", "123", [44,45]);
-//Error: Map.js 494: return edge[0] + '-' edge[1]; -> cannot read property '0' of undefined
-
-//TODO test apply action
-
-
+/*
 //TODO fix this: cityImprovement - not working when city improvemet level is < 4
 player1.buyCityImprovement("Trade");
 player1.buyCityImprovement("Trade");
@@ -151,6 +180,7 @@ var player = match.distributeMetropolis("Trade");
 /*allocating fish token when red+yellow dice = lake number token / player has a settlement/city on fish hex
 player.drawRandomFish();
 */
+/*
 //TODO test buildroad, buildship
 player1.drawRandomFishNoBoot();
 player1.drawRandomFishNoBoot();

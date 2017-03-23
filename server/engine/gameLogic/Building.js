@@ -35,7 +35,6 @@ Building.buildSettlement = function (player, vertex, map) {
 
     building.upgradeToCity = function () {
         building.level = Enum.Building.City;
-
         building.cityWall = false;
         building.owner.updateVP(VP.upgradeTocity);
         building.owner.settlementCnt--;    //because one of the settlement is upgraded to city
@@ -91,8 +90,8 @@ Building.buildSettlement = function (player, vertex, map) {
 Building.buildRoad = function (player, edge, match, type) {
     //-----------------improvement needed-----------------
     let road = {'owner': player, 'type': type};
-    road.canBuild = false;
-    road.canMove = false;
+    road.canBuild = true;
+    road.canMove = true;
     //update map info
     match.map.setEdgeInfo(road, edge);
     /**

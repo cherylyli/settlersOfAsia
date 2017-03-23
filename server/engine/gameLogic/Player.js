@@ -128,8 +128,6 @@ Player.createPlayer = function (name, user) {
       let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,Enum.fishToken.THREE_FISH];
       //generate a random index
       let randomToken = Math.floor(Math.random() * keys.length);
-      console.log("hhhhh" + randomToken);
-      console.log(keys[randomToken]);
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
@@ -364,7 +362,7 @@ Player.createPlayer = function (name, user) {
     player.getCities = function () {
         let cities = [];
         for (let vertex in player.buildings){
-            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == 2){
+            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == Enum.Building.City){
                 cities.push(player.buildings[vertex]);
             }
         }
@@ -376,7 +374,7 @@ Player.createPlayer = function (name, user) {
     player.getSettlements = function () {
         let settlements = [];
         for (let vertex in player.buildings){
-            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == 1){
+            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == Enum.Building.Settlement){
                 settlements.push(player.buildings[vertex]);
             }
         }
@@ -471,7 +469,14 @@ Player.createPlayer = function (name, user) {
         return 0;
       }
       else {
-        numToBeDiscarded = Math.floor(player.resourceCardTotalNum()/2);
+        //if player has a city wall then he can keep 2 cards from robber.
+        var cardsToKeep = 0;
+        for(var city in player.buildings){
+          if(player.buildings[city].cityWall){
+            cardsToKeep += 2;
+          }
+        }
+        numToBeDiscarded = Math.floor(player.resourceCardTotalNum()/2) - cardsToKeep;
       }
       return numToBeDiscarded;
     }
@@ -496,7 +501,7 @@ Player.createPlayer = function (name, user) {
     player.getCitySum = function(){
       var sum = 0;
       for(var i in player.buildings){
-        if(player.buildings[i].level == 2 && player.buildings.hasOwnProperty(i))
+        if(player.buildings[i].level == Enum.Building.City && player.buildings.hasOwnProperty(i))
           sum++
       }
       return sum;

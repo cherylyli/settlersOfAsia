@@ -139,11 +139,12 @@ let CommandsCheck = {};
   *
   * @param match {String}
   */
+
  Commands.rollDice = function (userName, matchID, data) {
      let match = DATA.getMatch(matchID);
      match.rollDice();
+     console.log(match.dice.configureResult(match.map));
  };
-
 
 
 
@@ -357,20 +358,20 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   *
   */
- Commands.moveKnight = function (userName, roomID, position, newPosition) {
+ Commands.moveKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
-     knight.move(newPosition, match.map);
+     let knight = match.map.getVertexInfo(data.position);
+     knight.move(data.newPosition, match.map);
  };
 
 
  /**
   *
   */
- Commands.displaceKnight = function (userName, roomID, position, newPosition) {
+ Commands.displaceKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
-     let opponentKnightInfo = knight.move(newPosition, match.map);
+     let knight = match.map.getVertexInfo(data.position);
+     let opponentKnightInfo = knight.move(data.newPosition, match.map);
      /**
       * TODO: notify the other player
       */
@@ -379,10 +380,10 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   *
   */
- Commands.chaseAwayThief = function (userName, roomID, position, thiefPosition, newPositionForThief) {
+ Commands.chaseAwayThief = function (userName, roomID) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
-     knight.chaseAwayThief(match.map, thiefPosition, newPositionForThief);
+     let knight = match.map.getVertexInfo(data.position);
+     knight.chaseAwayThief(match.map, data.thiefPosition, data.newPositionForThief);
  };
 
 
@@ -403,9 +404,9 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   *
   * @param cards {Array<String>} resource/ commodity cards the player chooses to discard
   */
- Commands.discardResourceCards = function (userName, roomID, cards) {
+ Commands.discardResourceCards = function (userName, roomID, data) {
      let player = DATA.getPlayer(userName, roomID);
-     player.discardCards(cards);
+     player.discardResourceCards(data.cards);
  };
 
  /**
@@ -414,8 +415,8 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param offer {object} cost object
   * @param request   {object}
   */
- Commands.requestTrade = function (offer, request) {
-     let trade = Trade.createTrade(offer, request);
+ Commands.requestTrade = function (data) {
+     let trade = Trade.createTrade(data.offer, data.request);
      /**
       * TODO: communication
       */
@@ -440,24 +441,38 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param playerB {Player}
   * @param cardsB {list<String>} resource/ commodity cards the playerB offers
   */
- Commands.tradeWithPlayer = function (userNameA, userNameB, roomID, trade) {
-     let playerA = DATA.getPlayer(userNameA, roomID);
-     let playerB = DATA.getPlayer(userNameB, roomID);
+ Commands.tradeWithPlayer = function (roomID, data) {
+     let playerA = DATA.getPlayer(data.userNameA, roomID);
+     let playerB = DATA.getPlayer(data.userNameB, roomID);
      let match = DATA.getMatch(roomID);
-     match.bank.tradeWithPlayer(playerA, playerB, trade);
+     match.bank.tradeWithPlayer(data.playerA, data.playerB, data.trade);
  };
 
 //spend fish tokens  + add checkers
 Commands.moveRobber = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let robber = match.map.robber;
-    robber.moveTo(data.oldHexID, data.newHexID);
+    let hextile1 = null;
+    let hextile2 = null;
+    if(data.oldHexID)
+      hextile1 = match.map.getHexTileById(data.oldHexID);
+    if(data.newHexID){
+      hextile2 = match.map.getHexTileById(data.newHexID);
+      //robber.hasToDiscardCards(match.players);
+    }
+    robber.moveTo(hextile1,hextile2,match);
 };
 
 Commands.movePirate = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let pirate = match.map.pirate;
-    pirate.moveTo(data.oldHexID, data.newHexID);
+    let hextile1 = null;
+    let hextile2 = null;
+    if(data.oldHexID)
+      hextile1 = match.map.getHexTileById(data.oldHexID);
+    if(data.newHexID)
+      hextile2 = match.map.getHexTileById(data.newHexID);
+    pirate.moveTo(hextile1,hextile2,match);
 };
 
 /**
@@ -525,7 +540,6 @@ Commands.giveAwayBoot = function(userName, roomID, data){
       let match = DATA.getMatch(roomID);
       Building.buildRoad(player, data, match, 'ship');
   };
-
 
 Commands.spendFishToken = function(userName, roomID, data){
     let player = DATA.getPlayer(userName,roomID);
