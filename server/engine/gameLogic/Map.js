@@ -14,6 +14,7 @@ let Scenario = require('./Scenario.js');
 let Harbor = require('./Harbor.js');
 let Robber = require('./Robber.js');
 let Pirate = require('./Pirate.js');
+let FishTile = require('./FishTile.js');
 let Map = {} = module.exports;
 
 
@@ -175,6 +176,18 @@ Map.setUpHarbors = function (map, harborPositions, harborTypesData) {
         let edge = PickRandomItem(harborPositions);
         let harborType = PickRandomItem(harborTypes);
         map.harbors[Map.edgeKey(edge)] = Harbor.createHarbor(edge, harborType);
+    }
+};
+
+
+Map.setUpFishTiles = function (map, fishTilePositions, fishTileNumTokens) {
+
+
+    // create fishTiles
+    for (let i = 1; i < fishTilePositions.length(); i++){
+        //  id : f1, f2, etc...
+        let fishTile = FishTile.createFishTile( 'f' + i, fishTilePositions[i]);
+        this.fishTiles.push(fishTile);
     }
 };
 

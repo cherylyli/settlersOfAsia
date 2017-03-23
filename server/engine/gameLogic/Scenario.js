@@ -26,21 +26,25 @@ let loadScenario = function (playerCnt, scenario) {
 let scenario1_3_Data = {
     'hexTileNum': 37,
     'vertexNum': 96,
-    'mainIsland': [1,2,3,5,6,7,8,11,12,13,14,18,19,20],
-    'smallIslands': [31,32,33,28,22,35,36,37],
-    'hexTypeForMain': {'Desert':0,'GoldField':0, 'Field':3, 'Hills':2, 'Mountains':2, 'Pasture':4,'Forest':3},
-    'hexTypeForIslands': {'Desert':0,'GoldField':2, 'Field':1, 'Hills':2, 'Mountains':2, 'Pasture':1,'Forest':0},
-    'NumTokenForMain': {'2': 1, '3':1, '4':1, '5':2, '6':2, '8': 2, '9':1, '10':2, '11':2, '12':0},
-    'NumTokenForIslands': {'2': 0, '3':1, '4':2, '5':1, '6':0, '8': 1, '9':1, '10':1, '11':0, '12':1},
+    'islandsNum': 4,
+    'islands': [[1,2,3,5,6,7,8,11,12,13,14,18,19,20], [16, 23], [30, 31, 32, 36], [22, 28]],
+    'hexTypes': [{'Desert':0, 'GoldField':0, 'Field':3, 'Hills':2, 'Mountains':2, 'Pasture':4, 'Forest':3}, {'Hills':1, 'Mountains':1}, {'GoldField':1, 'Field':1, 'Pasture':1, 'Mountains': 1}, {'GoldField':1, 'Hills':1}],
+    'NumTokens': [{'2': 1, '3':1, '4':1, '5':2, '6':2, '8': 2, '9':1, '10':2, '11':2, '12':0}, {'10':1, '8':1}, {'2': 0, '3':1, '4':2, '5':0, '6':0, '8': 0, '9':1}, {'5':1, '12':1}],
     'harborPositions': [[10, 11], [2, 3], [5, 6], [7, 17], [30, 31], [57, 58], [54, 55], [22, 23]],
-    'harborTypesData': {[Enum.HarborType.General]: 3, [Enum.HarborType.Wool]: 1, [Enum.HarborType.Grain]: 1, [Enum.HarborType.Lumber]: 1, [Enum.HarborType.Ore]: 1, [Enum.HarborType.Brick]: 1}
+    'harborTypesData': {[Enum.HarborType.General]: 3, [Enum.HarborType.Wool]: 1, [Enum.HarborType.Grain]: 1, [Enum.HarborType.Lumber]: 1, [Enum.HarborType.Ore]: 1, [Enum.HarborType.Brick]: 1},
+    'fishTilePositions':[[45, 44, 59], [53, 38, 37], [36, 51, 52], [49, 50, 64], [68, 69, 70], [70, 71, 72], [94, 84, 85], [81, 82, 92], [60, 61, 46], [63, 62, 76]],
+    'fishTileNumTokens': {'2': 1, '3':1, '4':1, '5':1, '6':1, '8': 1, '9':1, '10':1, '11':1, '12':1}
 };
 
 let scenario1_setUpMap = function (data) {
     let map = Map.createMap(data);
-    Map.setUpPartMap(map, data.mainIsland, data.hexTypeForMain, data.NumTokenForMain);
-    Map.setUpPartMap(map, data.smallIslands, data.hexTypeForIslands, data.NumTokenForIslands);
+
+    for (let i = 0; i < data.islandsNum; i++){
+        Map.setUpPartMap(map, data.islands[i], data.hexTypes[i], data.NumTokens[i]);
+    }
+
     Map.setUpHarbors(map, data.harborPositions, data.harborTypesData);
+
     return map;
 };
 

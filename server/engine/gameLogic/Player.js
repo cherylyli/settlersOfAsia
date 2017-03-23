@@ -128,8 +128,8 @@ Player.createPlayer = function (name, user) {
       let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,Enum.fishToken.THREE_FISH];
       //generate a random index
       let randomToken = Math.floor(Math.random() * keys.length);
-      console.log("hhhhh" + randomToken);
-      console.log(keys[randomToken]);
+      //console.log("hhhhh" + randomToken);
+      //console.log(keys[randomToken]);
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
