@@ -28,8 +28,7 @@ Commands.joinRoom(userC, "123");
 Commands.startGame("123");
 let map2 = data.getMatch("123").map;
 //console.log(map.getHexTileByEdge([2,3]));
-Commands.buildRoad("Emol", "123", [53, 54]);
-Commands.buildShip("Emol", "123", [53, 54]);
+//Commands.buildRoad("Emol", "123", [53, 54]);
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
@@ -135,6 +134,8 @@ console.log(player1.progressCards);
 //move pirate from 1 to 2
 let myHex3 = my.getHexTileById(10);
 let myHex4 = my.getHexTileById(17);
+
+//Commands.buildShip("Emol", "123", [53, 54]);
 Commands.movePirate("Emol", "123", {'oldHexID' : 10 , 'newHexID' : 17})
 console.log("pirate removed: blocked :" + myHex3.blockedByPirate);
 console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
@@ -142,9 +143,9 @@ console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
 
 //TODO check this:
 Commands.buildShip("Yuan", "123", [52,53]);
-Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
-Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
-console.log(player1);
+//Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
+//Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
+console.log(player2.ships);
 
 //move away - assume hexid 0 = off the board
 //Commands.movePirate("Emol", "123", {'oldHexID' : 17 , 'newHexID' : null})
