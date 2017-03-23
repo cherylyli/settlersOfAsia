@@ -42,9 +42,12 @@ Commands.buildShip("Emol", "123", [26, 27]);
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 
-Commands.hireKnight("Emol","123",7);
-Commands.activateKnight("Emol","123",7);
-Commands.hireKnight("Max","123",7);
+Commands.hireKnight("Emol","123",3);
+Commands.promoteKnight("Emol","123",3);
+Commands.hireKnight("Cheryl","123",4);
+Commands.hireKnight("Max","123",5);
+Commands.hireKnight("Yuan","123",6);
+Commands.activateKnight("Emol","123",3);
 //Commands.activateKnight("Max","123",7);
 
 
@@ -112,7 +115,6 @@ Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
 Commands.rollDice("Emol", "123");
 **/
-
 /**
 Commands.buyCityImprovement("Emol", '123', 'trade');
 Commands.moveShip('123', [53, 54], [1, 2]);

@@ -185,7 +185,7 @@ $(window).on('imready', function(im){
             },
 
             'room.match': function(){
-                mapUI.addSettlementsOrCities();
+                mapUI.addVertexUnit();
                 mapUI.placeRoadsAndShips();
             }
         },

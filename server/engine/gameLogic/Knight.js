@@ -27,19 +27,19 @@ Knight.createKnight = function (player, map) {
     knight.place = function (vertex, map) {
         knight.position = vertex;
         map.setVertexInfo(knight, vertex);
-    }
+    };
 
     knight.activate = function () {
         this.active = true;
-    }
+    };
 
     knight.deactivate = function(){
         this.active = false;
-    }
+    };
     
     knight.promote = function () {
         this.level ++;
-    }
+    };
 
     knight.move = function (vertex, map) {
         this.active = false;

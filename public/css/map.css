@@ -64,6 +64,14 @@
     opacity: 1;
 }
 
+
+.vertex .knight{
+    border-style: solid;
+    border-radius: 100%;
+}
+
+
+
 /**
 .edge-unit {
     opacity: 0.8;
