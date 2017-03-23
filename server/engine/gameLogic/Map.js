@@ -396,15 +396,20 @@ function updateVerticesToHex(map, hexTile){
  */
 function setHexTilesRandomType(map, hexTiles, types){
     if (hexTiles.length != types.length) throw "HexTile number should be equal to HexType numbers";
+
     let hexTile = null;
     let type = null;
     let landTiles = [];
     while(hexTiles.length > 0){
         hexTile = map.hexTiles[PickRandomItem(hexTiles) - 1];
         type = PickRandomItem(types);
+
         //console.log(HexType[type]);
         if (Enum.HexType[type]){
-            hexTile.type = Enum.HexType[type];
+            if (type == Enum.HexType['Lake']){
+                HexTile.setLakeTile(hexTile);
+            }
+            else hexTile.type = Enum.HexType[type];
             //if land tile, add to landTiles (because number token can only be placed on land
             if (hexTile.type !== Enum.HexType.Sea) landTiles.push(hexTile.id);
         }
@@ -437,7 +442,8 @@ function setHexTilesFixedType(map, hexTiles, type){
  */
 
 function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
-
+    if (numTokens.length == 0)
+        return;
     let hexId = null;
     let token = null;
     //we first assign 6, 8 so the hexTiles.length > numTokens.length (which only contains 6 & 8)
@@ -488,6 +494,7 @@ function putNumTokenOnHexTile(map, numToken, hexId){
 function setUpPartMap(map, tilesData, typeData, numsData){
     let landTiles = setHexTilesRandomType(map, _.clone(tilesData), readMapInputToGenStrList(typeData));
     let [result6And8, resultN] = readNumTokenMapInputToGenStrList(_.clone(numsData));
+    if (!result6And8) return;   // for lake, don't set number token
     setHexTilesRandomNumToken(map, landTiles, result6And8, true);
     setHexTilesRandomNumToken(map, landTiles, resultN, false);
     //bank should have a copy of numberTokenToTile mapping list
@@ -561,6 +568,7 @@ function readMapInputToGenStrList(data) {
 }
 
 function readNumTokenMapInputToGenStrList(data) {
+    if (!data) return [null, null];
     let keys = Object.keys(data);
     let resultN = [];
     let result6And8 = [];
@@ -575,4 +583,6 @@ function readNumTokenMapInputToGenStrList(data) {
     }
     return [result6And8, resultN];
 }
+
+
 Map.setUpPartMap = setUpPartMap;

@@ -13,11 +13,12 @@ let goldNumForSettlement = 2;
 let goldNumForCity = 4;
 //TODO hextile type checker - for robber & pirate
 
-HexTile.createLakeTile = function (id, row, posInRow) {
+HexTile.setLakeTile = function (hexTile) {
 
-    let lakeTile = HexTile.createHexTile(id, row, posInRow, 'Lake', [2, 3, 11, 12]);
+    hexTile.productionNum = [2, 3, 11, 12];
+    hexTile.type = Enum.HexType.Lake;
 
-    lakeTile.produceResource = function (match) {
+    hexTile.produceResource = function (match) {
         for (let vertex in fishTile.vertices) {
             if (fishTile.vertices.hasOwnProperty(vertex)){
                 //there is a builidng on the vertex
@@ -30,7 +31,7 @@ HexTile.createLakeTile = function (id, row, posInRow) {
         }
     };
 
-    lakeTile.produceResourceToSingleUser = function (match, player) {
+    hexTile.produceResourceToSingleUser = function (match, player) {
         let boot = 0;
         let token;
         for (let p in match.players) {
@@ -47,6 +48,8 @@ HexTile.createLakeTile = function (id, row, posInRow) {
         }
         return token;
     };
+
+    return hexTile;
 };
 
 HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionNum = undefined, visible = true) {
