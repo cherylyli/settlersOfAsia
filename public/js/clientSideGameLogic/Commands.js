@@ -401,17 +401,28 @@
       }
       return true;
     }
-
-    CommandsData.discardResourceCards = function(cards){
-      return {'cards' : cards}
+//num : {player.name : {Int} # of cards that need to be discarded}
+    CommandsData.discardResourceCards = function(cards, num){
+      return {'cards' : cards, 'num' : num}
     }
 
-    CommandCheck.discardResourceCards = function(cards){
+    CommandCheck.discardResourceCards = function(cards, num){
       var player = DATA.getMyPlayer();
+      var totalNum;
+      for(var i in num){
+        if(player.name == num[i].hasOwnProperty(player.name)){
+          let found = num[i];
+          totalNum = found[player.name];
+        }
+      }
+      if(cards.length != totalNum){
+        swallError2("You need to discard " + totalNum + "cards!");
+        return false;
+      }
       var counter = 0;
       for (var card in player.resourcesAndCommodities){
         for(var discard in cards){
-          if(card == discard && player.resourcesAndCommodities[card] >= cards[discard]){
+          if(card == discard && player.resourcesAndCommodities[card] >= cards[discard] ){
             //true
           }
           counter++;
