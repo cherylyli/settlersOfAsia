@@ -6,6 +6,7 @@ let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
 let Enum = require("./engine/gameLogic/Enum.js");
+var _ = require('underscore');
 /**
 let rooms = data.rooms;
 let users = data.users;
@@ -45,8 +46,40 @@ let myHex1 = my.getHexTileById(1);
 let myHex2 = my.getHexTileById(2);
 let player1 = data.getMatch("123").getPlayer("Emol");
 let player2 = data.getMatch("123").getPlayer("Yuan");
-
 let players = data.getMatch("123").players;
+let CommandCheck = {};
+Commands.drawOneProgressCard("Emol","123",{'progCard' : "a"});
+Commands.drawOneProgressCard("Emol","123",{'progCard' : "b"});
+Commands.drawOneProgressCard("Yuan","123",{'progCard' : "c"});
+
+/*
+CommandCheck.discardProgressCards = function(progCard){
+  let player = player1;
+  if(player.progressCardsCnt < 1){
+    console.log("Player doesn't have enough progress cards");
+    return false;
+  }
+  var found = 0;
+  for(var i = 0; i < player.progressCardsCnt; i++){
+    found = player.progressCards.indexOf(progCard);
+    console.log(found);
+  }
+  if(found > 0){
+    return true;
+  }
+  else{
+    console.log("Card not found!");
+    return false;
+  }
+}
+
+console.log(
+  CommandCheck.discardProgressCards("a")
+
+);
+
+
+
 //TODO test barbarian applyResult + robber produce resource from bank
 /*
 //barbarian
@@ -132,6 +165,7 @@ console.log(player1.progressCards);
 //TODO MOVE SHIP IN COMMANDS !!!!!!!!!!! BARBARIAN IN DICE!!!!!!!!!!
 //pirate
 //move pirate from 1 to 2
+/*
 let myHex3 = my.getHexTileById(10);
 let myHex4 = my.getHexTileById(17);
 
