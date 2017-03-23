@@ -58,10 +58,18 @@ Map.addHelperFunctions = function (map) {
      * @param hexTileId int
      * @returns {*} hexTile
      */
+    /**
     map.getHexTileById = function(hexTileId){
         if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
         return map.hexTiles[hexTileId - 1];
+    };**/
+
+    map.getHexTileById = function(hexTileId){
+        //if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
+        if (hexTileId.toString().includes('f')) return map.fishTiles[hexTileId];   // fish hex
+        return map.hexTiles[hexTileId - 1];
     };
+
 
     /**
      *
