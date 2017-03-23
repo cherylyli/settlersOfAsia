@@ -983,6 +983,25 @@ let edge = function (vertex1, vertex2) {
         }
     };
 
+    let checkEnoughFish = function (cost) {
+        let fish = DATA.getMyPlayer().fishSum;
+        for (let fishAction in cost){
+            if(fish < cost){
+                swalError2("Not enough fish !");
+                return false
+            }
+        }
+        return true;
+    };
+
+    let checkInput = function (data) {
+        for (let key in data){
+            if (typeof data[key] == 'undefined'){
+                swalError2("Input not complete!");
+                return false;
+            }
+        }
+    };
 
     let update = function (room) {
         if (room.match) {
