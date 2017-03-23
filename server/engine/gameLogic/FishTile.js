@@ -7,7 +7,7 @@
 let _ = require('underscore');
 let Enum = require('./Enum.js');
 let Map = require('./Map.js');
-let fishTile = {} = module.exports;
+let FishTile = module.exports = {};
 
 /**
  *

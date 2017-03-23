@@ -40,7 +40,7 @@ Map.createMap = function (scenarioData) {
     map.pirate = Pirate.createPirate();
 
     map.lakePos = null;
-    map.fishTiles = [];  // fishTile object
+    map.fishTiles = {};  // key: id, value: fishTile object
     map.harbors = {};   // key: edgeKey, value: harbor
 
 
@@ -105,7 +105,8 @@ Map.createMap = function (scenarioData) {
      * @returns {*} hexTile
      */
     map.getHexTileById = function(hexTileId){
-        if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
+        //if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
+        if (!_.isNumber(hexTileId)) return map.fishTiles[hexTileId];   // fish hex
         return map.hexTiles[hexTileId - 1];
     };
 
@@ -181,14 +182,19 @@ Map.setUpHarbors = function (map, harborPositions, harborTypesData) {
 
 
 Map.setUpFishTiles = function (map, fishTilePositions, fishTileNumTokens) {
-
-
+    let fishTiles = [];
     // create fishTiles
-    for (let i = 1; i < fishTilePositions.length(); i++){
+    for (let i = 1; i < fishTilePositions.length; i++){
         //  id : f1, f2, etc...
         let fishTile = FishTile.createFishTile( 'f' + i, fishTilePositions[i]);
-        this.fishTiles.push(fishTile);
+        map.fishTiles[fishTile.id] =  fishTile;
+        fishTiles.push(fishTile.id);
     }
+
+    let [result6And8, resultN] = readNumTokenMapInputToGenStrList(_.clone(fishTileNumTokens));
+
+    setHexTilesRandomNumToken(map, fishTiles, result6And8, false);
+    setHexTilesRandomNumToken(map, fishTiles, resultN, false);
 };
 
 /**
@@ -435,7 +441,9 @@ function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
     let hexId = null;
     let token = null;
     //we first assign 6, 8 so the hexTiles.length > numTokens.length (which only contains 6 & 8)
-    while(numTokens.length > 0){
+    while(numTokens.length >= 0){
+        if (!token && numTokens.length == 0) return;
+
         hexId = PickRandomItem(hexTiles);
         if (!token) token = PickRandomItem(numTokens);
         let canPut = true;
@@ -469,7 +477,8 @@ function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
  * @param hexId hexTileId
  */
 function putNumTokenOnHexTile(map, numToken, hexId){
-    let hexTile = map.hexTiles[hexId - 1];
+
+    let hexTile = map.getHexTileById(hexId);
     hexTile.productionNum = numToken;
     map.numTokenToHexTiles[numToken].push(hexId);
 }
