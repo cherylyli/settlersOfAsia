@@ -3,7 +3,7 @@
  */
 "use strict"
 
-let fakeRoom = module.exports = {};
+//let fakeRoom = module.exports = {};
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
@@ -125,4 +125,4 @@ Commands.activateKnight('123', 4);
 Commands.moveKnight('123', 4, 5);
 Commands.chaseAwayThief('123', 5, 1, 3);
 **/
-fakeRoom.room = data.getRoom("123");
+//fakeRoom.room = data.getRoom("123");
