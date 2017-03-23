@@ -63,6 +63,9 @@ let mapUI = (function () {
             if (hextile.productionNum) {
                 let $numToken = $("<div class='num-token'></div>");
                 $numToken.text(hextile.productionNum);
+                if (hextile.type == Enum.HexType.Lake){
+                    $numToken.css('width', 65);
+                }
                 $hex.append($numToken);
             }
 
