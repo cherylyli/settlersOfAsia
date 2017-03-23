@@ -48,6 +48,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.phase = null;
     match.turnNum = 0;
     match.barbarian = Barbarian.createBarbarian();
+    match.Metropolis = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: player name  {String}
 
     assignColors(match);
 
@@ -70,9 +71,35 @@ Match.createNewMatch = function (scenario, players, id) {
         }
     };
 
+    /**
+     * TODO!!!!!!!!!!!!!!!!!!! change hasMetropolis to  player.Metropolis {enum : true/false}
+     * First player who enters level 4 can get a metropolis -> later this metropolis will pass to the player who has highest improvement level
+     * @param cityImprovementCategory {Enum.cityImprovementCategory}
+     * @return playerName {String} player who gets the metropolis of the cityImprovementCategory
+     */
+    match.distributeMetropolis = function(cityImprovementCategory){
+      var improvementLevel = {};
+      let players = match.players;
+      for(var player in players){
+        if(players[player].cityImprovement[cityImprovementCategory] >= 4){
+//          players[player].hasMetropolis = false;
+          improvementLevel[players[player].name] = players[player].cityImprovement[cityImprovementCategory];
+        }
+      }
+      //console.log("imrovementL" + improvementLevel);
+      var maxKey = _.max(Object.keys(improvementLevel), function(player){
+        return improvementLevel[player];
+      });
+      //console.log("max key is " + maxKey);
+      var player = match.getPlayer(maxKey);
+    //  player.hasMetropolis = true;
+      return maxKey;
+    }
+
     match.endGame = function(){
         notify.room(roomId, "GAME_ENDS", DATA.getRoom(match.id));
     };
+
     /**
      *
      * @return {String} the name of the player to take turn
@@ -115,6 +142,11 @@ Match.createNewMatch = function (scenario, players, id) {
 
             }
         }
+
+        if (match.barbarian.curPos == 7){
+            match.barbarian.restart();
+        }
+
         return match.currentPlayer;
         //notify the player to take turn
 

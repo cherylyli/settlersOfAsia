@@ -8,7 +8,7 @@ let Enum = require('./Enum.js');
 let Cost = require('./Cost.js');
 let Building = require('./Building.js');
 let Robber = require('./Robber.js');
-
+let Commands = require('../Commands.js');
 /**
  * Player stores the game info of a user in a game.
  */
@@ -46,10 +46,10 @@ Player.createPlayer = function (name, user) {
     player.fishSum = 0;
     player.harbors = [];
     player.knights = [];
-    player.metropolitans = [];  //a list of integer -> position of the metropolitan
+    //player.metropolitans = [];  //a list of integer -> position of the metropolitan ????????
     player.winningVP = 10;
-    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
-
+    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 1, [Enum.cityImprovementCategory.Trade]: 1, [Enum.cityImprovementCategory.Science]: 1};
+    player.Metropolis = null;   //Building object
 
     /**TODO: Yuan change this later. Some stuff may not be able to trade!!
      * delete all resourece that cannot be trade, add stuff can can be traded
@@ -64,16 +64,13 @@ Player.createPlayer = function (name, user) {
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
 
-    //player.match = null;
-
-
     /**
      *
      * @return {Number}
      */
     player.getBuildingCnt = function () {
         return Object.keys(player.buildings).length;
-    }
+    };
 
     /**
      *
@@ -81,7 +78,7 @@ Player.createPlayer = function (name, user) {
      */
     player.getCityCnt = function () {
         return player.getCities().length;
-    }
+    };
     /**
      *
      * @return {number}
@@ -93,128 +90,179 @@ Player.createPlayer = function (name, user) {
     player.setFishSum = function(newSum){
       player.fishSum = newSum;
       return player.fishSum;
-    }
+    };
 
     player.getFishSum = function(){
       return player.fishSum;
-    }
+    };
 
     //TODO if player has a boot, then player requires to have 1 extra VP to win. i.e 10 VP
     player.drawRandomFish = function(){
       let keys = [];
-      for (var fish in player.fishToken){
-        keys.push(fish);
+      for (let fish in player.fishToken){
+          if (player.fishToken.hasOwnProperty(fish)){
+              keys.push(fish);
+          }
       }
       //generate a random index
       let randomToken = Math.floor(Math.random() * keys.length);
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
+            break;
         case 1 : //two fish
           player.fishSum += 2;
+            break;
         case 2 : //three fish
           player.fishSum += 3;
+            break;
         case 3 : //boot TODO: only one boot
           player.hasBoot = true;
+          player.winningVP += 1;
       }
       //player.fishToken[keys[randomToken]]++;
       return keys[randomToken];
-    }
+    };
 
-    player.drawRandomFishNoBoat = function(){
-      let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,
-      Enum.fishToken.THREE_FISH
-      ];
+    player.drawRandomFishNoBoot = function(){
+      let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,Enum.fishToken.THREE_FISH];
       //generate a random index
       let randomToken = Math.floor(Math.random() * keys.length);
+      console.log("hhhhh" + randomToken);
+      console.log(keys[randomToken]);
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
+            break;
         case 1 : //two fish
           player.fishSum += 2;
+            break;
         case 2 : //three fish
-          player.fishSum += 3;
-      }
-      //player.fishToken[keys[randomToken]]++;
-      return keys[randomToken];
+            player.fishSum += 3;
+            break;
+      //player.fishToken[keys[randomToken]]++;、
     }
+      return keys[randomToken];
+
+    };
+
+    player.giveAwayBoot = function(opponentPlayer){
+      if(player.VP <= opponentPlayer.VP){
+        opponentPlayer.hasBoot = true;
+        opponentPlayer.winningVP += 1;
+        player.hasBoot = false;
+        player.winningVP -= 1;
+        return true;
+      }
+      else
+        return false;
+    };
 
 
     /**
       * @param action Enum.fishEvent
       * @param data whatever the data is
+          cases:
+          move robber & move pirate - doesn't matter.
+          steal card - data: {Player}
+          draw one resource card - data {Enum.ResourceCard}
+          build road/ ship - data {[int], [int]}
+          draw the selected progress card - data {String}
+      * @param match {Match}
       * @return player's current fishSum
       */
-    player.spendFishToken = function(action, data){
+    player.spendFishToken = function(userName, roomID, action, data){
       let newSum = 0;
+      let username = player.name;
+      console.log("sssss" + action);
       switch(action){
         case "MOVE_ROBBER" :
         //TODO check knight chase away thief.
           if(player.getFishSum() >= 2){
-            robber.moveAway();
-            newSum = player.fishSum - 2;
+            //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
+            Commands.moveRobber(username, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+            newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
+          }
+          else{
+            return false;
           }
           break;
 
         case "MOVE_PIRATE" :
           if(player.getFishSum() >= 2){
-            pirate.moveAway();
-            newSum = player.fishSum - 2;
+            //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
+            Commands.movePirate(username, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+            newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
+          }
+          else{
+            return false;
           }
           break;
 
         case "STEAL_CARD" :
           if(player.getFishSum() >= 3){
-            player.stealCard(data);
-            newSum = player.fishSum - 3;
+            //Commands.stealCard(username, roomID, {'thief' = player.name, 'victim' = data.victim } ;
+            Commands.stealCard(username, roomID, {'thief' : player.name, 'victim' : data.victim });
+            newSum = player.getFishSum() - 3;
             player.setFishSum(newSum);
+          }
+          else{
+            return false;
           }
           break;
 
         case "DRAW_RES_FROM_BANK" :
           if(player.getFishSum() >= 4){
+            //TODO
+            //player.drawOneResourceCard(data);
             //draw one resource card but not Commodity
-            player.resourcesAndCommodities[card]++;
-            newSum = player.fish - 4;
+            Commands.drawOneResourceCard(userName, roomID, data.resCard);
+            newSum = player.getFishSum() - 4;
             player.setFishSum(newSum);
+          }
+          else{
+            return false;
           }
           break;
 
         case "BUILD_ROAD" :
           if(player.getFishSum() >= 5){
-            //TODO
-
+            Commands.buildRoadUseFish(userName, roomID, data);
             newSum = player.fish - 5;
             player.setFishSum(newSum);
           }
+          else{
+            return false;
+          }
+          break;
 
         case "BUILD_SHIP" :
-        if(player.getFishSum() >= 5){
-          //TODO
-          newSum = player.fish - 5;
-          player.setFishSum(newSum);
-        }
+          if(player.getFishSum() >= 5){
+            Commands.buildShipUseFish (userName, roomID, data);
+            newSum = player.fish - 5;
+            player.setFishSum(newSum);
+          }
+          else{
+            return false;
+          }
+          break;
 
         case "DRAW_PROG" :
-        if(player.getFishSum() >= 7){
-          player.drawOneProgressCard(data);
-          newSum = player.fish - 7;
-          player.setFishSum(newSum);
-        }
-      }
-      return player.fishSum;
-    }
+          if(player.getFishSum() >= 7){
+            console.log("dsdsd");
+            Commands.drawOneProgressCard(userName, roomID, data);
+            newSum = player.fish - 7;
+            player.setFishSum(newSum);
+          }
+          else{
+            return false;
+          }
 
-    player.giveAwayBoat = function(opponentPlayer){
-      if(player.VP <= opponentPlayer.VP){
-        opponentPlayer.hasBoot = true;
-        player.hasBoot = false;
-        return true;
       }
-      else
-        return false;
+
+      return player.fishSum;
     }
 
     /**
@@ -239,6 +287,11 @@ Player.createPlayer = function (name, user) {
       player.progressCards.push(progCard);
       player.progressCardsCnt++;
       return player.progressCards;
+    }
+
+    player.drawOneResourceCard = function(resCard){
+      player.resourcesAndCommodities[resCard]++;
+      return player.resourcesAndCommodities;
     }
 
     /**
@@ -348,7 +401,7 @@ Player.createPlayer = function (name, user) {
             return false;
         for (var i=0; i < player.progressCardsCnt; i++) {
             var found = player.progressCards.indexOf(cards[i]);
-            if (found > -1) {
+            if (found > 0) {
                 player.progressCards.splice(found, 1);
             }
         }
@@ -404,6 +457,7 @@ Player.createPlayer = function (name, user) {
         return player.cityImprovement[cityImprovementCategory];
     };
 
+
     //TODO test & add comment below
     /**
      * When a seven is rolled, all players who have more than 7 resources cards need to discard half of their cards (round down)
@@ -417,7 +471,7 @@ Player.createPlayer = function (name, user) {
         return 0;
       }
       else {
-        numToBeDiscarded = Math.floor(player.resourceCardTotalNum/2);
+        numToBeDiscarded = Math.floor(player.resourceCardTotalNum()/2);
       }
       return numToBeDiscarded;
     }
@@ -425,18 +479,17 @@ Player.createPlayer = function (name, user) {
 
     //var disProgResCards = ["Wood":2,"Brick":1];
   //  player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
-
+    //DATA INPUT {{[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};} - Int : discarded amount
     player.discardResourceCards = function(cards){
       let keys = [];
-      for (var card in player.resourceAndCommandities){
-        for (var discard in cards){
-          //TODO
-          //hasOwnProperty;
-
+      for (var card in player.resourcesAndCommodities){
+        for(var discard in cards){
+          if(card == discard && player.resourcesAndCommodities[card] >= cards[discard]){
+            player.resourcesAndCommodities[card] -= cards[discard];
           }
-
         }
-      player.resourceCardTotalNum(player);
+      }
+      player.resourceCardTotalNum();
     }
 
 
@@ -471,25 +524,6 @@ Player.createPlayer = function (name, user) {
 
     };
 
-    player.printKnightInfo = function(){
-      console.log("player : " + player.name);
-      for (var knight in player.knights){
-        console.log("active knight " +player.knights[knight].active);
-        console.log("knight level " + player.knights[knight].level)
-      }
-     console.log("knight/barbarian strength" + player.getKnightsSum());
-   };
-
-    player.printBuildingInfo = function(){
-      console.log("player : " + player.name);
-      for(var building in player.buildings){
-        if (player.buildings.hasOwnProperty(building)){
-          console.log("building level " + player.buildings[building].level);
-        }
-      }
-      console.log("city/catan strength" + player.getCitySum());
-    };
-
     player.setDefenderOfCatan = function(result){
       player.defenderOfCatan = result;
     };
@@ -499,48 +533,4 @@ Player.createPlayer = function (name, user) {
     };
 
     return player;
-
-
-
-
-
-
-    /**
-     *
-     * @return {number} the card number players hold
-     *//**
-     getCardNums(){
-        let num = 0;
-        for (let card in this.resourcesAndCommodities){
-            if (this.hasOwnProperty(card)) num += this.resourcesAndCommodities[card];
-        }
-        return num;
-    }
-     hasToDiscardCards(){
-        return this.maxSafeCardNum < this.getCardNums();
-    }**/
-
-    /**
-     *
-     * @param cards a list of string (card type), the cards player choose to discard
-     *//**
-     discardCards(cards){
-        for (let card of cards){
-            this.resourcesAndCommodities[card] --;
-        }
-    }
-     /**
-     *
-     * @return {string[]} resource selected
-     *//**
-     selectResource(num){
-        //change later
-        if (num > 2) throw "Num should be smaller or equal to 2.";
-        if (num == 2) return [Resource.Wool, Resource.Grain];
-        return [Resource.Brick];
-    }**/
-
-
-
-
 }

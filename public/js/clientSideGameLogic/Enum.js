@@ -113,6 +113,16 @@ Enum.BarbarianResult = {
     "CATAN_WIN_TIE" : "CATAN_WIN_TIE"
 };
 
+/**
+ * TODO :Fdsafdf
+ * @type {{CATAN_WIN: string, CATAN_LOSE: string, CATAN_WIN_TIE: string}}
+ */
+Enum.BarbarianAction = {
+    "CATAN_WIN" : "You are the defender of Catan.",
+    "CATAN_LOSE" : "Please choose one city to be pillaged",
+    "CATAN_WIN_TIE" : "You can get one progress card for free"
+}
+
 Enum.fishToken = {
   "ONE_FISH" : "ONE_FISH",
   "TWO_FISH" : "TWO_FISH",
@@ -145,6 +155,7 @@ Enum.CSSColors = {
 };
 
 Enum.HexType = {
+  //TODO replace desert by lake
     'Sea': 'Sea',
     'GoldField': 'GoldField',
     'Desert':'Desert',

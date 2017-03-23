@@ -11,9 +11,10 @@ Barbarian.createBarbarian = function(){
   barbarian.curPos = 0;
   barbarian.playerContribution = {};
   barbarian.win = false;
+  barbarian.result = null;
 
-  barbarian.toMove = function(dice){
-    if(dice.eventDie === "Ship"){
+  barbarian.toMove = function(eventDie){
+    if(eventDie === "Ship"){
       barbarian.curPos++;
       return true;
     }
@@ -24,6 +25,7 @@ Barbarian.createBarbarian = function(){
     barbarian.curPos = 0;
     barbarian.playerContribution = {};
     barbarian.win = false;
+    barbarian.result = null;
   }
 
   barbarian.getCurrentPosition = function(){
@@ -31,8 +33,9 @@ Barbarian.createBarbarian = function(){
   }
 
   barbarian.toAttack = function(){
-    if(barbarian.curPos === 7)
-      return true;
+    if(barbarian.curPos === 7){
+        return true;
+    }
     else
       return false;
   }
@@ -54,6 +57,7 @@ Barbarian.createBarbarian = function(){
     var result = [];
 
     for(var i in players){
+      players[i].setDefenderOfCatan(false);
       catanStrength += players[i].getKnightsSum();
       var playerName = players[i].name;
       barbarian.playerContribution[playerName] = players[i].getKnightsSum();
@@ -89,7 +93,7 @@ Barbarian.createBarbarian = function(){
     if barbarian win :
     player with the fewest active knights:
     1. if only 1 settlement -> won't lose anything
-    2. metropolis???
+    2. if city has a metropolis on top -> can't be pillaged.
      https://boardgamegeek.com/thread/405470/simple-rule-question-about-metropolis
     3. if player has at least one city on the map
       a.player / tie players who barbarian.playerContribution the least value of kinghts
@@ -182,16 +186,34 @@ Barbarian.createBarbarian = function(){
   barbarian.restart = function(){
     barbarian.init();
   }
+  /*
+  if barbarian win :
+  player with the fewest active knights:
+  1. if only 1 settlement -> won't lose anything
+  2. if city has a metropolis on top -> can't be pillaged.
+   https://boardgamegeek.com/thread/405470/simple-rule-question-about-metropolis
+  3. if player has at least one city on the map
+    a.player / tie players who barbarian.playerContribution the least value of kinghts
+      -> city reduces to a settlement (destroy city wall if has one on it)
+    c.extreme case: no player activated a knight - all lose a city
+    d.extreme case: no player activated a knight and no cities on the map - do nothing
+    city wall of that city being reduced is also gone.
+  */
 
-  barbarian.ifCatanWin = function(){
+  barbarian.CatanWin = function(players){
+    //get player by players.name
+    if(players.length == 1){
+      player[0].setDefenderOfCatan(true);
+      return true;
+    }
+    return false;
+  }
+
+  barbarian.CatanWinDuplicate = function(player, vertex){
 
   }
 
-  barbarian.ifCatanWinDuplicate = function(){
-
-  }
-
-  barbarian.ifCatanLose = function(){
+  barbarian.CatanLose = function(){
 
   }
 

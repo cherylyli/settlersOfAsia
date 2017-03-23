@@ -19,6 +19,10 @@ DATA.getMyPlayer = function () {
     return DATA.getMatch().players[myObj.username];
 };
 
+DATA.getPlayer = function(username){
+  return DATA.getMatch().players[username];
+}
+
 /**
  *
  * @return {Map}
@@ -44,6 +48,3 @@ _.each(Object.getOwnPropertyNames(DATA), function (fnName) {
         return Raw(DATA[fnName]);
     }
 });
-
-
-

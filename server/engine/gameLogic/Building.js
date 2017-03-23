@@ -30,6 +30,7 @@ Building.buildSettlement = function (player, vertex, map) {
     building.owner = player;
     building.position = vertex;
     building.level = Enum.Building.Settlement;
+    //building.hasMetropolis = false;
     updateInfo(map, building);
 
     building.upgradeToCity = function () {
@@ -57,6 +58,13 @@ Building.buildSettlement = function (player, vertex, map) {
         building.cityWall = false;
     };
 
+    building.addMetropolis = function(){
+      building.hasMetropolis = true;
+    }
+
+    building.removeMetropolis = function(){
+      building.hasMetropolis = false;
+    }
     //pillage a city, pre: building is a city
     building.pillage = function () {
         if (building.cityWall) building.removeCityWall();
@@ -83,6 +91,8 @@ Building.buildSettlement = function (player, vertex, map) {
 Building.buildRoad = function (player, edge, match, type) {
     //-----------------improvement needed-----------------
     let road = {'owner': player, 'type': type};
+    road.canBuild = false;
+    road.canMove = false;
     //update map info
     match.map.setEdgeInfo(road, edge);
     /**
@@ -106,13 +116,25 @@ Building.buildRoad = function (player, edge, match, type) {
          *
          * @param oldPosition {Edge}
          * @param newPostion  {Edge}
+         * @param map {Map}
          */
-        road.move = function (oldPosition, newPosition) {
-            match.map.setEdgeInfo(undefined, oldPosition);
-            match.map.setEdgeInfo(this, newPosition);
+
+        //can't build new ships along the pirate hex
+        //cannot move a ship along the pirate hex
+        road.move = function (oldPosition, newPosition, map) {
+          var info = map.getHexTileByEdge(newPosition);
+          let blockedByPirate = false;
+          for (let hexTileInfo of info){
+              let hexTile = map.getHexTileById(hexTileInfo[0]);
+              if (hexTile.blockedByPirate) blockedByPirate = true;
+          }
+
+          if(blockedByPirate == false){
+            map.setEdgeInfo(undefined, oldPosition);
+            map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];
             player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
-
+          }
 
             this.owner.calculateLongestRoad();
         };

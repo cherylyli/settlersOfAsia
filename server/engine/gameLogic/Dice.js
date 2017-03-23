@@ -1,6 +1,7 @@
 let HexTile = require('./HexTile.js');
 let Dice = module.exports = {};
 const eventDie = Object.freeze({"BlueCityGate":"BlueCityGate", "GreenCityGate":"GreenCityGate", "YellowCityGate":"YellowCityGate", "Ship":"Ship" });
+let Barbarian = require('./Barbarian.js');
 
 Dice.createDice = function () {
     let dice = {};
@@ -43,14 +44,50 @@ Dice.createDice = function () {
         dice.productionDiceSet = true;
     };
 
-    dice.configureResult = function (map) {
+    dice.configureResult = function (match) {
         //TODO: event die
+        /*TODO: add Enum for eventDie result
+          1.robber & pirate. if (productionNum == 7) player should choose between move robber/ move pirate
+          2.barbarian. if ship event - barbarian move 1 step. if barbarian.toAttack() -> attack catan
+        */
+        let event = dice.eventDie;
+        let result = {};
         //number dice produce resource
         let productionNum = dice.yellowDie + dice.redDie;
-        let hexTileIDs = map.getHexTileByNumToken(productionNum);
-        for (let id of hexTileIDs){
-            map.getHexTileById(id).produceResource(map);
+        if(productionNum == 7){
+          result.event = "Choose Between Robber Pirate"
         }
+        switch (event){
+          case "Ship" :
+
+            if(match.map.barbarian.toAttack()){
+              result.event = "Barbarian Attack";
+                match.map.barbarian.result = match.map.barbarian.applyResult(match.players);
+            }
+            else{
+                match.map.barbarian.canMove(event);
+              result.event = "Barbarian Move";
+            }
+
+            //active barbarian
+            break;
+          case "BlueCityGate" :
+            break;
+          case "YellowCityGate" :
+            break;
+          case "GreenCityGate" :
+            break;
+          default:
+            console.log("Error");
+        }
+
+        let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
+        for (let id of hexTileIDs){
+          if(!match.map.getHexTileById(id).blockedByRobber){
+              match.map.getHexTileById(id).produceResource(match);
+          }
+        }
+        return result;
     };
 
     return dice;

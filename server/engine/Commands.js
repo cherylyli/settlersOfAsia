@@ -21,7 +21,9 @@ let Robber = require('./gameLogic/Robber.js');
 let Pirate = require('./gameLogic/Pirate.js');
 
 let Commands = module.exports = {};
-//TODO: Yuan, you can help implement the commands, but you'd better finish other todo tasks first. Commands is an interface for all game logic class, you have to read all the game logic class before you implement them. (Actually don't implement this alone, it's better we can code this part together). This is optional if you want more task :p.
+let CommandsCheck = {};
+
+
 
 //TODO: change return value of commands, some commands may not need to return anything
 //Payment and action are separate!
@@ -38,435 +40,445 @@ let Commands = module.exports = {};
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
-Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
-    //let user = DATA.getUser(userName);
-    //if(!user) user = User.createUser(userName);
-    //make new Room
-    let room = Room.createRoom(roomID, user.name);
+ Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
+     //let user = DATA.getUser(userName);
+     //if(!user) user = User.createUser(userName);
+     //make new Room
+     let room = Room.createRoom(roomID, user.name);
 
 
-    //owner also joins room
-    Commands.joinRoom(user, roomID);
-    return room;
-};
+     //owner also joins room
+     Commands.joinRoom(user, roomID);
+     return room;
+ };
 
 
 
 
 
+
+ /**
+  * @precondition the room is not full or in game
+  * @param userName  {String}
+  * @param roomID  {String}
+  * @return room {Room}
+  */
+ Commands.joinRoom = function (user, roomID) {
+     let room = DATA.getRoom(roomID);
+
+     //TODO: missing owner attributes in room object
+     //if(!room.owner) room.owner = user.name;
+     //let user = DATA.getUser(userName);
+     //if(!user) user = User.createUser(userName);
+     user.joinGameRoom(room);
+ };
+
+
+
+
+
+
+ /**
+  * @precondition: Player has joined a room, and there are enough players in the room (3-4).
+  * Play doesn't need to specify the player number when he created the room, he just click the button when he wants to start and the game is able to start
+  * Once a player emit startGame Command, the gameRoom is in Starting State, the game will starts in 5 seconds, if other player leave during the 5 seconds, the game will not start, and the player has to emit the startGame Command again (if there are enough people).
+  * this function create a match object, initialize player object for each player and initialize map
+  * @param roomID {String}
+  * @return match object
+  */
+ Commands.startGame = function (roomID) {
+     let room = DATA.getRoom(roomID);
+     //Room.state = STARTING, game will start in 5 sec if no player leaves the room
+
+     // user chose to play a new game
+     //if (!room.match){
+         //create new match
+         room.startGame();
+         return room.match.currentPlayer;
+
+     //}
+
+ };
+
+
+
+
+
+ /**
+  * @precondition the user is in a room, if the game has not start, he simply leaves the room, if not he also lose the game, game continues for other player, his settlements remain on the map
+  * @param user
+  * @return {boolean}
+  */
+ Commands.leaveRoom = function (userName, roomID) {
+     let room = DATA.getRoom(roomID);
+     let user = DATA.getUser(userName);
+     if (!room) {
+          user.roomID = null;
+         return;
+     }
+     let currentOwner = room.owner;
+     user.leaveRoom();
+     let newRoom = DATA.getRoom(roomID);
+     if (newRoom && newRoom.owner != room.owner){
+         notify.user(newRoom.owner, 'NEW_ROOM_OWNER');
+         //it should only send to the rest players in the room, but I have no reference to the socket object lol and too lazy to change... For now just send to all ppl, the person who left the room will simply ignores this message
+     //
+     }
+     if (Object.keys(newRoom.users).length > 0) {
+         notify.room(roomID, 'A_PLAYER_LEFT_ROOM', CircularJSON.stringify(DATA.getRoom(roomID)));
+     }
+     return true;
+ };
+
+
+
+ //=================================================================================
+ //-------------------------------Commands used in game-----------------------------
+
+ /**
+  *
+  * @param match {String}
+  */
+ Commands.rollDice = function (userName, matchID, data) {
+     let match = DATA.getMatch(matchID);
+     match.rollDice();
+ };
+
+
+
+
+
+ //----------------------------------Establishment and routes------------------
+
+ Commands.buildSettlement = function (userName, roomID, data){
+     let position = data.position;
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     let map = match.map;
+
+     let building = Building.buildSettlement(player, position, map);
+     if (match.phase == Enum.MatchPhase.SetupRoundTwo){
+         //collect resource immediately
+         let hexIDs = map.getHexTileArrayByVertex(position);
+         for (let id of hexIDs){
+             map.getHexTileById(id).produceResourceToSingleUser(map, player, building);
+         }
+     }
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
+ };
+
+ Commands.upgradeToCity = function (userName, roomID, data){
+     let position = data.position;
+
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     let map = match.map;
+
+     let building = player.getBuilding(position);
+     //TODO: for testing, delete later
+     if (!building) building = Building.buildSettlement(player, position, map);
+     building.upgradeToCity();
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'upgradeToCity');
+
+ };
+
+ /**
+  * build settlement or city (!!at full price!!)
+  * @param userName {String}
+  * @param matchID {String}
+  * @param position {int}   vertex id
+  * @param establishmentLv {int} level 1 : settlement, level 2: city, level 3: metropolitan
+  */
+ /**
+ Commands.buildEstablishment = function (userName, roomID, data) {
+     let position = data.position;
+     let establishmentLv = data.establishmentLV;
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     let map = match.map;
+     if (establishmentLv == 1) {
+         //build settlement
+         Building.buildSettlement(player, position, map);
+         if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
+     }
+     //!!payment and action are separate!!
+     if (establishmentLv == 2){
+         let building = player.getBuilding(position);
+         //TODO: for testing, delete later
+         if (!building) building = Building.buildSettlement(player, position, map);
+         building.upgradeToCity();
+         if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'upgradeToCity');
+     }
+     else{
+         //build metropolitan
+         //update assest
+     }
+ };**/
+
+
+
+
+
+ /**
+  * build a road
+  * @param userName {String}
+  * @param roomID {String}
+  * @param data  {[int, int]} the edge where user wants to place the road
+  */
+ Commands.buildRoad = function (userName, roomID, data) {
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     Building.buildRoad(player, data, match, 'road');
+
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
+ };
+
+ /**
+  * build a ship
+  * @param userName {String}
+  * @param roomID {String}
+  * @param data {[int, int]} the edge where player wants to build the ship
+  */
+ Commands.buildShip = function (userName, roomID, data) {
+     //TODO: improvement, combine buildRoad and buildShip
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     Building.buildRoad(player, data, match, 'ship');
+
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildShip');
+ };
+
+
+ /**
+  *
+  * @param roomID {String}
+  * @param vertex {int}
+  */
+ Commands.buildCityWall = function (userName, roomID, data) {
+     let match = DATA.getMatch(roomID);
+     let city = match.map.getVertexInfo(data.position);
+     city.buildCityWall();
+
+     match.bank.updatePlayerAsset(city.owner, 'buildCityWall');
+ };
+
+
+ /**
+  * @param roomID {String}
+  * @param vertex {int}
+  */
+ // TODO: chagne vertex to data
+
+ Commands.chooseCityToBePillaged = function (userName, roomID, data) {
+     let match = DATA.getMatch(roomID);
+     let vertex = data.position
+     let city = match.map.getVertexInfo(vertex);
+     city.pillage();
+ };
 
 /**
- * @precondition the room is not full or in game
- * @param userName  {String}
- * @param roomID  {String}
- * @return room {Room}
+ *
+ * @param vertex {int}
  */
-Commands.joinRoom = function (user, roomID) {
-    let room = DATA.getRoom(roomID);
+CommandsCheck.chooseCityToBePillaged = function (vertex) {
+    // test
 
-    //TODO: missing owner attributes in room object
-    //if(!room.owner) room.owner = user.name;
-    //let user = DATA.getUser(userName);
-    //if(!user) user = User.createUser(userName);
-    user.joinGameRoom(room);
-};
-
-
-
-
-
-
-/**
- * @precondition: Player has joined a room, and there are enough players in the room (3-4).
- * Play doesn't need to specify the player number when he created the room, he just click the button when he wants to start and the game is able to start
- * Once a player emit startGame Command, the gameRoom is in Starting State, the game will starts in 5 seconds, if other player leave during the 5 seconds, the game will not start, and the player has to emit the startGame Command again (if there are enough people).
- * this function create a match object, initialize player object for each player and initialize map
- * @param roomID {String}
- * @return match object
- */
-Commands.startGame = function (roomID) {
-    let room = DATA.getRoom(roomID);
-    //Room.state = STARTING, game will start in 5 sec if no player leaves the room
-
-    // user chose to play a new game
-    //if (!room.match){
-        //create new match
-        room.startGame();
-        return room.match.currentPlayer;
-
-    //}
-
-};
-
-
-
-
-
-/**
- * @precondition the user is in a room, if the game has not start, he simply leaves the room, if not he also lose the game, game continues for other player, his settlements remain on the map
- * @param user
- * @return {boolean}
- */
-Commands.leaveRoom = function (userName, roomID) {
-    let room = DATA.getRoom(roomID);
-    let user = DATA.getUser(userName);
-    if (!room) {
-         user.roomID = null;
-        return;
-    }
-    let currentOwner = room.owner;
-    user.leaveRoom();
-    let newRoom = DATA.getRoom(roomID);
-    if (newRoom && newRoom.owner != room.owner){
-        notify.user(newRoom.owner, 'NEW_ROOM_OWNER');
-        //it should only send to the rest players in the room, but I have no reference to the socket object lol and too lazy to change... For now just send to all ppl, the person who left the room will simply ignores this message
-    //
-    }
-    if (Object.keys(newRoom.users).length > 0) {
-        notify.room(roomID, 'A_PLAYER_LEFT_ROOM', CircularJSON.stringify(DATA.getRoom(roomID)));
-    }
     return true;
-};
+ };
 
 
+ /**
+  * @param userName {String}
+  * @param roomID {String}
+  * @param cityImprovementCategory {String}
+  */
+ Commands.buyCityImprovement = function (userName, roomID, data) {
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     let cityImprovementCategory = data.cityImprovementCategory;
+     let level = player.buyCityImprovement(cityImprovementCategory);
 
-//=================================================================================
-//-------------------------------Commands used in game-----------------------------
-
-/**
- *
- * @param match {String}
- */
-Commands.rollDice = function (userName, matchID, data) {
-    let match = DATA.getMatch(matchID);
-    match.rollDice();
-};
-
-
-
+     match.bank.updatePlayerAsset(player, 'cityImprove_' + cityImprovementCategory + '_' + level);
+ };
 
 
-//----------------------------------Establishment and routes------------------
-
-Commands.buildSettlement = function (userName, roomID, data){
-    let position = data.position;
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    let map = match.map;
-
-    let building = Building.buildSettlement(player, position, map);
-    if (match.phase == Enum.MatchPhase.SetupRoundTwo){
-        //collect resource immediately
-        let hexIDs = map.getHexTileArrayByVertex(position);
-        for (let id of hexIDs){
-            map.getHexTileById(id).produceResourceToSingleUser(map, player, building);
-        }
-    }
-    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
-};
-
-Commands.upgradeToCity = function (userName, roomID, data){
-    let position = data.position;
-
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    let map = match.map;
-
-    let building = player.getBuilding(position);
-    //TODO: for testing, delete later
-    if (!building) building = Building.buildSettlement(player, position, map);
-    building.upgradeToCity();
-    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'upgradeToCity');
-
-};
-
-/**
- * build settlement or city (!!at full price!!)
- * @param userName {String}
- * @param matchID {String}
- * @param position {int}   vertex id
- * @param establishmentLv {int} level 1 : settlement, level 2: city, level 3: metropolitan
- */
-/**
-Commands.buildEstablishment = function (userName, roomID, data) {
-    let position = data.position;
-    let establishmentLv = data.establishmentLV;
-
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    let map = match.map;
-
-    if (establishmentLv == 1) {
-        //build settlement
-        Building.buildSettlement(player, position, map);
-        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
-    }
-    //!!payment and action are separate!!
-    if (establishmentLv == 2){
-        let building = player.getBuilding(position);
-        //TODO: for testing, delete later
-        if (!building) building = Building.buildSettlement(player, position, map);
-        building.upgradeToCity();
-        if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'upgradeToCity');
-    }
-
-    else{
-
-        //build metropolitan
-
-        //update assest
-    }
-
-};**/
+ /**
+  * @param roomID {String}
+  * @param oldPosition {[int, int]} Edge
+  * @param newPosition {[int, int]} Edge
+  */
+ Commands.moveShip = function (userName, roomID, data) {
+     let match = DATA.getMatch(roomID);
+     let oldPosition = data.oldPosition;
+     let newPosition = data.newPosition;
+     let ship = match.map.getEdgeInfo(oldPosition);
+     ship.move(oldPosition, newPosition, match.map);
+ };
 
 
+ //--------------------------Knight---------------------------
+ /**
+  *
+  * @param position {int} vertex id. the position player wants to place the knight.
+  * If player don't want to put the knight on board now, position is left null.
+  */
+ Commands.hireKnight = function (userName, roomID, position = null) {
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     Knight.hireKnight(player, match.map, position);
+
+     match.bank.updatePlayerAsset(player, 'hireKnight');
+ };
 
 
+ /**
+  *
+  */
+ Commands.activateKnight = function (userName, roomID, position) {
+     let match = DATA.getMatch(roomID);
+     let knight = match.map.getVertexInfo(position);
+     knight.activate();
 
-/**
- * build a road
- * @param userName {String}
- * @param roomID {String}
- * @param data  {[int, int]} the edge where user wants to place the road
- */
-Commands.buildRoad = function (userName, roomID, data) {
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, data, match, 'road');
-
-    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
-};
+     match.bank.updatePlayerAsset(knight.owner, 'activateKnight');
+ };
 
 
-/**
- * build a ship
- * @param userName {String}
- * @param roomID {String}
- * @param data {[int, int]} the edge where player wants to build the ship
- */
-Commands.buildShip = function (userName, roomID, data) {
-    //TODO: improvement, combine buildRoad and buildShip
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    Building.buildRoad(player, data, match, 'ship');
+ /**
+  *
+  */
+ Commands.promoteKnight = function (userName, roomID, position) {
+     let match = DATA.getMatch(roomID);
+     let knight = match.map.getVertexInfo(position);
+     knight.promote();
 
-    if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildShip');
-};
+     match.bank.updatePlayerAsset(knight.owner, 'promoteKnight');
+ };
 
-
-/**
- *
- * @param roomID {String}
- * @param vertex {int}
- */
-Commands.buildCityWall = function (userName, roomID, data) {
-    let match = DATA.getMatch(roomID);
-    let city = match.map.getVertexInfo(data.position);
-    city.buildCityWall();
-
-    match.bank.updatePlayerAsset(city.owner, 'buildCityWall');
-};
+ /**
+  *
+  */
+ Commands.moveKnight = function (userName, roomID, position, newPosition) {
+     let match = DATA.getMatch(roomID);
+     let knight = match.map.getVertexInfo(position);
+     knight.move(newPosition, match.map);
+ };
 
 
-/**
- * @param roomID {String}
- * @param vertex {int}
- */
-Commands.chooseCityToBePillaged = function (userName, roomID, vertex) {
-    let match = DATA.getMatch(roomID);
-    let city = match.map.getVertexInfo(vertex);
-    city.pillage();
-};
+ /**
+  *
+  */
+ Commands.displaceKnight = function (userName, roomID, position, newPosition) {
+     let match = DATA.getMatch(roomID);
+     let knight = match.map.getVertexInfo(position);
+     let opponentKnightInfo = knight.move(newPosition, match.map);
+     /**
+      * TODO: notify the other player
+      */
+ };
+
+ /**
+  *
+  */
+ Commands.chaseAwayThief = function (userName, roomID, position, thiefPosition, newPositionForThief) {
+     let match = DATA.getMatch(roomID);
+     let knight = match.map.getVertexInfo(position);
+     knight.chaseAwayThief(match.map, thiefPosition, newPositionForThief);
+ };
 
 
-/**
- * @param userName {String}
- * @param roomID {String}
- * @param cityImprovementCategory {String}
- */
-Commands.buyCityImprovement = function (userName, roomID, data) {
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    let cityImprovementCategory = data.cityImprovementCategory;
-    let level = player.buyCityImprovement(cityImprovementCategory);
+ //-------------------------
+ /**
+  *
+  */
+ Commands.tradeWithBank = function (userName, roomID, data) {
+     let src = data.src;
+     let tradeFor = data.tradeFor;
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     match.bank.tradeWithBank(player, src, tradeFor);
+ };
+ //TODO special case trade with bank - fishmen ver, only trade resources.
 
-    match.bank.updatePlayerAsset(player, 'cityImprove_' + cityImprovementCategory + '_' + level);
-};
+ /**
+  *
+  * @param cards {Array<String>} resource/ commodity cards the player chooses to discard
+  */
+ Commands.discardResourceCards = function (userName, roomID, cards) {
+     let player = DATA.getPlayer(userName, roomID);
+     player.discardCards(cards);
+ };
 
-
-/**
- * @param roomID {String}
- * @param oldPosition {[int, int]} Edge
- * @param newPosition {[int, int]} Edge
- */
-Commands.moveShip = function (userName, roomID, data) {
-    let match = DATA.getMatch(roomID);
-    let oldPosition = data.oldPosition;
-    let newPosition = data.newPosition;
-    let ship = match.map.getEdgeInfo(oldPosition);
-    ship.move(oldPosition, newPosition);
-};
-
-
-//--------------------------Knight---------------------------
-/**
- *
- * @param position {int} vertex id. the position player wants to place the knight.
- * If player don't want to put the knight on board now, position is left null.
- */
-Commands.hireKnight = function (userName, roomID, position = null) {
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    Knight.hireKnight(player, match.map, position);
-
-    match.bank.updatePlayerAsset(player, 'hireKnight');
-};
+ /**
+  * create trade object, notifies all the other players about the trade offer.
+  * @new {Trade}
+  * @param offer {object} cost object
+  * @param request   {object}
+  */
+ Commands.requestTrade = function (offer, request) {
+     let trade = Trade.createTrade(offer, request);
+     /**
+      * TODO: communication
+      */
+ };
 
 
-/**
- *
- */
-Commands.activateKnight = function (userName, roomID, position) {
-    let match = DATA.getMatch(roomID);
-    let knight = match.map.getVertexInfo(position);
-    knight.activate();
+ /**
+  * game keeps track of current trade. (There is only one current trade)
+  * when all players have responded to the offer, return a list of players that agree to trade
+  * @param player {Player} player who responded to the trade offer
+  * @return {list<String>} a list of player name who is willing to trade. If only a part of player responds, return null;
+  */
+ Commands.acceptTrade = function (player) {
 
-    match.bank.updatePlayerAsset(knight.owner, 'activateKnight');
-};
-
-
-/**
- *
- */
-Commands.promoteKnight = function (userName, roomID, position) {
-    let match = DATA.getMatch(roomID);
-    let knight = match.map.getVertexInfo(position);
-    knight.promote();
-
-    match.bank.updatePlayerAsset(knight.owner, 'promoteKnight');
-};
-
-/**
- *
- */
-Commands.moveKnight = function (userName, roomID, position, newPosition) {
-    let match = DATA.getMatch(roomID);
-    let knight = match.map.getVertexInfo(position);
-    knight.move(newPosition, match.map);
-};
+ };
 
 
-/**
- *
- */
-Commands.displaceKnight = function (userName, roomID, position, newPosition) {
-    let match = DATA.getMatch(roomID);
-    let knight = match.map.getVertexInfo(position);
-    let opponentKnightInfo = knight.move(newPosition, match.map);
-    /**
-     * TODO: notify the other player
-     */
-};
-
-/**
- *
- */
-Commands.chaseAwayThief = function (userName, roomID, position, thiefPosition, newPositionForThief) {
-    let match = DATA.getMatch(roomID);
-    let knight = match.map.getVertexInfo(position);
-    knight.chaseAwayThief(match.map, thiefPosition, newPositionForThief);
-};
-
-
-//-------------------------
-/**
- *
- */
-Commands.tradeWithBank = function (userName, roomID, data) {
-    let src = data.src;
-    let tradeFor = data.tradeFor;
-    let player = DATA.getPlayer(userName, roomID);
-    let match = DATA.getMatch(roomID);
-    match.bank.tradeWithBank(player, src, tradeFor);
-};
-//TODO special case trade with bank - fishmen ver, only trade resources.
-
-/**
- *
- * @param cards {Array<String>} resource/ commodity cards the player chooses to discard
- */
-Commands.discardResourceCards = function (userName, roomID, cards) {
-    let player = DATA.getPlayer(userName, roomID);
-    player.discardCards(cards);
-};
-
-/**
- * create trade object, notifies all the other players about the trade offer.
- * @new {Trade}
- * @param offer {object} cost object
- * @param request   {object}
- */
-Commands.requestTrade = function (offer, request) {
-    let trade = Trade.createTrade(offer, request);
-    /**
-     * TODO: communication
-     */
-};
-
-
-/**
- * game keeps track of current trade. (There is only one current trade)
- * when all players have responded to the offer, return a list of players that agree to trade
- * @param player {Player} player who responded to the trade offer
- * @return {list<String>} a list of player name who is willing to trade. If only a part of player responds, return null;
- */
-Commands.acceptTrade = function (player) {
-
-};
-
-
-/**
- * This command is used after A and B both agree to trade with each other.
- * @param playerA {Player}
- * @param cardsA {list<String>} resource/ commodity cards the playerA offers
- * @param playerB {Player}
- * @param cardsB {list<String>} resource/ commodity cards the playerB offers
- */
-Commands.tradeWithPlayer = function (userNameA, userNameB, roomID, trade) {
-    let playerA = DATA.getPlayer(userNameA, roomID);
-    let playerB = DATA.getPlayer(userNameB, roomID);
-    let match = DATA.getMatch(roomID);
-    match.bank.tradeWithPlayer(playerA, playerB, trade);
-};
+ /**
+  * This command is used after A and B both agree to trade with each other.
+  * @param playerA {Player}
+  * @param cardsA {list<String>} resource/ commodity cards the playerA offers
+  * @param playerB {Player}
+  * @param cardsB {list<String>} resource/ commodity cards the playerB offers
+  */
+ Commands.tradeWithPlayer = function (userNameA, userNameB, roomID, trade) {
+     let playerA = DATA.getPlayer(userNameA, roomID);
+     let playerB = DATA.getPlayer(userNameB, roomID);
+     let match = DATA.getMatch(roomID);
+     match.bank.tradeWithPlayer(playerA, playerB, trade);
+ };
 
 //spend fish tokens  + add checkers
-Commands.moveRobber = function (userName, roomID, position, newPosition) {
+Commands.moveRobber = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
-    let robber = DATA.getMatch(roomID).map.robber;
-    robber.moveTo(position,newPosition);
+    let robber = match.map.robber;
+    robber.moveTo(data.oldHexID, data.newHexID);
 };
 
-Commands.moveRobber = function (userName, roomID, position, newPosition) {
+Commands.movePirate = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
-    let pirate = DATA.getMatch(roomID).map.pirate;
-    pirate.moveTo(position,newPosition);
+    let pirate = match.map.pirate;
+    pirate.moveTo(data.oldHexID, data.newHexID);
 };
 
 /**
  * @param theif {Player}
  * @param victim {Player}
  */
-Commands.stealCard = function (thiefUserName, victimUserName, roomID) {
-    let playerA = DATA.getPlayer(thiefUserName, roomID);
-    let playerB = DATA.getPlayer(victimUserName, roomID);
+Commands.stealCard = function (userName, roomID, data) {
+    let playerA = DATA.getPlayer(data.thief, roomID);
+    let playerB = DATA.getPlayer(data.victim, roomID);
     playerB.stolenBy(playerA);
 };
 
-Commands.drawOneProgressCard = function (userName, roomID, data) {
+Commands.drawOneProgressCard = function (userName, roomID, data){
    let player = DATA.getPlayer(userName, roomID);
-   player.drawOneProgressCard(data);
+   player.drawOneProgressCard(data.progCard);
 };
 
+Commands.drawOneResourceCard = function (userName, roomID, data){
+  let player = DATA.getPlayer(userName, roomID);
+  player.drawOneResourceCard(data.resCard);
+};
 /**
  *
  * @param player {Player}
@@ -475,14 +487,52 @@ Commands.drawOneProgressCard = function (userName, roomID, data) {
 Commands.discardProgressCards = function (userName, roomID, data) {
   let player = DATA.getPlayer(userName, roomID);
   player.discardProgressCards(data);
-}
+};
 
-Commands.giveAwayBoat = function(thiefUserName, victimUserName, roomID){
-  let playerA = DATA.getPlayer(thiefUserName, roomID);
-  let playerB = DATA.getPlayer(victimUserName, roomID);
+Commands.giveAwayBoot = function(userName, roomID, data){
+  let playerA = DATA.getPlayer(data.bootHolder, roomID);
+  let playerB = DATA.getPlayer(data.transferTo, roomID);
   playerA.giveAwayBoat(playerB);
-}
+};
 
+/**
+  * @param action Enum.fishEvent
+  * @param data whatever the data is
+      cases:
+      move robber & move pirate - doesn't matter.
+      steal card - data: {Player}
+      draw one resource card - data {Enum.ResourceCard}
+      build road/ ship - data {[int, [int]}
+      draw the selected progress card - data {String}
+  * @param match {Match}
+  * @return player's current fishSum
+  */
+  Commands.buildRoadUseFish = function (userName, roomID, data) {
+      let player = DATA.getPlayer(userName, roomID);
+      let match = DATA.getMatch(roomID);
+      Building.buildRoad(player, data, match, 'road');
+  };
+
+  /**
+   * build a ship
+   * @param userName {String}
+   * @param roomID {String}
+   * @param data {[int, int]} the edge where player wants to build the ship
+   */
+  Commands.buildShipUseFish = function (userName, roomID, data) {
+      //TODO: improvement, combine buildRoad and buildShip
+      let player = DATA.getPlayer(userName, roomID);
+      let match = DATA.getMatch(roomID);
+      Building.buildRoad(player, data, match, 'ship');
+  };
+
+
+Commands.spendFishToken = function(userName, roomID, data){
+    let player = DATA.getPlayer(userName,roomID);
+    let match = DATA.getMatch(roomID);
+    console.log("here" + data.action);
+    player.spendFishToken(data.action, data.data, data.match);
+};
 
 /**
  *
@@ -492,7 +542,7 @@ Commands.giveAwayBoat = function(thiefUserName, victimUserName, roomID){
 Commands.endTurn = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     match.nextPlayerToTakeTurn();
-    notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
+    notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(getRoom(roomID)));
 };
 
 //progress card stuff will be added later..

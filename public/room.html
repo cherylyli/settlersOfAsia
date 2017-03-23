@@ -28,7 +28,7 @@
            <img src="../img/room/theme/w1.jpg">
         </div>
 
-            <div id='board' v-bind:disabled='!isMyTurn' class='box-shadow-light'>
+            <div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'>
                 <div class='map'></div>
                 <div class='dices'>
                     <div class='dice red'>
