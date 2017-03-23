@@ -9,9 +9,6 @@ let Enum = require('./Enum.js');
 let Map = require('./Map.js');
 let fishTile = {} = module.exports;
 
-let goldNumForSettlement = 2;
-let goldNumForCity = 4;
-
 FishTile.createFishTile = function (id, row, posInRow, HexType = 'FishTile', productionNums = '1', visible = true) {
     let fishTile = {};
     fishTile.productionNum = productionNums;

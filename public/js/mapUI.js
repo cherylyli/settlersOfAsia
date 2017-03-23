@@ -1,5 +1,4 @@
 let mapUI = (function () {
-    //mapUI.hexLength = null;
     let vertexRadius = 6;
     let edgeWidth = 5;
 
@@ -11,6 +10,7 @@ let mapUI = (function () {
         generateHexDivs();
         generateVertices();
         positionMap();
+        placeHarbors();
         //setUpUtils();
 
         changePlayerColors();
@@ -20,6 +20,7 @@ let mapUI = (function () {
     function resizeMap() {
         positionMap();
         placeRoadsAndShips();
+        placeHarbors();
     }
 
 // generate vertex divs without positioning
@@ -43,6 +44,9 @@ let mapUI = (function () {
 // generate hex divs without positioning
     function generateHexDivs() {
         let $map = $('.map');
+
+        $('.hex').remove();
+
         for (let hextile of DATA.getMap().hexTiles) {
             let $hex = $("<div class='hex'></div>");
 
@@ -130,14 +134,84 @@ let mapUI = (function () {
             });
         });
 
-        //mapUI.hexLength = $map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top;
+        // hexLength = $map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top;
     }
 
-    /**
-     function setUpUtils() {
-        //set up dices
-        //$('.dices').show();
-    }**/
+
+    function placeHarbors() {
+        let $map = $('.map');
+        let map = DATA.getMap();
+
+        // repaint
+        $('.harbor').remove();
+        let hexLength = Math.abs($map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top);
+
+        let harbors = map.harbors;
+
+        _.forEach(harbors, function (harbor) {
+            let $harbor = $("<div class='harbor'></div>");
+            $harbor.attr({
+                'data-id': harbor.position,
+                'data-type': harbor.type
+            });
+
+            let [hextileID, positionInHex] = map.getHexTileByEdge(harbor.position)[0];
+            let hextile = map.getHexTileById(hextileID);
+            let $hexTile = $map.find('.hex[data-id=' + hextile.id + ']');
+
+            // the center of the harbor circle
+            let centerX, centerY;
+            let top = $hexTile.position().top;
+            let left = $hexTile.position().left;
+            let right = left + 1.732 * hexLength;
+            let bottom = top + 2 * hexLength;
+            let harborRadius = hexLength * 0.6 / 2;
+            switch (positionInHex){
+                case 'TopLeft':
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'TopRight':
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'Right':
+                    centerX = right + harborRadius;
+                    centerY = top + hexLength;
+                    break;
+                case 'BottomRight':
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'BottomLeft':
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'Left':
+                    centerX = left - harborRadius;
+                    centerY = top + hexLength;
+            }
+
+            $harbor.css({
+                'width': harborRadius * 2,
+                'height': harborRadius * 2,
+                'top': centerY - harborRadius,
+                'left': centerX - harborRadius
+            });
+
+            $harbor.text(harbor.type.charAt(0));
+
+
+            $map.append($harbor);
+
+        })
+
+
+    }
+
+    function getHarborText(harbor) {
+        let type = harbor.type;
+    }
 
     // display player color in UI
     function changePlayerColors() {
@@ -262,28 +336,8 @@ let mapUI = (function () {
                     })
                 }
 
-                // $edgeUnit.find('line').addClass(edgeUnit.type + " " + edgeUnit.owner.color);
-
-
-                // $edgeUnit.svg();
-                // $edgeUnit.find('svg').line([edgeUnit.type], )
-                //svg.line(types[edgeUnit.type], $vertex1.position().left, $vertex1.position().top, $vertex2.position().left, $vertex2.position().top, {stroke: Enum.CSSColors[edgeUnit.owner.color]});
-
-                //let $svg =
-                // $vertex1.connections({
-                //     to: $vertex2,
-                //     'class': edgeUnit.type + ' ' + edgeUnit.owner.color
-                // });
             }
         }
-    }
-
-    function drawShip() {
-
-    }
-
-    function drawRoad() {
-
     }
 
 

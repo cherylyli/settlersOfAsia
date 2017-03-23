@@ -64,11 +64,26 @@
     opacity: 1;
 }
 
+#board .harbor{
+    position: absolute;
+    background: url("../img/room/finalIcons/harbor.png");
+    background-size: 100%;
+
+    text-align: center;
+    display: flex;
+    justify-content:center;
+    align-content:center;
+    flex-direction:column;
+    color: white;
+
+    z-index: 10;
+}
 
 .vertex .knight{
     border-style: solid;
     border-radius: 100%;
 }
+
 
 
 
