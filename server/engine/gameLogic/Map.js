@@ -38,8 +38,14 @@ Map.createMap = function (scenarioData) {
     map.robber = Robber.createRobber();
     map.pirate = Pirate.createPirate();
 
-    map.lakePos = null;
-    map.fishTiles = [];  // fishTile object
+
+
+    // TODO: Cheryl
+    map.lakePos = null; // lakePos is an integer, it stores the hexID of the lake tile
+    map.fishTiles = [];  // an array of fishTile object
+
+
+
     map.harbors = {};   // key: edgeKey, value: harbor
 
 

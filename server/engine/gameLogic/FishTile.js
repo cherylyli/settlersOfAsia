@@ -9,7 +9,7 @@ let Enum = require('./Enum.js');
 let Map = require('./Map.js');
 let fishTile = {} = module.exports;
 
-FishTile.createFishTile = function (id, row, posInRow, HexType = 'FishTile', productionNums = '1', visible = true) {
+FishTile.createFishTile = function (HexType = 'FishTile', productionNums = '1', visible = true) {
     let fishTile = {};
     fishTile.productionNum = productionNums;
     fishTile.vertices = {'1': null, '2': null, '3':null};
