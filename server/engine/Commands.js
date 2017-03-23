@@ -40,7 +40,7 @@ let CommandsCheck = {};
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
- Commands.makeNewRoom = function (user, roomID, savedGameID = null, scenario = null) {
+ Commands.makeNewRoom = function (user, roomID, savedGameID, scenario) {
      //let user = DATA.getUser(userName);
      //if(!user) user = User.createUser(userName);
      //make new Room
@@ -322,7 +322,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param position {int} vertex id. the position player wants to place the knight.
   * If player don't want to put the knight on board now, position is left null.
   */
- Commands.hireKnight = function (userName, roomID, position = null) {
+ Commands.hireKnight = function (userName, roomID, position) {
      let player = DATA.getPlayer(userName, roomID);
      let match = DATA.getMatch(roomID);
      Knight.hireKnight(player, match.map, position);

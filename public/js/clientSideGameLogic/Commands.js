@@ -319,11 +319,11 @@
       }
     }
 
-    CommandsData.hireKnight = function(position = null){
+    CommandsData.hireKnight = function(position){
       return {'position' : null}
     }
 
-    CommandCheck.hireKnight = function(position = null){
+    CommandCheck.hireKnight = function(position){
       if(!checkEnoughResource(Cost.basicKnights)){
         swalError2("Not enough resource to purchase a knight");
         return false;
