@@ -94,7 +94,7 @@ module.exports = function(socket, user, roomId) {
 
 
         //notify other users in the room about the new player
-        //broadcast('NEW_PLAYER_JOINED', result);
+        broadcast('NEW_PLAYER_JOINED', result);
 
         //if now we have 4 players, game start
         console.log(Object.keys(DATA.getRoom(roomId).users).length);
