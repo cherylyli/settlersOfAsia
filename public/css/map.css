@@ -1,5 +1,12 @@
 #board .map{
     position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    bottom: 10%;
+    right: 10%;
+    /*position: absolute;
     top: 20px;
     left: 20px;
     bottom: 10px;
@@ -67,6 +74,21 @@
 #board .harbor{
     position: absolute;
     background: url("../img/room/finalIcons/harbor.png");
+    background-size: 100%;
+
+    text-align: center;
+    display: flex;
+    justify-content:center;
+    align-content:center;
+    flex-direction:column;
+    color: white;
+
+    z-index: 10;
+}
+
+#board .fish-tile{
+    position: absolute;
+    background: url("../img/room/finalIcons/Fish.png");
     background-size: 100%;
 
     text-align: center;
