@@ -54,15 +54,11 @@ let CommandCheck = {};
 //TODO test barbarian applyResult + robber produce resource from bank
 
 //
-Commands.rollDice("Emol","123","");
-Commands.rollDice("Emol","123","");
-Commands.rollDice("Emol","123","");
-Commands.rollDice("Emol","123","");
-Commands.rollDice("Emol","123","");
-Commands.rollDice("Emol","123","");
-Commands.rollDice("Emol","123","");
-Commands.rollDice("Emol","123","");
-/*
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+
+Commands.rollDice("Emol","123");
+/**
 //barbarian
 console.log("dice result" + data.getMatch("123").dice.eventDie);
 data.getMatch("123").barbarian.canMove(data.getMatch("123").dice.eventDie);
@@ -72,12 +68,17 @@ console.log("barbarian curPos " + match.barbarian.getCurrentPosition());
 console.log(match.barbarian.applyResult(my.players));
 console.log(match.barbarian.getPlayerContribution());
 
-/*
 console.log(player1.resourceCardTotalNum());
 Commands.buildSettlement("Emol","123",{'position' : 4}); //hextile2
 Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
 console.log(myHex2.productionNum);
-//match.bank.allocateResources(myHex2.productionNum);
+**/
+
+
+match.bank.allocateResources(myHex2.productionNum-1, 1);
+
+
+/**
 console.log(player1.resourceCardTotalNum());
 //check map distribute resourcesAndCommodities
 

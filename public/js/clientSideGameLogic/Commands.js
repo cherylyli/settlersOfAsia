@@ -13,7 +13,7 @@
       'setDefenderOfCatan' : 'setDefenderOfCatan',
       'stealCard' :'stealCard','discardOneProgressCard' : 'discardProgressCard',
       'stealCard' :'stealCard','discardOneProgressCard' : 'discardProgressCard',
-      'drawOneResourceCard' : 'drawOneResourceCard', 'giveAwayBoot' : 'giveAwayBoot'
+      'drawOneResourceCard' : 'drawOneResourceCard', 'giveAwayBoot' : 'giveAwayBoot',
       'drawOneProgressCard' : 'drawOneProgressCard',
       'discardResourceCards' : 'discardResourceCards',
       'chaseAwayThief' : 'chaseAwayThief',
@@ -352,7 +352,7 @@
 
     CommandsData.promoteKnight = function(position){
       return {'position' : position};
-    }
+    };
 
     CommandCheck.promoteKnight = function(position){
       var knight = DATA.getMatch().map.getVertexInfo(position);
@@ -371,11 +371,11 @@
       else{
         return true;
       }
-    }
+    };
     //TODO
     CommandsData.moveKnight = function(position, newPosition){
-      return {'position' :position, 'newPosition' :newPosition }
-    }
+      return {'position' :position, 'newPosition' :newPosition };
+    };
 
     CommandCheck.moveKnight = function(position, newPosition){
       var knight = DATA.getMatch().map.getVertexInfo(position);
@@ -387,13 +387,11 @@
       else{
         return true;
       }
-      }
-
-    }
+    };
 
     CommandsData.displaceKnight = function(position, newPosition){
-      return {'position' :position, 'newPosition' :newPosition }
-    }
+      return {'position' :position, 'newPosition' :newPosition };
+    };
 
     CommandCheck.displaceKnight = function(position, newPosition){
       var knight = DATA.getMatch().map.getVertexInfo(position);

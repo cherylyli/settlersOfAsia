@@ -143,7 +143,7 @@ let CommandsCheck = {};
  Commands.rollDice = function (userName, matchID, data) {
      let match = DATA.getMatch(matchID);
      match.rollDice();
-     console.log(match.dice.configureResult(match.map));
+     console.log(match.dice.configureResult(match));
  };
 
 

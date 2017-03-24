@@ -138,8 +138,8 @@ $(window).on('imready', function(im){
                         app.barbarianResult = true;
                         var action = DATA.getMatch().barbarian.result.result;
                         swal({
-                            title: DATA.getMatch().barbarian.result.result
-                            text: Enum.BarbarianAction.action;
+                            title: DATA.getMatch().barbarian.result.result,
+                            text: Enum.BarbarianAction.action
                         });
 
                         //applyBarbarianAction(DATA.getMatch().barbarian.result.result);

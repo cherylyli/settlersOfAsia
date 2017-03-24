@@ -56,7 +56,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.rollDice = function () {
         match.dice.rollEventDice();
         match.dice.rollProductionDice();
-        match.dice.configureResult(match.map);
+        match.dice.configureResult(match);
         match.diceRolled = true;
     };
 

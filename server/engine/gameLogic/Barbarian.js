@@ -68,7 +68,7 @@ Barbarian.createBarbarian = function(){
     }
     //console.log(barbarian.playerContribution);
     return barbarian.win;
-  }
+  };
 
   barbarian.getPlayerContribution = function(){
     return barbarian.playerContribution;

@@ -13,7 +13,7 @@ body{
   position: absolute;
   width: 200px;
   height: 200px;
-  background:url("/img/room/hex.png");
+  /*background:url("/img/room/hex.png");*/
   background-size: 200px 200px;
 }
 
