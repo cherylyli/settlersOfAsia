@@ -146,11 +146,7 @@ $(window).on('imready', function(im){
                         swal({
                             title: DATA.getMatch().barbarian.result.result,
                             text: Enum.BarbarianAction.action
-                    })
-                        ;
-                            title: DATA.getMatch().barbarian.result.result,
-                            text: Enum.BarbarianAction.action
-                        });
+                    });
 
                         //applyBarbarianAction(DATA.getMatch().barbarian.result.result);
 
