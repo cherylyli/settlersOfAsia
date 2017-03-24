@@ -66,13 +66,13 @@ Dice.createDice = function () {
                 match.barbarian.getAttackResult(match.players);
                 //player is undefined : console.log(match.players);
                 match.barbarian.result = match.barbarian.applyResult(match.players);
-                result.barbarianResult = match.barbairan.result;
-                //console.log(match.barbarian.result);
+                result.barbarianResult = match.barbarian.result;
+                //console.log(match.barbarian.curPos);
+                match.barbarian.restart();
               }
               else{
                 match.barbarian.canMove(event);
                 result.event = "Barbarian Move";
-                console.log(match.barbarian.curPos);
               }
             }
             else{
