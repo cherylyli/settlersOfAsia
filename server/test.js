@@ -2,6 +2,7 @@
  * Created by emol on 2/17/17.
  */
 "use strict"
+//let fakeRoom = module.exports = {};
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
