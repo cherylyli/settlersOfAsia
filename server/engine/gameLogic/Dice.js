@@ -57,8 +57,8 @@ Dice.createDice = function () {
         if(productionNum == 7){
           result.event = "Choose Between Robber Pirate";
         }
-
-        switch (event){
+        switch("Ship"){
+        //switch (event){
           case "Ship" :
             if(match.barbarian){
               if(match.barbarian.toAttack()){

@@ -19,6 +19,7 @@ let user_D = {username :  "Yuan"};
 let userA = User.createUser(user_A);
 let userB = User.createUser(user_B);
 let userC = User.createUser(user_C);
+
 let userD = User.createUser(user_D);
 
 Commands.makeNewRoom(user_D, "123");
@@ -51,6 +52,16 @@ let CommandCheck = {};
 
 
 //TODO test barbarian applyResult + robber produce resource from bank
+
+//
+Commands.rollDice("Emol","123","");
+Commands.rollDice("Emol","123","");
+Commands.rollDice("Emol","123","");
+Commands.rollDice("Emol","123","");
+Commands.rollDice("Emol","123","");
+Commands.rollDice("Emol","123","");
+Commands.rollDice("Emol","123","");
+Commands.rollDice("Emol","123","");
 /*
 //barbarian
 console.log("dice result" + data.getMatch("123").dice.eventDie);
@@ -60,7 +71,8 @@ console.log("barbarian curPos " + match.barbarian.getCurrentPosition());
 ////console.log(match.barbarian.getAttackResult(my.players));
 console.log(match.barbarian.applyResult(my.players));
 console.log(match.barbarian.getPlayerContribution());
-*/
+
+/*
 console.log(player1.resourceCardTotalNum());
 Commands.buildSettlement("Emol","123",{'position' : 4}); //hextile2
 Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
