@@ -1,4 +1,4 @@
-let Pirate = module.exports = {};
+ let Pirate = module.exports = {};
 
 let Map = require('./Map.js');
 let HexTile = require('./HexTile.js');

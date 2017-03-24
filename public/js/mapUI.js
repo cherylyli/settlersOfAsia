@@ -1,4 +1,7 @@
 let mapUI = (function () {
+    let vertexRadius = 6;
+    let edgeWidth = 5;
+
     /**
      * populate the base map based on the map object
      */
@@ -7,10 +10,17 @@ let mapUI = (function () {
         generateHexDivs();
         generateVertices();
         positionMap();
+        placeHarbors();
         //setUpUtils();
 
         changePlayerColors();
         UIinitialized = true;
+    }
+
+    function resizeMap() {
+        positionMap();
+        placeRoadsAndShips();
+        placeHarbors();
     }
 
 // generate vertex divs without positioning
@@ -34,6 +44,9 @@ let mapUI = (function () {
 // generate hex divs without positioning
     function generateHexDivs() {
         let $map = $('.map');
+
+        $('.hex').remove();
+
         for (let hextile of DATA.getMap().hexTiles) {
             let $hex = $("<div class='hex'></div>");
 
@@ -50,6 +63,9 @@ let mapUI = (function () {
             if (hextile.productionNum) {
                 let $numToken = $("<div class='num-token'></div>");
                 $numToken.text(hextile.productionNum);
+                if (hextile.type == Enum.HexType.Lake){
+                    $numToken.css('width', 65);
+                }
                 $hex.append($numToken);
             }
 
@@ -94,7 +110,7 @@ let mapUI = (function () {
             // position vertices
             // FIXME: there are duplicate assignments here, but I am not sure how to improve
 
-            let vertexRadius = 2.5;
+            //let vertexRadius = 6;
             $map.find('.vertex[data-id=' + hex.vertices.TopLeft + ']').css({
                 'top': top + 0.25 * hexHeight - vertexRadius,
                 'left': left - vertexRadius
@@ -120,13 +136,85 @@ let mapUI = (function () {
                 'left': left + hexWidth - vertexRadius
             });
         });
+
+        // hexLength = $map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top;
     }
 
-    /**
-     function setUpUtils() {
-        //set up dices
-        //$('.dices').show();
-    }**/
+
+    function placeHarbors() {
+        let $map = $('.map');
+        let map = DATA.getMap();
+
+        // repaint
+        $('.harbor').remove();
+        let hexLength = Math.abs($map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top);
+
+        let harbors = map.harbors;
+
+        _.forEach(harbors, function (harbor) {
+            let $harbor = $("<div class='harbor'></div>");
+            $harbor.attr({
+                'data-id': harbor.position,
+                'data-type': harbor.type
+            });
+
+            let [hextileID, positionInHex] = map.getHexTileByEdge(harbor.position)[0];
+            let hextile = map.getHexTileById(hextileID);
+            let $hexTile = $map.find('.hex[data-id=' + hextile.id + ']');
+
+            // the center of the harbor circle
+            let centerX, centerY;
+            let top = $hexTile.position().top;
+            let left = $hexTile.position().left;
+            let right = left + 1.732 * hexLength;
+            let bottom = top + 2 * hexLength;
+            let harborRadius = hexLength * 0.6 / 2;
+            switch (positionInHex){
+                case 'TopLeft':
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'TopRight':
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'Right':
+                    centerX = right + harborRadius;
+                    centerY = top + hexLength;
+                    break;
+                case 'BottomRight':
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'BottomLeft':
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
+                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    break;
+                case 'Left':
+                    centerX = left - harborRadius;
+                    centerY = top + hexLength;
+            }
+
+            $harbor.css({
+                'width': harborRadius * 2,
+                'height': harborRadius * 2,
+                'top': centerY - harborRadius,
+                'left': centerX - harborRadius
+            });
+
+            $harbor.text(harbor.type.charAt(0));
+
+
+            $map.append($harbor);
+
+        })
+
+
+    }
+
+    function getHarborText(harbor) {
+        let type = harbor.type;
+    }
 
     // display player color in UI
     function changePlayerColors() {
@@ -140,10 +228,12 @@ let mapUI = (function () {
         }
     }
 
-
-    // add settlement or city to map UI
-    function addSettlementsOrCities() {
+    function addVertexUnit() {
         let $map = $('.map');
+        // repaint preparation
+        $map.find(".vertex-unit").remove();
+
+
         _.forEach(DATA.getMap().vertexInfo, function (vertexUnit) {
             // TODO: change this later for knight, use vertexUnit
 
@@ -151,7 +241,7 @@ let mapUI = (function () {
                 Building.addHelperFunctions(vertexUnit);
 
                 let $vertex = $map.find('.vertex[data-id=' + vertexUnit.position + ']');
-                let backgroundPic = "../img/room/boardIcons/" + vertexUnit.getUIType() + ".png";
+                let backgroundPic = "../img/room/finalIcons/" + VertexUnit.getUIType(vertexUnit) + ".png";
                 let $vertexUnit = $("<div class='vertex-unit'></div>");
 
                 /**
@@ -167,68 +257,100 @@ let mapUI = (function () {
                     'background-size': '100%',
                 });
 
+                if (VertexUnit.isKnight(vertexUnit)) {
+                    setUpKnight(vertexUnit, $vertexUnit);
+                }
+
                 $vertex.append($vertexUnit);
 
             }
         });
-
     }
 
 
+    /**
+     *
+     * @param knight {VertexUnit} knight object
+     * @param $vertexUnit
+     */
+    function setUpKnight(knight, $vertexUnit) {
+        $vertexUnit.addClass('knight');
+        if (!knight.active) $vertexUnit.css('opacity', 0.4);
+        $vertexUnit.css({
+            'border-width': (knight.level - 1) * 3,
+            'border-color': '#6a6b93',
+        })
+    }
+
     function placeRoadsAndShips() {
         let $map = $('.map');
-        //$map.svg();
-        //let svg = $map.svg('get');
+        // repaint preparation
+        $map.find(".edge-unit").remove();
 
-        let ship = svg.group({
-            strokeWidth: 20,
-            strokeLinecap: 'round',
-            strokeDasharray: '1, 30'
-        });
-        let road = svg.group({
-            strokeWidth: 20,
-        });
-
-        let types = {'road': road, 'ship': ship};
 
         let edgeInfo = DATA.getMap().edgeInfo;
         for (let edgeKey in edgeInfo) {
             if (edgeInfo.hasOwnProperty(edgeKey)) {
                 if (!edgeInfo[edgeKey]) continue;
-
                 let [vertex1, vertex2] =  Map.getEdgeByEdgeKey(edgeKey);
+                let $edgeUnit = $("<div class='edge-unit'></div>");
                 let edgeUnit = edgeInfo[edgeKey];
-                /**let $edgeUnit = $("<div class='edge-unit'></div>");**/
-                // $edgeUnit.attr("data-id", edgeKey);
+
+                $map.append($edgeUnit);
                 $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
                 $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
 
-                // $edgeUnit.svg();
-                // $edgeUnit.find('svg').line([edgeUnit.type], )
-                //svg.line(types[edgeUnit.type], $vertex1.position().left, $vertex1.position().top, $vertex2.position().left, $vertex2.position().top, {stroke: Enum.CSSColors[edgeUnit.owner.color]});
+                let divLeft = $vertex1.position().left < $vertex2.position().left ? $vertex1.position().left : $vertex2.position().left;
+                let divTop = $vertex1.position().top < $vertex2.position().top ? $vertex1.position().top : $vertex2.position().top;
 
-                //let $svg =
-                // $vertex1.connections({
-                //     to: $vertex2,
-                //     'class': edgeUnit.type + ' ' + edgeUnit.owner.color
-                // });
+                $edgeUnit.attr({
+                    'id': edgeKey,
+                    'data-type': edgeUnit.type,
+                    // 'left': divLeft,
+                    // 'top': divTop,
+                });
+
+                let width = Math.abs($vertex1.position().left - $vertex2.position().left);
+
+                $edgeUnit.css({
+                    'left': width > 0 ? divLeft + vertexRadius : divLeft + vertexRadius - edgeWidth / 2,
+                    'top': divTop + vertexRadius,
+                    'width': width > 0 ? width : 10,
+                    'height': Math.abs($vertex1.position().top - $vertex2.position().top),
+                    'position': 'absolute',
+                    'z-index': 1
+                });
+
+                let draw = SVG(edgeKey);
+                let x1 = width > 0 ? $vertex1.position().left - divLeft : $vertex1.position().left - divLeft + edgeWidth / 2;
+                let y1 = $vertex1.position().top - divTop;
+                let x2 = width > 0 ? $vertex2.position().left - divLeft : $vertex2.position().left - divLeft + edgeWidth / 2;
+                let y2 = $vertex2.position().top - divTop;
+                let line = draw.line(x1, y1, x2, y2).stroke({
+                    width: edgeWidth,
+                    color: Enum.CSSColors[edgeUnit.owner.color]
+
+                });
+
+                if (edgeUnit.type == "ship") {
+                    line.attr({
+                        'stroke-linecap': 'round',
+                        'stroke-dasharray': '1, 7'
+                    })
+                }
+
             }
         }
     }
-/**
-    function drawEdgeUnit(svg,type, x1, y1, x2, y2, color) {
-        svg.line(svg, )
-    }
-**/
 
-        // public methods
-        return {
-            initializeGame,
-            positionMap,
-            addSettlementsOrCities,
-            placeRoadsAndShips
-        }
 
+    // public methods
+    return {
+        initializeGame,
+        positionMap,
+        placeRoadsAndShips,
+        resizeMap,
+        addVertexUnit
     }
 
-    )();
+})();

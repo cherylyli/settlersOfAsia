@@ -7,15 +7,21 @@
 let _ = require('underscore');
 let Enum = require('./Enum.js');
 let Map = require('./Map.js');
-let fishTile = {} = module.exports;
+let FishTile = module.exports = {};
 
-let goldNumForSettlement = 2;
-let goldNumForCity = 4;
-
-FishTile.createFishTile = function (id, row, posInRow, HexType = 'FishTile', productionNums = '1', visible = true) {
+/**
+ *
+ * @param position an array of 3 integers
+ * @param productionNums
+ * @param visible
+ * @return {{}}
+ */
+FishTile.createFishTile = function (id, position, productionNums = '1', visible = true) {
     let fishTile = {};
+    fishTile.id = id;
+    fishTile.type = 'FishTile';
     fishTile.productionNum = productionNums;
-    fishTile.vertices = {'1': null, '2': null, '3':null};
+    fishTile.vertices = {'1': position[0], '2': position[1], '3': position[2]};
     fishTile.getVertices = function () {
         return fishTile.vertices;
     };

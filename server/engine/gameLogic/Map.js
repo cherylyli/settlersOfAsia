@@ -14,6 +14,7 @@ let Scenario = require('./Scenario.js');
 let Harbor = require('./Harbor.js');
 let Robber = require('./Robber.js');
 let Pirate = require('./Pirate.js');
+let FishTile = require('./FishTile.js');
 let Map = {} = module.exports;
 
 
@@ -39,7 +40,7 @@ Map.createMap = function (scenarioData) {
     map.pirate = Pirate.createPirate();
 
     map.lakePos = null;
-    map.fishTiles = [];  // fishTile object
+    map.fishTiles = {};  // key: id, value: fishTile object
     map.harbors = {};   // key: edgeKey, value: harbor
 
 
@@ -104,7 +105,8 @@ Map.createMap = function (scenarioData) {
      * @returns {*} hexTile
      */
     map.getHexTileById = function(hexTileId){
-        if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
+        //if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
+        if (!_.isNumber(hexTileId)) return map.fishTiles[hexTileId];   // fish hex
         return map.hexTiles[hexTileId - 1];
     };
 
@@ -176,6 +178,23 @@ Map.setUpHarbors = function (map, harborPositions, harborTypesData) {
         let harborType = PickRandomItem(harborTypes);
         map.harbors[Map.edgeKey(edge)] = Harbor.createHarbor(edge, harborType);
     }
+};
+
+
+Map.setUpFishTiles = function (map, fishTilePositions, fishTileNumTokens) {
+    let fishTiles = [];
+    // create fishTiles
+    for (let i = 1; i < fishTilePositions.length; i++){
+        //  id : f1, f2, etc...
+        let fishTile = FishTile.createFishTile( 'f' + i, fishTilePositions[i]);
+        map.fishTiles[fishTile.id] =  fishTile;
+        fishTiles.push(fishTile.id);
+    }
+
+    let [result6And8, resultN] = readNumTokenMapInputToGenStrList(_.clone(fishTileNumTokens));
+
+    setHexTilesRandomNumToken(map, fishTiles, result6And8, false);
+    setHexTilesRandomNumToken(map, fishTiles, resultN, false);
 };
 
 /**
@@ -377,15 +396,20 @@ function updateVerticesToHex(map, hexTile){
  */
 function setHexTilesRandomType(map, hexTiles, types){
     if (hexTiles.length != types.length) throw "HexTile number should be equal to HexType numbers";
+
     let hexTile = null;
     let type = null;
     let landTiles = [];
     while(hexTiles.length > 0){
         hexTile = map.hexTiles[PickRandomItem(hexTiles) - 1];
         type = PickRandomItem(types);
+
         //console.log(HexType[type]);
         if (Enum.HexType[type]){
-            hexTile.type = Enum.HexType[type];
+            if (type == Enum.HexType['Lake']){
+                HexTile.setLakeTile(hexTile);
+            }
+            else hexTile.type = Enum.HexType[type];
             //if land tile, add to landTiles (because number token can only be placed on land
             if (hexTile.type !== Enum.HexType.Sea) landTiles.push(hexTile.id);
         }
@@ -418,11 +442,14 @@ function setHexTilesFixedType(map, hexTiles, type){
  */
 
 function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
-
+    if (numTokens.length == 0)
+        return;
     let hexId = null;
     let token = null;
     //we first assign 6, 8 so the hexTiles.length > numTokens.length (which only contains 6 & 8)
-    while(numTokens.length > 0){
+    while(numTokens.length >= 0){
+        if (!token && numTokens.length == 0) return;
+
         hexId = PickRandomItem(hexTiles);
         if (!token) token = PickRandomItem(numTokens);
         let canPut = true;
@@ -456,7 +483,8 @@ function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
  * @param hexId hexTileId
  */
 function putNumTokenOnHexTile(map, numToken, hexId){
-    let hexTile = map.hexTiles[hexId - 1];
+
+    let hexTile = map.getHexTileById(hexId);
     hexTile.productionNum = numToken;
     map.numTokenToHexTiles[numToken].push(hexId);
 }
@@ -466,6 +494,7 @@ function putNumTokenOnHexTile(map, numToken, hexId){
 function setUpPartMap(map, tilesData, typeData, numsData){
     let landTiles = setHexTilesRandomType(map, _.clone(tilesData), readMapInputToGenStrList(typeData));
     let [result6And8, resultN] = readNumTokenMapInputToGenStrList(_.clone(numsData));
+    if (!result6And8) return;   // for lake, don't set number token
     setHexTilesRandomNumToken(map, landTiles, result6And8, true);
     setHexTilesRandomNumToken(map, landTiles, resultN, false);
     //bank should have a copy of numberTokenToTile mapping list
@@ -539,6 +568,7 @@ function readMapInputToGenStrList(data) {
 }
 
 function readNumTokenMapInputToGenStrList(data) {
+    if (!data) return [null, null];
     let keys = Object.keys(data);
     let resultN = [];
     let result6And8 = [];
@@ -553,4 +583,6 @@ function readNumTokenMapInputToGenStrList(data) {
     }
     return [result6And8, resultN];
 }
+
+
 Map.setUpPartMap = setUpPartMap;
