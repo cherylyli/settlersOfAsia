@@ -37,7 +37,7 @@ Commands.buildSettlement("Yuan", "123", {'position': 3});
 Commands.hireKnight("Emol","123",7);
 Commands.activateKnight("Emol","123",7);
 Commands.hireKnight("Max","123",7);
-Commands.activateKnight("Max","123",7);
+//Commands.activateKnight("Max","123",7);
 
 let my = data.getMatch("123").map;
 let map = data.getMatch("123").map;
@@ -48,36 +48,6 @@ let player1 = data.getMatch("123").getPlayer("Emol");
 let player2 = data.getMatch("123").getPlayer("Yuan");
 let players = data.getMatch("123").players;
 let CommandCheck = {};
-Commands.drawOneProgressCard("Emol","123",{'progCard' : "a"});
-Commands.drawOneProgressCard("Emol","123",{'progCard' : "b"});
-Commands.drawOneProgressCard("Yuan","123",{'progCard' : "c"});
-
-/*
-CommandCheck.discardProgressCards = function(progCard){
-  let player = player1;
-  if(player.progressCardsCnt < 1){
-    console.log("Player doesn't have enough progress cards");
-    return false;
-  }
-  var found = 0;
-  for(var i = 0; i < player.progressCardsCnt; i++){
-    found = player.progressCards.indexOf(progCard);
-    console.log(found);
-  }
-  if(found > 0){
-    return true;
-  }
-  else{
-    console.log("Card not found!");
-    return false;
-  }
-}
-
-console.log(
-  CommandCheck.discardProgressCards("a")
-
-);
-
 
 
 //TODO test barbarian applyResult + robber produce resource from bank
@@ -91,6 +61,45 @@ console.log("barbarian curPos " + match.barbarian.getCurrentPosition());
 console.log(match.barbarian.applyResult(my.players));
 console.log(match.barbarian.getPlayerContribution());
 */
+console.log(player1.resourceCardTotalNum());
+Commands.buildSettlement("Emol","123",{'position' : 4}); //hextile2
+Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
+console.log(myHex2.productionNum);
+//match.bank.allocateResources(myHex2.productionNum);
+console.log(player1.resourceCardTotalNum());
+//check map distribute resourcesAndCommodities
+
+
+/*
+CommandCheck.moveRobber = function(oldHexID,newHexID){
+}
+console.log(
+  CommandCheck.moveRobber(2,1)
+);
+*/
+/*
+player1.drawRandomFishNoBoot();
+player1.drawRandomFishNoBoot();
+player1.drawRandomFishNoBoot();
+player1.drawRandomFishNoBoot();
+player1.drawRandomFishNoBoot();
+player1.drawRandomFishNoBoot();
+console.log(player1.getFishSum());
+console.log("fish sum " + player1.getFishSum());
+
+//test these commands - work :)
+//console.log("random fish: " + player1.drawRandomFish());
+//console.log("random fish no boot: " + player1.drawRandomFishNoBoot());
+Commands.drawOneProgressCard("Emol","123",{'progCard' : "HELLO"});
+
+console.log(player1.progressCards);
+//Commands.spendFishToken("Emol","123",{'action' : Enum.fishEvent.MOVE_ROBBER, 'oldHexID' : 1, 'newHexID' : 2});
+Commands.spendFishToken("Emol","123",{'action' : Enum.fishEvent.BUILD_ROAD, 'data' : [39,40]});
+console.log(player1.progressCards);
+console.log(player1.roads);
+*/
+
+
 
 //robber
 //move test - working

@@ -27,7 +27,7 @@ Robber.createRobber = function(){
       to.blockedByRobber = true;
       robber.pos = to;
       robber.move = false;
-      return {'curPos' : robber.pos, 'discardHalf' : robber.discardHalf(match.players), 'stealFrom' : robber.stealFrom(to,match.map)};
+      return {'curPos' : robber.pos, 'discardHalf' : robber.hasToDiscardCards(match.players), 'stealFrom' : robber.stealFrom(to,match.map)};
     }
 
     robber.pos = to;
