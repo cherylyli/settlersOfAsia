@@ -66,6 +66,8 @@ Dice.createDice = function () {
                 match.barbarian.getAttackResult(match.players);
                 //player is undefined : console.log(match.players);
                 match.barbarian.result = match.barbarian.applyResult(match.players);
+                result.barbarianResult = match.barbairan.result;
+                //console.log(match.barbarian.result);
               }
               else{
                 match.barbarian.canMove(event);
