@@ -10,6 +10,8 @@ Dice.createDice = function () {
     dice.yellowDie = 6;
     dice.redDie = 6;
     dice.productionDiceSet = false;
+    dice.eventDieResult = null;
+    dice.numberDiceResult = dice.yellowDie + dice.redDie;
 
     dice.rollEventDice = function () {
 
@@ -44,6 +46,9 @@ Dice.createDice = function () {
         dice.productionDiceSet = true;
     };
 
+
+
+
     dice.configureResult = function (match) {
         //TODO: event die
         /*TODO: add Enum for eventDie result
@@ -57,7 +62,6 @@ Dice.createDice = function () {
         if(productionNum == 7){
           result.event = "Choose Between Robber Pirate";
         }
-        // switch("Ship"){
         switch (event){
           case "Ship" :
             if(match.barbarian){
@@ -81,7 +85,10 @@ Dice.createDice = function () {
 
             //active barbarian
             break;
-          case "BlueCityGate" :
+            case "BlueCityGate" :
+
+              // TODO: Max / Cheryl
+                // result = blablabla
             break;
           case "YellowCityGate" :
             break;
@@ -91,6 +98,12 @@ Dice.createDice = function () {
             console.log("Error");
         }
 
+        dice.eventDieResult = result;
+
+
+
+
+        // configure number dice result
         if(match.map){
           let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
           for (let id of hexTileIDs){
@@ -99,7 +112,7 @@ Dice.createDice = function () {
             }
           }
         }
-        return result;
+
     };
 
     return dice;

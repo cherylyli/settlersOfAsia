@@ -10,13 +10,14 @@ Robber.createRobber = function(){
   robber.pos = 0;
   robber.move = false;
 
+
   robber.canMove = function(productionNum){
     if (productionNum == 7){
       robber.move = true;
       //player.rolledSeven = true;
     }
     return robber.move;
-  }
+  };
 
   //from, to - 2 land hextiles
   robber.moveTo = function(from,to,match){
@@ -34,7 +35,7 @@ Robber.createRobber = function(){
     robber.move = false;
     //player.rolledSeven = false;
     return  {'curPos' : robber.pos,'discardHalf': null, 'stealFrom' : null};
-  }
+  };
 
   //@return {playerName {String} : number of cards that need to be discarded: {Int}}
   robber.hasToDiscardCards = function(players){

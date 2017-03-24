@@ -129,38 +129,7 @@ $(window).on('imready', function(im){
                         swal.close();
                     }
                 })
-        }, 3000);
-
-
-        // if barbarian attacks
-        if (DATA.getMatch().barbarian.result) {
-            // apply result
-            setTimeout(function () {
-                swal({
-                    title: "Barbarian Attack",
-                    text: "Everybody fights!!!"
-                }, function () {
-                    if (_.contains(DATA.getMatch().barbarian.result.toPlayers, DATA.getMyPlayer().name)) {
-                        app.barbarianResult = true;
-                        var action = DATA.getMatch().barbarian.result.result;
-                        swal({
-                            title: DATA.getMatch().barbarian.result.result,
-                            text: Enum.BarbarianAction.action
-                    });
-
-                        //applyBarbarianAction(DATA.getMatch().barbarian.result.result);
-
-                    }
-                    else {
-                        swal({
-                            title: DATA.getMatch().barbarian.result.result
-                        });
-                    }
-                })
-
-            }, 4000);
-        }
-
+        }, 2000);
     });
 
     /**
