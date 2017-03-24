@@ -2,27 +2,33 @@
     let Commands = {};
     let CommandsData = {};
     let CommandName = {
-      //old ones
+      //old ones TODO test citywall, buy improvement, move ship
       'rollDice' : 'rollDice', 'buildSettlement': 'buildSettlement', 'upgradeToCity': 'upgradeToCity',
       'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn',
       'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement',
       'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank',
-/*
-done testing: drawOneResourceCard, drawOneProgressCard
-*/
-      //need to test.
+      /*
+      done testing:
+      */
       'setDefenderOfCatan' : 'setDefenderOfCatan',
+      'stealCard' :'stealCard','discardOneProgressCard' : 'discardProgressCard',
+      'stealCard' :'stealCard','discardOneProgressCard' : 'discardProgressCard',
+      'drawOneResourceCard' : 'drawOneResourceCard', 'giveAwayBoot' : 'giveAwayBoot'
+      'drawOneProgressCard' : 'drawOneProgressCard',
+      'discardResourceCards' : 'discardResourceCards',
+      'chaseAwayThief' : 'chaseAwayThief',
+      'hireKnight' : 'hireKnight', 'activateKnight' : 'activateKnight', 'promoteKnight' : 'promoteKnight',
+      'moveKnight' : 'moveKnight',
+
+      //need to test.
+      'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement',
+      'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank',
       'addMetropolis' : 'addMetropolis',
       'chooseCityToBePillaged' : 'chooseCityToBePillaged',
       'moveRobber' : 'moveRobber' , 'movePirate' : 'movePirate',
-      'stealCard' :'stealCard','discardProgressCards' : 'discardProgressCards',
-      'giveAwayBoot' : 'giveAwayBoot',
-      'drawOneResourceCard' : 'drawOneResourceCard', 'spendFishToken' : 'spendFishToken',
+      'spendFishToken' : 'spendFishToken',
       'buildRoadUseFish' : 'buildRoadUseFish', 'buildShipUseFish' : 'buildShipUseFish',
-      'hireKnight' : 'hireKnight', 'activateKnight' : 'activateKnight', 'promoteKnight' : 'promoteKnight',
-      'moveKnight' : 'moveKnight','chaseAwayThief' : 'chaseAwayThief',
-      'discardResourceCards' : 'discardResourceCards',
-      'drawOneProgressCard' : 'drawOneProgressCard',
+
 
       //TODO:
       'displaceKnight' : 'displaceKnight',
@@ -119,6 +125,7 @@ done testing: drawOneResourceCard, drawOneProgressCard
       return {'oldHexID' : oldPosition, 'newHexID' : newPostion};
     }
 
+    //consider different cases: move off board, move from a to b, move from null to b
     CommandCheck.moveRobber = function(oldHexID,newHexID){
       var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
       var newHex = DATA.getMatch().map.getHexTileById(newHexID);
@@ -128,7 +135,7 @@ done testing: drawOneResourceCard, drawOneProgressCard
         }
       }
       else{
-        swalError2("Invalid Position. Please select a landTile to perform such action.")
+        swalError2("Invalid Position. Please select a landTile to perform such action.");
         return false;
       }
     }
@@ -141,6 +148,8 @@ done testing: drawOneResourceCard, drawOneProgressCard
      * moveRobber
      * @return true/false
      */
+
+    //consider different cases: move off board, move from a to b, move from null to b
     CommandCheck.movePirate = function(oldHexID,newHexID){
       var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
       var newHex = DATA.getMatch().map.getHexTileById(newHexID);
@@ -150,7 +159,7 @@ done testing: drawOneResourceCard, drawOneProgressCard
         }
       }
       else{
-        swalError2("Invalid Position. Please select a seaTile.")
+        swalError2("Invalid Position. Please select a seaTile.");
         return false;
       }
     }
@@ -216,27 +225,22 @@ done testing: drawOneResourceCard, drawOneProgressCard
     }
 
 
-    CommandsData.discardProgressCards = function(progCard){
+    CommandsData.discardOneProgressCard = function(progCard){
       return progCard;
     }
 
-    CommandCheck.discardProgressCards = function(progCard){
+    CommandCheck.discardOneProgressCard = function(progCard){
       let player = DATA.getMyPlayer();
       if(player.progressCardsCnt < 1){
-        swalError2("Player doesn't have enough progress cards");
+        console.log("Player doesn't have enough progress cards");
         return false;
       }
-      var found = 0;
       for(var i = 0; i < player.progressCardsCnt; i++){
-        found = player.progressCards.indexOf(progCard[i]);
+        if (progCard == player.progressCards[i])
+          return true;
       }
-      if(found > 0){
-        return true;
-      }
-      else{
-        swalError2("Card not found!");
-        return false;
-      }
+      swalError2("Card not found!");
+      return false;
     }
 
     CommandsData.giveAwayBoot = function(bootHolder, transferTo){
@@ -252,11 +256,11 @@ done testing: drawOneResourceCard, drawOneProgressCard
           return true;
         }
         else{
-          swalError2("Transfer boot failed because selected player doesn't have enough vp.")
+          swalError2("Transfer boot failed because selected player doesn't have enough vp.");
         }
       }
       else{
-        swalError2("Transfer boot failed.")
+        swalError2("Transfer boot failed.");
       }
     }
 
@@ -332,6 +336,11 @@ done testing: drawOneResourceCard, drawOneProgressCard
     }
 
     CommandCheck.activateKnight = function(position){
+      var knight = DATA.getMatch().map.getVertexInfo(position);
+      if(knight.active){
+        swalError2("Knight has already been activated");
+        return false;
+      }
       if(!checkEnoughResource(Cost.activateKnight)){
         swalError2("Not enough resource to activate a knight");
         return false;
@@ -346,6 +355,15 @@ done testing: drawOneResourceCard, drawOneProgressCard
     }
 
     CommandCheck.promoteKnight = function(position){
+      var knight = DATA.getMatch().map.getVertexInfo(position);
+      if(knight.hasBeenPromotedThisTurn){
+        swalError2("Knight has already been promoted");
+        return false;
+      }
+      if(knight.level == 3){
+        swalError2("You've got the strongest knight already.");
+        return false;
+      }
       if(!checkEnoughResource(Cost.promoteKnight)){
         swalError2("Not enough resource to promote a knight");
         return false;
@@ -383,50 +401,53 @@ done testing: drawOneResourceCard, drawOneProgressCard
 
     }
 
-    CommandsData.chaseAwayThief = function(position, thiefPosition, newPosition){
-      return {'position': position, 'thiefPosition' : thiefPosition, 'newPosition' : newPosition}
+    CommandsData.chaseAwayThief = function(position, thiefHexID, newPosition){
+      return {'position': position, 'thiefHexID' : thiefHexID, 'newPosition' : newPosition}
     }
     //pos, theifpos, new pos : hextile ID
-    CommandCheck.chaseAwayThief = function(position, thiefPosition, newPosition){
+    CommandCheck.chaseAwayThief = function(position, thiefHexID, newPosition){
       var knight = DATA.getMatch().map.getVertexInfo(position);
+      var thiefHex = DATA.getMatch().map.getHexTileById(thiefHexID);
+      if(!thiefHex.blockedByRobber){
+        swalError2("No robber on the hextile");
+        return false;
+      }
       if(!knight.active){
         swalError2("This knight is not active!");
         return false;
       }
       return true;
     }
-//num : {player.name : {Int} # of cards that need to be discarded}
+//num : total number of cards to be discarded
+//cards: {Enum.Resourca.card : # of this type to be discarded}
     CommandsData.discardResourceCards = function(cards, num){
       return {'cards' : cards, 'num' : num}
     }
 
     CommandCheck.discardResourceCards = function(cards, num){
-      var player = DATA.getMyPlayer();
-      var totalNum;
-      for(var i in num){
-        if(player.name == num[i].hasOwnProperty(player.name)){
-          let found = num[i];
-          totalNum = found[player.name];
-        }
+      var player = player1
+      var size = 0;
+      for(var i in cards){
+        size += cards[i];
       }
-      if(cards.length != totalNum){
-        swallError2("You need to discard " + totalNum + "cards!");
+      if(size != num){
+        swallError2("You need to discard " + num + " card(s)!");
         return false;
       }
       var counter = 0;
       for (var card in player.resourcesAndCommodities){
         for(var discard in cards){
-          if(card == discard && player.resourcesAndCommodities[card] >= cards[discard] ){
-            //true
+          if(card === discard){
+            if(player.resourcesAndCommodities[card] >= cards[discard])
+              counter = 1;
           }
-          counter++;
         }
       }
-      if(counter > 0){
-        return false;
-        swalError2("Not enough resource!");
+      if(counter){
+        return true;
       }
-      return true;
+      return false;
+      swallError2("Not enough resource!");
     }
 
     CommandsData.requestTrade = function(offer, request){
