@@ -162,7 +162,7 @@ let CommandsCheck = {};
          //collect resource immediately
          let hexIDs = map.getHexTileArrayByVertex(position);
          for (let id of hexIDs){
-             map.getHexTileById(id).produceResourceToSingleUser(map, player, building);
+             map.getHexTileById(id).produceResourceToSingleUser(match, player, building);
          }
      }
      if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');

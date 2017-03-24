@@ -56,6 +56,26 @@ let CommandCheck = {};
 //
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");
 
 Commands.rollDice("Emol","123");
 /**

@@ -27,10 +27,12 @@ Bank.createBank = function (match) {
   //    console.log("hextile" + bank.match.map.getHexTileByNumToken(y));
     //    let hexTileIDs = bank.match.map.getHexTileByNumToken(y);
         let hexTileIDs = bank.match.map.getHexTileByNumToken(yellowDie + redDie);
-        for (let id in hexTileIDs) {
+        for (let id of hexTileIDs) {
             let hextile = bank.match.map.getHexTileById(id);
-            if (!hextile.blockedByRobber){
-                hextile.produceResource();
+
+            // TODO: include lake and fishTiles
+            if (hextile.hasOwnProperty('blockedByRobber') && !hextile.blockedByRobber){
+                hextile.produceResource(bank.match);
             }
         }
     };
