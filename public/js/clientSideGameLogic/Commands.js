@@ -527,7 +527,6 @@ CommandReceived.rollDice = function () {
     // if barbarian attacks
     if (DATA.getMatch().barbarian.result) {
         // apply result
-        setTimeout(function () {
             swal({
                 title: "Barbarian Attack",
                 text: "Everybody fights!!!"
@@ -550,7 +549,6 @@ CommandReceived.rollDice = function () {
                 }
             })
 
-        }, 3500);
     }
 
     // if progress card
@@ -575,7 +573,7 @@ CommandReceived.rollDice = function () {
                 // TODO: enable robber and pirate icon
 
                 })
-        }, 3500);
+        }, 2000);
     }
 
 };
