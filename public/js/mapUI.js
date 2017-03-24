@@ -84,13 +84,20 @@ let mapUI = (function () {
 
     }
 
-
-    function positionMap() {
+    function calculateHexSize() {
         let $map = $('.map');
         // calculate hexTile height
         let hexHeight = ($map.height()) / (DATA.getMap().row.length * 0.75 + 0.75);
         let hexWidth = 0.866 * hexHeight;
         // hexagon height to width ratio: 2 : 3^(1/2)
+        let hexEdgeLength = hexHeight / 2;
+        return [hexHeight, hexWidth, hexEdgeLength];
+    }
+
+
+    function positionMap() {
+        let $map = $('.map');
+        let [hexHeight, hexWidth, hexEdgeLength] = calculateHexSize();
 
         let map = DATA.getMap();
         $('.hex').each(function () {
@@ -147,7 +154,7 @@ let mapUI = (function () {
 
         // repaint
         $('.harbor').remove();
-        let hexLength = Math.abs($map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top);
+        let [hexHeight, hexWidth, hexEdgeLength] = calculateHexSize();
 
         let harbors = map.harbors;
 
@@ -166,33 +173,33 @@ let mapUI = (function () {
             let centerX, centerY;
             let top = $hexTile.position().top;
             let left = $hexTile.position().left;
-            let right = left + 1.732 * hexLength;
-            let bottom = top + 2 * hexLength;
-            let harborRadius = hexLength * 0.6 / 2;
+            let right = left + 1.732 * hexEdgeLength;
+            let bottom = top + 2 * hexEdgeLength;
+            let harborRadius = hexEdgeLength * 0.6 / 2;
             switch (positionInHex){
                 case 'TopLeft':
-                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = top - 0.5 * hexEdgeLength + 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'TopRight':
-                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = top - 0.5 * hexEdgeLength + 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'Right':
                     centerX = right + harborRadius;
-                    centerY = top + hexLength;
+                    centerY = top + hexEdgeLength;
                     break;
                 case 'BottomRight':
-                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = bottom + 0.5 * hexEdgeLength - 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'BottomLeft':
-                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = bottom + 0.5 * hexEdgeLength - 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'Left':
                     centerX = left - harborRadius;
-                    centerY = top + hexLength;
+                    centerY = top + hexEdgeLength;
             }
 
             $harbor.css({
