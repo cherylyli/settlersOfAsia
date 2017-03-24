@@ -7,7 +7,9 @@
       'buildEstablishment': 'buildEstablishment', 'buildRoad': 'buildRoad', 'buildShip': 'buildShip', 'endTurn': 'endTurn',
       'buildCityWall': 'buildCityWall', 'buyCityImprovement': 'buyCityImprovement',
       'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank',
-
+/*
+done testing: drawOneResourceCard, drawOneProgressCard
+*/
       //need to test.
       'setDefenderOfCatan' : 'setDefenderOfCatan',
       'addMetropolis' : 'addMetropolis',
@@ -168,44 +170,35 @@
         return true;
       }
     }
-
+    //input : String
     CommandsData.drawOneProgressCard = function (progCard){
       return {'progCard' : progCard} ;
     }
 
-    //TODO milestone 5 constraint : progress card part !!!!
-    //Do we need to respect the total number and type of progress cards in the game? YES
     CommandCheck.drawOneProgressCard = function(progCard){
-      if(progCard.length > 1){
-        swalError2("Player can only draw one progress card");
-        return false;
-      }
-      currentProgCards = [];
+      var progCardList = [];
       var players = DATA.getMatch().players;
       for(var i in players){
+        //console.log(players[i].progressCards);
         progCardList.push(players[i].progressCards);
       }
 
-      //TODO
-      var intersection = _.intersection(progCardList, progCard);
-
-      if(intersection.length > 0){
-        swalError2("This progress card has been distributed to someone else");
-        return false;
+      for(var i in progCardList){
+        var intersection = _.contains(progCardList[i],progCard);
+        if(intersection){
+          console.log("This progress card has been distributed to someone else");
+          return false;
+        }
       }
       return true;
-
     }
 
+    //input string
     CommandsData.drawOneResourceCard = function(resCard){
       return {'resCard' : resCard};
     }
 
     CommandCheck.drawOneResourceCard = function(resCard){
-      if(resCard.length > 1){
-        swalError2("Player can only draw one resource card");
-        return false;
-      }
       var res = ['Grain','Lumber','Wool','Brick','Ore'];
       var found = 0;
       for(var i in res){
@@ -233,8 +226,9 @@
         swalError2("Player doesn't have enough progress cards");
         return false;
       }
+      var found = 0;
       for(var i = 0; i < player.progressCardsCnt; i++){
-        var found = player.progressCards.indexOf(cards[i]);
+        found = player.progressCards.indexOf(progCard[i]);
       }
       if(found > 0){
         return true;
