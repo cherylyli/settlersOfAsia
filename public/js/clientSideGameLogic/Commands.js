@@ -1192,7 +1192,7 @@ _.each(CommandName, function (cmd) {
         if (app.barbarianResult && (!app.isMyTurn || app.isMyTurn)) {
             switch (DATA.getMatch().barbarianResult.result) {
                 case "CATAN_WIN_TIE" :
-                    console.log("tieeeeee");
+                    //console.log("tieeeeee");
                     if (cmd != "drawOneProgressCard") {
                         swalError2("You can get one progress card for free");
                         return;
@@ -1239,7 +1239,9 @@ _.each(CommandName, function (cmd) {
 */
 //TODO fix this
         if(DATA.getMatch().diceRolled && app.rolledSeven && app.isMyTurn){
+
             console.log("cmd is " + cmd);
+            //error All Commands become undefined after this line. 
             //even if cmd == moveRobber  the command is undified.
             /*
           if(cmd != "moveRobber" || cmd != "movePirate"){
