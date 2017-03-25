@@ -442,7 +442,21 @@ Player.createPlayer = function (name, user) {
     //player.ships = [[1,5]]
     //if there is settlement at vertex 1: longest road is [1,5]-[1,2]-[2,3]-[3,4] (4); if not then [1,5] is not in the route, the route length is 3
     //if larger than 5, also check whether with match.longestRoad to see whether the player can get the longest road card, also update VP
-    player.calculateLongestRoad = function(){
+    player.calculateLongestRoad = function(map){
+
+        /**
+         * TODO: Cheryl
+         *  u may want to use:
+         *   player.roads = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
+         *   player.ships = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
+         *
+         *   u may want to store routes in player, anyway, come out with an algo to do this
+         *
+         *   to get a vertexUnit (knight/ building) at a vertex : map.getVertexInfo(vertexID)
+         *
+         *   at end, store your calculated longest path in player.longestRoad  --> an array of edge
+         *   edge is just a array of two integer [v1, v2] v1 < v2
+         */
 
     };
 
