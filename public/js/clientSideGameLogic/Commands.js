@@ -44,10 +44,9 @@ let CommandName = {
     'spendFishToken': 'spendFishToken',
     'buildRoadUseFish': 'buildRoadUseFish',
     'buildShipUseFish': 'buildShipUseFish',
-
+    'displaceKnight': 'displaceKnight',
 
     //TODO:
-    'displaceKnight': 'displaceKnight',
     'requestTrade': 'requestTrade',
     'acceptTrade': 'acceptTrade',
     'tradeWithPlayer': 'tradeWithPlayer'
@@ -422,7 +421,13 @@ CommandsData.displaceKnight = function (position, newPosition) {
 
 CommandCheck.displaceKnight = function (position, newPosition) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
-    //TODO
+    var opponent = DATA.getMatch().map.getVertexInfo(newPosition);
+    if(knight.level < opponent.level){
+      swalError2("Error, your knight is not strong enough");
+      return false;
+    }
+    return true;
+    //TODO -read rules and change this part
 
 }
 
@@ -1174,7 +1179,8 @@ _.each(CommandName, function (cmd) {
                     break;
 
                 case Enum.barbarianResult.CATAN_WIN :
-                    if (cmd != "setDefenderOfCatan") {
+                    if (cmd) {
+                        //need automatically give player title 'defender of catan' - no need for one command.
                         swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
                         return;
                     }
