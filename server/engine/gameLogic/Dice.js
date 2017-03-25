@@ -6,7 +6,7 @@ let Barbarian = require('./Barbarian.js');
 Dice.createDice = function () {
     let dice = {};
 
-    dice.eventDie = "Ship";
+    dice.eventDie = "BlueCityGate";
     dice.yellowDie = 6;
     dice.redDie = 6;
     dice.productionDiceSet = false;
@@ -61,20 +61,22 @@ Dice.createDice = function () {
         let productionNum = dice.yellowDie + dice.redDie;
         dice.numberDiceResult = productionNum;
         //let productionNum = dice.yellowDie + dice.redDie;
-        if(productionNum == 7){
+        if(dice.numberDiceResult == 7){
           result.event = "Choose Between Robber Pirate";
         }
         switch (event){
           case "Ship" :
             if(match.barbarian){
             //  if(match.barbarian.toAttack()){
-             if(match.barbarian.curPos == 4){
+            console.log("barbarian.curpos " + match.barbarian.curPos);
+             if(match.barbarian.curPos == 7){
                 result.event = "Barbarian Attack";
                 match.barbarian.getAttackResult(match.players);
                 //player is undefined : console.log(match.players);
                 match.barbarian.result = match.barbarian.applyResult(match.players);
                 result.barbarianResult = match.barbarian.result;
-                //console.log(match.barbarian.curPos);
+                console.log(match.barbarian.curPos);
+                console.log(match.barbarian.result);
                 match.barbarian.restart();
               }
               else{
