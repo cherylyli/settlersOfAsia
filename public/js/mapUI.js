@@ -12,6 +12,7 @@ let mapUI = (function () {
         positionMap();
         placeHarbors();
         putFishTiles();
+        placeRobberAndPirate();
         //setUpUtils();
 
         changePlayerColors();
@@ -34,9 +35,16 @@ let mapUI = (function () {
         **/
 
         positionMap();
+        placeRobberAndPirate();
         placeRoadsAndShips();
         placeHarbors();
         putFishTiles();
+    }
+
+    function updateMap() {
+        placeRobberAndPirate();
+        placeRoadsAndShips();
+        addVertexUnit();
     }
 
 
@@ -168,6 +176,27 @@ let mapUI = (function () {
         // hexLength = $map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top;
     }
 
+
+    function placeRobberAndPirate() {
+        let $map = $('.map');
+        let map = DATA.getMap();
+
+        // repaint preparation
+        $('.thief').remove();
+
+
+        let thiefs = ['robber', 'pirate'];
+
+        _.forEach(thiefs, function (thief) {
+            if (map[thief].pos != 0){
+                let $hex = $map.find('.hex[data-id=' + map[thief].pos + ']');
+                let $thief = $("<div class='thief'></div>");
+                $thief.addClass(thief);
+                $hex.append($thief);
+            }
+        });
+
+    }
 
     function putFishTiles() {
         let $map = $('.map');
@@ -452,7 +481,8 @@ let mapUI = (function () {
         positionMap,
         placeRoadsAndShips,
         resizeMap,
-        addVertexUnit
+        addVertexUnit,
+        updateMap
     }
 
 })();

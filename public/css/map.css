@@ -42,6 +42,26 @@
     font-weight: bold;
 }
 
+
+#board .map .hex .thief{
+
+    width: 24px;
+    height: 24px;
+    font-size: 100%;
+    font-weight: bold;
+    background-size: 100%;
+}
+
+.hex .robber{
+    background: url("../img/room/finalIcons/Robber.png");
+}
+
+.hex .pirate{
+    background: url("../img/room/finalIcons/Pirate.png");
+}
+
+
+
 #board .vertex{
     position: absolute;
     width: 12px;
