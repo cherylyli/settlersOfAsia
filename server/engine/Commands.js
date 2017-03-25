@@ -456,10 +456,10 @@ Commands.moveRobber = function (userName, roomID, data) {
     let hextile2 = null;
     if(data.oldHexID)
       hextile1 = match.map.getHexTileById(data.oldHexID);
-    if(data.newHexID){
+    if(data.newHexID)
       hextile2 = match.map.getHexTileById(data.newHexID);
       //robber.hasToDiscardCards(match.players);
-    }
+
     robber.moveTo(hextile1,hextile2,match);
 };
 

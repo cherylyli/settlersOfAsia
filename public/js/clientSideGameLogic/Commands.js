@@ -147,16 +147,21 @@ CommandsData.moveRobber = function (oldHexID, newHexID) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.moveRobber = function (oldHexID, newHexID) {
+  if(oldHexID == 0){
+   DATA.getMatch().map.getHexTileById(oldHexID).blockedByRobber = true;
+  }
     var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
     var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-    if (oldHex.blockedByRobber == true && oldHex.type != Enum.HexType.Sea && oldHex.type != Enum.HexType.Lake) {
-        if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
-            return true;
-        }
-    }
-    else {
-        swalError2("Invalid Position. Please select a landTile to perform such action.");
-        return false;
+    if (oldHex && newHex) { //
+      if (oldHex.blockedByRobber == true && oldHex.type != Enum.HexType.Sea && oldHex.type != Enum.HexType.Lake) {
+          if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
+              return true;
+          }
+      }
+      else {
+          swalError2("Invalid Position. Please select a landTile to perform such action.");
+          return false;
+      }
     }
 };
 
@@ -177,6 +182,9 @@ CommandsData.movePirate = function (oldHexID, newHexID) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.movePirate = function (oldHexID, newHexID) {
+   if(oldHexID == 0){
+    DATA.getMatch().map.getHexTileById(oldHexID).blockedByPirate = true;
+   }
     var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
     var newHex = DATA.getMatch().map.getHexTileById(newHexID);
     if (oldHex.blockedByPirate == true && oldHex.type == Enum.HexType.Sea) {
@@ -1199,7 +1207,7 @@ _.each(CommandName, function (cmd) {
         }
 //TODO add move robber cmd on command board
       if(app.rolledSeven && app.isMyTurn){
-        /*
+
         if(cmd != "moveRobber" || cmd != "movePirate"){
           swalError2("You must move robber/pirate first");
           return;
@@ -1209,7 +1217,7 @@ _.each(CommandName, function (cmd) {
             swalError2("You must select a player to steal from.");
           }
         }
-        */
+
         app.rolledSeven = false;
      }
 
