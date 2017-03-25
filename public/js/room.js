@@ -298,9 +298,9 @@ $(window).on('imready', function (im) {
             },
 
             executeProgressCard: function(){
-                var {card_name} = getInput();
-                console.log(card_name);
-                Commands.executeProgressCard(card_name);
+                var {card} = getInput();
+                console.log(card);
+                Commands.executeProgressCard(card);
             },
 
             /**
