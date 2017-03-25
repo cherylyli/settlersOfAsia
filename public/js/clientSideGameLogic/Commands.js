@@ -24,8 +24,10 @@
       'chaseAwayThief' : 'chaseAwayThief',
       'discardResourceCards' : 'discardResourceCards',
       'requestTrade' : 'requestTrade', 'acceptTrade' : 'acceptTrade', 'tradeWithPlayer' : 'tradeWithPlayer',
-      'drawOneProgressCard' : 'drawOneProgressCard'
-
+      'drawOneProgressCard' : 'drawOneProgressCard',
+      
+      //INPROGRESS:
+      'executeProgressCard': 'executeProgressCard'
     };
 
     //TODO: some one good at English plz help me change this.... It's embarrassing...
@@ -39,7 +41,8 @@
         'buyCityImprovement': 'Our cities are blessed by Catan God!',
         'moveShip': 'Sailing in the sea...',
         'tradeWithBank': 'Deal!',
-        'endTurn': 'Hummmm... I think I am done.'
+        'endTurn': 'Hummmm... I think I am done.',
+        'executeProgressCard':'Progress Card was applied'
     };
 
     //TODO: include check input & make the object not global
@@ -783,6 +786,13 @@
         return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]));
 
     }
+/** 
+ * @param card {string}
+ */
+CommandsData.executeProgressCard = function (card) {
+        console.log("Wrapping +"+card);
+        return {'cardname':card};
+    };
 
 /**
  *
@@ -1004,16 +1014,20 @@ _.each(CommandName, function(cmd){
         //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
 
         let phase = DATA.getMatch().phase;
-        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)){
+        
+        //allows check
+        /*if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)){
             swalError2("This operation not allowed in "+ phase);
             return;
-        }
+        }*/
 
         //comment out this part if you want to disable checks
         //checks
-        if(!CommandCheck[cmd].apply(this, arguments)){
+       
+       
+       /* if(!CommandCheck[cmd].apply(this, arguments)){
             return;
-        }
+        }*/
 
         // if barbarian result commands
         if (app.barbarianResult){

@@ -530,7 +530,7 @@ Commands.giveAwayBoot = function(userName, roomID, data){
 Commands.spendFishToken = function(userName, roomID, data){
     let player = DATA.getPlayer(userName,roomID);
     let match = DATA.getMatch(roomID);
-    console.log("here" + data.action);
+    //console.log("here" + data.action);
     player.spendFishToken(data.action, data.data, data.match);
 };
 
@@ -545,4 +545,13 @@ Commands.endTurn = function (userName, roomID, data) {
     notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(getRoom(roomID)));
 };
 
-//progress card stuff will be added later..
+//progress cards =P
+//data is empty where does object that we return in CommandsData goes?
+Commands.executeProgressCard = function(userName, roomID, data){
+    console.log(userName);//username
+    console.log(roomID);//a
+    console.log(data);//empty
+    let player = DATA.getPlayer(userName, roomID);
+    player.permissions.roadsToBuild = 2;//was not applied
+    console.log('Worked');
+};

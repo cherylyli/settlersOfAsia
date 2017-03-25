@@ -64,6 +64,10 @@ Player.createPlayer = function (name, user) {
     player.cityWallNum = 0;
     player.maxSafeCardNum = 7;
 
+    //Fields used for progress cards
+    player.progress_cards = {'roadBuilding':'roadBuilding'}; //we place new progress cards into this dictionary
+    player.permissions = {}; //after processing progress card we add here permmissions to build roads or take stuff from others
+
     /**
      *
      * @return {Number}

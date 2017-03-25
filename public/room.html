@@ -259,6 +259,17 @@
                         </div>
                     </div>
 
+                    <!--Execute Progress Card-->
+                    <div v-else-if='command == "executeProgressCard"'>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">Execute Card</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="string" name='card'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- move ship -->
                     <div v-else-if='command == "moveShip"'>
