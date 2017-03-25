@@ -56,6 +56,35 @@ Enum.MatchPhase = {
     "Completed": "Completed"
 };
 
+Enum.ProgressCard = {
+    "CommercialHarbor":"CommercialHarbor",
+    "MasterMerchant":"MasterMerchant",
+    "Merchant":"Merchant",
+    "MerchantFleet":"MerchantFleet",
+    "ResourceMonopoly":"ResourceMonopoly",
+    "TradeMonopoly":"TradeMonopoly",
+    "Bishop":"Bishop",
+    "Constitution":"Constitution",
+    "Diplomat":"Diplomat",
+    "Deserter":"Deserter",
+    "Intrigue":"Intrigue",
+    "Saboteur":"Saboteur",
+    "Spy":"Spy",
+    "Wedding":"Wedding",
+    "Warlord":"Warlord",
+    "Alchemist":"Alchemist",
+    "Crane":"Crane",
+    "Inventor":"Inventor",
+    "Irrigation":"Irrigation",
+    "Engineer":"Engineer",
+    "Medicine":"Medicine",
+    "Mining":"Mining",
+    "Printer":"Printer",
+    "RoadBuilding":"RoadBuilding",
+    "Smith":"Smith"
+};
+// TODO: change the Enum later
+
 Enum.ProgressCardType = {
     "Trade":{
         "CommercialHarbor":"CommercialHarbor",
