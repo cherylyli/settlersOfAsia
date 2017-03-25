@@ -136,6 +136,9 @@ let mapUI = (function () {
                 'top': top,
                 'left': left,
             });
+
+            console.log(hex.id, "HEXtop", $hex.position().top, top, $hex.position().left, left);
+
             // set width and height of hex
             $hex.width(hexWidth).height(hexHeight);
 
@@ -225,8 +228,8 @@ let mapUI = (function () {
 
             // the center of the harbor circle
             let centerX, centerY;
-            let top = $hexTile.position().top;
-            let left = $hexTile.position().left;
+            let top = parseInt($hexTile.css('top'));
+            let left = parseInt($hexTile.css('left'));
             let right = left + 1.732 * hexEdgeLength;
             let bottom = top + 2 * hexEdgeLength;
             let harborRadius = hexEdgeLength * 0.6 / 2;
@@ -293,6 +296,8 @@ let mapUI = (function () {
 
             // the center of the harbor circle
             let centerX, centerY;
+            // let top = parseInt($hexTile.css('top'));
+            // let left = parseInt($hexTile.css('left'));
             let top = $hexTile.position().top;
             let left = $hexTile.position().left;
             console.log(hextile.id, "left", left);
