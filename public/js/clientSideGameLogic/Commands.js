@@ -539,6 +539,7 @@ CommandReceived.rollDice = function () {
                         text: Enum.BarbarianAction.action
                     });
 
+
                     //applyBarbarianAction(DATA.getMatch().barbarian.result.result);
 
                 }
@@ -580,7 +581,8 @@ CommandReceived.rollDice = function () {
 
           }, 2000);
         }
-        app.rolledSeven = false;
+        //DATA.getMatch().dice.numberDiceResult = 0;
+        //app.rolledSeven = false;
     }
 
 };
@@ -1183,7 +1185,29 @@ _.each(CommandName, function (cmd) {
             }
 
         }
+        else{
+          if(cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+            swalError2("Please roll dice");
+            return;
+          }
+        }
+//TODO add move robber cmd on command board
+      if(app.rolledSeven && app.isMyTurn){
+        /*
+        if(cmd != "moveRobber" || cmd != "movePirate"){
+          swalError2("You must move robber/pirate first");
+          return;
+        }
+        else{
+          if(cmd != "stealCard"){
+            swalError2("You must select a player to steal from.");
+          }
+        }
+        */
+        app.rolledSeven = false;
+     }
 
+/*
         if(app.rolledSeven && app.isMyTurn){
           if(cmd != "moveRobber" || cmd != "movePirate"){
             swalError2("You must move robber/pirate first");
@@ -1195,6 +1219,7 @@ _.each(CommandName, function (cmd) {
             }
           }
         }
+*/
         //input complete check
         /**
          if (!checkInput(CommandsData[cmd].apply(this, arguments))){
