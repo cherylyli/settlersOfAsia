@@ -161,7 +161,7 @@ $(window).on('imready', function(im){
                 // { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
-                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank"
+                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate"
             ],
             isMyTurn: false,
             barbarianResult: false
@@ -264,6 +264,16 @@ $(window).on('imready', function(im){
             upgradeToCity: function () {
                 var {vertex} = getInput();
                 Commands.upgradeToCity(vertex);
+            },
+
+            moveRobber: function () {
+                var {oldhexid, newhexid} = getInput();
+                Commands.moveRobber(oldhexid, newhexid);
+            },
+
+            movePirate: function () {
+                var {oldhexid, newhexid} = getInput();
+                Commands.movePirate(oldhexid, newhexid);
             },
 
             /**
