@@ -533,30 +533,53 @@ CommandReceived.rollDice = function () {
     // event die result
 
     // if barbarian attacks
-    if (DATA.getMatch().barbarian.result) {
+    if (DATA.getMatch().barbarianResult) {
+      console.log("affected players are" + DATA.getMatch().barbarianResult.toPlayers );
+      console.log("result is " + DATA.getMatch().barbarianResult.result );
+      swal({
+          title: "Barbarian Attack",
+          text: "Everybody fights!!!"
+      });
+
+      if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
+          app.barbarianResult = true;
+      //    var action = DATA.getMatch().barbarianResult.result;
+      console.log("match");
+          swal({
+              title: DATA.getMatch().barbarianResult.result,
+              text: Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]
+          });
+        }else {
+              swal({
+                  title: DATA.getMatch().barbarianResult.result,
+                  text : "Barbarian left"
+              });
+          }
         // apply result
+        /*
             swal({
                 title: "Barbarian Attack",
                 text: "Everybody fights!!!"
             }, function () {
-                if (_.contains(DATA.getMatch().barbarian.result.toPlayers, DATA.getMyPlayer().name)) {
+                if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
                     app.barbarianResult = true;
-                    var action = DATA.getMatch().barbarian.result.result;
+                    var action = DATA.getMatch().barbarianResult.result;
                     swal({
-                        title: DATA.getMatch().barbarian.result.result,
+                        title: DATA.getMatch().barbarianResult.result,
                         text: Enum.BarbarianAction.action
                     });
 
 
-                    //applyBarbarianAction(DATA.getMatch().barbarian.result.result);
+                    //applyBarbarianAction(DATA.getMatch().barbarianResult.result);
 
                 }
                 else {
                     swal({
-                        title: DATA.getMatch().barbarian.result.result
+                        title: DATA.getMatch().barbarianResult.result
                     });
                 }
-            })
+            });
+            */
 
     }
 
@@ -576,7 +599,8 @@ CommandReceived.rollDice = function () {
 //    console.log("sum " + DATA.getMatch().dice.numberDiceResult);
     if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch()){
         app.rolledSeven = true;
-        if(app.isMyTurn && app.rolledSeven){
+        //TODO fix this,
+        if(DATA.getMatch().diceRolled && app.isMyTurn && app.rolledSeven){
           setTimeout(function () {
               swal({
                   title: "Move Robber or Pirate",
@@ -1165,71 +1189,81 @@ _.each(CommandName, function (cmd) {
     Commands[cmd] = function () {
 
         // if not my turn and barbarian result, operation is limited
-        if (app.barbarianResult && !app.isMyTurn) {
-            switch (DATA.getMatch().barbarian.result.result) {
-                case Enum.barbarianResult.CATAN_WIN_TIE :
+        if (app.barbarianResult && (!app.isMyTurn || app.isMyTurn)) {
+            switch (DATA.getMatch().barbarianResult.result) {
+                case "CATAN_WIN_TIE" :
+                    console.log("tieeeeee");
                     if (cmd != "drawOneProgressCard") {
-                        swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
+                        swalError2("You can get one progress card for free");
                         return;
                     }
                     break;
 
-                case Enum.barbarianResult.CATAN_LOSE :
+                case "CATAN_LOSE" :
                     if (cmd != "chooseCityToBePillaged") {
-                        swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
+                      swalError2("Please choose one city to be pillaged");
+                //        swalError2(Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]);
                         return;
                     }
                     break;
 
-                case Enum.barbarianResult.CATAN_WIN :
-                    if (cmd) {
-                        //need automatically give player title 'defender of catan' - no need for one command.
-                        swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
-                        return;
-                    }
+                case "CATAN_WIN" :
+                    DATA.getMatch().getMyPlayer.defenderOfCatan = true;
+                    //  if(cmd){
+                    swal("You are the defender of Catan.");
+                          //need automatically give player title 'defender of catan' - no need for one command.
+                        //  swalError2("You");
+                          return;
+
                     break;
 
                 default:
                     return;
             }
+            app.barbarianResult = false;
 
         }
-        else{
-          if(cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
-            swalError2("Please roll dice");
-            return;
-          }
-        }
-//TODO add move robber cmd on command board
-      /**
-        if(app.rolledSeven && app.isMyTurn){
 
-        if(cmd != "moveRobber" || cmd != "movePirate"){
-          swalError2("You must move robber/pirate first");
-          return;
-        }
-        else{
-          if(cmd != "stealCard"){
-            swalError2("You must select a player to steal from.");
-          }
-        }
-**/
-        //app.rolledSeven = false;
-    // }
 
+//TODO
 /*
-        if(app.rolledSeven && app.isMyTurn){
+- robber & pirate
+1. add a selection box on command board for command 'stealCard', receive a list of players that current player can steal from
+  disable those players not on the list.
+2. clickable hextile
+3. chase away thief
+
+- robber only
+  1. discardResourceCards, add panel for selecting resource cards to be deleted
+
+*/
+//TODO fix this
+        if(DATA.getMatch().diceRolled && app.rolledSeven && app.isMyTurn){
+            console.log("cmd is " + cmd);
+            //even if cmd == moveRobber  the command is undified.
+            /*
           if(cmd != "moveRobber" || cmd != "movePirate"){
             swalError2("You must move robber/pirate first");
             return;
           }
           else{
-            if(cmd != "stealCard"){
+            swal("Succ");
+            return;
+          /*  if(cmd != "stealCard"){
               swalError2("You must select a player to steal from.");
             }
-          }
+            */
+            app.rolledSeven = false;
+        //}
+
         }
-*/
+        if(cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+          swalError2("Please roll dice first");
+          return;
+        }
+        //app.rolledSeven = false;
+
+
         //input complete check
         /**
          if (!checkInput(CommandsData[cmd].apply(this, arguments))){
@@ -1250,12 +1284,12 @@ _.each(CommandName, function (cmd) {
         if (!CommandCheck[cmd].apply(this, arguments)) {
             return;
         }
-**/
+
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
         }
-
+    **/
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };
