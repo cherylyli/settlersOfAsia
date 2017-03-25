@@ -44,10 +44,9 @@ let CommandName = {
     'spendFishToken': 'spendFishToken',
     'buildRoadUseFish': 'buildRoadUseFish',
     'buildShipUseFish': 'buildShipUseFish',
-
+    'displaceKnight': 'displaceKnight',
 
     //TODO:
-    'displaceKnight': 'displaceKnight',
     'requestTrade': 'requestTrade',
     'acceptTrade': 'acceptTrade',
     'tradeWithPlayer': 'tradeWithPlayer'
@@ -422,7 +421,13 @@ CommandsData.displaceKnight = function (position, newPosition) {
 
 CommandCheck.displaceKnight = function (position, newPosition) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
-    //TODO
+    var opponent = DATA.getMatch().map.getVertexInfo(newPosition);
+    if(knight.level < opponent.level){
+      swalError2("Error, your knight is not strong enough");
+      return false;
+    }
+    return true;
+    //TODO -read rules and change this part
 
 }
 
@@ -539,6 +544,7 @@ CommandReceived.rollDice = function () {
                         text: Enum.BarbarianAction.action
                     });
 
+
                     //applyBarbarianAction(DATA.getMatch().barbarian.result.result);
 
                 }
@@ -580,7 +586,8 @@ CommandReceived.rollDice = function () {
 
           }, 2000);
         }
-        app.rolledSeven = false;
+        //DATA.getMatch().dice.numberDiceResult = 0;
+        //app.rolledSeven = false;
     }
 
 };
@@ -1172,7 +1179,8 @@ _.each(CommandName, function (cmd) {
                     break;
 
                 case Enum.barbarianResult.CATAN_WIN :
-                    if (cmd != "setDefenderOfCatan") {
+                    if (cmd) {
+                        //need automatically give player title 'defender of catan' - no need for one command.
                         swalError2(Enum.BarbarianAction[DATA.getMatch().barbarian.result.result]);
                         return;
                     }
@@ -1183,7 +1191,29 @@ _.each(CommandName, function (cmd) {
             }
 
         }
+        else{
+          if(cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+            swalError2("Please roll dice");
+            return;
+          }
+        }
+//TODO add move robber cmd on command board
+      if(app.rolledSeven && app.isMyTurn){
+        /*
+        if(cmd != "moveRobber" || cmd != "movePirate"){
+          swalError2("You must move robber/pirate first");
+          return;
+        }
+        else{
+          if(cmd != "stealCard"){
+            swalError2("You must select a player to steal from.");
+          }
+        }
+        */
+        app.rolledSeven = false;
+     }
 
+/*
         if(app.rolledSeven && app.isMyTurn){
           if(cmd != "moveRobber" || cmd != "movePirate"){
             swalError2("You must move robber/pirate first");
@@ -1195,6 +1225,7 @@ _.each(CommandName, function (cmd) {
             }
           }
         }
+*/
         //input complete check
         /**
          if (!checkInput(CommandsData[cmd].apply(this, arguments))){
