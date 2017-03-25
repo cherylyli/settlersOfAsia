@@ -69,14 +69,12 @@ Dice.createDice = function () {
             if(match.barbarian){
             //  if(match.barbarian.toAttack()){
             console.log("barbarian.curpos " + match.barbarian.curPos);
-             if(match.barbarian.curPos == 7){
+             if(match.barbarian.curPos == 6){
                 result.event = "Barbarian Attack";
                 match.barbarian.getAttackResult(match.players);
                 //player is undefined : console.log(match.players);
-                match.barbarian.result = match.barbarian.applyResult(match.players);
-                result.barbarianResult = match.barbarian.result;
-                console.log(match.barbarian.curPos);
-                console.log(match.barbarian.result);
+                match.barbarianResult = match.barbarian.applyResult(match.players);
+                //result.barbarianResult = match.barbarian.result;
                 match.barbarian.restart();
               }
               else{
