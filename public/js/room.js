@@ -197,8 +197,7 @@ $(window).on('imready', function(im){
             },
 
             'room.match': function () {
-                mapUI.addVertexUnit();
-                mapUI.placeRoadsAndShips();
+                mapUI.updateMap();
             }
         },
         methods: {

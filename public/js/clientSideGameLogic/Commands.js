@@ -76,14 +76,9 @@ let room = {users: {}};
 
 
 //============================REQUIRE TEST ==============================
-CommandsData.setDefenderOfCatan = function () {
-    return null;
-};
 
 
-CommandCheck.setDefenderOfCatan = function () {
-    return true;
-};
+
 /**
  *
  * @param vertex {int}
@@ -177,7 +172,7 @@ CommandsData.movePirate = function (oldHexID, newHexID) {
 
 /**
  * moveRobber
- * @return true/false
+ * @return {boolean}
  */
 
 //consider different cases: move off board, move from a to b, move from null to b

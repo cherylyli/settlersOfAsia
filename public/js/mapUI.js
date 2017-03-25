@@ -11,6 +11,8 @@ let mapUI = (function () {
         generateVertices();
         positionMap();
         placeHarbors();
+        putFishTiles();
+        placeRobberAndPirate();
         //setUpUtils();
 
         changePlayerColors();
@@ -18,10 +20,33 @@ let mapUI = (function () {
     }
 
     function resizeMap() {
+        /**
+        let p1 = new Promise(
+            (resolve, reject) => {
+                positionMap();
+                resolve();
+            }
+        );
+        p1.then(
+            function() {
+                placeRoadsAndShips();
+                placeHarbors();
+            });
+        **/
+
         positionMap();
+        placeRobberAndPirate();
         placeRoadsAndShips();
         placeHarbors();
+        putFishTiles();
     }
+
+    function updateMap() {
+        placeRobberAndPirate();
+        placeRoadsAndShips();
+        addVertexUnit();
+    }
+
 
 // generate vertex divs without positioning
     function generateVertices() {
@@ -84,13 +109,20 @@ let mapUI = (function () {
 
     }
 
-
-    function positionMap() {
+    function calculateHexSize() {
         let $map = $('.map');
         // calculate hexTile height
         let hexHeight = ($map.height()) / (DATA.getMap().row.length * 0.75 + 0.75);
         let hexWidth = 0.866 * hexHeight;
         // hexagon height to width ratio: 2 : 3^(1/2)
+        let hexEdgeLength = hexHeight / 2;
+        return [hexHeight, hexWidth, hexEdgeLength];
+    }
+
+
+    function positionMap() {
+        let $map = $('.map');
+        let [hexHeight, hexWidth, hexEdgeLength] = calculateHexSize();
 
         let map = DATA.getMap();
         $('.hex').each(function () {
@@ -137,9 +169,106 @@ let mapUI = (function () {
             });
         });
 
+        //if ()
+
+        //placeHarbors();
+
         // hexLength = $map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top;
     }
 
+
+    function placeRobberAndPirate() {
+        let $map = $('.map');
+        let map = DATA.getMap();
+
+        // repaint preparation
+        $('.thief').remove();
+
+
+        let thiefs = ['robber', 'pirate'];
+
+        _.forEach(thiefs, function (thief) {
+            if (map[thief].pos != 0){
+                let $hex = $map.find('.hex[data-id=' + map[thief].pos + ']');
+                let $thief = $("<div class='thief'></div>");
+                $thief.addClass(thief);
+                $hex.append($thief);
+            }
+        });
+
+    }
+
+    function putFishTiles() {
+        let $map = $('.map');
+        let map = DATA.getMap();
+
+        // repaint
+        $('.fish-tile').remove();
+        let [hexHeight, hexWidth, hexEdgeLength] = calculateHexSize();
+
+        let fishTiles = map.fishTiles;
+        _.forEach(fishTiles, function (fishTile) {
+            let $fishTile = $("<div class='fish-tile'></div>");
+            $fishTile.attr({
+                'data-id': fishTile.id
+            });
+            let tempTiles= map.getHexTileByEdge(Map.edge(fishTile.vertices['1'], fishTile.vertices['2']));
+            let hextileID, positionInHex;
+            _.forEach(tempTiles, function (temp) {
+                if (DATA.getHexTileById(temp[0]).type != Enum.HexType.Sea){
+                    [hextileID, positionInHex] = temp;
+                }
+            });
+            let hextile = map.getHexTileById(hextileID);
+            let $hexTile = $map.find('.hex[data-id=' + hextile.id + ']');
+
+
+            // the center of the harbor circle
+            let centerX, centerY;
+            let top = $hexTile.position().top;
+            let left = $hexTile.position().left;
+            let right = left + 1.732 * hexEdgeLength;
+            let bottom = top + 2 * hexEdgeLength;
+            let harborRadius = hexEdgeLength * 0.6 / 2;
+            switch (positionInHex){
+                case 'TopLeft':
+                    centerX = left;
+                    centerY = top - 0.5 * hexEdgeLength;
+                    break;
+                case 'TopRight':
+                    centerX = right;
+                    centerY = top - 0.5 * hexEdgeLength;
+                    break;
+                case 'Right':
+                    centerX = right + 0.866 * hexEdgeLength;
+                    centerY = top + hexEdgeLength;
+                    break;
+                case 'BottomRight':
+                    centerX = right;
+                    centerY = bottom + 0.5 * hexEdgeLength ;
+                    break;
+                case 'BottomLeft':
+                    centerX = left;
+                    centerY = bottom + 0.5 * hexEdgeLength;
+                    break;
+                case 'Left':
+                    centerX = left - 0.866 * hexEdgeLength;
+                    centerY = top + hexEdgeLength;
+            }
+
+            $fishTile.css({
+                'width': harborRadius * 2,
+                'height': harborRadius * 2,
+                'top': centerY - harborRadius,
+                'left': centerX - harborRadius
+            });
+
+            $fishTile.text(fishTile.productionNum);
+
+
+            $map.append($fishTile);
+        })
+    }
 
     function placeHarbors() {
         let $map = $('.map');
@@ -147,7 +276,7 @@ let mapUI = (function () {
 
         // repaint
         $('.harbor').remove();
-        let hexLength = Math.abs($map.find('.vertex[data-id=1]').position().top - $map.find('.vertex[data-id=11]').position().top);
+        let [hexHeight, hexWidth, hexEdgeLength] = calculateHexSize();
 
         let harbors = map.harbors;
 
@@ -166,33 +295,35 @@ let mapUI = (function () {
             let centerX, centerY;
             let top = $hexTile.position().top;
             let left = $hexTile.position().left;
-            let right = left + 1.732 * hexLength;
-            let bottom = top + 2 * hexLength;
-            let harborRadius = hexLength * 0.6 / 2;
+            console.log(hextile.id, "left", left);
+            console.log(hextile.id, "top", top);
+            let right = left + 1.732 * hexEdgeLength;
+            let bottom = top + 2 * hexEdgeLength;
+            let harborRadius = hexEdgeLength * 0.6 / 2;
             switch (positionInHex){
                 case 'TopLeft':
-                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = top - 0.5 * hexEdgeLength + 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'TopRight':
-                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = top - 0.5 * hexLength + 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = top - 0.5 * hexEdgeLength + 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'Right':
                     centerX = right + harborRadius;
-                    centerY = top + hexLength;
+                    centerY = top + hexEdgeLength;
                     break;
                 case 'BottomRight':
-                    centerX = right - 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = right - 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = bottom + 0.5 * hexEdgeLength - 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'BottomLeft':
-                    centerX = left + 0.5 * 0.7 * 0.866 * hexLength;
-                    centerY = bottom + 0.5 * hexLength - 0.866 * 0.7 * 0.866 * hexLength;
+                    centerX = left + 0.5 * 0.7 * 0.866 * hexEdgeLength;
+                    centerY = bottom + 0.5 * hexEdgeLength - 0.866 * 0.7 * 0.866 * hexEdgeLength;
                     break;
                 case 'Left':
                     centerX = left - harborRadius;
-                    centerY = top + hexLength;
+                    centerY = top + hexEdgeLength;
             }
 
             $harbor.css({
@@ -350,7 +481,8 @@ let mapUI = (function () {
         positionMap,
         placeRoadsAndShips,
         resizeMap,
-        addVertexUnit
+        addVertexUnit,
+        updateMap
     }
 
 })();
