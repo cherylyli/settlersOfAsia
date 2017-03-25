@@ -86,7 +86,6 @@ Barbarian.createBarbarian = function(){
     var most;
     var affectedPlayers = [];
     var state = barbarian.getAttackResult(players);
-    console.log("dsds"+ state);
 /*
     if(barbarian.toAttack() == false){
       return -1;
@@ -101,7 +100,7 @@ Barbarian.createBarbarian = function(){
       //console.log(barbarian.playerContribution);
 
       var min = Math.min(...contribution);
-      console.log("min is " + min);
+      //console.log("min is " + min);
       for(var i in barbarian.playerContribution ){
       //  console.log("player name " + players[i].name);
       //  console.log("player is " + players[i].getCityCnt());
@@ -125,7 +124,7 @@ Barbarian.createBarbarian = function(){
       */
       //barbarian.win = false;
       var max = Math.max(...contribution);
-      console.log("max is " + max);
+    //  console.log("max is " + max);
 
       var tie = []; //store the index of tied players.
       var counter = -1;
@@ -136,7 +135,7 @@ Barbarian.createBarbarian = function(){
           tie.push(i);
         }
       }
-      console.log("counter is "+ counter);
+    //  console.log("counter is "+ counter);
 
       //TIE
       if(counter > 0){
@@ -151,7 +150,6 @@ Barbarian.createBarbarian = function(){
         //players[tie[0]].setDefenderOfCatan(true);
         //console.log("defender of catan "+players[tie[0]].name);
         //defender of catan
-        console.log();
           return {result:[Enum.BarbarianResult.CATAN_WIN], toPlayers:affectedPlayers};
       }
       else {

@@ -11,7 +11,7 @@ Dice.createDice = function () {
     dice.redDie = 6;
     dice.productionDiceSet = false;
     dice.eventDieResult = null;
-    dice.numberDiceResult = dice.yellowDie + dice.redDie;
+    dice.numberDiceResult = 0;
 
     dice.rollEventDice = function () {
 
@@ -59,13 +59,16 @@ Dice.createDice = function () {
         let result = {};
         //number dice produce resource
         let productionNum = dice.yellowDie + dice.redDie;
+        dice.numberDiceResult = productionNum;
+        //let productionNum = dice.yellowDie + dice.redDie;
         if(productionNum == 7){
           result.event = "Choose Between Robber Pirate";
         }
         switch (event){
           case "Ship" :
             if(match.barbarian){
-              if(match.barbarian.toAttack()){
+            //  if(match.barbarian.toAttack()){
+             if(match.barbarian.curPos == 4){
                 result.event = "Barbarian Attack";
                 match.barbarian.getAttackResult(match.players);
                 //player is undefined : console.log(match.players);

@@ -456,7 +456,7 @@ CommandCheck.discardResourceCards = function (cards, num) {
         size += cards[i];
     }
     if (size != num) {
-        swallError2("You need to discard " + num + " card(s)!");
+        swalError2("You need to discard " + num + " card(s)!");
         return false;
     }
     var counter = 0;
@@ -472,7 +472,7 @@ CommandCheck.discardResourceCards = function (cards, num) {
         return true;
     }
     return false;
-    swallError2("Not enough resource!");
+    swalError2("Not enough resource!");
 }
 
 CommandsData.requestTrade = function (offer, request) {
@@ -563,17 +563,24 @@ CommandReceived.rollDice = function () {
 
 
     // number dice results
-    // robber result
+  //  console.log("produc num" + DATA.getMatch().dice.numberDiceResult )
+//    console.log("sum " + DATA.getMatch().dice.numberDiceResult);
     if (DATA.getMatch().dice.numberDiceResult == 7){
-        setTimeout(function () {
-            swal({
-                title: "Move Robber or Pirate",
-                text: "You rolled 7."
-            }, function () {
-                // TODO: enable robber and pirate icon
+        app.rolledSeven = true;
+        if(app.isMyTurn && app.rolledSeven){
+          setTimeout(function () {
+              swal({
+                  title: "Move Robber or Pirate",
+                  text: "You rolled 7."
+              }, function () {
 
-                })
-        }, 2000);
+                  // TODO: enable robber and pirate icon
+
+                  })
+
+          }, 2000);
+        }
+        app.rolledSeven = false;
     }
 
 };
@@ -1176,6 +1183,18 @@ _.each(CommandName, function (cmd) {
             }
 
         }
+
+        if(app.rolledSeven && app.isMyTurn){
+          if(cmd != "moveRobber" || cmd != "movePirate"){
+            swalError2("You must move robber/pirate first");
+            return;
+          }
+          else{
+            if(cmd != "stealCard"){
+              swalError2("You must select a player to steal from.");
+            }
+          }
+        }
         //input complete check
         /**
          if (!checkInput(CommandsData[cmd].apply(this, arguments))){
@@ -1208,7 +1227,7 @@ _.each(CommandName, function (cmd) {
 
     sock.on(cmd + 'Ack', function (msg) {
         console.log(msg);
-        CommandReceived[msg]();
+        CommandReceived.rollDice();
     });
 
     sock.on(cmd + 'Ack' + 'Owner', function (msg) {
