@@ -7,6 +7,7 @@
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
+let HexTile = require("./engine/gameLogic/HexTile.js");
 /**
 let rooms = data.rooms;
 let users = data.users;
@@ -28,7 +29,6 @@ Commands.joinRoom(userC, "123");
 Commands.joinRoom(userD, "123");
 
 Commands.startGame("123");
-data.getMatch("123").map.getHexTileById(1).type = 'Lake';
 //console.log(map.getHexTileByEdge([2,3]));
 Commands.buildRoad("Emol", "123", [53, 54]);
 Commands.buildShip("Emol", "123", [54, 55]);
@@ -125,4 +125,4 @@ Commands.activateKnight('123', 4);
 Commands.moveKnight('123', 4, 5);
 Commands.chaseAwayThief('123', 5, 1, 3);
 **/
-//fakeRoom.room = data.getRoom("123");
+fakeRoom.room = data.getRoom("123");

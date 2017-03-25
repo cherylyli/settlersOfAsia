@@ -542,7 +542,7 @@ Commands.spendFishToken = function(userName, roomID, data){
 Commands.endTurn = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     match.nextPlayerToTakeTurn();
-    notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(getRoom(roomID)));
+    notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
 };
 
 //progress cards =P

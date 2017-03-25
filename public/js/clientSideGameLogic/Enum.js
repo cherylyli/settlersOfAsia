@@ -163,7 +163,8 @@ Enum.HexType = {
     'Forest':'Forest',
     'Pasture':'Pasture',
     'Mountains':'Mountains',
-    'Hills':'Hills'
+    'Hills':'Hills',
+    'Lake': 'Lake'
 };
 
 Enum.SettlementResources = {
