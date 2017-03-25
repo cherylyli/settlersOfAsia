@@ -574,7 +574,7 @@ CommandReceived.rollDice = function () {
     // number dice results
   //  console.log("produc num" + DATA.getMatch().dice.numberDiceResult )
 //    console.log("sum " + DATA.getMatch().dice.numberDiceResult);
-    if (DATA.getMatch().dice.numberDiceResult == 7){
+    if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch()){
         app.rolledSeven = true;
         if(app.isMyTurn && app.rolledSeven){
           setTimeout(function () {
@@ -1201,7 +1201,8 @@ _.each(CommandName, function (cmd) {
           }
         }
 //TODO add move robber cmd on command board
-      if(app.rolledSeven && app.isMyTurn){
+      /**
+        if(app.rolledSeven && app.isMyTurn){
 
         if(cmd != "moveRobber" || cmd != "movePirate"){
           swalError2("You must move robber/pirate first");
@@ -1212,9 +1213,9 @@ _.each(CommandName, function (cmd) {
             swalError2("You must select a player to steal from.");
           }
         }
-
-        app.rolledSeven = false;
-     }
+**/
+        //app.rolledSeven = false;
+    // }
 
 /*
         if(app.rolledSeven && app.isMyTurn){
@@ -1237,7 +1238,7 @@ _.each(CommandName, function (cmd) {
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-
+/**
         let phase = DATA.getMatch().phase;
         if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
@@ -1249,7 +1250,7 @@ _.each(CommandName, function (cmd) {
         if (!CommandCheck[cmd].apply(this, arguments)) {
             return;
         }
-
+**/
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
