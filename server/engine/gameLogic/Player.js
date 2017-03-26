@@ -65,8 +65,8 @@ Player.createPlayer = function (name, user) {
     player.maxSafeCardNum = 7;
 
     //Fields used for progress cards
-    player.progress_cards = {'roadBuilding':'roadBuilding'}; //we place new progress cards into this dictionary
-    player.permissions = {}; //after processing progress card we add here permmissions to build roads or take stuff from others
+    player.progress_cards = {'CommercialHarbor':'CommercialHarbor'}; //we place new progress cards into this dictionary
+    player.active_cards = {}; //after processing progress card we add here permmissions to build roads or take stuff from others
 
     /**
      *
@@ -550,6 +550,12 @@ Player.createPlayer = function (name, user) {
     player.getDefenderOfCatan = function(){
       return player.defenderOfCatan;
     };
+    //we are moving card from progress_cards to active cards
+    player.useCard = function(card){
+      console.log("Using card"+card);
+      player.active_cards[player.progress_cards[card]] = player.progress_cards[card];
+      delete player.progress_cards[card];
+    }
 
     return player;
 }

@@ -58,7 +58,7 @@
 
 
   CommandCheck.setDefenderOfCatan = function () {
-    return true;
+    return true;Commands
   };
 /**
  *
@@ -790,7 +790,6 @@
  * @param card {string}
  */
 CommandsData.executeProgressCard = function (card) {
-        console.log("Wrapping +"+card);
         return {'cardname':card};
     };
 
@@ -1039,6 +1038,7 @@ _.each(CommandName, function(cmd){
     };
 
     sock.on(cmd + 'Ack', function (msg) {
+        console.log('ACK:'+msg);
         console.log(msg);
     });
 

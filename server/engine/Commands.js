@@ -19,6 +19,7 @@ let notify  = require('../api/notify.js');
 let CircularJSON = require('circular-json');
 let Robber = require('./gameLogic/Robber.js');
 let Pirate = require('./gameLogic/Pirate.js');
+let ProgressCard = require('./gameLogic/ProgressCards.js');
 
 let Commands = module.exports = {};
 let CommandsCheck = {};
@@ -51,10 +52,6 @@ let CommandsCheck = {};
      Commands.joinRoom(user, roomID);
      return room;
  };
-
-
-
-
 
 
  /**
@@ -548,10 +545,6 @@ Commands.endTurn = function (userName, roomID, data) {
 //progress cards =P
 //data is empty where does object that we return in CommandsData goes?
 Commands.executeProgressCard = function(userName, roomID, data){
-    console.log(userName);//username
-    console.log(roomID);//a
-    console.log(data);//empty
     let player = DATA.getPlayer(userName, roomID);
-    player.permissions.roadsToBuild = 2;//was not applied
-    console.log('Worked');
+    player.useCard(data.cardname);
 };
