@@ -1306,10 +1306,13 @@ _.each(CommandName, function (cmd) {
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };
 
+    //we are listening for each command
     sock.on(cmd + 'Ack', function (msg) {
         console.log('ACK:'+msg);
         console.log(msg);
-        CommandReceived.rollDice();
+        if (CommandReceived.hasOwnProperty(cmd)){
+            CommandReceived[cmd];
+        }
     });
 
     sock.on(cmd + 'Ack' + 'Owner', function (msg) {
