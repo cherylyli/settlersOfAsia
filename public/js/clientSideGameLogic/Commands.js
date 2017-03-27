@@ -137,16 +137,27 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
 
 /**
  *
- * @param src   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
- * @param req   {Object} key : {String} card, val: {int} # of card,   --> the cards u request for, if we use the progress card, we leave req null
+ * @param offer   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
+ * @param request   {Object} key : {String} card, val: {int} # of card,   --> the cards u request for, if we use the progress card, we leave req null
  */
-CommandsData.requestTrade = function (src, req) {
-        return {'src': src, 'req': req};
+CommandsData.requestTrade = function (selling, buying) {
+        return {'selling': selling, 'buying': buying};
     };
 
-CommandCheck.requestTrade = function (src, req) {
+CommandCheck.requestTrade = function (selling, buying) {
     // check if we have the cards we offer
-    checkEnoughResource(src);
+    checkEnoughResource(selling);
+};
+
+CommandReceived.requestTrade = function (src, req) {
+    // TODO: max
+    // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
+
+    // else
+    // alert them that there is a trade offer.
+    // if we dont use card  -->
+    // if use card --> drop down to select resource
+    // accept option, trade resource select
 };
     /**
      * moveRobber
@@ -471,7 +482,7 @@ CommandCheck.chaseAwayThief = function (position, thiefHexID, newPosition) {
 //cards: {Enum.Resourca.card : # of this type to be discarded}
 CommandsData.discardResourceCards = function (cards, num) {
     return {'cards': cards, 'num': num}
-}
+};
 
 CommandCheck.discardResourceCards = function (cards, num) {
     var player = player1
@@ -500,23 +511,42 @@ CommandCheck.discardResourceCards = function (cards, num) {
 }
 
 
+/**
+ *
+ * @param selling {object}
+ * @param buying {object}
+ */
+CommandsData.acceptTrade = function (selling, buying) {
+    //checkEnoughResource(buying);
 
-CommandsData.acceptTrade = function () {
+};
 
-}
+CommandCheck.acceptTrade = function (selling, buying) {
+    checkEnoughResource(buying);
+};
 
-CommandCheck.acceptTrade = function () {
+CommandReceived.acceptTrade = function (selling, buying) {
+    //
+    if (DATA.getMyPlayer().name == trade.offerer){
+        // show a list of players who accepted the trade
+    }
 
-}
+    // if we play the progress card
+    // we dont need to choose
+
+
+    // send to server we confirm the trade
+};
 
 CommandsData.tradeWithPlayer = function (userNameA, userNameB, trade) {
     return {'userNameA': userNameA, 'userNameB': userNameB, 'trade': trade};
 
-}
+};
 
 CommandCheck.tradeWithPlayer = function (userNameA, userNameB, trade) {
 
-}
+};
+
 //=================================================================================
 /**
  * rollDice does not take any arguments
