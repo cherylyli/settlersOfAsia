@@ -27,7 +27,7 @@
       'drawOneProgressCard' : 'drawOneProgressCard',
       
       //INPROGRESS:
-      'executeProgressCard': 'executeProgressCard'
+      'executeProgressCard': 'executeProgressCard',
     };
 
     //TODO: some one good at English plz help me change this.... It's embarrassing...
@@ -110,6 +110,20 @@
         return true;
       }
     }
+
+/**
+ *
+ * @param src   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
+ * @param req   {Object} key : {String} card, val: {int} # of card,   --> the cards u request for, if we use the progress card, we leave req null
+ */
+CommandsData.requestTrade = function (src, req) {
+        return {'src': src, 'req': req};
+    };
+
+CommandCheck.requestTrade = function (src, req) {
+    // check if we have the cards we offer
+    checkEnoughResource(src);
+};
     /**
      * moveRobber
      * @return true/false
