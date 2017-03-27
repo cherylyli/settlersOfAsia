@@ -6,10 +6,12 @@ let Barbarian = require('./Barbarian.js');
 Dice.createDice = function () {
     let dice = {};
 
-    dice.eventDie = "Ship";
+    dice.eventDie = "BlueCityGate";
     dice.yellowDie = 6;
     dice.redDie = 6;
     dice.productionDiceSet = false;
+    dice.eventDieResult = null;
+    dice.numberDiceResult = 0;
 
     dice.rollEventDice = function () {
 
@@ -44,6 +46,9 @@ Dice.createDice = function () {
         dice.productionDiceSet = true;
     };
 
+
+
+
     dice.configureResult = function (match) {
         //TODO: event die
         /*TODO: add Enum for eventDie result
@@ -54,24 +59,41 @@ Dice.createDice = function () {
         let result = {};
         //number dice produce resource
         let productionNum = dice.yellowDie + dice.redDie;
-        if(productionNum == 7){
-          result.event = "Choose Between Robber Pirate"
+        dice.numberDiceResult = productionNum;
+        //let productionNum = dice.yellowDie + dice.redDie;
+        if(dice.numberDiceResult == 7){
+          result.event = "Choose Between Robber Pirate";
         }
         switch (event){
           case "Ship" :
-
-            if(match.map.barbarian.toAttack()){
-              result.event = "Barbarian Attack";
-                match.map.barbarian.result = match.map.barbarian.applyResult(match.players);
+            if(match.barbarian){
+            //  if(match.barbarian.toAttack()){
+            console.log("barbarian.curpos " + match.barbarian.curPos);
+             if(match.barbarian.curPos == 7){
+                result.event = "Barbarian Attack";
+                match.barbarian.getAttackResult(match.players);
+                //player is undefined : console.log(match.players);
+                match.barbarian.result = match.barbarian.applyResult(match.players);
+                result.barbarianResult = match.barbarian.result;
+                console.log(match.barbarian.curPos);
+                console.log(match.barbarian.result);
+                match.barbarian.restart();
+              }
+              else{
+                match.barbarian.canMove(event);
+                result.event = "Barbarian Move";
+              }
             }
             else{
-                match.map.barbarian.canMove(event);
-              result.event = "Barbarian Move";
+              match.barbarian = Barbarian.createBarbarian();
             }
 
             //active barbarian
             break;
-          case "BlueCityGate" :
+            case "BlueCityGate" :
+
+              // TODO: Max / Cheryl
+                // result = blablabla
             break;
           case "YellowCityGate" :
             break;
@@ -81,13 +103,21 @@ Dice.createDice = function () {
             console.log("Error");
         }
 
-        let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
-        for (let id of hexTileIDs){
-          if(!match.map.getHexTileById(id).blockedByRobber){
-              match.map.getHexTileById(id).produceResource(match);
+        dice.eventDieResult = result;
+
+
+
+
+        // configure number dice result
+        if(match.map){
+          let hexTileIDs = match.map.getHexTileByNumToken(productionNum);
+          for (let id of hexTileIDs){
+            if(!match.map.getHexTileById(id).blockedByRobber){
+                match.map.getHexTileById(id).produceResource(match);
+            }
           }
         }
-        return result;
+
     };
 
     return dice;

@@ -13,7 +13,7 @@ Barbarian.createBarbarian = function(){
   barbarian.win = false;
   barbarian.result = null;
 
-  barbarian.toMove = function(eventDie){
+  barbarian.canMove = function(eventDie){
     if(eventDie === "Ship"){
       barbarian.curPos++;
       return true;
@@ -68,7 +68,7 @@ Barbarian.createBarbarian = function(){
     }
     //console.log(barbarian.playerContribution);
     return barbarian.win;
-  }
+  };
 
   barbarian.getPlayerContribution = function(){
     return barbarian.playerContribution;
@@ -80,39 +80,27 @@ Barbarian.createBarbarian = function(){
    */
   //NOTE! player.buildings  player.buildings = {};  //key: position (vertex index / int); value: building object
   barbarian.applyResult = function(players){
+
     var catanStrength = 0;
     var fewest;
     var most;
     var affectedPlayers = [];
+    var state = barbarian.getAttackResult(players);
 /*
     if(barbarian.toAttack() == false){
       return -1;
     }
 */
-    /*
-    if barbarian win :
-    player with the fewest active knights:
-    1. if only 1 settlement -> won't lose anything
-    2. if city has a metropolis on top -> can't be pillaged.
-     https://boardgamegeek.com/thread/405470/simple-rule-question-about-metropolis
-    3. if player has at least one city on the map
-      a.player / tie players who barbarian.playerContribution the least value of kinghts
-        -> city reduces to a settlement (destroy city wall if has one on it)
-      c.extreme case: no player activated a knight - all lose a city
-      d.extreme case: no player activated a knight and no cities on the map - do nothing
-      city wall of that city being reduced is also gone.
-    */
-
     let contribution = Object.keys(barbarian.playerContribution).map(function(knights){
       return barbarian.playerContribution[knights]
     });
 
-    if(barbarian.win == true){
+    if(state == true){
       //barbarian stronger
       //console.log(barbarian.playerContribution);
 
       var min = Math.min(...contribution);
-      console.log("min is " + min);
+      //console.log("min is " + min);
       for(var i in barbarian.playerContribution ){
       //  console.log("player name " + players[i].name);
       //  console.log("player is " + players[i].getCityCnt());
@@ -136,7 +124,7 @@ Barbarian.createBarbarian = function(){
       */
       //barbarian.win = false;
       var max = Math.max(...contribution);
-      console.log("max is " + max);
+    //  console.log("max is " + max);
 
       var tie = []; //store the index of tied players.
       var counter = -1;
@@ -147,7 +135,7 @@ Barbarian.createBarbarian = function(){
           tie.push(i);
         }
       }
-      console.log("counter is "+ counter);
+    //  console.log("counter is "+ counter);
 
       //TIE
       if(counter > 0){
@@ -162,7 +150,6 @@ Barbarian.createBarbarian = function(){
         //players[tie[0]].setDefenderOfCatan(true);
         //console.log("defender of catan "+players[tie[0]].name);
         //defender of catan
-        console.log();
           return {result:[Enum.BarbarianResult.CATAN_WIN], toPlayers:affectedPlayers};
       }
       else {

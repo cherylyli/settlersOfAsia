@@ -136,11 +136,12 @@ let CommandsCheck = {};
   *
   * @param match {String}
   */
+
  Commands.rollDice = function (userName, matchID, data) {
      let match = DATA.getMatch(matchID);
      match.rollDice();
+    // console.log(match.dice.configureResult(match));
  };
-
 
 
 
@@ -158,7 +159,7 @@ let CommandsCheck = {};
          //collect resource immediately
          let hexIDs = map.getHexTileArrayByVertex(position);
          for (let id of hexIDs){
-             map.getHexTileById(id).produceResourceToSingleUser(map, player, building);
+             map.getHexTileById(id).produceResourceToSingleUser(match, player, building);
          }
      }
      if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
@@ -354,20 +355,20 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   *
   */
- Commands.moveKnight = function (userName, roomID, position, newPosition) {
+ Commands.moveKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
-     knight.move(newPosition, match.map);
+     let knight = match.map.getVertexInfo(data.position);
+     knight.move(data.newPosition, match.map);
  };
 
 
  /**
   *
   */
- Commands.displaceKnight = function (userName, roomID, position, newPosition) {
+ Commands.displaceKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
-     let opponentKnightInfo = knight.move(newPosition, match.map);
+     let knight = match.map.getVertexInfo(data.position);
+     let opponentKnightInfo = knight.move(data.newPosition, match.map);
      /**
       * TODO: notify the other player
       */
@@ -376,10 +377,10 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   *
   */
- Commands.chaseAwayThief = function (userName, roomID, position, thiefPosition, newPositionForThief) {
+ Commands.chaseAwayThief = function (userName, roomID) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
-     knight.chaseAwayThief(match.map, thiefPosition, newPositionForThief);
+     let knight = match.map.getVertexInfo(data.position);
+     knight.chaseAwayThief(match.map, data.thiefh, data.newPositionForThief);
  };
 
 
@@ -400,9 +401,9 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   *
   * @param cards {Array<String>} resource/ commodity cards the player chooses to discard
   */
- Commands.discardResourceCards = function (userName, roomID, cards) {
+ Commands.discardResourceCards = function (userName, roomID, data) {
      let player = DATA.getPlayer(userName, roomID);
-     player.discardCards(cards);
+     player.discardResourceCards(data.cards);
  };
 
  /**
@@ -411,8 +412,8 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param offer {object} cost object
   * @param request   {object}
   */
- Commands.requestTrade = function (offer, request) {
-     let trade = Trade.createTrade(offer, request);
+ Commands.requestTrade = function (data) {
+     let trade = Trade.createTrade(data.offer, data.request);
      /**
       * TODO: communication
       */
@@ -437,24 +438,38 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param playerB {Player}
   * @param cardsB {list<String>} resource/ commodity cards the playerB offers
   */
- Commands.tradeWithPlayer = function (userNameA, userNameB, roomID, trade) {
-     let playerA = DATA.getPlayer(userNameA, roomID);
-     let playerB = DATA.getPlayer(userNameB, roomID);
+ Commands.tradeWithPlayer = function (roomID, data) {
+     let playerA = DATA.getPlayer(data.userNameA, roomID);
+     let playerB = DATA.getPlayer(data.userNameB, roomID);
      let match = DATA.getMatch(roomID);
-     match.bank.tradeWithPlayer(playerA, playerB, trade);
+     match.bank.tradeWithPlayer(data.playerA, data.playerB, data.trade);
  };
 
 //spend fish tokens  + add checkers
 Commands.moveRobber = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let robber = match.map.robber;
-    robber.moveTo(data.oldHexID, data.newHexID);
+    let hextile1 = null;
+    let hextile2 = null;
+    if(data.oldHexID)
+      hextile1 = match.map.getHexTileById(data.oldHexID);
+    if(data.newHexID)
+      hextile2 = match.map.getHexTileById(data.newHexID);
+      //robber.hasToDiscardCards(match.players);
+
+    robber.moveTo(hextile1,hextile2,match);
 };
 
 Commands.movePirate = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let pirate = match.map.pirate;
-    pirate.moveTo(data.oldHexID, data.newHexID);
+    let hextile1 = null;
+    let hextile2 = null;
+    if(data.oldHexID)
+      hextile1 = match.map.getHexTileById(data.oldHexID);
+    if(data.newHexID)
+      hextile2 = match.map.getHexTileById(data.newHexID);
+    pirate.moveTo(hextile1,hextile2,match);
 };
 
 /**
@@ -481,9 +496,9 @@ Commands.drawOneResourceCard = function (userName, roomID, data){
  * @param player {Player}
  * @param progressCard List<String> progress card
  */
-Commands.discardProgressCards = function (userName, roomID, data) {
+Commands.discardOneProgressCard = function (userName, roomID, data) {
   let player = DATA.getPlayer(userName, roomID);
-  player.discardProgressCards(data);
+  player.discarOneProgressCard(data);
 };
 
 Commands.giveAwayBoot = function(userName, roomID, data){
@@ -523,12 +538,99 @@ Commands.giveAwayBoot = function(userName, roomID, data){
       Building.buildRoad(player, data, match, 'ship');
   };
 
-
 Commands.spendFishToken = function(userName, roomID, data){
     let player = DATA.getPlayer(userName,roomID);
-    let match = DATA.getMatch(roomID);
-    //console.log("here" + data.action);
-    player.spendFishToken(data.action, data.data, data.match);
+  //  let match = DATA.getMatch(roomID);
+  //  player.spendFishToken(userName, roomID, data);
+    let newSum = 0;
+    switch(data.action){
+      case "MOVE_ROBBER" :
+      //TODO check knight chase away thief.
+        if(player.getFishSum() >= 2){
+          //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
+          Commands.moveRobber(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+          newSum = player.getFishSum() - 2;
+          player.setFishSum(newSum);
+        }
+        else{
+          return false;
+        }
+        break;
+
+      case "MOVE_PIRATE" :
+        if(player.getFishSum() >= 2){
+          //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
+          Commands.movePirate(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+          newSum = player.getFishSum() - 2;
+          player.setFishSum(newSum);
+        }
+        else{
+          return false;
+        }
+        break;
+
+      case "STEAL_CARD" :
+        if(player.getFishSum() >= 3){
+          //Commands.stealCard(username, roomID, {'thief' = player.name, 'victim' = data.victim } ;
+          Commands.stealCard(userName, roomID, {'thief' : player.name, 'victim' : data.victim });
+          newSum = player.getFishSum() - 3;
+          player.setFishSum(newSum);
+        }
+        else{
+          return false;
+        }
+        break;
+
+      case "DRAW_RES_FROM_BANK" :
+        if(player.getFishSum() >= 4){
+          //TODO
+          //player.drawOneResourceCard(data);
+          //draw one resource card but not Commodity
+          Commands.drawOneResourceCard(userName, roomID, {'resCard' :data.resCard});
+          newSum = player.getFishSum() - 4;
+          player.setFishSum(newSum);
+        }
+        else{
+          return false;
+        }
+        break;
+
+      case "BUILD_ROAD" :
+        if(player.getFishSum() >= 5){
+          Commands.buildRoadUseFish(userName, roomID, data.data);
+          newSum = player.fish - 5;
+          player.setFishSum(newSum);
+        }
+        else{
+          return false;
+        }
+        break;
+
+      case "BUILD_SHIP" :
+        if(player.getFishSum() >= 5){
+          Commands.buildShipUseFish (userName, roomID, data.data);
+          newSum = player.fish - 5;
+          player.setFishSum(newSum);
+        }
+        else{
+          return false;
+        }
+        break;
+
+      case "DRAW_PROG" :
+        if(player.getFishSum() >= 7){
+          console.log(data);
+          Commands.drawOneProgressCard(userName, roomID, {'progCard' : data.progCard});
+          newSum = player.fish - 7;
+          player.setFishSum(newSum);
+        }
+        else{
+          return false;
+        }
+
+    }
+          return player.fishSum;
+
 };
 
 /**

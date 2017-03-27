@@ -39,3 +39,10 @@ Cost.goldTradeRatio = 2;
 Cost.generalHarborTradeRatio = 3;
 Cost.specialHarborTradeRatio = 2;
 Cost.merchantTradeRatio = -1;
+
+//================fish token====
+Cost.moveUseFish = 2;
+Cost.stealUseFish = 3;
+Cost.drawResUseFish = 4;
+Cost.buildRoadUseFish = 5;
+Cost.drawProgUseFish = 7;

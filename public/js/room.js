@@ -1,9 +1,10 @@
+
 // set up environment
-$(document).ready(function () {
+$(document).ready(function(){
     var evt = $.Event('imready');
 
     // Fetch my data from server
-    $get('/mydata', function (data) {
+    $get('/mydata', function(data){
 
         // if not logged in, redirect to login
         if (!data) return window.location.href = '/login';
@@ -16,15 +17,15 @@ $(document).ready(function () {
 
 
 // upon environment set up
-$(window).on('imready', function (im) {
+$(window).on('imready', function(im){
 
     $("button").attr('disabled', 'disabled').click(function () {
         // alert("sfd");
         // Commands.exec(CommandName.rollDice, CommandsData.rollDice());
         /**
-         let input1 = parseInt($("input[name='input1']").val());
-         let input2 = parseInt($("input[name='input2']").val());
-         Commands.exec(CommandName.buildEstablishment, CommandsData.buildEstablishment(input1, 1));**/
+        let input1 = parseInt($("input[name='input1']").val());
+        let input2 = parseInt($("input[name='input2']").val());
+        Commands.exec(CommandName.buildEstablishment, CommandsData.buildEstablishment(input1, 1));**/
     });
     //test
 
@@ -128,39 +129,7 @@ $(window).on('imready', function (im) {
                         swal.close();
                     }
                 })
-        }, 3000);
-
-
-        // if barbarian attacks
-        if (DATA.getMatch().barbarian.result) {
-            // apply result
-            setTimeout(function () {
-                swal({
-                    title: "Barbarian Attack",
-                    text: "Everybody fights!!!"
-                }, function () {
-                    if (_.contains(DATA.getMatch().barbarian.result.toPlayers, DATA.getMyPlayer().name)) {
-                        app.barbarianResult = true;
-                        var action = DATA.getMatch().barbarian.result.result;
-                        swal({
-                            title: DATA.getMatch().barbarian.result.result,
-                            text: Enum.BarbarianAction.action
-                    })
-                        ;
-
-                        //applyBarbarianAction(DATA.getMatch().barbarian.result.result);
-
-                    }
-                    else {
-                        swal({
-                            title: DATA.getMatch().barbarian.result.result
-                        });
-                    }
-                })
-
-            }, 4000);
-        }
-
+        }, 2000);
     });
 
     /**
@@ -188,11 +157,11 @@ $(window).on('imready', function (im) {
                 // { user: null, action: 'The game starts.', system: true },
                 // { user: 'Yuan', action: 'places a city.', system: true },
                 // { user: 'jack', action: 'places a road.', system: true },
-                // { user: 'Max', action: "stop cheating man", system: false },<== Yo I'm no cheater 
+                // { user: 'Max', action: "stop cheating man", system: false },<== Yo I'm no cheater
                 // { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
-                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "executeProgressCard"
+                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard"
             ],
             isMyTurn: false,
             barbarianResult: false
@@ -228,8 +197,7 @@ $(window).on('imready', function (im) {
             },
 
             'room.match': function () {
-                mapUI.addVertexUnit();
-                mapUI.placeRoadsAndShips();
+                mapUI.updateMap();
             }
         },
         methods: {
@@ -295,6 +263,16 @@ $(window).on('imready', function (im) {
             upgradeToCity: function () {
                 var {vertex} = getInput();
                 Commands.upgradeToCity(vertex);
+            },
+
+            moveRobber: function () {
+                var {oldhexid, newhexid} = getInput();
+                Commands.moveRobber(oldhexid, newhexid);
+            },
+
+            movePirate: function () {
+                var {oldhexid, newhexid} = getInput();
+                Commands.movePirate(oldhexid, newhexid);
             },
 
             executeProgressCard: function(){

@@ -170,13 +170,13 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
                 let building = match.map.getVertexInfo(hexTile.vertices[vertex]);
                 if (building){
                     let player = building.owner;
-                    hexTile.produceResourceToSingleUser(match.map, player, building);
+                    hexTile.produceResourceToSingleUser(match, player, building);
                 }
             }
         }
     };
 
-    hexTile.produceResourceToSingleUser = function (map, player, building) {
+    hexTile.produceResourceToSingleUser = function (match, player, building) {
         let resource = Enum.SettlementResources[this.type];
         if (resource == Enum.SettlementResources.GoldField) {
             if (building.level == Enum.Building.Settlement) {

@@ -46,6 +46,10 @@
                         </div>
                     </div>
                 </div>
+                <div class='barbarian'>
+                    <div class="icon center-cropped"></div>
+                    <div class='text'>{{ room.match ? room.match.barbarian.curPos : '' }}</div>
+                </div>
             </div>
 
         <div id='utils' class='box-shadow-light'>
@@ -186,6 +190,31 @@
                         </div>
                     </div>
 
+                    <div v-else-if='command == "addMetropolis"' vertex-needed='1'>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">Vertex</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter vertex ID" name='vertex'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-else-if='command == "chooseCityToBePillaged"' vertex-needed='1'>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">Vertex</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter vertex ID" name='vertex'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     <!-- build road -->
                     <div v-else-if='command == "buildRoad"' vertex-needed='2'>
@@ -243,6 +272,48 @@
                     </div>
 
 
+                    <!-- move robber-->
+                    <div v-else-if='command == "moveRobber"'>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">old HexTile ID</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter hexTile ID" name='hexTileID'>
+                                </div>
+                            </div>
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">old HexTile ID</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter vertex ID" name='vertex1'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- move robber-->
+                    <div v-else-if='command == "movePirate"'>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">old HexTile ID</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter hexTile ID" name='hexTileID'>
+                                </div>
+                            </div>
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">old HexTile ID</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter vertex ID" name='vertex1'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     <!-- build city improvement -->
                     <div v-else-if='command == "buyCityImprovement"'>
                         <div class="weui-cells weui-cells_form">
@@ -273,6 +344,8 @@
                         </div>
                     </div>
 
+
+
                     <!--Execute Progress Card-->
                     <div v-else-if='command == "executeProgressCard"'>
                         <div class="weui-cells weui-cells_form">
@@ -286,7 +359,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- move ship -->
                     <div v-else-if='command == "moveShip"'>
                         <div class="weui-cells weui-cells_form">
@@ -324,6 +397,29 @@
 
                     <!-- trade with bank -->
                     <div v-else-if='command == "tradeWithBank"'>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                                <div class="weui-cell__hd"><label class="weui-label">Source</label></div>
+                                <div class="weui-cell__bd">
+                                    <select class="weui-select" name='src'>
+                                        <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                                <div class="weui-cell__hd"><label class="weui-label">Trade for</label></div>
+                                <div class="weui-cell__bd">
+                                    <select class="weui-select" name='tradeFor'>
+                                        <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- trade with player -->
+                    <div v-else-if='command == "proposeTrade"'>
                         <div class="weui-cells weui-cells_form">
                             <div class="weui-cell weui-cell_select weui-cell_select-after">
                                 <div class="weui-cell__hd"><label class="weui-label">Source</label></div>

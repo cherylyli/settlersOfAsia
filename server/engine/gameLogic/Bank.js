@@ -23,11 +23,16 @@ Bank.createBank = function (match) {
      * @param redDie
      */
     bank.allocateResources = function(yellowDie, redDie){
-        let hexTileIDs = bank.map.getHexTileByNumToken(yellowDie + redDie);
+    //bank.allocateResources = function(y){
+  //    console.log("hextile" + bank.match.map.getHexTileByNumToken(y));
+    //    let hexTileIDs = bank.match.map.getHexTileByNumToken(y);
+        let hexTileIDs = bank.match.map.getHexTileByNumToken(yellowDie + redDie);
         for (let id of hexTileIDs) {
-            let hextile = bank.map.getHexTileById(id);
-            if (!hextile.blockedByRobber){
-                hextile.produceResource();
+            let hextile = bank.match.map.getHexTileById(id);
+
+            // TODO: include lake and fishTiles
+            if (hextile.hasOwnProperty('blockedByRobber') && !hextile.blockedByRobber){
+                hextile.produceResource(bank.match);
             }
         }
     };
@@ -95,4 +100,3 @@ Bank.createBank = function (match) {
     return bank;
 
 }
-

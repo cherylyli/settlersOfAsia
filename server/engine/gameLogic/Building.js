@@ -35,7 +35,6 @@ Building.buildSettlement = function (player, vertex, map) {
 
     building.upgradeToCity = function () {
         building.level = Enum.Building.City;
-
         building.cityWall = false;
         building.owner.updateVP(VP.upgradeTocity);
         building.owner.settlementCnt--;    //because one of the settlement is upgraded to city
@@ -91,10 +90,28 @@ Building.buildSettlement = function (player, vertex, map) {
 Building.buildRoad = function (player, edge, match, type) {
     //-----------------improvement needed-----------------
     let road = {'owner': player, 'type': type};
-    road.canBuild = false;
-    road.canMove = false;
+    road.canBuild = true;
+    road.canMove = true;
     //update map info
-    match.map.setEdgeInfo(road, edge);
+    if(match.map.getHexTileByEdge(edge)){
+        let hextile = match.map.getHexTileByEdge(edge);
+        let blockedByPirate = false;
+        for(let i of hextile){
+          let hexTile = match.map.getHexTileById(i[0]);
+          if(hexTile.blockedByPirate == true){
+              blockedByPirate = true;
+          }
+        }
+        if(blockedByPirate == false){
+          //console.log("blocked" + blockedByPirate);
+          match.map.setEdgeInfo(road, edge);
+          //update player info
+          player[type + 's'][Map.edgeKey(edge)] = edge;
+          player.calculateLongestRoad();
+        }
+      }
+
+
     /**
      let neighborHexTiles = map.getHexTileByEdge(edge);
      for (let i = 0; i<neighborHexTiles.length; i++){
@@ -104,9 +121,7 @@ Building.buildRoad = function (player, edge, match, type) {
         hexTile.edgeInfo[positionInHex] = road;
     }**/
 
-    //update player info
-    player[type + 's'][Map.edgeKey(edge)] = edge;
-    player.calculateLongestRoad();
+
 
     if (type == 'ship') {
 
@@ -121,17 +136,17 @@ Building.buildRoad = function (player, edge, match, type) {
 
         //can't build new ships along the pirate hex
         //cannot move a ship along the pirate hex
-        road.move = function (oldPosition, newPosition, map) {
-          var info = map.getHexTileByEdge(newPosition);
+        road.move = function (oldPosition, newPosition, match) {
+          var info = match.map.getHexTileByEdge(newPosition);
           let blockedByPirate = false;
           for (let hexTileInfo of info){
-              let hexTile = map.getHexTileById(hexTileInfo[0]);
+              let hexTile = match.map.getHexTileById(hexTileInfo[0]);
               if (hexTile.blockedByPirate) blockedByPirate = true;
           }
 
           if(blockedByPirate == false){
-            map.setEdgeInfo(undefined, oldPosition);
-            map.setEdgeInfo(this, newPosition);
+            match.map.setEdgeInfo(undefined, oldPosition);
+            match.map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];
             player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
           }

@@ -132,8 +132,6 @@ Player.createPlayer = function (name, user) {
       let keys = [Enum.fishToken.ONE_FISH,Enum.fishToken.TWO_FISH,Enum.fishToken.THREE_FISH];
       //generate a random index
       let randomToken = Math.floor(Math.random() * keys.length);
-      //console.log("hhhhh" + randomToken);
-      //console.log(keys[randomToken]);
       switch(randomToken){
         case 0 : //one fish
           player.fishSum += 1;
@@ -175,16 +173,15 @@ Player.createPlayer = function (name, user) {
       * @param match {Match}
       * @return player's current fishSum
       */
-    player.spendFishToken = function(userName, roomID, action, data){
+
+    player.spendFishToken = function(userName, roomID, data){
       let newSum = 0;
-      let username = player.name;
-      console.log("sssss" + action);
-      switch(action){
+      switch(data.action){
         case "MOVE_ROBBER" :
         //TODO check knight chase away thief.
           if(player.getFishSum() >= 2){
             //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.moveRobber(username, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+            Commands.moveRobber(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
             newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
           }
@@ -196,7 +193,7 @@ Player.createPlayer = function (name, user) {
         case "MOVE_PIRATE" :
           if(player.getFishSum() >= 2){
             //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.movePirate(username, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+            Commands.movePirate(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
             newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
           }
@@ -208,7 +205,7 @@ Player.createPlayer = function (name, user) {
         case "STEAL_CARD" :
           if(player.getFishSum() >= 3){
             //Commands.stealCard(username, roomID, {'thief' = player.name, 'victim' = data.victim } ;
-            Commands.stealCard(username, roomID, {'thief' : player.name, 'victim' : data.victim });
+            Commands.stealCard(userName, roomID, {'thief' : player.name, 'victim' : data.victim });
             newSum = player.getFishSum() - 3;
             player.setFishSum(newSum);
           }
@@ -222,7 +219,7 @@ Player.createPlayer = function (name, user) {
             //TODO
             //player.drawOneResourceCard(data);
             //draw one resource card but not Commodity
-            Commands.drawOneResourceCard(userName, roomID, data.resCard);
+            Commands.drawOneResourceCard(userName, roomID, {'resCard' :data.resCard});
             newSum = player.getFishSum() - 4;
             player.setFishSum(newSum);
           }
@@ -233,7 +230,7 @@ Player.createPlayer = function (name, user) {
 
         case "BUILD_ROAD" :
           if(player.getFishSum() >= 5){
-            Commands.buildRoadUseFish(userName, roomID, data);
+            Commands.buildRoadUseFish(userName, roomID, data.data);
             newSum = player.fish - 5;
             player.setFishSum(newSum);
           }
@@ -244,7 +241,7 @@ Player.createPlayer = function (name, user) {
 
         case "BUILD_SHIP" :
           if(player.getFishSum() >= 5){
-            Commands.buildShipUseFish (userName, roomID, data);
+            Commands.buildShipUseFish (userName, roomID, data.data);
             newSum = player.fish - 5;
             player.setFishSum(newSum);
           }
@@ -255,8 +252,8 @@ Player.createPlayer = function (name, user) {
 
         case "DRAW_PROG" :
           if(player.getFishSum() >= 7){
-            console.log("dsdsd");
-            Commands.drawOneProgressCard(userName, roomID, data);
+            console.log(data);
+            Commands.drawOneProgressCard(userName, roomID, {'progCard' : data.progCard});
             newSum = player.fish - 7;
             player.setFishSum(newSum);
           }
@@ -265,7 +262,6 @@ Player.createPlayer = function (name, user) {
           }
 
       }
-
       return player.fishSum;
     }
 
@@ -368,7 +364,7 @@ Player.createPlayer = function (name, user) {
     player.getCities = function () {
         let cities = [];
         for (let vertex in player.buildings){
-            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == 2){
+            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == Enum.Building.City){
                 cities.push(player.buildings[vertex]);
             }
         }
@@ -380,7 +376,7 @@ Player.createPlayer = function (name, user) {
     player.getSettlements = function () {
         let settlements = [];
         for (let vertex in player.buildings){
-            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == 1){
+            if (player.buildings.hasOwnProperty(vertex) && player.buildings[vertex].level == Enum.Building.Settlement){
                 settlements.push(player.buildings[vertex]);
             }
         }
@@ -399,14 +395,13 @@ Player.createPlayer = function (name, user) {
     };
 
     //player.progressCards = ["Bishop","Alchemist","Crane"];
-    //var disProgCards = [ "Crane","Alchemist"];
-    player.discardProgressCards = function(cards){
+    //var discard = "Alchemist"
+    player.discardOneProgressCard = function(card){
         if (player.progressCardsCnt < 1)
             return false;
         for (var i=0; i < player.progressCardsCnt; i++) {
-            var found = player.progressCards.indexOf(cards[i]);
-            if (found > 0) {
-                player.progressCards.splice(found, 1);
+            if (card == player.progressCards[i]) {
+                player.progressCards.splice(i, 1);
             }
         }
         player.progCardSum();
@@ -490,7 +485,14 @@ Player.createPlayer = function (name, user) {
         return 0;
       }
       else {
-        numToBeDiscarded = Math.floor(player.resourceCardTotalNum()/2);
+        //if player has a city wall then he can keep 2 cards from robber.
+        var cardsToKeep = 0;
+        for(var city in player.buildings){
+          if(player.buildings[city].cityWall){
+            cardsToKeep += 2;
+          }
+        }
+        numToBeDiscarded = Math.floor(player.resourceCardTotalNum()/2) - cardsToKeep;
       }
       return numToBeDiscarded;
     }
@@ -515,7 +517,7 @@ Player.createPlayer = function (name, user) {
     player.getCitySum = function(){
       var sum = 0;
       for(var i in player.buildings){
-        if(player.buildings[i].level == 2 && player.buildings.hasOwnProperty(i))
+        if(player.buildings[i].level == Enum.Building.City && player.buildings.hasOwnProperty(i))
           sum++
       }
       return sum;
