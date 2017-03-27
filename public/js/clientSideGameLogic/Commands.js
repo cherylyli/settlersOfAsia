@@ -47,13 +47,11 @@ let CommandName = {
     'displaceKnight': 'displaceKnight',
 
       //TODO:
+    'requestTrade': 'requestTrade',
+    'acceptTrade': 'acceptTrade',
 
       //INPROGRESS:
       'executeProgressCard': 'executeProgressCard',
-    };
-    //TODO:
-    'requestTrade': 'requestTrade',
-    'acceptTrade': 'acceptTrade',
 
 
 };
@@ -993,7 +991,6 @@ CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
  */
 CommandsData.executeProgressCard = function (card) {
         return {'cardname':card};
-    };
 }
 
 /**
