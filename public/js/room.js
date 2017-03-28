@@ -161,7 +161,7 @@ $(window).on('imready', function(im){
                 // { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
-                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard"
+                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard", "requestTrade"
             ],
             isMyTurn: false,
             barbarianResult: false
@@ -322,6 +322,11 @@ $(window).on('imready', function(im){
             tradeWithBank: function () {
                 var {src, tradeFor} = getInput();
                 Commands.tradeWithBank(src, tradeFor);
+            },
+
+            requestTrade : function(){
+                var {selling, buying} = getInput();
+                Commands.proposeTrade(selling, buying);
             }
 
         }

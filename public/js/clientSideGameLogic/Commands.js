@@ -51,9 +51,7 @@ let CommandName = {
     'acceptTrade': 'acceptTrade',
 
       //INPROGRESS:
-      'executeProgressCard': 'executeProgressCard',
-
-
+    'executeProgressCard': 'executeProgressCard'
 };
 let CommandReceived = {};
 
@@ -135,6 +133,8 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
 
 
 
+//TRADE WITH PLAYER ==================================
+
 /**
  *
  * @param offer   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
@@ -159,10 +159,12 @@ CommandReceived.requestTrade = function (src, req) {
     // if use card --> drop down to select resource
     // accept option, trade resource select
 };
+//ROBBER ==================================
     /**
      * moveRobber
      * @return true/false
      */
+
     CommandsData.moveRobber = function (oldHexID, newHexID){
       return {'oldHexID' : oldPosition, 'newHexID' : newPostion};
     }
@@ -607,13 +609,9 @@ CommandReceived.rollDice = function () {
 
     }
 
-
-
-
-
-    // number dice results
-  //  console.log("produc num" + DATA.getMatch().dice.numberDiceResult )
-//    console.log("sum " + DATA.getMatch().dice.numberDiceResult);
+//  number dice results
+//  console.log("produc num" + DATA.getMatch().dice.numberDiceResult )
+//  console.log("sum " + DATA.getMatch().dice.numberDiceResult);
     if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch()){
         app.rolledSeven = true;
         if(app.isMyTurn && app.rolledSeven){

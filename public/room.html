@@ -419,12 +419,12 @@
 
 
                     <!-- trade with player -->
-                    <div v-else-if='command == "proposeTrade"'>
+                    <div v-else-if='command == "requestTrade"'>
                         <div class="weui-cells weui-cells_form">
                             <div class="weui-cell weui-cell_select weui-cell_select-after">
                                 <div class="weui-cell__hd"><label class="weui-label">Source</label></div>
                                 <div class="weui-cell__bd">
-                                    <select class="weui-select" name='src'>
+                                    <select class="weui-select" name='selling'>
                                         <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
                                     </select>
                                 </div>
@@ -432,7 +432,7 @@
                             <div class="weui-cell weui-cell_select weui-cell_select-after">
                                 <div class="weui-cell__hd"><label class="weui-label">Trade for</label></div>
                                 <div class="weui-cell__bd">
-                                    <select class="weui-select" name='tradeFor'>
+                                    <select class="weui-select" name='buying'>
                                         <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
                                     </select>
                                 </div>
