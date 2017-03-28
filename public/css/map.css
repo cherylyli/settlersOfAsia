@@ -79,8 +79,8 @@
     background-color: rgba(255, 0, 0, 0.22); /*0, 178, 255*/
     width: 21px;
     height: 21px;
-    left: -8px;
-    top: -8px;
+    left: -4px;
+    top: -4px;
     border: 1px solid rgba(255, 0, 0, 0.3);
     position: absolute;
     opacity: 0;

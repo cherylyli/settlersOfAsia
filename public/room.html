@@ -28,7 +28,9 @@
            <img src="../img/room/theme/w1.jpg">
         </div>
 
-            <div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'>
+        <!-- TODO: change here-->
+            <!--div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'-->
+            <div id='board' class='box-shadow-light'>
                 <div class='map'></div>
                 <div class='dices'>
                     <div class='dice red'>
@@ -70,9 +72,13 @@
                 <div id='end-turn' class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn'
                      v-on:click='endTurn'><i class="fa fa-power-off" aria-hidden="true"></i>Finish
                 </div>
-                <div id='trigger-cmd-table' class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn'><i
+                <!--TODO: change here-->
+                <div id='trigger-cmd-table' class='ui-btn unselectable turn-event'><i
                         class="fa fa-bolt" aria-hidden="true"></i>Action
                 </div>
+                <!--div id='trigger-cmd-table' class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn'><i
+                        class="fa fa-bolt" aria-hidden="true"></i>Action
+                </div-->
             </div>
             <div class='cards'>
                 <div class='card' v-for='(count, resource) in (room.users[me.username] || my).resourcesAndCommodities'
