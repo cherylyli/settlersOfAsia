@@ -10,6 +10,6 @@ let Trade = module.exports = {};
  */
 Trade.createTrade = function (offer, request) {
     let trade = {};
-    trade.offer = offer;
-    trade.request = request;
+    trade.selling = offer;
+    trade.buying = request;
 }

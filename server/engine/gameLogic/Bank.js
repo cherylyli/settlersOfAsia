@@ -38,15 +38,15 @@ Bank.createBank = function (match) {
     };
 
 
-    bank.tradeWithPlayer = function (playerA, playerB, trade) {
-        bank.updatePlayerAsset(playerA, null, trade.offer);
+    bank.decreasePlayerAsset = function (playerA, playerB, trade) {
+        bank.decreasePlayerAsset(playerA, null, trade.offer);
         for (let card in trade.request){
             if (trade.request.hasOwnProperty(card)){
                 player.resourcesAndCommodities[card] += trade.request[card];
             }
         }
 
-        bank.updatePlayerAsset(playerB, null, trade.request);
+        bank.decreasePlayerAsset(playerB, null, trade.request);
         for (let card in trade.offer){
             if (trade.offer.hasOwnProperty(card)){
                 player.resourcesAndCommodities[card] += trade.offer[card];
@@ -83,7 +83,7 @@ Bank.createBank = function (match) {
      * @param costName {String} name of the cost
      * @param cost {object} a object, key: Card nume (string); value: number of the card (int), positive for deduction, negative for addition
      */
-    bank.updatePlayerAsset = function (player, costName = null, cost) {
+    bank.decreasePlayerAsset = function (player, costName = null, cost) {
         if (!cost && costName){
             cost = Cost[costName];
         }
