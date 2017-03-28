@@ -560,7 +560,10 @@ CommandCheck.acceptTrade = function (selling, buying) {
     checkEnoughResource(buying);
 };
 
-CommandReceived.acceptTrade = function (selling, buying) {
+// TODO: Max
+// commandReceived does not take any input
+// to get the most recent room object, app.room
+CommandReceived.acceptTrade = function () {
     //
     if (DATA.getMyPlayer().name == trade.offerer){
         // show a list of players who accepted the trade
@@ -1341,9 +1344,10 @@ _.each(CommandName, function (cmd) {
     sock.on(cmd + 'Ack', function (msg) {
         console.log('ACK:'+msg);
         console.log(msg);
-        console.log(CommandReceived, CommandReceived[cmd]);
+        //console.log(CommandReceived, CommandReceived[cmd]);
+        console.log(cmd, CommandReceived.hasOwnProperty(cmd));
         if (CommandReceived.hasOwnProperty(cmd)){
-            CommandReceived[cmd];
+            CommandReceived[cmd]();
             console.log(cmd);
         }
     });
