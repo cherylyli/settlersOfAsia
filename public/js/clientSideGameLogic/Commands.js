@@ -49,7 +49,7 @@ let CommandName = {
       //TODO:
     'requestTrade': 'requestTrade',
     'acceptTrade': 'acceptTrade',
-
+    'performTradeTransaction':'performTradeTransaction',
       //INPROGRESS:
     'executeProgressCard': 'executeProgressCard'
 };
@@ -149,7 +149,36 @@ CommandCheck.requestTrade = function (selling, buying) {
     checkEnoughResource(selling);
 };
 
-CommandReceived.requestTrade = function (src, req) {
+CommandReceived.performTradeTransaction = function () {
+    swal('Trade ended :D');
+    DATA.getMatch().currentTrade
+    //maybe set a flah so that we know with whom trade was performed
+    //don't delete trade right away it is going to be overwritted later anyway
+    //just check who is left in the currentTrade
+};
+
+
+CommandReceived.requestTrade = function (selling, buying) {
+    alert('=O');
+/*    if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
+        return;
+    }*/
+
+    swal({
+            title: "TRADE BRO?",
+            text: DATA.getMatch().currentPlayer +"wants to buy:"+buying +" and wants to sell: "+selling,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "TRADE RESOURCES!",
+            closeOnConfirm: false
+        },
+        function(){
+            swal("Trade started!", "Your trade response was sent", "success", function () {
+                Commands.acceptTrade();
+            });
+        });
+
     // TODO: max
     // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
 
@@ -511,6 +540,10 @@ CommandCheck.discardResourceCards = function (cards, num) {
     return false;
     swalError2("Not enough resource!");
 }
+
+
+
+
 
 
 /**
@@ -1308,8 +1341,10 @@ _.each(CommandName, function (cmd) {
     sock.on(cmd + 'Ack', function (msg) {
         console.log('ACK:'+msg);
         console.log(msg);
+        console.log(CommandReceived, CommandReceived[cmd]);
         if (CommandReceived.hasOwnProperty(cmd)){
             CommandReceived[cmd];
+            console.log(cmd);
         }
     });
 

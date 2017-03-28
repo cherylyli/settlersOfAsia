@@ -343,7 +343,7 @@ $(window).on('imready', function(im){
                 }
 
                 console.log(selling, buying);
-                Commands.proposeTrade(selling, buying);
+                Commands.requestTrade(selling, buying);
             }
 
         }

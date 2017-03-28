@@ -414,10 +414,6 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   */
  Commands.requestTrade = function (data) {
      let trade = Trade.createTrade(data.selling, data.buying);
-
-     /**
-      * TODO: communication
-      */
  };
 
 
@@ -435,6 +431,7 @@ Commands.performTradeTransaction = function(buyerName, sellerName, roomID){
     let trade = trades[sellerName];
     Trade.performTrade(buyingPlayer,sellingPlayer,trade);
     match.currentTrade = null;
+    notify(sellerName,'performTradeTransaction', DATA.getRoom(roomID));
 };
 
 Commands.cancelTrade = function(roomID){
