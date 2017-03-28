@@ -325,7 +325,24 @@ $(window).on('imready', function(im){
             },
 
             requestTrade : function(){
-                var {selling, buying} = getInput();
+                var result = getInput();
+                console.log(result);
+                let selling = {};
+                for (let card in result){
+                    if (card.charAt(card.length - 1) == 'S'){
+                        if (result[card] == "" || result[card] ==" ") continue;
+                        selling[card.substr(0, card.length - 1)] = result[card];
+                    }
+                }
+                let buying = {};
+                for (let card in result){
+                    if (card.charAt(card.length - 1) == 'B'){
+                        if (result[card] == "" || result[card] ==" ") continue;
+                        buying[card.substr(0, card.length - 1)] = result[card];
+                    }
+                }
+
+                console.log(selling, buying);
                 Commands.proposeTrade(selling, buying);
             }
 

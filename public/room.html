@@ -418,23 +418,26 @@
                     </div>
 
 
+                    <!-- TODO: change the form later -->
                     <!-- trade with player -->
                     <div v-else-if='command == "requestTrade"'>
+                        <weui-form-title>Selling</weui-form-title>
                         <div class="weui-cells weui-cells_form">
-                            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                                <div class="weui-cell__hd"><label class="weui-label">Source</label></div>
+                            <div class="weui-cell weui-cell_select weui-cell_select-after" v-for='item in Enum.Tradable'>
+                                <div class="weui-cell__hd"><label class="weui-label">{{item}}</label></div>
                                 <div class="weui-cell__bd">
-                                    <select class="weui-select" name='selling'>
-                                        <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
-                                    </select>
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter amount" v-bind:name="item+'S'">
                                 </div>
                             </div>
-                            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                                <div class="weui-cell__hd"><label class="weui-label">Trade for</label></div>
+                        </div>
+                        <weui-form-title>Buying</weui-form-title>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell weui-cell_select weui-cell_select-after" v-for='item in Enum.Tradable'>
+                                <div class="weui-cell__hd"><label class="weui-label">{{item}}</label></div>
                                 <div class="weui-cell__bd">
-                                    <select class="weui-select" name='buying'>
-                                        <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
-                                    </select>
+                                    <input class="weui-input" type="number" pattern="[0-9]*"
+                                           placeholder="Enter amount" v-bind:name="item+'B'">
                                 </div>
                             </div>
                         </div>
