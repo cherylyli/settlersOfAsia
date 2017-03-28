@@ -38,7 +38,7 @@ Bank.createBank = function (match) {
     };
 
 
-    bank.decreasePlayerAsset = function (playerA, playerB, trade) {
+    bank.tradeWithPlayer = function (playerA, playerB, trade) {
         bank.decreasePlayerAsset(playerA, null, trade.offer);
         for (let card in trade.request){
             if (trade.request.hasOwnProperty(card)){
@@ -92,11 +92,7 @@ Bank.createBank = function (match) {
                 player.resourcesAndCommodities[card] -= cost[card];
             }
         }
-
         player.resourceCardNum = player.resourceCardTotalNum();
     };
-
-
     return bank;
-
 }
