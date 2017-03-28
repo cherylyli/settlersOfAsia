@@ -540,12 +540,12 @@ CommandReceived.acceptTrade = function (selling, buying) {
     // send to server we confirm the trade
 };
 
-CommandsData.decreasePlayerAsset = function (userNameA, userNameB, trade) {
+CommandsData.tradeWithPlayer = function (userNameA, userNameB, trade) {
     return {'userNameA': userNameA, 'userNameB': userNameB, 'trade': trade};
 
 };
 
-CommandCheck.decreasePlayerAsset = function (userNameA, userNameB, trade) {
+CommandCheck.tradeWithPlayer = function (userNameA, userNameB, trade) {
 
 };
 

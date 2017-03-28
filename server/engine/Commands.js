@@ -409,25 +409,48 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   * create trade object, notifies all the other players about the trade offer.
   * @new {Trade}
-  * @param offer {object} cost object
-  * @param request   {object}
+  * @param selling {'resName': 1, 'resName': 2} cost object
+  * @param buying   {'resName':2, 'resname': 3}
   */
  Commands.requestTrade = function (data) {
      let trade = Trade.createTrade(data.selling, data.buying);
+
      /**
       * TODO: communication
       */
  };
 
 
+/**
+ * It performs exchange between buyer and seller
+ * @param buyerName
+ * @param sellerName
+ * @param roomID
+ */
+Commands.performTradeTransaction = function(buyerName, sellerName, roomID){
+    let buyingPlayer = DATA.getPlayer(buyerName);
+    let sellingPlayer = DATA.getPlayer(sellerName);
+    let match = DATA.getMatch(roomID);
+    let trades = match.currentTrade;
+    let trade = trades[sellerName];
+    Trade.performTrade(buyingPlayer,sellingPlayer,trade);
+    match.currentTrade = null;
+};
+
+Commands.cancelTrade = function(roomID){
+    let match = DATA.getMatch(roomID);
+    match.currentTrade = null;
+};
+
  /**
   * game keeps track of current trade. (There is only one current trade)
-  * when all players have responded to the offer, return a list of players that agree to trade
   * @param player {Player} player who responded to the trade offer
-  * @return {list<String>} a list of player name who is willing to trade. If only a part of player responds, return null;
+  * @return {playerName1:tradeObject, playerName2: tradeObject}
   */
- Commands.acceptTrade = function (player) {
-
+ Commands.acceptTrade = function (userName, roomID, data) {
+     let trade = data;
+     let match = DATA.getMatch(roomID);
+     match.currentTrade[userName] = trade;
  };
 
 
@@ -438,11 +461,11 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param playerB {Player}
   * @param cardsB {list<String>} resource/ commodity cards the playerB offers
   */
- Commands.decreasePlayerAsset = function (roomID, data) {
+ Commands.tradeWithPlayer = function (roomID, data) {
      let playerA = DATA.getPlayer(data.userNameA, roomID);
      let playerB = DATA.getPlayer(data.userNameB, roomID);
      let match = DATA.getMatch(roomID);
-     match.bank.decreasePlayerAsset(data.playerA, data.playerB, data.trade);
+     match.bank.tradeWithPlayer(data.playerA, data.playerB, data.trade);
  };
 
 //spend fish tokens  + add checkers
