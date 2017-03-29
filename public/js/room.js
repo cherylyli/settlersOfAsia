@@ -157,11 +157,11 @@ $(window).on('imready', function(im){
                 // { user: null, action: 'The game starts.', system: true },
                 // { user: 'Yuan', action: 'places a city.', system: true },
                 // { user: 'jack', action: 'places a road.', system: true },
-                // { user: 'Max', action: "stop cheating man", system: false },
+                // { user: 'Max', action: "stop cheating man", system: false },<== Yo I'm no cheater
                 // { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
-                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate"
+                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard"
             ],
             isMyTurn: false,
             barbarianResult: false
@@ -273,6 +273,12 @@ $(window).on('imready', function(im){
             movePirate: function () {
                 var {oldhexid, newhexid} = getInput();
                 Commands.movePirate(oldhexid, newhexid);
+            },
+
+            executeProgressCard: function(){
+                var {card} = getInput();
+                console.log(card);
+                Commands.executeProgressCard(card);
             },
 
             /**

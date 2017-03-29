@@ -46,28 +46,32 @@ let CommandName = {
     'buildShipUseFish': 'buildShipUseFish',
     'displaceKnight': 'displaceKnight',
 
-    //TODO:
+      //TODO:
     'requestTrade': 'requestTrade',
     'acceptTrade': 'acceptTrade',
-    'tradeWithPlayer': 'tradeWithPlayer'
+
+      //INPROGRESS:
+      'executeProgressCard': 'executeProgressCard',
 
 
 };
 let CommandReceived = {};
 
-//TODO: some one good at English plz help me change this.... It's embarrassing...
-let CommandSuccMsg = {
-    'rollDice': "Hummmmm...",
-    'buildEstablishment': 'Settlement is only the first step of our great journey.',
-    'buildSettlement': "Settlement is only the first step of our great journey.",
-    'upgradeToCity': 'Awesome, we have one more city!',
-    'buildRoad': 'We are expanding territory!',
-    'buildShip': 'The sea worths exploring.',
-    'buyCityImprovement': 'Our cities are blessed by Catan God!',
-    'moveShip': 'Sailing in the sea...',
-    'tradeWithBank': 'Deal!',
-    'endTurn': 'Hummmm... I think I am done.'
-};
+    //TODO: some one good at English plz help me change this.... It's embarrassing...
+    let CommandSuccMsg = {
+        'rollDice': "Hummmmm...",
+        'buildEstablishment': 'Settlement is only the first step of our great journey.',
+        'buildSettlement': "Settlement is only the first step of our great journey.",
+        'upgradeToCity': 'Awesome, we have one more city!',
+        'buildRoad': 'We are expanding territory!',
+        'buildShip': 'The sea worths exploring.',
+        'buyCityImprovement': 'Our cities are blessed by Catan God!',
+        'moveShip': 'Sailing in the sea...',
+        'tradeWithBank': 'Deal!',
+        'endTurn': 'Hummmm... I think I am done.',
+        'executeProgressCard':'Progress Card was applied'
+    };
+
 
 //TODO: include check input & make the object not global
 let CommandCheck = {};
@@ -76,7 +80,6 @@ let room = {users: {}};
 
 
 //============================REQUIRE TEST ==============================
-
 
 
 /**
@@ -130,15 +133,39 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
     }
 };
 
+
+
 /**
  *
- * @param oldHexID {int}
- * @param newHexID {int}
- * @return {{oldHexID: *, newHexID: *}}
+ * @param offer   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
+ * @param request   {Object} key : {String} card, val: {int} # of card,   --> the cards u request for, if we use the progress card, we leave req null
  */
-CommandsData.moveRobber = function (oldHexID, newHexID) {
-    return {'oldHexID': oldHexID, 'newHexID': newHexID};
+CommandsData.requestTrade = function (selling, buying) {
+        return {'selling': selling, 'buying': buying};
+    };
+
+CommandCheck.requestTrade = function (selling, buying) {
+    // check if we have the cards we offer
+    checkEnoughResource(selling);
 };
+
+CommandReceived.requestTrade = function (src, req) {
+    // TODO: max
+    // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
+
+    // else
+    // alert them that there is a trade offer.
+    // if we dont use card  -->
+    // if use card --> drop down to select resource
+    // accept option, trade resource select
+};
+    /**
+     * moveRobber
+     * @return true/false
+     */
+    CommandsData.moveRobber = function (oldHexID, newHexID){
+      return {'oldHexID' : oldPosition, 'newHexID' : newPostion};
+    }
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.moveRobber = function (oldHexID, newHexID) {
@@ -455,7 +482,7 @@ CommandCheck.chaseAwayThief = function (position, thiefHexID, newPosition) {
 //cards: {Enum.Resourca.card : # of this type to be discarded}
 CommandsData.discardResourceCards = function (cards, num) {
     return {'cards': cards, 'num': num}
-}
+};
 
 CommandCheck.discardResourceCards = function (cards, num) {
     var player = player1
@@ -483,30 +510,43 @@ CommandCheck.discardResourceCards = function (cards, num) {
     swalError2("Not enough resource!");
 }
 
-CommandsData.requestTrade = function (offer, request) {
-    return {'offer': offer, 'request': request};
-}
 
-CommandCheck.requestTrade = function (offer, request) {
-    //what need to check?
-}
+/**
+ *
+ * @param selling {object}
+ * @param buying {object}
+ */
+CommandsData.acceptTrade = function (selling, buying) {
+    //checkEnoughResource(buying);
 
-CommandsData.acceptTrade = function () {
+};
 
-}
+CommandCheck.acceptTrade = function (selling, buying) {
+    checkEnoughResource(buying);
+};
 
-CommandCheck.acceptTrade = function () {
+CommandReceived.acceptTrade = function (selling, buying) {
+    //
+    if (DATA.getMyPlayer().name == trade.offerer){
+        // show a list of players who accepted the trade
+    }
 
-}
+    // if we play the progress card
+    // we dont need to choose
+
+
+    // send to server we confirm the trade
+};
 
 CommandsData.tradeWithPlayer = function (userNameA, userNameB, trade) {
     return {'userNameA': userNameA, 'userNameB': userNameB, 'trade': trade};
 
-}
+};
 
 CommandCheck.tradeWithPlayer = function (userNameA, userNameB, trade) {
 
-}
+};
+
 //=================================================================================
 /**
  * rollDice does not take any arguments
@@ -999,6 +1039,12 @@ CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
 
     return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]));
 
+    }
+/**
+ * @param card {string}
+ */
+CommandsData.executeProgressCard = function (card) {
+        return {'cardname':card};
 }
 
 /**
@@ -1296,9 +1342,13 @@ _.each(CommandName, function (cmd) {
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };
 
+    //we are listening for each command
     sock.on(cmd + 'Ack', function (msg) {
+        console.log('ACK:'+msg);
         console.log(msg);
-        CommandReceived.rollDice();
+        if (CommandReceived.hasOwnProperty(cmd)){
+            CommandReceived[cmd];
+        }
     });
 
     sock.on(cmd + 'Ack' + 'Owner', function (msg) {
