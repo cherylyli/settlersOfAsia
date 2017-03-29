@@ -162,7 +162,7 @@ let CommandsCheck = {};
              map.getHexTileById(id).produceResourceToSingleUser(match, player, building);
          }
      }
-     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player, 'buildSettlement');
  };
 
  Commands.upgradeToCity = function (userName, roomID, data){
@@ -176,7 +176,7 @@ let CommandsCheck = {};
      //TODO: for testing, delete later
      if (!building) building = Building.buildSettlement(player, position, map);
      building.upgradeToCity();
-     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'upgradeToCity');
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player, 'upgradeToCity');
 
  };
 
@@ -197,7 +197,7 @@ let CommandsCheck = {};
      if (establishmentLv == 1) {
          //build settlement
          Building.buildSettlement(player, position, map);
-         if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player, 'buildSettlement');
+         if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player, 'buildSettlement');
      }
      //!!payment and action are separate!!
      if (establishmentLv == 2){
@@ -205,7 +205,7 @@ let CommandsCheck = {};
          //TODO: for testing, delete later
          if (!building) building = Building.buildSettlement(player, position, map);
          building.upgradeToCity();
-         if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'upgradeToCity');
+         if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'upgradeToCity');
      }
      else{
          //build metropolitan
@@ -228,7 +228,7 @@ let CommandsCheck = {};
      let match = DATA.getMatch(roomID);
      Building.buildRoad(player, data, match, 'road');
 
-     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildRoad');
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'buildRoad');
  };
 
  /**
@@ -243,7 +243,7 @@ let CommandsCheck = {};
      let match = DATA.getMatch(roomID);
      Building.buildRoad(player, data, match, 'ship');
 
-     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.updatePlayerAsset(player,'buildShip');
+     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'buildShip');
  };
 
 
@@ -257,7 +257,7 @@ let CommandsCheck = {};
      let city = match.map.getVertexInfo(data.position);
      city.buildCityWall();
 
-     match.bank.updatePlayerAsset(city.owner, 'buildCityWall');
+     match.bank.decreasePlayerAsset(city.owner, 'buildCityWall');
  };
 
 
@@ -296,7 +296,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      let cityImprovementCategory = data.cityImprovementCategory;
      let level = player.buyCityImprovement(cityImprovementCategory);
 
-     match.bank.updatePlayerAsset(player, 'cityImprove_' + cityImprovementCategory + '_' + level);
+     match.bank.decreasePlayerAsset(player, 'cityImprove_' + cityImprovementCategory + '_' + level);
  };
 
 
@@ -325,7 +325,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      let match = DATA.getMatch(roomID);
      Knight.hireKnight(player, match.map, position);
 
-     match.bank.updatePlayerAsset(player, 'hireKnight');
+     match.bank.decreasePlayerAsset(player, 'hireKnight');
  };
 
 
@@ -337,7 +337,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      let knight = match.map.getVertexInfo(position);
      knight.activate();
 
-     match.bank.updatePlayerAsset(knight.owner, 'activateKnight');
+     match.bank.decreasePlayerAsset(knight.owner, 'activateKnight');
  };
 
 
@@ -349,7 +349,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      let knight = match.map.getVertexInfo(position);
      knight.promote();
 
-     match.bank.updatePlayerAsset(knight.owner, 'promoteKnight');
+     match.bank.decreasePlayerAsset(knight.owner, 'promoteKnight');
  };
 
  /**
@@ -409,25 +409,45 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   * create trade object, notifies all the other players about the trade offer.
   * @new {Trade}
-  * @param offer {object} cost object
-  * @param request   {object}
+  * @param selling {'resName': 1, 'resName': 2} cost object
+  * @param buying   {'resName':2, 'resname': 3}
   */
  Commands.requestTrade = function (data) {
-     let trade = Trade.createTrade(data.offer, data.request);
-     /**
-      * TODO: communication
-      */
+     let trade = Trade.createTrade(data.selling, data.buying);
  };
 
 
+/**
+ * It performs exchange between buyer and seller
+ * @param buyerName
+ * @param sellerName
+ * @param roomID
+ */
+Commands.performTradeTransaction = function(buyerName, sellerName, roomID){
+    let buyingPlayer = DATA.getPlayer(buyerName);
+    let sellingPlayer = DATA.getPlayer(sellerName);
+    let match = DATA.getMatch(roomID);
+    let trades = match.currentTrade;
+    let trade = trades[sellerName];
+    Trade.performTrade(buyingPlayer,sellingPlayer,trade);
+    match.currentTrade = null;
+    notify(sellerName,'performTradeTransaction', DATA.getRoom(roomID));
+};
+
+Commands.cancelTrade = function(roomID){
+    let match = DATA.getMatch(roomID);
+    match.currentTrade = null;
+};
+
  /**
   * game keeps track of current trade. (There is only one current trade)
-  * when all players have responded to the offer, return a list of players that agree to trade
   * @param player {Player} player who responded to the trade offer
-  * @return {list<String>} a list of player name who is willing to trade. If only a part of player responds, return null;
+  * @return {playerName1:tradeObject, playerName2: tradeObject}
   */
- Commands.acceptTrade = function (player) {
-
+ Commands.acceptTrade = function (userName, roomID, data) {
+     let trade = data;
+     let match = DATA.getMatch(roomID);
+     match.currentTrade[userName] = trade;
  };
 
 

@@ -50,7 +50,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.barbarian = Barbarian.createBarbarian();
     match.barbarianResult = null;
     match.Metropolis = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: player name  {String}
-
+    match.currentTrade = null;
     assignColors(match);
 
 

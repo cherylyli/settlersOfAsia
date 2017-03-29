@@ -43,6 +43,3 @@ let Building = (function () {
         buildSettlementCheck
     }
 })();
-
-
-

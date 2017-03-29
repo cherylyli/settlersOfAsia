@@ -1,0 +1,13 @@
+1490723842328	geckodriver	INFO	Listening on 127.0.0.1:48596
+1490723843421	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.J1TmfixibQI4
+1490723843422	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1490723843428	geckodriver::marionette	INFO	Connecting to Marionette on localhost:41263
+1490723844394	Marionette	INFO	Listening on port 41263
+1490723844801	Marionette	WARN	TLS certificate errors will be ignored for this session
+1490723896137	geckodriver	INFO	Listening on 127.0.0.1:40055
+1490723897189	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.JTr41UVVVUIK
+1490723897191	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox with args []
+1490723897193	geckodriver::marionette	INFO	Connecting to Marionette on localhost:36859
+1490723897922	Marionette	INFO	Listening on port 36859
+1490723898288	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: chrome://marionette/content/listener.js, line 1060: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]

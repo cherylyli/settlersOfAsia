@@ -49,11 +49,9 @@ let CommandName = {
       //TODO:
     'requestTrade': 'requestTrade',
     'acceptTrade': 'acceptTrade',
-
+    'performTradeTransaction':'performTradeTransaction',
       //INPROGRESS:
-      'executeProgressCard': 'executeProgressCard',
-
-
+    'executeProgressCard': 'executeProgressCard'
 };
 let CommandReceived = {};
 
@@ -135,6 +133,8 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
 
 
 
+//TRADE WITH PLAYER ==================================
+
 /**
  *
  * @param offer   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
@@ -149,7 +149,36 @@ CommandCheck.requestTrade = function (selling, buying) {
     checkEnoughResource(selling);
 };
 
-CommandReceived.requestTrade = function (src, req) {
+CommandReceived.performTradeTransaction = function () {
+    swal('Trade ended :D');
+    DATA.getMatch().currentTrade
+    //maybe set a flah so that we know with whom trade was performed
+    //don't delete trade right away it is going to be overwritted later anyway
+    //just check who is left in the currentTrade
+};
+
+
+CommandReceived.requestTrade = function (selling, buying) {
+    alert('=O');
+/*    if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
+        return;
+    }*/
+
+    swal({
+            title: "TRADE BRO?",
+            text: DATA.getMatch().currentPlayer +"wants to buy:"+buying +" and wants to sell: "+selling,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "TRADE RESOURCES!",
+            closeOnConfirm: false
+        },
+        function(){
+            swal("Trade started!", "Your trade response was sent", "success", function () {
+                Commands.acceptTrade();
+            });
+        });
+
     // TODO: max
     // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
 
@@ -159,10 +188,12 @@ CommandReceived.requestTrade = function (src, req) {
     // if use card --> drop down to select resource
     // accept option, trade resource select
 };
+//ROBBER ==================================
     /**
      * moveRobber
      * @return true/false
      */
+
     CommandsData.moveRobber = function (oldHexID, newHexID){
       return {'oldHexID' : oldPosition, 'newHexID' : newPostion};
     }
@@ -511,6 +542,10 @@ CommandCheck.discardResourceCards = function (cards, num) {
 }
 
 
+
+
+
+
 /**
  *
  * @param selling {object}
@@ -525,7 +560,10 @@ CommandCheck.acceptTrade = function (selling, buying) {
     checkEnoughResource(buying);
 };
 
-CommandReceived.acceptTrade = function (selling, buying) {
+// TODO: Max
+// commandReceived does not take any input
+// to get the most recent room object, app.room
+CommandReceived.acceptTrade = function () {
     //
     if (DATA.getMyPlayer().name == trade.offerer){
         // show a list of players who accepted the trade
@@ -630,13 +668,9 @@ CommandReceived.rollDice = function () {
 
     }
 
-
-
-
-
-    // number dice results
-  //  console.log("produc num" + DATA.getMatch().dice.numberDiceResult )
-//    console.log("sum " + DATA.getMatch().dice.numberDiceResult);
+//  number dice results
+//  console.log("produc num" + DATA.getMatch().dice.numberDiceResult )
+//  console.log("sum " + DATA.getMatch().dice.numberDiceResult);
     if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch()){
         app.rolledSeven = true;
         //TODO fix this,
@@ -1346,8 +1380,11 @@ _.each(CommandName, function (cmd) {
     sock.on(cmd + 'Ack', function (msg) {
         console.log('ACK:'+msg);
         console.log(msg);
+        //console.log(CommandReceived, CommandReceived[cmd]);
+        console.log(cmd, CommandReceived.hasOwnProperty(cmd));
         if (CommandReceived.hasOwnProperty(cmd)){
-            CommandReceived[cmd];
+            CommandReceived[cmd]();
+            console.log(cmd);
         }
     });
 

@@ -161,7 +161,7 @@ $(window).on('imready', function(im){
                 // { user: 'Emol', action: "i aint cheating -_-", system: false }
             ],
             cmds: [
-                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard"
+                "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard", "requestTrade"
             ],
             isMyTurn: false,
             barbarianResult: false
@@ -322,6 +322,28 @@ $(window).on('imready', function(im){
             tradeWithBank: function () {
                 var {src, tradeFor} = getInput();
                 Commands.tradeWithBank(src, tradeFor);
+            },
+
+            requestTrade : function(){
+                var result = getInput();
+                console.log(result);
+                let selling = {};
+                for (let card in result){
+                    if (card.charAt(card.length - 1) == 'S'){
+                        if (result[card] == "" || result[card] ==" ") continue;
+                        selling[card.substr(0, card.length - 1)] = result[card];
+                    }
+                }
+                let buying = {};
+                for (let card in result){
+                    if (card.charAt(card.length - 1) == 'B'){
+                        if (result[card] == "" || result[card] ==" ") continue;
+                        buying[card.substr(0, card.length - 1)] = result[card];
+                    }
+                }
+
+                console.log(selling, buying);
+                Commands.requestTrade(selling, buying);
             }
 
         }
