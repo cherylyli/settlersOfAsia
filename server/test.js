@@ -22,7 +22,6 @@ let userB = User.createUser(user_B);
 let userC = User.createUser(user_C);
 
 let userD = User.createUser(user_D);
-
 Commands.makeNewRoom(user_D, "123");
 Commands.joinRoom(userA, "123");
 Commands.joinRoom(userB, "123");
@@ -30,16 +29,6 @@ Commands.joinRoom(userC, "123");
 
 Commands.startGame("123");
 let map2 = data.getMatch("123").map;
-//console.log(map.getHexTileByEdge([2,3]));
-//Commands.buildRoad("Emol", "123", [53, 54]);
-Commands.buildSettlement("Emol", "123", {'position': 1});
-Commands.upgradeToCity("Emol", "123", {'position': 1});
-Commands.buildSettlement("Yuan", "123", {'position': 3});
-
-Commands.hireKnight("Emol","123",7);
-Commands.activateKnight("Emol","123",7);
-Commands.hireKnight("Max","123",7);
-//Commands.activateKnight("Max","123",7);
 
 let my = data.getMatch("123").map;
 let map = data.getMatch("123").map;
@@ -50,6 +39,25 @@ let player1 = data.getMatch("123").getPlayer("Emol");
 let player2 = data.getMatch("123").getPlayer("Yuan");
 let players = data.getMatch("123").players;
 let CommandCheck = {};
+
+Commands.drawOneProgressCard("Emol","123",{'kind' : "Trade"});
+Commands.drawOneProgressCard("Yuan","123",{'kind' : "Trade"});
+Commands.drawOneProgressCard("Yuan","123",{'kind' : "Science"});
+Commands.drawOneProgressCard("Emol","123",{'kind' : "Politics"});
+Commands.drawOneProgressCard("Emol","123",{'kind' : "Science"});
+
+console.log(player1.progressCards);
+console.log(player2.progressCards);
+//console.log(map.getHexTileByEdge([2,3]));
+//Commands.buildRoad("Emol", "123", [53, 54]);
+Commands.buildSettlement("Emol", "123", {'position': 1});
+Commands.upgradeToCity("Emol", "123", {'position': 1});
+Commands.buildSettlement("Yuan", "123", {'position': 3});
+
+Commands.hireKnight("Emol","123",7);
+Commands.activateKnight("Emol","123",7);
+Commands.hireKnight("Max","123",7);
+//Commands.activateKnight("Max","123",7);
 
 
 //TODO test barbarian applyResult + robber produce resource from bank

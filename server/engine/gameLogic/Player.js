@@ -181,7 +181,7 @@ Player.createPlayer = function (name, user) {
         //TODO check knight chase away thief.
           if(player.getFishSum() >= 2){
             //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.moveRobber(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+            Commands.moveRobber(userName, roomID, {'newHexID' : 0});
             newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
           }
@@ -193,7 +193,7 @@ Player.createPlayer = function (name, user) {
         case "MOVE_PIRATE" :
           if(player.getFishSum() >= 2){
             //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.movePirate(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+            Commands.movePirate(userName, roomID, {'newHexID' : 0});
             newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
           }

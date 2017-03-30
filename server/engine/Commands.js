@@ -20,6 +20,7 @@ let CircularJSON = require('circular-json');
 let Robber = require('./gameLogic/Robber.js');
 let Pirate = require('./gameLogic/Pirate.js');
 let ProgressCard = require('./gameLogic/ProgressCards.js');
+let _ = require('underscore');
 
 let Commands = module.exports = {};
 let CommandsCheck = {};
@@ -469,24 +470,23 @@ Commands.cancelTrade = function(roomID){
 Commands.moveRobber = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let robber = match.map.robber;
-    let hextile1 = null;
+    let hextile1 = match.map.getHexTileById(robber.curPos);
+    hextile1.blockedByRobber = false;
     let hextile2 = null;
-    if(data.oldHexID)
-      hextile1 = match.map.getHexTileById(data.oldHexID);
+
     if(data.newHexID)
       hextile2 = match.map.getHexTileById(data.newHexID);
       //robber.hasToDiscardCards(match.players);
-
     robber.moveTo(hextile1,hextile2,match);
 };
 
 Commands.movePirate = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let pirate = match.map.pirate;
-    let hextile1 = null;
+    let hextile1 = match.map.getHexTileById(pirate.curPos);
+    hextile1.blockedByPirate = false;
+
     let hextile2 = null;
-    if(data.oldHexID)
-      hextile1 = match.map.getHexTileById(data.oldHexID);
     if(data.newHexID)
       hextile2 = match.map.getHexTileById(data.newHexID);
     pirate.moveTo(hextile1,hextile2,match);
@@ -502,10 +502,32 @@ Commands.stealCard = function (userName, roomID, data) {
     playerB.stolenBy(playerA);
 };
 
+Commands.drawOneProgressCard = function(userName,roomID,data){
+    var progCardList = [];
+    var playersCards = [];
+    var kind = data.kind;
+    for(var card in Enum.ProgressCardType[kind]){
+      progCardList.push(Enum.ProgressCardType[kind][card]);
+    }
+
+    let players = DATA.getMatch(roomID).players;
+    for (var i in players) {
+      for(var card in players[i].progressCards){
+        playersCards.push(players[i].progressCards[card]);
+      }
+    }
+    var player = DATA.getPlayer(userName, roomID);
+    var duplicates = _.intersection(progCardList,playersCards);
+    var progCard = _.difference(progCardList,duplicates);
+    player.drawOneProgressCard(progCard[0]);
+}
+
+/*
 Commands.drawOneProgressCard = function (userName, roomID, data){
    let player = DATA.getPlayer(userName, roomID);
    player.drawOneProgressCard(data.progCard);
 };
+*/
 
 Commands.drawOneResourceCard = function (userName, roomID, data){
   let player = DATA.getPlayer(userName, roomID);
@@ -568,7 +590,7 @@ Commands.spendFishToken = function(userName, roomID, data){
       //TODO check knight chase away thief.
         if(player.getFishSum() >= 2){
           //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-          Commands.moveRobber(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+          Commands.moveRobber(userName, roomID, {'newHexID' : 0});
           newSum = player.getFishSum() - 2;
           player.setFishSum(newSum);
         }
@@ -580,7 +602,7 @@ Commands.spendFishToken = function(userName, roomID, data){
       case "MOVE_PIRATE" :
         if(player.getFishSum() >= 2){
           //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-          Commands.movePirate(userName, roomID, {'oldHexID' : data.oldHexID, 'newHexID' : 0});
+          Commands.movePirate(userName, roomID, {'newHexID' : 0});
           newSum = player.getFishSum() - 2;
           player.setFishSum(newSum);
         }
@@ -640,7 +662,7 @@ Commands.spendFishToken = function(userName, roomID, data){
       case "DRAW_PROG" :
         if(player.getFishSum() >= 7){
           console.log(data);
-          Commands.drawOneProgressCard(userName, roomID, {'progCard' : data.progCard});
+          Commands.drawOneProgressCard(userName, roomID, {'kind' : data.kind});
           newSum = player.fish - 7;
           player.setFishSum(newSum);
         }
