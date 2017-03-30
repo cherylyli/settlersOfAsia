@@ -68,16 +68,15 @@ Dice.createDice = function () {
           case "Ship" :
             if(match.barbarian){
             //  if(match.barbarian.toAttack()){
-            console.log("barbarian.curpos " + match.barbarian.curPos);
-             if(match.barbarian.curPos == 6){
+            if(match.barbarian.curPos === 3){ //for testing
+            // if(match.barbarian.curPos == 6){
                 result.event = "Barbarian Attack";
-                match.barbarian.getAttackResult(match.players);
-                //player is undefined : console.log(match.players);
                 match.barbarianResult = match.barbarian.applyResult(match.players);
-                //result.barbarianResult = match.barbarian.result;
-                match.barbarian.restart();
+                //match.barbarian.restart();
+                match.barbarian.curPos = 0;
               }
               else{
+                match.barbairanResult = null;
                 match.barbarian.canMove(event);
                 result.event = "Barbarian Move";
               }

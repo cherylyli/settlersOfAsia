@@ -253,7 +253,7 @@ CommandCheck.movePirate = function (oldHexID, newHexID) {
 
 CommandsData.stealCard = function (thiefUserName, victimUserName) {
     //var victim = DATA.getPlayer(victimUserName);
-    return {'thief': thief, 'victim': victimUserName};
+    return {'thief': thiefUserName, 'victim': victimUserName};
 };
 
 CommandCheck.stealCard = function (thiefUserName, victimUserName) {
@@ -603,95 +603,6 @@ CommandCheck.rollDice = function () {
     return true;
 };
 
-
-CommandReceived.rollDice = function () {
-    // TODO: change time out
-
-
-    // event die result
-
-    // if barbarian attacks
-    if (DATA.getMatch().barbarianResult) {
-      console.log("affected players are" + DATA.getMatch().barbarianResult.toPlayers );
-      console.log("result is " + DATA.getMatch().barbarianResult.result );
-      swal({
-          title: "Barbarian Attack",
-          text: "Everybody fights!!!"
-      });
-
-      if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
-          app.barbarianResult = true;
-      //    var action = DATA.getMatch().barbarianResult.result;
-      console.log("match");
-          swal({
-              title: DATA.getMatch().barbarianResult.result,
-              text: Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]
-          });
-        }else {
-              swal({
-                  title: DATA.getMatch().barbarianResult.result,
-                  text : "Barbarian left"
-              });
-          }
-        // apply result
-        /*
-            swal({
-                title: "Barbarian Attack",
-                text: "Everybody fights!!!"
-            }, function () {
-                if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
-                    app.barbarianResult = true;
-                    var action = DATA.getMatch().barbarianResult.result;
-                    swal({
-                        title: DATA.getMatch().barbarianResult.result,
-                        text: Enum.BarbarianAction.action
-                    });
-
-
-                    //applyBarbarianAction(DATA.getMatch().barbarianResult.result);
-
-                }
-                else {
-                    swal({
-                        title: DATA.getMatch().barbarianResult.result
-                    });
-                }
-            });
-            */
-
-    }
-
-    // if progress card
-    else if (DATA.getMatch().dice.eventDie != Enum.DieResult.Ship){
-
-        // TODO: MAX / Cheryl
-
-    }
-
-//  number dice results
-//  console.log("produc num" + DATA.getMatch().dice.numberDiceResult )
-//  console.log("sum " + DATA.getMatch().dice.numberDiceResult);
-    if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch()){
-        app.rolledSeven = true;
-        //TODO fix this,
-        if(DATA.getMatch().diceRolled && app.isMyTurn && app.rolledSeven){
-          setTimeout(function () {
-              swal({
-                  title: "Move Robber or Pirate",
-                  text: "You rolled 7."
-              }, function () {
-
-                  // TODO: enable robber and pirate icon
-
-                  })
-
-          }, 2000);
-        }
-        //DATA.getMatch().dice.numberDiceResult = 0;
-        //app.rolledSeven = false;
-    }
-
-};
 /**
  *
  * @param vertex {int}   vertex id
@@ -1261,49 +1172,112 @@ function isSettlement(vertex) {
     return (vertexUnit.level == 1);
 }
 
-//})();
+CommandReceived.stealCard = function(){
 
+}
+
+
+var barRes = null;
+var move = null;
+
+CommandReceived.rollDice = function () {
+    // TODO: change time out
+    // event die result
+    // if barbarian attacks
+      if(DATA.getMatch().barbarianResult){
+        barRes = DATA.getMatch().barbarianResult.result;
+        swal({
+            title: "Barbarian Attack",
+            text: "Everybody fights!!!"
+        });
+
+        if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
+            swal({
+                title: DATA.getMatch().barbarianResult.result,
+                text: Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]
+            });
+          } else {
+                swal({
+                    title: DATA.getMatch().barbarianResult.result,
+                    text : "Barbarian left"
+                });
+            }
+            app.barbarianResult = true;
+        }
+
+    // if progress card
+    else if (DATA.getMatch().dice.eventDie != Enum.DieResult.Ship){
+
+        // TODO: MAX / Cheryl
+
+    }
+
+    if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch().diceRolled){
+        if(DATA.getMatch().diceRolled && app.isMyTurn){
+
+          app.rolledSeven = true;
+          var inputOption = new Object(function(choice){
+            choice({
+              'Robber' : 'Robber',
+              'Pirate' : 'Pirate'
+            })
+          });
+
+          setTimeout(function () {
+              swal({
+                  title: "Move Robber or Pirate",
+                  text: "You rolled 7."
+              },
+              function () {
+                  // TODO: enable robber and pirate icon
+                  swal({
+                    title: "Your choice",
+                    input: "radio",
+                  }).then(function(move){
+                    swal({
+                      type: 'success',
+                      html: 'You chose to move ' + move
+                    })
+                  })
+              })
+          }, 2000);
+        }
+    }
+};
 
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
 
-        // if not my turn and barbarian result, operation is limited
-        if (app.barbarianResult && (!app.isMyTurn || app.isMyTurn)) {
-            switch (DATA.getMatch().barbarianResult.result) {
-                case "CATAN_WIN_TIE" :
-                    //console.log("tieeeeee");
-                    if (cmd != "drawOneProgressCard") {
-                        swalError2("You can get one progress card for free");
-                        return;
-                    }
-                    break;
+      if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled){
+        swalError2("Please roll dice first");
+        return;
+      }
 
-                case "CATAN_LOSE" :
-                    if (cmd != "chooseCityToBePillaged") {
-                      swalError2("Please choose one city to be pillaged");
-                //        swalError2(Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]);
-                        return;
-                    }
-                    break;
+      // if not my turn and barbarian result, operation is limited
+      if (app.barbarianResult){
+          app.barbarianResult = false;
+          //here
+         DATA.getMatch().barbarianResult = null;
+          var res = barRes;
 
-                case "CATAN_WIN" :
-                    DATA.getMatch().getMyPlayer.defenderOfCatan = true;
-                    //  if(cmd){
-                    swal("You are the defender of Catan.");
-                          //need automatically give player title 'defender of catan' - no need for one command.
-                        //  swalError2("You");
-                          return;
-
-                    break;
-
-                default:
-                    return;
+          if(res == "CATAN_WIN_TIE"){
+            if (cmd != "drawOneProgressCard") {
+                swalError2("You can get one progress card for free");
+                return;
             }
-            app.barbarianResult = false;
-
-        }
-
+          }
+          else if (res == "CATAN_LOSE"){
+            if (cmd != "chooseCityToBePillaged") {
+              swalError2("Please choose one city to be pillaged");
+              return;
+            }
+          }
+          else{
+            DATA.getMyPlayer().defenderOfCatan = true; //cant assign to null
+            swal("You are the defender of Catan.");
+          }
+     }
 
 //TODO
 /*
@@ -1318,33 +1292,19 @@ _.each(CommandName, function (cmd) {
 
 */
 //TODO fix this
-        if(DATA.getMatch().diceRolled && app.rolledSeven && app.isMyTurn){
-
-            console.log("cmd is " + cmd);
-            //error All Commands become undefined after this line. 
-            //even if cmd == moveRobber  the command is undified.
-            /*
-          if(cmd != "moveRobber" || cmd != "movePirate"){
+/*
+        if(app.rolledSeven){
+          if(cmd != "moveRobber" && cmd != "movePirate"){
             swalError2("You must move robber/pirate first");
             return;
           }
           else{
             swal("Succ");
-            return;
-          /*  if(cmd != "stealCard"){
-              swalError2("You must select a player to steal from.");
-            }
-            */
             app.rolledSeven = false;
-        //}
-
         }
-        if(cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
-          swalError2("Please roll dice first");
-          return;
-        }
-        //app.rolledSeven = false;
+      }
 
+*/
 
         //input complete check
         /**
