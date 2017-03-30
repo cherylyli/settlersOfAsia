@@ -44,7 +44,7 @@ let CommandName = {
     'spendFishToken': 'spendFishToken',
     'buildRoadUseFish': 'buildRoadUseFish',
     'buildShipUseFish': 'buildShipUseFish',
-    'displaceKnight': 'displaceKnight',
+  //  'displaceKnight': 'displaceKnight', <- replaced by moveKnight
 
       //TODO:
     'requestTrade': 'requestTrade',
@@ -476,6 +476,7 @@ CommandCheck.moveKnight = function (position, newPosition) {
     }
 };
 
+/*
 CommandsData.displaceKnight = function (position, newPosition) {
     return {'position': position, 'newPosition': newPosition};
 };
@@ -491,7 +492,7 @@ CommandCheck.displaceKnight = function (position, newPosition) {
     //TODO -read rules and change this part
 
 }
-
+*/
 CommandsData.chaseAwayThief = function (position, thiefHexID, newPosition) {
     return {'position': position, 'thiefHexID': thiefHexID, 'newPosition': newPosition}
 }
@@ -1172,10 +1173,18 @@ function isSettlement(vertex) {
     return (vertexUnit.level == 1);
 }
 
-CommandReceived.stealCard = function(){
 
+CommandReceived.moveKnight = function () {
+  //TODO !!!!
+  //Commands.moveKnight(oldPos, newPos)  {Int} vertex
+  //knight.move(vertex, map) returns -> if (opponentKnight) return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
+  //if(opponentKnight) app.displaceKnight = true
+  /*
+    opponentKnight.owner is blocked from access command table & map,
+    should move his knight to a connected road.
+    swal(input:newVertex)
+  */
 }
-
 
 var barRes = null;
 var move = null;
@@ -1195,6 +1204,14 @@ CommandReceived.rollDice = function () {
             swal({
                 title: DATA.getMatch().barbarianResult.result,
                 text: Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]
+                //TODO !!!
+                /*
+                for players not in their turn:
+                if (app.barbarianResult): 2 cases
+                  1. if DATA.getMatch().barbarianResult.result = "CATAN_WIN_TIE" -> disabled all the commands except drawOneProgressCard;
+                  2. if DATA.getMatch().barbarianResult.result = "CATAN_LOSE" -> disabled all the commands except chooseCityToBePillaged
+                then automatically ends their turn.
+                */
             });
           } else {
                 swal({
@@ -1213,9 +1230,18 @@ CommandReceived.rollDice = function () {
     }
 
     if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch().diceRolled){
-        if(DATA.getMatch().diceRolled && app.isMyTurn){
-
           app.rolledSeven = true;
+          //TODO !!!
+          /*
+          for players not in their turn:
+          if (app.rolledSeven): - disabled all the commands except discardResourceCards.
+          1. discardResourceCards, add panel for selecting resource cards to be deleted
+             format {Enum.Resouce.Lumber : discardedAmount, Enum.Resouce.Wool: discardedAmount , ..., Enum.Commodity:Paper : discardedAmount};
+
+          robber & pirate
+          1. add clickable hextile
+          */
+          if(DATA.getMatch().diceRolled && app.isMyTurn){
           var inputOption = new Object(function(choice){
             choice({
               'Robber' : 'Robber',
@@ -1229,8 +1255,9 @@ CommandReceived.rollDice = function () {
                   text: "You rolled 7."
               },
               function () {
-                  // TODO: enable robber and pirate icon
+                  // TODO: !!! here player's choice of move robber / pirate
                   swal({
+
                     title: "Your choice",
                     input: "radio",
                   }).then(function(move){
@@ -1244,7 +1271,6 @@ CommandReceived.rollDice = function () {
         }
     }
 };
-
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
@@ -1279,18 +1305,7 @@ _.each(CommandName, function (cmd) {
           }
      }
 
-//TODO
-/*
-- robber & pirate
-1. add a selection box on command board for command 'stealCard', receive a list of players that current player can steal from
-  disable those players not on the list.
-2. clickable hextile
-3. chase away thief
 
-- robber only
-  1. discardResourceCards, add panel for selecting resource cards to be deleted
-
-*/
 //TODO fix this
 /*
         if(app.rolledSeven){
