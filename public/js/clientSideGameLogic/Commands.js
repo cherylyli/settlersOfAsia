@@ -1175,13 +1175,11 @@ function isSettlement(vertex) {
 
 
 CommandReceived.moveKnight = function () {
-  //TODO !!!!
-  //Commands.moveKnight(oldPos, newPos)  {Int} vertex
-  //knight.move(vertex, map) returns -> if (opponentKnight) return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
-  //if(opponentKnight) app.displaceKnight = true
-  /*
-    opponentKnight.owner is blocked from access command table & map,
-    should move his knight to a connected road.
+  //TODO !!!
+  /*current player use command moveKnight(oldpos,newpos) {Int} vertex
+    if there is a knight that has been placed on the newPos THEN :
+    if(DATA.getMap().opponentKnight) app.displaceKnight = true;
+    DATA.getMap().opponentKnight.name should relocate his knight 
     swal(input:newVertex)
   */
 }
