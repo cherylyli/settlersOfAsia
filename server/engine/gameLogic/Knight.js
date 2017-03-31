@@ -36,7 +36,7 @@ Knight.createKnight = function (player, map) {
     knight.deactivate = function(){
         this.active = false;
     };
-    
+
     knight.promote = function () {
         this.level ++;
     };
@@ -47,7 +47,10 @@ Knight.createKnight = function (player, map) {
         map.setVertexInfo(undefined, knight.position);
         knight.place(vertex, map);
 
-        if (opponentKnight) return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
+        if (opponentKnight) {
+          map.opponentKnight = opponentKnight.owner;
+          return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
+        }
     }
 
     /**

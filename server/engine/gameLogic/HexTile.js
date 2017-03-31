@@ -142,6 +142,24 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
         return stealable;
       };
 
+      hexTile.getPlayersAroundByKnight = function(map){
+        var hasKnight = [];
+        //get players who have one or more settlements/cities on the vertice of that hextile.
+        for (let vertex in hexTile.vertices) {
+            if (hexTile.vertices.hasOwnProperty(vertex)) {
+                //there is a builidng on the vertex
+                let knight = map.getVertexInfo(hexTile.vertices[vertex]);
+                if (knight && knight.active){
+                    let player = knight.owner;
+                //    console.log("knight owner is " + player);
+                    hasKnight.push(player);
+                }
+            }
+        }
+        return hasKnight;
+      };
+
+
       hexTile.getPlayersAroundByShips = function(map){
         var stealable = [];
         //get players who have one or more settlements/cities on the vertice of that hextile.
@@ -170,13 +188,13 @@ HexTile.createHexTile = function(id, row, posInRow, HexType = 'Sea', productionN
                 let building = match.map.getVertexInfo(hexTile.vertices[vertex]);
                 if (building){
                     let player = building.owner;
-                    hexTile.produceResourceToSingleUser(match.map, player, building);
+                    hexTile.produceResourceToSingleUser(match, player, building);
                 }
             }
         }
     };
 
-    hexTile.produceResourceToSingleUser = function (map, player, building) {
+    hexTile.produceResourceToSingleUser = function (match, player, building) {
         let resource = Enum.SettlementResources[this.type];
         if (resource == Enum.SettlementResources.GoldField) {
             if (building.level == Enum.Building.Settlement) {

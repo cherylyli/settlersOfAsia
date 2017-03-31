@@ -300,8 +300,10 @@ let mapUI = (function () {
             // let left = parseInt($hexTile.css('left'));
             let top = $hexTile.position().top;
             let left = $hexTile.position().left;
+            /**
             console.log(hextile.id, "left", left);
             console.log(hextile.id, "top", top);
+             **/
             let right = left + 1.732 * hexEdgeLength;
             let bottom = top + 2 * hexEdgeLength;
             let harborRadius = hexEdgeLength * 0.6 / 2;

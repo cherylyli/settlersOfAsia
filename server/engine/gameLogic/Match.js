@@ -48,21 +48,34 @@ Match.createNewMatch = function (scenario, players, id) {
     match.phase = null;
     match.turnNum = 0;
     match.barbarian = Barbarian.createBarbarian();
+    match.barbarianResult = null;
     match.Metropolis = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: player name  {String}
-
+    match.currentTrade = null;
+    match.discardList = {};
     assignColors(match);
 
 
     match.rollDice = function () {
         match.dice.rollEventDice();
         match.dice.rollProductionDice();
-        match.dice.configureResult(match.map);
+        match.dice.configureResult(match);
         match.diceRolled = true;
     };
 
     match.getPlayer = function (UserName) {
         return match.players[UserName];
     };
+
+    match.hasToDiscardCards = function(players){
+      // if players has more than 7 cards, discard half (round down)
+      for(var player in players){
+        //console.log("name" + players[player].name );
+        //console.log("discard cards num " + players[player].discardedCardsCnt());
+        match.discardList[players[player].name] = players[player].discardedCardsCnt();
+      }
+      //console.log(discardCards);
+      return match.discardList;
+    }
 
     match.checkPlayerVP = function(player){
         if (player.VP >= player.winningVP) {

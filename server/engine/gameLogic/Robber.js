@@ -10,29 +10,32 @@ Robber.createRobber = function(){
   robber.pos = 0;
   robber.move = false;
 
+
   robber.canMove = function(productionNum){
     if (productionNum == 7){
       robber.move = true;
       //player.rolledSeven = true;
     }
     return robber.move;
-  }
+  };
 
   //from, to - 2 land hextiles
-  robber.moveTo = function(from,to){
-    /*
-    if(robber.move == false)
-      return -1;
-      */
-    //release hextile_from to robber free
-    from.blockedByRobber = false;
-    to.blockedByRobber = true;
-    robber.move = false;
+  robber.moveTo = function(from,to,match){
+
+    if(from)
+      from.blockedByRobber = false;
+    if(to){
+      to.blockedByRobber = true;
+      robber.pos = to;
+      robber.move = false;
+      return {'curPos' : robber.pos, 'discardHalf' : robber.hasToDiscardCards(match.players), 'stealFrom' : robber.stealFrom(to,match.map)};
+    }
 
     robber.pos = to;
+    robber.move = false;
     //player.rolledSeven = false;
-//    return robber.pos;
-  }
+    return  {'curPos' : robber.pos,'discardHalf': null, 'stealFrom' : null};
+  };
 
   //@return {playerName {String} : number of cards that need to be discarded: {Int}}
   robber.hasToDiscardCards = function(players){

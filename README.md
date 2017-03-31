@@ -21,3 +21,19 @@ $ node app.js
 
 # Document
 - Check out Wiki if you have question about communication pattern and socket event tags.
+
+
+
+# Use cases
+
+## Trade with player
+
+- Initiator of a trade sends trade request to the server
+- Server forwards trade request ACK to all other player
+- Player accepts the trade
+	- Player sends accept trade to server
+	- Server appends accept trade to list of current trade
+	- Initiator of trade chooses trade
+	- Initiator his choice to the server
+	- Server does transaction
+

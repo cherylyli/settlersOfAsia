@@ -17,20 +17,20 @@ Pirate.createPirate = function(){
     return pirate.move;
   }
   //from, to - 2 water hex tiles
-  pirate.moveTo = function(from,to){
-    /*
-    if(pirate.move == false)
-      return -1;
-      */
-    //release hextile_from
-    from.blockedByPirate = false;
-    to.blockedByPirate = true;
-    //must be water hex
-    pirate.pos = to;
+  pirate.moveTo = function(from,to,match){
+    if(from)
+      from.blockedByPirate = false;
+    if(to){
+        to.blockedByPirate = true;
+        pirate.pos = to;
+        pirate.move = false;
+        return {'curPos' : pirate.pos, 'discardHalf': null, 'stealFrom' : pirate.stealFrom(to, match.map)};
+      }
 
-    pirate.move = false;
-    //player.rolledSeven = false;
-  //  return pirate.pos;
+      pirate.pos = to;
+      pirate.move = false;
+      //player.rolledSeven = false;
+      return {'curPos' : pirate.pos,  'discardHalf': null, 'stealFrom' : null };
   }
 
   pirate.stealFrom = function(hexTile, map){

@@ -35,7 +35,7 @@ Map.createMap = function (scenarioData) {
     map.row = initRow(scenarioData.hexTileNum);
     map.numTokenToHexTiles = initNumTokenToHexTiles();
 
-
+    map.opponentKnight = null;
     map.robber = Robber.createRobber();
     map.pirate = Pirate.createPirate();
 
