@@ -543,7 +543,14 @@ $(window).on('imready', function (im) {
     function clearHighlightedVertices($except) {
         var $p = $('#cmd-table');
         var $map = $('#board .map');
-        $map.find('.vertex').not($except).removeClass('ctrl-clicked')
+        $map.find('.vertex').not($except).removeClass('ctrl-clicked');
+    }
+
+    // clear highlighted hexes
+    function clearHighlightedHexes($except) {
+        var $p = $('#cmd-table');
+        var $map = $('#board .map');
+        $map.find('.hex').not($except).removeClass('clicked');
     }
 
     // clear highlighted commands
@@ -558,9 +565,19 @@ $(window).on('imready', function (im) {
         return $('#board .map .vertex.ctrl-clicked').length;
     }
 
+    // count number of highlighted hexes
+    function highlightedHexes() {
+        return $('#board .map .hex.clicked').length;
+    }
+
     // highlight a vertex
     function highlightVertex($e) {
         $e.addClass('ctrl-clicked');
+    }
+
+    // highlight a hex
+    function highlightHexes($e) {
+        $e.addClass('clicked');
     }
 
     // check if element has class
@@ -568,9 +585,10 @@ $(window).on('imready', function (im) {
         return (!$e.hasClass(cls) && !$e.closest('.' + cls).length);
     }
 
-    // un-highlight vertices when click elsewhere
+    // un-highlight vertices and hexes when click elsewhere
     $('#board').click(function (e) {
         if (isNot($(e.target), 'vertex')) clearHighlightedVertices();
+        if (isNot($(e.target), 'hex')) clearHighlightedHexes();
     });
 
     // click on vertex
@@ -589,6 +607,25 @@ $(window).on('imready', function (im) {
             highlightVertex($(this));
             showVertexOpeartions($(this));
         }
+    });
+
+    // click on hex
+    $('#board').on('click', '.hex', function (e) {
+        // if already selected a hex, clear
+        if (highlightedHexes() >= 1) clearHighlightedHexes();
+
+        highlightHexes($(this));
+        console.log($(this).attr('data-id'));
+        /**
+        // if ctrl-clicked vertices accumulate to 2 -> edge operation
+        if (highlightedVertices() == 2) {
+            showEdgeOperations();
+        }
+        // if click on single vertex -> vertex operation
+        else if (!isCtrlPressed(e)) {
+            highlightVertex($(this));
+            showVertexOpeartions($(this));
+        }**/
     });
 
     // click on 1 vertex
