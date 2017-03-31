@@ -1,6 +1,18 @@
 //(function(){
     let Commands = {};
     let CommandsData = {};
+    let VertexCommand = {
+        "UnoccupiedVertex": {
+          'buildSettlement': 'buildSettlement',
+          'hireKnight' : 'hireKnight'
+        },
+
+        "Settlement": {
+            'upgradeToCity': 'upgradeToCity',
+
+        }
+
+    };
     let CommandName = {
       //old ones
       'rollDice' : 'rollDice', 'buildSettlement': 'buildSettlement', 'upgradeToCity': 'upgradeToCity',
@@ -9,7 +21,6 @@
       'moveShip': 'moveShip', 'tradeWithBank': 'tradeWithBank',
 
       //need to test.
-      'setDefenderOfCatan' : 'setDefenderOfCatan',
       'addMetropolis' : 'addMetropolis',
       'chooseCityToBePillaged' : 'chooseCityToBePillaged',
       'moveRobber' : 'moveRobber' ,
@@ -329,7 +340,7 @@
     }
 
     CommandsData.hireKnight = function(position){
-      return {'position' : null}
+      return {'position' : position}
     }
 
     CommandCheck.hireKnight = function(position){
