@@ -92,6 +92,7 @@ CommandsData.addMetropolis = function (userName, vertex) {
 
 CommandCheck.addMetropolis = function (userName, vertex) {
     let player = DATA.getPlayer(userName);
+    //TODO
     /*
      if (!player.hasMetropolis){
      swalError2("Player doesn't have any metropolis to add on the city");
@@ -194,38 +195,35 @@ CommandReceived.requestTrade = function (selling, buying) {
      * @return true/false
      */
 
-    CommandsData.moveRobber = function (oldHexID, newHexID){
-      return {'oldHexID' : oldPosition, 'newHexID' : newPostion};
+    CommandsData.moveRobber = function (newHexID){
+      return {'newHexID' : newHexID};
     }
 
 //consider different cases: move off board, move from a to b, move from null to b
-CommandCheck.moveRobber = function (oldHexID, newHexID) {
-  if(oldHexID == 0){
-   DATA.getMatch().map.getHexTileById(oldHexID).blockedByRobber = true;
-  }
-    var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
+CommandCheck.moveRobber = function (newHexID) {
+    if(newHexID == 0){
+      return true;
+    }
     var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-    if (oldHex && newHex) { //
-      if (oldHex.blockedByRobber == true && oldHex.type != Enum.HexType.Sea && oldHex.type != Enum.HexType.Lake) {
+    if (newHex) { //
           if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
               return true;
           }
-      }
-      else {
-          swalError2("Invalid Position. Please select a landTile to perform such action.");
-          return false;
-      }
+          else {
+              swalError2("Invalid Position. Please select a landTile to perform such action.");
+              return false;
+          }
     }
+
 };
 
 /**
  *
- * @param oldHexID {int}
  * @param newHexID {int}
- * @return {{oldHexID: *, newHexID: *}}
+ * @return {newHexID: *}
  */
-CommandsData.movePirate = function (oldHexID, newHexID) {
-    return {'oldHexID': oldHexID, 'newHexID': newHexID};
+CommandsData.movePirate = function (newHexID) {
+    return {'newHexID': newHexID};
 };
 
 /**
@@ -234,20 +232,20 @@ CommandsData.movePirate = function (oldHexID, newHexID) {
  */
 
 //consider different cases: move off board, move from a to b, move from null to b
-CommandCheck.movePirate = function (oldHexID, newHexID) {
-   if(oldHexID == 0){
-    DATA.getMatch().map.getHexTileById(oldHexID).blockedByPirate = true;
-   }
-    var oldHex = DATA.getMatch().map.getHexTileById(oldHexID);
-    var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-    if (oldHex.blockedByPirate == true && oldHex.type == Enum.HexType.Sea) {
-        if (newHex.blockedByPirate == false && newHex.type == Enum.HexType.Sea) {
-            return true;
-        }
+CommandCheck.movePirate = function (newHexID) {
+    if(newHexID == 0){
+      return true;
     }
-    else {
-        swalError2("Invalid Position. Please select a seaTile.");
-        return false;
+
+    var newHex = DATA.getMatch().map.getHexTileById(newHexID);
+    if(nexHex){
+      if (newHex.blockedByPirate == false && newHex.type == Enum.HexType.Sea) {
+          return true;
+      }
+      else {
+          swalError2("Invalid Position. Please select a seaTile.");
+          return false;
+      }
     }
 };
 
@@ -332,11 +330,11 @@ CommandCheck.discardOneProgressCard = function (progCard) {
 
 CommandsData.giveAwayBoot = function (bootHolder, transferTo) {
     //var victim = DATA.getPlayer(victimUserName);
-    return {'bootHolder': thief, 'transferTo': victimUserName};
+    return {'bootHolder': bootHolder, 'transferTo': transferTo};
 }
 
-CommandCheck.giveAwayBoot = function (holder, transferTo) {
-    let playerA = DATA.getPlayer(holder);
+CommandCheck.giveAwayBoot = function (bootHolder, transferTo) {
+    let playerA = DATA.getPlayer(bootHolder);
     let playerB = DATA.getPlayer(transferTo);
     if (playerA.hasBoot == true && playerB.hasBoot == false) {
         if (playerA.VP <= playerB.VP) {
@@ -394,7 +392,7 @@ CommandsData.spendFishToken = function (action, data) {
 }
 
 CommandCheck.spendFishToken = function (userName, action, data) {
-    //checkers done on server side.
+    //TODO Yuan add checkPlayerAsset for fish token
     let player = DATA.getPlayer(userName);
     if (player.getFishSum() < 2) {
         return false;
@@ -403,12 +401,14 @@ CommandCheck.spendFishToken = function (userName, action, data) {
         return true;
     }
 }
-
+//TODO Yuan deactive knights
 CommandsData.hireKnight = function (position) {
     return {'position': null}
 }
 
 CommandCheck.hireKnight = function (position) {
+    //QUESTION: immediately place knight after hired it???
+    //if so: check if position is availble.
     if (!checkEnoughResource(Cost.basicKnights)) {
         swalError2("Not enough resource to purchase a knight");
         return false;
@@ -466,7 +466,11 @@ CommandsData.moveKnight = function (position, newPosition) {
 
 CommandCheck.moveKnight = function (position, newPosition) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
-    //var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
+    var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
+    /*TODO Yuan
+    1.if the newPosition has been occupied by one of player's knight, return false with msg.
+    2.check whether the newPosition lies on the same continuous road as position.
+    */
     if (knight.hasMovedThisTurn || !knight.active) {
         swalError2("Error, knight has been moved this turn or selected knight is not active");
         return false;
@@ -538,8 +542,8 @@ CommandCheck.discardResourceCards = function (cards, num) {
     if (counter) {
         return true;
     }
-    return false;
     swalError2("Not enough resource!");
+    return false;
 }
 
 
@@ -1175,18 +1179,28 @@ function isSettlement(vertex) {
 
 
 CommandReceived.moveKnight = function () {
-  //TODO !!!
+  //TODO
   /*current player use command moveKnight(oldpos,newpos) {Int} vertex
     if there is a knight that has been placed on the newPos THEN :
-    if(DATA.getMap().opponentKnight) app.displaceKnight = true;
-    DATA.getMap().opponentKnight.name should relocate his knight 
+    DATA.getMap().opponentKnight.name should relocate his knight
     swal(input:newVertex)
   */
+  if (_.contains(DATA.getMap().opponentKnight.name, DATA.getMyPlayer().name)) {
+      swal({
+          title: "Please relocate your knight",
+          text: "Your knight has been displaced by a stronger knight."
+          //TODO Emol
+          /*
+            activate command table & map, allow this player to select a new spot to relocate his knight
+            use Commands.moveKnight
+          */
+      });
+    }
+
 }
 
 var barRes = null;
 var move = null;
-
 CommandReceived.rollDice = function () {
     // TODO: change time out
     // event die result
@@ -1202,13 +1216,17 @@ CommandReceived.rollDice = function () {
             swal({
                 title: DATA.getMatch().barbarianResult.result,
                 text: Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]
-                //TODO !!!
+                //TODO Emol
                 /*
-                for players not in their turn:
-                if (app.barbarianResult): 2 cases
-                  1. if DATA.getMatch().barbarianResult.result = "CATAN_WIN_TIE" -> disabled all the commands except drawOneProgressCard;
-                  2. if DATA.getMatch().barbarianResult.result = "CATAN_LOSE" -> disabled all the commands except chooseCityToBePillaged
+                for players not in their turn limit them to the following commands only - app.barbarianResult == true; (line 1238)
+                2 cases:
+                  1. if DATA.getMatch().barbarianResult.result = "CATAN_WIN_TIE" ->  drawOneProgressCard;
+                  2. if DATA.getMatch().barbarianResult.result = "CATAN_LOSE" ->  chooseCityToBePillaged
                 then automatically ends their turn.
+                Note: if current player receives these 2 result, he need to following the instruction and do the corresponding action first.
+                Fix:
+                1. DATA.getMatch().barbarianResult should be null after barbarian restart. In Dice.js(server) line 79
+
                 */
             });
           } else {
@@ -1229,31 +1247,44 @@ CommandReceived.rollDice = function () {
 
     if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch().diceRolled){
           app.rolledSeven = true;
-          //TODO !!!
+          //TODO Emol
           /*
-          for players not in their turn:
-          if (app.rolledSeven): - disabled all the commands except discardResourceCards.
-          1. discardResourceCards, add panel for selecting resource cards to be deleted
-             format {Enum.Resouce.Lumber : discardedAmount, Enum.Resouce.Wool: discardedAmount , ..., Enum.Commodity:Paper : discardedAmount};
-
-          robber & pirate
-          1. add clickable hextile
+          for all players:
+          if (app.rolledSeven): - allow all players to discardResourceCards(cards, num)
+             for each player, num = DATA.getMatch().discardList[players[player].name]
+             num cannot be changed by players.
+          1. discardResourceCards, add panel for selecting resource cards & commodities to be deleted
+             use Commmands.discardResourceCards(cards,num);
           */
+          //player who rolled seven needs to select from robber / pirate
           if(DATA.getMatch().diceRolled && app.isMyTurn){
+          //radio box : select from robber/pirate
+          /*
           var inputOption = new Object(function(choice){
             choice({
               'Robber' : 'Robber',
               'Pirate' : 'Pirate'
             })
           });
-
+          */
           setTimeout(function () {
               swal({
                   title: "Move Robber or Pirate",
                   text: "You rolled 7."
               },
               function () {
-                  // TODO: !!! here player's choice of move robber / pirate
+                  /*
+                   TODO Emol
+                   1. player needs to choose from moving robber or pirate
+                   2. allow player moveRobber/Pirate by clicking a newHexID
+                   3. a list contains the name {String} of players who have at least one building around the newHex
+                      call var newHex = DATA.getMap()getHexTileById(newHexID);
+                      if robber :  var stealList = newHex.getPlayersAroundByBuildings(DATA.getmap());
+                      if pirate:   var stealList = newHex.getPlayersAroundByShips(DATA.getMap());
+                   4. select a player to steal from
+                  */
+
+                  /*
                   swal({
 
                     title: "Your choice",
@@ -1264,11 +1295,24 @@ CommandReceived.rollDice = function () {
                       html: 'You chose to move ' + move
                     })
                   })
+                  */
+
               })
           }, 2000);
         }
     }
 };
+/*
+  TODO Emol
+  add Commands.spendFishToken(action, data) to command table
+  5 possible actions:              data
+  "MOVE_ROBBER" : "MOVE_ROBBER",   nexHexID
+  "MOVE_PIRATE" : "MOVE_PIRATE",   newHexID
+  "STEAL_CARD" : "STEAL_CARD",     thiefUserName, victimUserName
+  "BUILD_ROAD" : "BUILD_ROAD",    [vertex, vertex ]
+  "BUILD_SHIP" : "BUILD_SHIP",    [vertex, vertex]
+  "DRAW_PROG" : "DRAW_PROG"       String, case sensitive "Trade" / "Politics" / "Science"
+*/
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
@@ -1304,7 +1348,6 @@ _.each(CommandName, function (cmd) {
      }
 
 
-//TODO fix this
 /*
         if(app.rolledSeven){
           if(cmd != "moveRobber" && cmd != "movePirate"){

@@ -48,7 +48,7 @@ Knight.createKnight = function (player, map) {
         knight.place(vertex, map);
 
         if (opponentKnight) {
-          map.opponentKnight = opponentKnight;
+          map.opponentKnight = opponentKnight.owner;
           return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
         }
     }

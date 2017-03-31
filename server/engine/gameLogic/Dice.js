@@ -72,8 +72,8 @@ Dice.createDice = function () {
             // if(match.barbarian.curPos == 6){
                 result.event = "Barbarian Attack";
                 match.barbarianResult = match.barbarian.applyResult(match.players);
-                //match.barbarian.restart();
-                match.barbarian.curPos = 0;
+                match.barbarian.restart();
+                //match.barbarian.curPos = 0;
               }
               else{
                 match.barbairanResult = null;

@@ -404,7 +404,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   */
  Commands.discardResourceCards = function (userName, roomID, data) {
      let player = DATA.getPlayer(userName, roomID);
-     player.discardResourceCards(data.cards);
+     player.discardResourceCards(data.cards, data.num);
  };
 
  /**
@@ -471,7 +471,9 @@ Commands.moveRobber = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let robber = match.map.robber;
     let hextile1 = match.map.getHexTileById(robber.curPos);
-    hextile1.blockedByRobber = false;
+    if(hextile1){
+      hextile1.blockedByRobber = false;
+    }
     let hextile2 = null;
 
     if(data.newHexID)
@@ -484,8 +486,9 @@ Commands.movePirate = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let pirate = match.map.pirate;
     let hextile1 = match.map.getHexTileById(pirate.curPos);
-    hextile1.blockedByPirate = false;
-
+    if(hextile1){
+      hextile1.blockedByRobber = false;
+    }
     let hextile2 = null;
     if(data.newHexID)
       hextile2 = match.map.getHexTileById(data.newHexID);

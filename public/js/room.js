@@ -266,13 +266,13 @@ $(window).on('imready', function(im){
             },
 
             moveRobber: function () {
-                var {oldhexid, newhexid} = getInput();
-                Commands.moveRobber(oldhexid, newhexid);
+                var {newHexID} = getInput();
+                Commands.moveRobber(newHexID);
             },
 
             movePirate: function () {
-                var {oldhexid, newhexid} = getInput();
-                Commands.movePirate(oldhexid, newhexid);
+                var {newHexID} = getInput();
+                Commands.movePirate(newHexID);
             },
 
             executeProgressCard: function(){

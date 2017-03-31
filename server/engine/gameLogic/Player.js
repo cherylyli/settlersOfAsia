@@ -410,6 +410,7 @@ Player.createPlayer = function (name, user) {
 
 
     /*TODO:
+    NOTE: a continous road can be blocked by opponentplayer's knights / settlements/ cities
     map structure: engin/document/map-37.png
     	1.find a way to store start node of each edge.
     		a).-- flatten list then remove duplicates?  NO :(
@@ -459,6 +460,18 @@ Player.createPlayer = function (name, user) {
 
 
     };
+    /**
+     * Return a continous road that contains the input vertex. 
+       e.g player has a continous road from 1-2-3-4 ->  [1,2],[2,3],[3,4],[4,5] (5 is the end nodes)
+       input 3 returns a list of vertices [1,2,3,4,5]
+     * @param vertex {Int}
+     * @return Int list - all vertices on that road.
+     */
+    player.getContinuousRoadByVertex = function(vertex){
+      /**
+       * TODO: Cheryl
+       */
+    }
 
 
     /**
@@ -498,10 +511,9 @@ Player.createPlayer = function (name, user) {
     }
 
 
-    //var disProgResCards = ["Wood":2,"Brick":1];
   //  player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     //DATA INPUT {{[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};} - Int : discarded amount
-    player.discardResourceCards = function(cards){
+    player.discardResourceCards = function(cards, num){
       let keys = [];
       for (var card in player.resourcesAndCommodities){
         for(var discard in cards){

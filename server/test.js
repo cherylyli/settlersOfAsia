@@ -40,6 +40,43 @@ let player2 = data.getMatch("123").getPlayer("Yuan");
 let players = data.getMatch("123").players;
 let CommandCheck = {};
 
+//discard resources check
+CommandCheck.discardResourceCards = function (cards, num) {
+    var player = player1
+    var size = 0;
+    for (var i in cards) {
+        size += cards[i];
+    }
+    if (size != num) {
+        console.log("You need to discard " + num + " card(s)!");
+        return false;
+    }
+    var counter = 0;
+    for (var card in player.resourcesAndCommodities) {
+        for (var discard in cards) {
+            if (card === discard) {
+                if (player.resourcesAndCommodities[card] >= cards[discard])
+                    counter = 1;
+            }
+        }
+    }
+    if (counter) {
+        return true;
+    }
+    console.log("Not enough resource!");
+    return false;
+}
+
+//discard resource cards - working
+console.log(player1.resourceCardTotalNum());
+var ds = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: 1, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+CommandCheck.discardResourceCards(ds,1);
+Commands.discardResourceCards("Emol","123",{'cards' : ds}, 1);
+//player1.discardResourceCards(ds);
+console.log(player1.resourcesAndCommodities);
+console.log(player1.resourceCardTotalNum());
+
+//draw progress card check
 Commands.drawOneProgressCard("Emol","123",{'kind' : "Trade"});
 Commands.drawOneProgressCard("Yuan","123",{'kind' : "Trade"});
 Commands.drawOneProgressCard("Yuan","123",{'kind' : "Science"});
@@ -197,15 +234,6 @@ console.log("# to be discarded " + player2.discardedCardsCnt());
 console.log(my.robber.hasToDiscardCards(players));
 */
 
-/*
-//discard resource cards - working
-console.log(player1.resourceCardTotalNum());
-var ds = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: 1, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
-Commands.discardResourceCards("Emol","123",{'cards' : ds});
-//player1.discardResourceCards(ds);
-console.log(player1.resourcesAndCommodities);
-console.log(player1.resourceCardTotalNum());
-*/
 
 /*drawOneProgressCard - woking
 Commands.drawOneProgressCard("Emol","123",{'progCard' : "sdjiosjdojao"});
