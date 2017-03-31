@@ -616,16 +616,7 @@ $(window).on('imready', function (im) {
 
         highlightHexes($(this));
         console.log($(this).attr('data-id'));
-        /**
-        // if ctrl-clicked vertices accumulate to 2 -> edge operation
-        if (highlightedVertices() == 2) {
-            showEdgeOperations();
-        }
-        // if click on single vertex -> vertex operation
-        else if (!isCtrlPressed(e)) {
-            highlightVertex($(this));
-            showVertexOpeartions($(this));
-        }**/
+        showHexOperations($(this));
     });
 
     // click on 1 vertex
@@ -673,6 +664,10 @@ $(window).on('imready', function (im) {
         // display first matched opeartion
         showCmdTable();
         $btns.first().click();
+    }
+
+    function showHexOperations($e){
+
     }
 
 

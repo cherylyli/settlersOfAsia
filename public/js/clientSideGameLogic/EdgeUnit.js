@@ -1,13 +1,22 @@
-let EdgeUnit = {};
+let EdgeUnit = (function () {
 
-EdgeUnit.addHelperFunctions = function (edgeUnit) {
+    /**
+     * get valid commands at edge
+     * @param edge {edge}
+     */
+    function getCommands(edge) {
 
-};
+    }
 
-EdgeUnit.road = {
+    return {
+        getCommands
+    }
+})();
 
-};
 
+
+
+/**
 EdgeUnit.addHelperFunctionsShip = function (ship) {
     ship.remove = function (map, oldPosition) {
         map.setEdgeInfo(undefined, oldPosition);
@@ -16,4 +25,4 @@ EdgeUnit.addHelperFunctionsShip = function (ship) {
     ship.addBack= function (map, oldPosition) {
         map.setEdgeInfo(this, oldPosition);
     };
-};
+};**/

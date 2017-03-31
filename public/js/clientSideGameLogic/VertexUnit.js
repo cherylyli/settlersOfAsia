@@ -20,8 +20,16 @@ let VertexUnit = (function () {
         return vertexUnit.hasOwnProperty('hasMovedThisTurn');
     }
 
+    /**
+     * get valid commands at this vertex
+     */
+    function getCommands(vertexId) {
+
+    }
+
     return {
         getUIType,
-        isKnight
+        isKnight,
+        getCommands
     }
 })();
