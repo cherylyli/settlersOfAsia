@@ -389,89 +389,6 @@ $(window).on('imready', function(im){
     });
 
 
-    function placeRoadsAndShips() {
-        //player colors: RED, ORANGE, BLUE, GREEN
-        if (app.room && app.room.match) {
-            var edgeInfo = app.room.match.map.edgeInfo;
-            for (var edgeKey in edgeInfo) {
-                var edge = edgeInfo[edgeKey];
-                var edgeOne = edgeKey.split('-')[0];
-                var edgeTwo = edgeKey.split('-')[1];
-
-
-                var edgeOwner = edge.owner.color;
-                var edgeType = edge.type;
-
-                var selectVertexOne = ".vertice[data-id='" + edgeOne + "']";
-                var selectVertexTwo = ".vertice[data-id='" + edgeTwo + "']";
-
-                var xy1 = $(selectVertexOne).attr("style");
-                var xy2 = $(selectVertexTwo).attr("style");
-                xy1 = xy1.match(/\d+/g);
-                xy2 = xy2.match(/\d+/g);
-
-
-                var edgeElem = document.createElement("div");
-                edgeElem.setAttribute("data-id", "" + edgeKey);
-
-                edgeElem.style.left = (parseInt(xy1[1]) + parseInt(xy2[1])) / 2.0 - 22 + "px";
-                edgeElem.style.top = (parseInt(xy1[0]) + parseInt(xy2[0])) / 2.0 + "px";
-                // tilt down left to right
-                var straight = ["8-9", "6-7", "19-20", "4-5", "17-18", "32-33", "2-3", "15-16", "30-31", "47-48", "13-14", "28-29", "45-46", "11-12", "26-27", "43-44", "61-62", "24-25", "41-42", "59-60", "22-23", "39-40", "57-58", "74-75", "37-38", "55-56", "72-73", "35-36", "53-54", "70-71", "85-86", "51-52", "68-69", "83-84", "49-50", "66-67", "81-82", "94-95", "64-65", "79-80", "92-93", "77-78", "90-91", "88-89"];
-                var down = ["9-19", "7-17", "20-32", "5-15", "18-30", "33-47", "3-13", "16-28", "31-45", "48-63", "14-26", "29-43", "46-61", "12-24", "27-41", "44-59", "62-76", "10-22", "1-11", "25-39", "42-57", "60-74", "75-87", "58-72", "40-55", "23-37", "21-35", "38-53", "56-70", "73-85", "86-96", "71-83", "54-68", "36-51", "34-49", "52-66", "69-81", "84-94", "50-64", "67-79", "82-92", "78-88"];
-                if (straight.indexOf(edgeKey) !== -1) {
-                    edgeElem.setAttribute("class", "edge " + edgeOwner + " " + edgeType + " none");
-                }
-                else if (down.indexOf(edgeKey) !== -1) {
-                    edgeElem.setAttribute("class", "edge " + edgeOwner + " " + edgeType + " down");
-                } else {
-                    edgeElem.setAttribute("class", "edge " + edgeOwner + " " + edgeType + " up");
-                }
-
-                placeIntoWebpage(edgeElem);
-
-
-            }
-        }
-    }
-
-    //place harbors into position
-    function placeHarbors() {
-        if (app.room && app.room.match) {
-            var harborInfo = app.room.match.map.harbors;
-            for (var edgeKey in harborInfo) {
-                var edgeOne = edgeKey.split('-')[0];
-                var edgeTwo = edgeKey.split('-')[1];
-                var resourceType = harborInfo[edgeKey].type;
-
-                var select = ".harbor[data-id='" + edgeKey + "']";
-
-                if ($(select).length) {
-                    return;
-                }
-
-                var selectVertexOne = ".vertice[data-id='" + edgeOne + "']";
-                var selectVertexTwo = ".vertice[data-id='" + edgeTwo + "']";
-
-                var xy1 = $(selectVertexOne).attr("style");
-                var xy2 = $(selectVertexTwo).attr("style");
-                xy1 = xy1.match(/\d+/g);
-                xy2 = xy2.match(/\d+/g);
-
-
-                // var select = ".vertice[data-id=''" + edgeKey + "]";
-                var harborElem = document.createElement("div");
-                harborElem.setAttribute("data-id", "" + edgeKey);
-                harborElem.setAttribute("class", "harbor " + resourceType);
-
-                harborElem.style.left = (parseInt(xy1[1]) + parseInt(xy2[1])) / 2.0 - 15 + "px";
-                harborElem.style.top = (parseInt(xy1[0]) + parseInt(xy2[0])) / 2.0 - 15 + "px";
-
-                placeIntoWebpage(harborElem);
-
-            }
-        }
-    }
 
 
     function placeIntoWebpage(newNode) {
@@ -509,7 +426,10 @@ $(window).on('imready', function(im){
 
     function hideCmdPrompt() {
         clearHighlightedVertices();
-        $('#cmd-prompt').hide();
+        clearHighlightedHexes();
+        let $prompt = $('#cmd-prompt');
+        $prompt.find('.button').not('.button[data-id=cancel]').remove();
+        $prompt.hide();
     }
 
     $('#cmd-table .pop_close').click(hideCmdTable);
@@ -651,6 +571,7 @@ $(window).on('imready', function(im){
 
     // click on 1 vertex
     function showVertexOpeartions($e) {
+        populateCmdPromptCmds(VertexUnit.getCommands($e.attr('data-id')));
         showCmdPrompt();
 
         /**
@@ -678,6 +599,14 @@ $(window).on('imready', function(im){
         var $cmd = $('#cmd-table');
         var $v1 = $map.find('.ctrl-clicked').eq(0);
         var $v2 = $map.find('.ctrl-clicked').eq(1);
+        let edge = Map.edge($v1.attr('data-id'), $v2.attr('data-id'));
+        populateCmdPromptCmds(EdgeUnit.getCommands(edge));
+        showCmdPrompt();
+        /**
+        var $map = $('#board .map');
+        var $cmd = $('#cmd-table');
+        var $v1 = $map.find('.ctrl-clicked').eq(0);
+        var $v2 = $map.find('.ctrl-clicked').eq(1);
         var id1 = $v1.attr('data-id');
         var id2 = $v2.attr('data-id');
         var $ops = $cmd.find(`[vertex-needed="2"]`);
@@ -696,11 +625,21 @@ $(window).on('imready', function(im){
         });
         // display first matched opeartion
         showCmdTable();
-        $btns.first().click();
+        $btns.first().click();**/
     }
 
     function showHexOperations($e){
+        populateCmdPromptCmds(HexTile.getCommands($e.attr('data-id')));
+        showCmdPrompt();
+    }
 
+    function populateCmdPromptCmds(cmds) {
+        let $prompt = $('#cmd-prompt');
+        $prompt.find('.button').not('.button[data-id=cancel]').remove();
+        _.forEach(cmds, function (cmd) {
+            let $cmd = $('<div class="button">' + cmd + '</div>');
+            $prompt.prepend($cmd);
+        })
     }
 
 
