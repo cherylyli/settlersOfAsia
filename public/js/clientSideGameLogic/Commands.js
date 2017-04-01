@@ -1373,13 +1373,14 @@ CommandReceived.rollDice = function () {
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
-
+/**
       if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled){
         swalError2("Please roll dice first");
         return;
       }
-
+*/
       // if not my turn and barbarian result, operation is limited
+  /**
       if (app.barbarianResult){
           app.barbarianResult = false;
           //here
@@ -1404,7 +1405,7 @@ _.each(CommandName, function (cmd) {
           }
      }
 
-
+*/
 /*
         if(app.rolledSeven){
           if(cmd != "moveRobber" && cmd != "movePirate"){

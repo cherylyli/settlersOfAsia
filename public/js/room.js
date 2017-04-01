@@ -569,7 +569,8 @@ $(window).on('imready', function(im){
 
     // click on 1 vertex
     function showVertexOpeartions($e) {
-        populateCmdPromptCmds(VertexUnit.getCommands($e.attr('data-id')));
+        let vertexID = parseInt($e.attr('data-id'));
+        populateCmdPromptCmds(VertexUnit.getCommands(vertexID), [vertexID]);
         showCmdPrompt();
 
         /**
@@ -598,7 +599,7 @@ $(window).on('imready', function(im){
         var $v1 = $map.find('.ctrl-clicked').eq(0);
         var $v2 = $map.find('.ctrl-clicked').eq(1);
         let edge = Map.edge($v1.attr('data-id'), $v2.attr('data-id'));
-        populateCmdPromptCmds(EdgeUnit.getCommands(edge));
+        populateCmdPromptCmds(EdgeUnit.getCommands(edge), [edge[0], edge[1]]);
         showCmdPrompt();
         /**
         var $map = $('#board .map');
@@ -627,11 +628,17 @@ $(window).on('imready', function(im){
     }
 
     function showHexOperations($e){
-        populateCmdPromptCmds(HexTile.getCommands($e.attr('data-id')));
+        let hexID = parseInt($e.attr('data-id'));
+        populateCmdPromptCmds(HexTile.getCommands(hexID), [hexID]);
         showCmdPrompt();
     }
 
-    function populateCmdPromptCmds(cmds) {
+    /**
+     *
+     * @param cmds String[] a list of cmds used to generate prompt options
+     * @param data the data user inputted (command argument)
+     */
+    function populateCmdPromptCmds(cmds, data) {
         let $prompt = $('#cmd-prompt');
         //$prompt.find('.button').not('.button[data-id=cancel]').remove();
         $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
@@ -650,6 +657,8 @@ $(window).on('imready', function(im){
                 hideCmdPrompt();
             }
             else {
+                let cmdName = $button.attr('cmd');
+                Commands[cmdName].apply(this, data);
                 console.log($button.attr('cmd'));
             }
 
