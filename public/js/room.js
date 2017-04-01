@@ -659,8 +659,8 @@ $(window).on('imready', function(im){
             else {
                 let cmdName = $button.attr('cmd');
                 Commands[cmdName].apply(this, data);
-                hideCmdPrompt()
-                console.log($button.attr('cmd'));
+                hideCmdPrompt();
+                // console.log($button.attr('cmd'));
             }
 
         });
