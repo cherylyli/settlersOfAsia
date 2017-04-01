@@ -318,26 +318,12 @@ CommandCheck.stealCard = function (thiefUserName, victimUserName) {
         return true;
     }
 };
-//input : String
-CommandsData.drawOneProgressCard = function (progCard) {
-    return {'progCard': progCard};
+//input : {String} "Trade" / "Science" / "Politics"
+CommandsData.drawOneProgressCard = function (kind) {
+    return {'kind': kind};
 }
 
 CommandCheck.drawOneProgressCard = function (progCard) {
-    var progCardList = [];
-    var players = DATA.getMatch().players;
-    for (var i in players) {
-        //console.log(players[i].progressCards);
-        progCardList.push(players[i].progressCards);
-    }
-
-    for (var i in progCardList) {
-        var intersection = _.contains(progCardList[i], progCard);
-        if (intersection) {
-            console.log("This progress card has been distributed to someone else");
-            return false;
-        }
-    }
     return true;
 }
 
