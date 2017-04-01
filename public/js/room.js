@@ -428,7 +428,7 @@ $(window).on('imready', function(im){
         clearHighlightedVertices();
         clearHighlightedHexes();
         let $prompt = $('#cmd-prompt');
-        $prompt.find('.button').not('.button[data-id=cancel]').remove();
+        $prompt.find('.button').remove();
         $prompt.hide();
     }
 
@@ -447,9 +447,8 @@ $(window).on('imready', function(im){
     }
 
 
-    $('#cmd-prompt .button[data-id=cancel]').click(function () {
-        hideCmdPrompt();
-    });
+
+
 
     // choose a command
     $('#cmd-table .cmd').click(function () {
@@ -542,7 +541,6 @@ $(window).on('imready', function(im){
     // click on vertex
     $('#board').on('click', '.vertex', function (e) {
         if (isCmdPromptVisible()) return false;
-        console.log("sdf");
         // if (isCmdTableVisible()) return false;
         // if more than 2 select, clear
         if (highlightedVertices() > 2) clearHighlightedVertices();
@@ -635,15 +633,30 @@ $(window).on('imready', function(im){
 
     function populateCmdPromptCmds(cmds) {
         let $prompt = $('#cmd-prompt');
-        $prompt.find('.button').not('.button[data-id=cancel]').remove();
+        //$prompt.find('.button').not('.button[data-id=cancel]').remove();
+        $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
         _.forEach(cmds, function (cmd) {
             let $cmd = $('<div class="button">' + cmd + '</div>');
+            $cmd.attr('cmd', cmd);
             $prompt.prepend($cmd);
-        })
+        });
+
+
+        // add listener here because we generate the buttons dynamically
+        $('#cmd-prompt .button').click(function (e) {
+            let $button = $(e.target);
+
+            if ($button.attr('data-id') == 'cancel') {
+                hideCmdPrompt();
+            }
+            else {
+                console.log($button.attr('cmd'));
+            }
+
+        });
     }
 
 
-    //sock.emit('LOL');
 
 
 });
