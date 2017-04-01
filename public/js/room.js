@@ -489,6 +489,12 @@ $(window).on('imready', function(im){
         if (!$('#cmd-table .cmd.chosen').length) $('#cmd-table .cmd').first().click();
     }
 
+    // display command prompt
+    function showCmdPrompt() {
+        $('#cmd-prompt').show();
+    }
+
+
     $(document).on('click', '#trigger-cmd-table', showCmdTable);
 
     // hide command table by clicking on 'X' or press 'ESC' key
@@ -500,6 +506,12 @@ $(window).on('imready', function(im){
         $p.hide();
     }
 
+
+    function hideCmdPrompt() {
+        clearHighlightedVertices();
+        $('#cmd-prompt').hide();
+    }
+
     $('#cmd-table .pop_close').click(hideCmdTable);
     $(document).keyup(function (e) {
         if (e.keyCode == 27) hideCmdTable()
@@ -509,6 +521,15 @@ $(window).on('imready', function(im){
     function isCmdTableVisible() {
         return $('#cmd-table').is(':visible');
     }
+
+    function isCmdPromptVisible() {
+        return $('#cmd-prompt').is(':visible');
+    }
+
+
+    $('#cmd-prompt .button[data-id=cancel]').click(function () {
+        hideCmdPrompt();
+    });
 
     // choose a command
     $('#cmd-table .cmd').click(function () {
@@ -600,7 +621,9 @@ $(window).on('imready', function(im){
 
     // click on vertex
     $('#board').on('click', '.vertex', function (e) {
-        if (isCmdTableVisible()) return false;
+        if (isCmdPromptVisible()) return false;
+        console.log("sdf");
+        // if (isCmdTableVisible()) return false;
         // if more than 2 select, clear
         if (highlightedVertices() > 2) clearHighlightedVertices();
         // when vertex is clicked while ctrl is pressed, select it
@@ -628,6 +651,9 @@ $(window).on('imready', function(im){
 
     // click on 1 vertex
     function showVertexOpeartions($e) {
+        showCmdPrompt();
+
+        /**
         var id = $e.attr('data-id');
         var $p = $('#cmd-table');
         var $ops = $p.find(`[vertex-needed="1"]`);
@@ -643,7 +669,7 @@ $(window).on('imready', function(im){
         $ops.find('input').val(id);
         // display first matched opeartion
         showCmdTable();
-        $btns.first().click();
+        $btns.first().click();**/
     }
 
     // click on 2 vertices

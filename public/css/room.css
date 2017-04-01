@@ -421,7 +421,9 @@ body{
 }
 
 
-#cmd {
+#cmd-prompt {
+    display: none;
+    /*visibility: hidden;*/
     position: absolute;
     z-index: 22;
     top: 30%;
@@ -437,8 +439,12 @@ body{
     background-clip: padding-box;
     text-align: center;
 }
-
-#cmd .button {
+/**
+#cmd-prompt[showCmd] {
+    visibility: visible;
+}
+**/
+#cmd-prompt .button {
     font-size: 1em;
     padding: 10px;
     color: #fff;
@@ -448,9 +454,16 @@ body{
     cursor: pointer;
     transition: all 0.3s ease-out;
 }
+#cmd-prompt .button[data-id=cancel]{
+    border: 2px solid #3f7bd9;
+}
 
-#cmd .button:hover {
+#cmd-prompt .button:hover {
     background: #ff7676;
+}
+
+#cmd-prompt .button[data-id=cancel]:hover{
+    background: #6595c1;
 }
 
 #cmd-table {
@@ -548,6 +561,7 @@ body{
     background: #f6f6f6;
     border-radius: 0px;
 }
+
 #cmd-table .ops .confirm:hover{
     background: #eeeeee;
 }
