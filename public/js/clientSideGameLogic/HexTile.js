@@ -49,7 +49,7 @@ let HexTile = (function () {
      * @param hexTileID {int}
      */
     function getCommands(hexTileID) {
-
+        return HexCommand;
     }
 
     return {

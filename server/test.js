@@ -2,7 +2,7 @@
  * Created by emol on 2/17/17.
  */
 "use strict"
-//let fakeRoom = module.exports = {};
+let fakeRoom = module.exports = {};
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
@@ -28,65 +28,6 @@ Commands.joinRoom(userB, "123");
 Commands.joinRoom(userC, "123");
 
 Commands.startGame("123");
-let map2 = data.getMatch("123").map;
-
-let my = data.getMatch("123").map;
-let map = data.getMatch("123").map;
-let match = data.getMatch("123");
-let myHex1 = my.getHexTileById(1);
-let myHex2 = my.getHexTileById(2);
-let player1 = data.getMatch("123").getPlayer("Emol");
-let player2 = data.getMatch("123").getPlayer("Yuan");
-let players = data.getMatch("123").players;
-let CommandCheck = {};
-
-//discard resources check
-CommandCheck.discardResourceCards = function (cards, num) {
-    var player = player1
-    var size = 0;
-    for (var i in cards) {
-        size += cards[i];
-    }
-    if (size != num) {
-        console.log("You need to discard " + num + " card(s)!");
-        return false;
-    }
-    var counter = 0;
-    for (var card in player.resourcesAndCommodities) {
-        for (var discard in cards) {
-            if (card === discard) {
-                if (player.resourcesAndCommodities[card] >= cards[discard])
-                    counter = 1;
-            }
-        }
-    }
-    if (counter) {
-        return true;
-    }
-    console.log("Not enough resource!");
-    return false;
-}
-
-//discard resource cards - working
-console.log(player1.resourceCardTotalNum());
-var ds = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: 1, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
-CommandCheck.discardResourceCards(ds,1);
-Commands.discardResourceCards("Emol","123",{'cards' : ds}, 1);
-//player1.discardResourceCards(ds);
-console.log(player1.resourcesAndCommodities);
-console.log(player1.resourceCardTotalNum());
-
-//draw progress card check
-Commands.drawOneProgressCard("Emol","123",{'kind' : "Trade"});
-Commands.drawOneProgressCard("Yuan","123",{'kind' : "Trade"});
-Commands.drawOneProgressCard("Yuan","123",{'kind' : "Science"});
-Commands.drawOneProgressCard("Emol","123",{'kind' : "Politics"});
-Commands.drawOneProgressCard("Emol","123",{'kind' : "Science"});
-
-console.log(player1.progressCards);
-console.log(player2.progressCards);
-//console.log(map.getHexTileByEdge([2,3]));
-//Commands.buildRoad("Emol", "123", [53, 54]);
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
@@ -94,11 +35,13 @@ Commands.buildSettlement("Yuan", "123", {'position': 3});
 Commands.hireKnight("Emol","123",7);
 Commands.activateKnight("Emol","123",7);
 Commands.hireKnight("Max","123",7);
+Commands.moveRobber("Emol","123",7);
+Commands.buildRoad("Emol","123",[1, 2]);
 //Commands.activateKnight("Max","123",7);
 
-
+fakeRoom.room = data.getRoom("123");
 //TODO test barbarian applyResult + robber produce resource from bank
-
+/**
 //
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
@@ -123,7 +66,7 @@ Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 
-Commands.rollDice("Emol","123");
+Commands.rollDice("Emol","123");**/
 /**
 //barbarian
 console.log("dice result" + data.getMatch("123").dice.eventDie);
@@ -141,7 +84,6 @@ console.log(myHex2.productionNum);
 **/
 
 
-match.bank.allocateResources(myHex2.productionNum-1, 1);
 
 
 /**

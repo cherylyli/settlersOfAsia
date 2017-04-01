@@ -420,6 +420,39 @@ body{
     border-right: 0;
 }
 
+
+#cmd {
+    position: absolute;
+    z-index: 22;
+    top: 30%;
+    left: 20%;
+    /* right: 20%; */
+    width: 500px;
+    /* background-color: #00acfc; */
+    margin: 0 auto;
+    background: hsla(0, 25%, 3%, 0.71);
+    padding: 35px;
+    border: 2px solid #0c0b0b;
+    border-radius: 20px/50px;
+    background-clip: padding-box;
+    text-align: center;
+}
+
+#cmd .button {
+    font-size: 1em;
+    padding: 10px;
+    color: #fff;
+    border: 2px solid #ca5959;
+    border-radius: 20px/50px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+#cmd .button:hover {
+    background: #ff7676;
+}
+
 #cmd-table {
     position: fixed;
     top: 0; left: 0;

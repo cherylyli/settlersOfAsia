@@ -22,17 +22,21 @@ let VertexUnit = (function () {
 
     /**
      * get valid commands at this vertex
-     * @return {Object} key: String, commandName,  val: boolean, if valid
+     *
      */
     function getCommands(vertexId) {
         let vertexUnit = DATA.getMap().getVertexInfo(vertexId);
 
-        if (!vertexUnit){
-            // if the vertex is unoccupied
-            return;
-        }
+        // if the vertex is unoccupied
+        if (!vertexUnit) return VertexCommand.UnoccupiedVertex;
 
-        //return vertexUnit.getCommands();
+        if (isKnight(vertexUnit)) return VertexCommand.Knight;
+
+        else {
+            // building
+            if (vertexUnit.level == Enum.Building.Settlement) return VertexCommand.Settlement;
+            return VertexCommand.City;
+        }
     }
 
     return {

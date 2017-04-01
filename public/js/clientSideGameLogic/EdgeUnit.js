@@ -3,9 +3,13 @@ let EdgeUnit = (function () {
     /**
      * get valid commands at edge
      * @param edge {edge}
+     * @return {object} null if no commands available
      */
     function getCommands(edge) {
-
+        let edgeUnit = DATA.getMap().getEdgeInfo(edge);
+        if (!edgeUnit) return EdgeCommand.UnoccupiedEdge;
+        if (edgeUnit.type == "ship") return EdgeCommand.Ship;
+        return null;
     }
 
     return {
