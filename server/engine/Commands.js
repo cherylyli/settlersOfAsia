@@ -321,10 +321,10 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param position {int} vertex id. the position player wants to place the knight.
   * If player don't want to put the knight on board now, position is left null.
   */
- Commands.hireKnight = function (userName, roomID, position) {
+ Commands.hireKnight = function (userName, roomID, data) {
      let player = DATA.getPlayer(userName, roomID);
      let match = DATA.getMatch(roomID);
-     Knight.hireKnight(player, match.map, position);
+     Knight.hireKnight(player, match.map, data.position);
 
      match.bank.decreasePlayerAsset(player, 'hireKnight');
  };
@@ -333,9 +333,9 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   *
   */
- Commands.activateKnight = function (userName, roomID, position) {
+ Commands.activateKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
+     let knight = match.map.getVertexInfo(data.position);
      knight.activate();
 
      match.bank.decreasePlayerAsset(knight.owner, 'activateKnight');

@@ -137,7 +137,7 @@ let mapUI = (function () {
                 'left': left,
             });
 
-            console.log(hex.id, "HEXtop", $hex.position().top, top, $hex.position().left, left);
+            // console.log(hex.id, "HEXtop", $hex.position().top, top, $hex.position().left, left);
 
             // set width and height of hex
             $hex.width(hexWidth).height(hexHeight);
