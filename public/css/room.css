@@ -118,6 +118,13 @@ body{
     font-size: 12px;
 }
 
+#board .ui-btn .fa {
+    margin-right: 6px;
+}
+#board .ui-btn{
+    float: left;
+    width: 150px;
+}
 
 #board .dice.red .icon{ background-image: url(/img/room/dice/red.svg); }
 #board .dice.yellow .icon{ background-image: url(/img/room/dice/yellow.svg); }

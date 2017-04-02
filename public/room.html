@@ -52,6 +52,13 @@
                     <div class="icon center-cropped"></div>
                     <div class='text'>{{ room.match ? room.match.barbarian.curPos : '' }}</div>
                 </div>
+                <div class='ui-btn unselectable turn-event' data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn'
+                     v-on:click='trade'><i class="fa fa-institution" aria-hidden="true"></i>Trade With Bank
+                </div>
+                <div class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn' data-cmd="tradeWithPlayer"
+                     v-on:click='trade'><i class="fa fa-handshake-o" aria-hidden="true"></i>Trade With Player
+                </div>
+
             </div>
 
         <div id='utils' class='box-shadow-light'>
@@ -134,6 +141,8 @@
     </div>
 
     <!-- command pop up-->
+
+
     <div id="cmd-prompt">
         <div data-id="buying">
             <div class="button title buying">Buying</div>
