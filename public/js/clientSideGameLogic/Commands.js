@@ -160,7 +160,7 @@ CommandsData.upgradeToMetropolis = function (vertex, metropolisType) {
 CommandCheck.upgradeToMetropolis = function (vertex, metropolisType) {
      //check if player has a metropolis to add on a city.
     DATA.getMatch().Metropolis;
-    if (DATA.getMatch.Metropolis[metropolisType] == DATA.getMyPlayer().name) {
+    if (DATA.getMatch().Metropolis[metropolisType] == DATA.getMyPlayer().name) {
       let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
       if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
           // swalError2("There is no city at this position!");
@@ -1045,7 +1045,6 @@ CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
         // swalError2("Maximum level of city improvement in this category is already achieved!");
         return false;
     }
-
     return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]));
 
     }
