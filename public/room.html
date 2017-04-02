@@ -135,7 +135,16 @@
 
     <!-- command pop up-->
     <div id="cmd-prompt">
-        <!--<div class="button" data-id="cancel">Cancel</div>-->
+        <div class="button" data-id="select">
+            <select class="weui-select" name='src'>
+                <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
+            </select>
+            <input class="weui-input" type="number" pattern="[0-9]*"
+                   placeholder="0" name='vertex'>
+        </div>
+        <div class="button" data-id="add">Add</div>
+        <div class="button" data-id="confirm">Trade</div>
+        <div class="button" data-id="cancel">Cancel</div>
 
     </div>
 
