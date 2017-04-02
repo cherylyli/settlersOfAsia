@@ -251,6 +251,20 @@ $(window).on('imready', function(im){
                 sock.emit('send-sys-message', msg);
             },
 
+            // cmd prompt
+            addItem: function (e) {
+                let $buttonClicked = $(e.target).parent();
+                let $newButton = $buttonClicked.clone();
+                // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
+                $buttonClicked.after($newButton);
+                // $("#cmd-prompt .button[data-id=add]").before($button);
+               // (($("#cmd-prompt .button[data-id=select]"))[0]).clone().before($("#cmd-prompt .button[data-id=add]"));
+            },
+
+            deleteItem: function () {
+
+            },
+
             endTurn: function () {
                 Commands.endTurn();
             },
@@ -452,6 +466,43 @@ $(window).on('imready', function(im){
     }
 
 
+
+    // for trade form cmd prompt, add and remove icon
+    $('#cmd-prompt i.add').click(function (e) {
+        addNewItem(e);
+    });
+
+    $('#cmd-prompt i.delete').click(function (e) {
+        removeItem(e);
+    });
+
+    // FIXME: Is there a nicer way to create listner on dynamically generated divs???
+    function addNewItem(e) {
+        let $buttonClicked = $(e.target).parent();
+        let $newButton = $buttonClicked.clone();
+
+        // create listener for new button
+        $newButton.find('i.add').click(function (e) {
+            addNewItem(e);
+        });
+        $newButton.find('i.delete').click(function (e) {
+            removeItem(e);
+        });
+        // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
+        $buttonClicked.after($newButton);
+    }
+
+
+    function removeItem(e) {
+        let $button = $(e.target).parent();
+        let $form = $button.parent();
+        if ($form.find('.button').size() <= 2){
+            swalError2("You should at least have one item!");
+            return;
+        }
+        $button.remove();
+
+    }
 
 
 

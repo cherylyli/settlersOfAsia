@@ -437,6 +437,12 @@ body{
     border-radius: 20px/50px;
     background-clip: padding-box;
     text-align: center;
+
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
 }
 /**
 #cmd-prompt[showCmd] {
@@ -465,6 +471,26 @@ body{
     text-align: initial;
 }
 
+#cmd-prompt .button.buying{
+    border: 2px solid #94d0ac;
+}
+#cmd-prompt .button.buying:hover{
+    background: #c3eac9;
+}
+#cmd-prompt .button.buying.title{
+    background: #c3eac9;
+}
+
+#cmd-prompt .button.selling{
+    border: 2px solid #e2d465;
+}
+
+#cmd-prompt .button.selling:hover{
+    background: #ffe7bf
+}
+#cmd-prompt .button.selling.title{
+    background: #ffe7bf
+}
 #cmd-prompt .button select{
     position: relative;
     left: 0;
@@ -474,9 +500,13 @@ body{
 #cmd-prompt .button input{
     position: relative;
     width: 5%;
-    left: 20%;
+    left: 10%;
 }
 
+#cmd-prompt .button i{
+    position: relative;
+    left: 10%;
+}
 #cmd-prompt .button[data-id=cancel]:hover{
     background: #6595c1;
 }

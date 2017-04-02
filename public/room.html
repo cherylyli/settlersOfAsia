@@ -135,14 +135,38 @@
 
     <!-- command pop up-->
     <div id="cmd-prompt">
-        <div class="button" data-id="select">
-            <select class="weui-select" name='src'>
-                <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
-            </select>
-            <input class="weui-input" type="number" pattern="[0-9]*"
+        <div data-id="buying">
+            <div class="button title buying">Buying</div>
+
+            <div class="button buying" data-id="select">
+                <select class="weui-select" name='src'>
+                    <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
+                </select>
+                <input class="weui-input" type="number" pattern="[0-9]*"
                    placeholder="0" name='vertex'>
+                <i class="fa fa-minus-circle delete" aria-hidden="true"></i>
+                <i class="fa fa-plus-circle add" aria-hidden="true"></i>
+            </div>
+
         </div>
-        <div class="button" data-id="add">Add</div>
+
+        <div data-id="selling">
+            <div class="button title selling">Selling</div>
+
+            <div class="button selling" data-id="select">
+                <select class="weui-select" name='src'>
+                    <option v-for='item in Enum.Tradable' v-bind:value="item">{{item}}</option>
+                </select>
+                <input class="weui-input" type="number" pattern="[0-9]*"
+                       placeholder="0" name='vertex'>
+
+                <i class="fa fa-minus-circle delete" aria-hidden="true"></i>
+                <i class="fa fa-plus-circle add" aria-hidden="true"></i>
+            </div>
+
+            <!--<div class="button" data-id="add" v-on:click="addItem">Add</div>-->
+        </div>
+
         <div class="button" data-id="confirm">Trade</div>
         <div class="button" data-id="cancel">Cancel</div>
 
