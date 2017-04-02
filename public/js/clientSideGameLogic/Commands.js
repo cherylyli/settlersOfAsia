@@ -2,6 +2,17 @@
 let Commands = {};
 let CommandsData = {};
 
+// commands require more than 1 steps
+let SpecialsCommands = {
+    'moveKnight': 'moveKnight'
+};
+
+// this map to functions
+let SpecialsCommandsNextStep = {};
+
+let SpecialsCommandsFinalStep = {};
+
+// commands triggered by clicking a vertex
 let VertexCommand = {
     "UnoccupiedVertex": {
         'buildSettlement': 'buildSettlement',
@@ -28,6 +39,7 @@ let VertexCommand = {
 };
 
 
+// commands triggered by clicking an edge
 let EdgeCommand = {
     "UnoccupiedEdge": {
         'buildRoad': 'buildRoad',
@@ -39,7 +51,7 @@ let EdgeCommand = {
     }
 };
 
-
+// commands triggered by clicking a hex tile
 let HexCommand = {
     'moveRobber': 'moveRobber',
     'movePirate': 'movePirate'
@@ -134,6 +146,7 @@ let generateCommandPomptObject = function (cmds) {
 //============================REQUIRE TEST ==============================
 
 
+
 /**
  *
  * @param vertex {int}
@@ -167,7 +180,7 @@ CommandCheck.addMetropolis = function (userName, vertex) {
 
 CommandsData.chooseCityToBePillaged = function (vertex) {
     return {'position': vertex}
-}
+};
 
 CommandCheck.chooseCityToBePillaged = function (vertex) {
     let match = DATA.getMatch(roomID);

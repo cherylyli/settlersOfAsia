@@ -164,7 +164,9 @@ $(window).on('imready', function(im){
                 "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard", "requestTrade"
             ],
             isMyTurn: false,
-            barbarianResult: false
+            barbarianResult: false,
+            specialCmdTriggered: null,
+            ongoingCmdData: null
 
         },
         mounted: function () {
@@ -553,7 +555,8 @@ $(window).on('imready', function(im){
         // if click on single vertex -> vertex operation
         else if (!isCtrlPressed(e)) {
             highlightVertex($(this));
-            showVertexOpeartions($(this));
+            if (!app.specialCmdTriggered) showVertexOpeartions($(this));
+            else SpecialsCommandsFinalStep[app.specialCmdTriggered].apply(this, [$(this).attr('data-id')]);
         }
     });
 
@@ -658,13 +661,69 @@ $(window).on('imready', function(im){
             }
             else {
                 let cmdName = $button.attr('cmd');
-                Commands[cmdName].apply(this, data);
                 hideCmdPrompt();
+                if (_.has(SpecialsCommands, cmdName)){
+                    SpecialsCommandsNextStep[cmdName].apply(this, data);
+                }
+                else {
+                    Commands[cmdName].apply(this, data);
+                }
                 // console.log($button.attr('cmd'));
             }
 
         });
     }
+
+
+
+
+    // -----------------special cmd prompt for cmd requires multi-steps-----------------------
+    /**
+     *
+     * @param position {int} old position
+     */
+    SpecialsCommandsNextStep.moveKnight = function (position) {
+        swal({
+                title: "Move Knight",
+                text: "Click on the map where you want to move the knight!",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK!",
+                cancelButtonText: "No, I don't want to move the knight now!",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    app.specialCmdTriggered = "moveKnight";
+                    app.ongoingCmdData = [position];
+                }
+            });
+    };
+
+    SpecialsCommandsFinalStep.moveKnight = function (newPosition) {
+        swal({
+                title: "Move knight here?",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes!",
+                cancelButtonText: "No, I don't want to move the knight now!",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    let oldPosition = app.ongoingCmdData[0];
+                    Commands.moveKnight(oldPosition, newPosition);
+                }
+
+                app.specialCmdTriggered = null;
+                app.ongoingCmdData = null;
+                clearHighlightedVertices();
+            });
+    }
+
 
 
 
