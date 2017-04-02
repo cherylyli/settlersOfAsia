@@ -4,7 +4,8 @@ let CommandsData = {};
 
 // commands require more than 1 steps
 let SpecialsCommands = {
-    'moveKnight': 'moveKnight'
+    'moveKnight': 'moveKnight',
+    'upgradeToMetropolis': 'upgradeToMetropolis'
 };
 
 // this map to functions
@@ -26,7 +27,7 @@ let VertexCommand = {
 
     "City": {
         'buildCityWall': 'buildCityWall',
-        'addMetropolis': 'addMetropolis'
+        "upgradeToMetropolis": 'upgradeToMetropolis'
     },
 
     "Knight": {
@@ -89,7 +90,7 @@ let CommandName = {
     'moveKnight': 'moveKnight',
 
     //need to test.
-    'addMetropolis': 'addMetropolis',
+    "upgradeToMetropolis": 'upgradeToMetropolis',
     'chooseCityToBePillaged': 'chooseCityToBePillaged',
     'moveRobber': 'moveRobber',
     'movePirate': 'movePirate',
@@ -152,13 +153,12 @@ let generateCommandPomptObject = function (cmds) {
  * @param vertex {int}
  * @return {{position: int}}
  */
-CommandsData.addMetropolis = function (userName, vertex) {
-    return {'userName': userName, 'position': vertex};
+CommandsData.upgradeToMetropolis = function (vertex, metropolisType) {
+    return {'position': vertex, 'type': metropolisType};
 };
 
 
-CommandCheck.addMetropolis = function (userName, vertex) {
-    let player = DATA.getPlayer(userName);
+CommandCheck.upgradeToMetropolis = function (vertex, metropolisType) {
     //TODO
     /*
      if (!player.hasMetropolis){

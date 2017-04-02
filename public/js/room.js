@@ -722,6 +722,38 @@ $(window).on('imready', function(im){
                 app.ongoingCmdData = null;
                 clearHighlightedVertices();
             });
+    };
+
+
+    SpecialsCommandsNextStep.upgradeToMetropolis = function(position){
+        let $prompt = $('#cmd-prompt');
+
+        $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
+
+        _.forEach(Enum.cityImprovementCategory, function (type) {
+            let $opt = $('<div class="button">' + type + '</div>');
+            $opt.attr('type', type);
+            $prompt.prepend($opt);
+        });
+
+
+        // add listener here because we generate the buttons dynamically
+        $('#cmd-prompt .button').click(function (e) {
+            let $button = $(e.target);
+
+            if ($button.attr('data-id') == 'cancel') {
+            }
+
+            else {
+                let type = $button.attr('type');
+                Commands.upgradeToMetropolis.apply(this, [position, type]);
+                // console.log($button.attr('cmd'));
+            }
+            hideCmdPrompt();
+
+        });
+
+        showCmdPrompt();
     }
 
 

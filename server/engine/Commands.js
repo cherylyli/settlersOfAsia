@@ -174,11 +174,27 @@ let CommandsCheck = {};
      let map = match.map;
 
      let building = player.getBuilding(position);
-     //TODO: for testing, delete later
+     //TODO: for testing, delete later,
+     //FIXME: WHY WE HAVE THIS HERE????
      if (!building) building = Building.buildSettlement(player, position, map);
      building.upgradeToCity();
      if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player, 'upgradeToCity');
 
+ };
+
+ Commands.upgradeToMetropolis = function (userName, roomID, data) {
+     let position = data.position;
+     let type = data.type;
+
+     let player = DATA.getPlayer(userName, roomID);
+     let match = DATA.getMatch(roomID);
+     let map = match.map;
+
+     let building = player.getBuilding(position);
+     building.upgradeToMetropolis(type);
+
+     // TODO: Yuan, also dont forget to update cost at the end  (match.bank.decreasePlayerAsset(player, 'upgradeToMetropolis'))
+     //building
  };
 
  /**
