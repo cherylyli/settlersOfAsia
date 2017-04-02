@@ -345,9 +345,9 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   *
   */
- Commands.promoteKnight = function (userName, roomID, position) {
+ Commands.promoteKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(position);
+     let knight = match.map.getVertexInfo(data.position);
      knight.promote();
 
      match.bank.decreasePlayerAsset(knight.owner, 'promoteKnight');
