@@ -394,10 +394,10 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  /**
   *
   */
- Commands.chaseAwayThief = function (userName, roomID) {
+ Commands.chaseAwayThief = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = match.map.getVertexInfo(data.position);
-     knight.chaseAwayThief(match.map, data.thiefh, data.newPositionForThief);
+     let knight = match.map.getVertexInfo(data.knightPosition);
+     knight.chaseAwayThief(match.map, data.thiefPosition, data.newPositionForThief);
  };
 
 

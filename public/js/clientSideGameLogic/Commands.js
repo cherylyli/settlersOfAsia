@@ -264,7 +264,7 @@ CommandReceived.requestTrade = function (selling, buying) {
 
     CommandsData.moveRobber = function (newHexID){
       return {'newHexID' : newHexID};
-    }
+    };
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.moveRobber = function (newHexID) {
@@ -553,13 +553,19 @@ CommandCheck.displaceKnight = function (position, newPosition) {
 
 }
 */
-CommandsData.chaseAwayThief = function (position, thiefHexID, newPosition) {
-    return {'position': position, 'thiefHexID': thiefHexID, 'newPosition': newPosition}
-}
+
+
+
+// TODO: Emol, also chase away theif cmd prompt not finished
+CommandsData.chaseAwayThief = function (knightPosition, thiefPosition, newPositionForThief) {
+    return {'knightPosition': knightPosition, 'thiefPosition': thiefPosition, 'newPositionForThief': newPositionForThief}
+};
+
+
 //pos, theifpos, new pos : hextile ID
-CommandCheck.chaseAwayThief = function (position, thiefHexID, newPosition) {
-    var knight = DATA.getMatch().map.getVertexInfo(position);
-    var thiefHex = DATA.getMatch().map.getHexTileById(thiefHexID);
+CommandCheck.chaseAwayThief = function (knightPosition, thiefPosition, newPositionForThief) {
+    var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
+    var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
     if (!thiefHex.blockedByRobber) {
         // swalError2("No robber on the hextile");
         return false;
@@ -569,7 +575,7 @@ CommandCheck.chaseAwayThief = function (position, thiefHexID, newPosition) {
         return false;
     }
     return true;
-}
+};
 //num : total number of cards to be discarded
 //cards: {Enum.Resourca.card : # of this type to be discarded}
 CommandsData.discardResourceCards = function (cards, num) {
@@ -600,7 +606,7 @@ CommandCheck.discardResourceCards = function (cards, num) {
     }
     // swalError2("Not enough resource!");
     return false;
-}
+};
 
 
 

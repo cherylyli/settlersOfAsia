@@ -51,7 +51,7 @@ Knight.createKnight = function (player, map) {
           map.opponentKnight = opponentKnight.owner;
           return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
         }
-    }
+    };
 
     /**
      *
@@ -63,15 +63,15 @@ Knight.createKnight = function (player, map) {
         this.active = false;
         if(map.piratePositon == thiefPosition) map.piratePositon = newPosition;
         else map.robborPositon = newPosition
-    }
+    };
 
 
 
 
     return knight;
-}
+};
 
 Knight.hireKnight = function(player, map, position = null){
     let knight = Knight.createKnight(player, map);
     if (position) knight.place(position, map);
-}
+};

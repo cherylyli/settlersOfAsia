@@ -165,8 +165,11 @@ $(window).on('imready', function(im){
             ],
             isMyTurn: false,
             barbarianResult: false,
-            specialCmdTriggered: null,
-            ongoingCmdData: null
+            ongoingCmd: null,   // some cmd may take more than one steps to finish
+            ongoingCmdData: null,
+            cmdThatEnablesOtherCmd: null,   // some cmd may enable user to use other cmd, like chaseAwayThief enables moveRobber/ movePirate
+            cmdThatEnablesOtherCmdData: null,
+
 
         },
         mounted: function () {
@@ -555,8 +558,8 @@ $(window).on('imready', function(im){
         // if click on single vertex -> vertex operation
         else if (!isCtrlPressed(e)) {
             highlightVertex($(this));
-            if (!app.specialCmdTriggered) showVertexOpeartions($(this));
-            else SpecialsCommandsFinalStep[app.specialCmdTriggered].apply(this, [$(this).attr('data-id')]);
+            if (!app.ongoingCmd) showVertexOpeartions($(this));
+            else SpecialsCommandsFinalStep[app.ongoingCmd].apply(this, [$(this).attr('data-id')]);
         }
     });
 
@@ -696,7 +699,7 @@ $(window).on('imready', function(im){
             },
             function(isConfirm){
                 if (isConfirm) {
-                    app.specialCmdTriggered = "moveKnight";
+                    app.ongoingCmd = "moveKnight";
                     app.ongoingCmdData = [position];
                 }
             });
@@ -718,7 +721,7 @@ $(window).on('imready', function(im){
                     Commands.moveKnight(oldPosition, newPosition);
                 }
 
-                app.specialCmdTriggered = null;
+                app.ongoingCmd = null;
                 app.ongoingCmdData = null;
                 clearHighlightedVertices();
             });
