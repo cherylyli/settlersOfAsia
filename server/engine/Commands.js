@@ -192,9 +192,7 @@ let CommandsCheck = {};
 
      let building = player.getBuilding(position);
      building.upgradeToMetropolis(type);
-
-     // TODO: Yuan, also dont forget to update cost at the end  (match.bank.decreasePlayerAsset(player, 'upgradeToMetropolis'))
-     //building
+     // no cost for upgrade to metropolis
  };
 
  /**
@@ -312,7 +310,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      let match = DATA.getMatch(roomID);
      let cityImprovementCategory = data.cityImprovementCategory;
      let level = player.buyCityImprovement(cityImprovementCategory);
-
+     match.distributeMetropolis(cityImprovementCategory);
      match.bank.decreasePlayerAsset(player, 'cityImprove_' + cityImprovementCategory + '_' + level);
  };
 
