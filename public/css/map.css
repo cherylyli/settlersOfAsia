@@ -139,6 +139,11 @@
 }
 
 
+.vertex .vertex-unit{
+    border-width: 0;
+    border-style: solid;
+    border-radius: 100%;
+}
 
 
 /**

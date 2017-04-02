@@ -399,6 +399,16 @@ let mapUI = (function () {
                     setUpKnight(vertexUnit, $vertexUnit);
                 }
 
+                else if (vertexUnit.level != Enum.Building.Settlement){
+                    // for city, check if it has city wall
+                    if (vertexUnit.cityWall){
+                        $vertexUnit.css({
+                            'border-width': 3,
+                            'border-color': '#6a6b93'
+                        });
+                    }
+                }
+
                 $vertex.append($vertexUnit);
 
             }
