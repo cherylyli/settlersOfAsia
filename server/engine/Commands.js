@@ -468,6 +468,8 @@ Commands.cancelTrade = function(roomID){
 
 //spend fish tokens  + add checkers
 Commands.moveRobber = function (userName, roomID, data) {
+
+    // TODO: Yuan, remove all the checks to client side
     let match = DATA.getMatch(roomID);
     let robber = match.map.robber;
     let hextile1 = match.map.getHexTileById(robber.curPos);

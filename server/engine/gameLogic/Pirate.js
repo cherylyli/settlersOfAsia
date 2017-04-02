@@ -22,12 +22,12 @@ Pirate.createPirate = function(){
       from.blockedByPirate = false;
     if(to){
         to.blockedByPirate = true;
-        pirate.pos = to;
+        pirate.pos = to.id;
         pirate.move = false;
         return {'curPos' : pirate.pos, 'discardHalf': null, 'stealFrom' : pirate.stealFrom(to, match.map)};
       }
 
-      pirate.pos = to;
+      pirate.pos = to.id;
       pirate.move = false;
       //player.rolledSeven = false;
       return {'curPos' : pirate.pos,  'discardHalf': null, 'stealFrom' : null };

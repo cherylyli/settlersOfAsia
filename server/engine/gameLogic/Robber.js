@@ -26,12 +26,12 @@ Robber.createRobber = function(){
       from.blockedByRobber = false;
     if(to){
       to.blockedByRobber = true;
-      robber.pos = to;
+      robber.pos = to.id;  // pos: {int}
       robber.move = false;
       return {'curPos' : robber.pos, 'discardHalf' : robber.hasToDiscardCards(match.players), 'stealFrom' : robber.stealFrom(to,match.map)};
     }
 
-    robber.pos = to;
+    robber.pos = to.id;
     robber.move = false;
     //player.rolledSeven = false;
     return  {'curPos' : robber.pos,'discardHalf': null, 'stealFrom' : null};

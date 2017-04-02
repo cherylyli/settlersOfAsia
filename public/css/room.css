@@ -432,9 +432,9 @@ body{
     width: 500px;
     /* background-color: #00acfc; */
     margin: 0 auto;
-    background: hsla(0, 25%, 3%, 0.71);
+    background: rgba(255, 255, 255, 0.87);
     padding: 35px;
-    border: 2px solid #0c0b0b;
+    border: 2px solid #eaeaea;
     border-radius: 20px/50px;
     background-clip: padding-box;
     text-align: center;
@@ -447,7 +447,7 @@ body{
 #cmd-prompt .button {
     font-size: 1em;
     padding: 10px;
-    color: #fff;
+    color: black;
     border: 2px solid #ca5959;
     border-radius: 20px/50px;
     text-decoration: none;
