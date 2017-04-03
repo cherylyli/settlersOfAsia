@@ -387,7 +387,7 @@ $(window).on('imready', function(im){
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
 
         // adjust map size
-        if (DATA.getMatch()) mapUI.resizeMap();
+        if (window.app && DATA.getMatch()) mapUI.resizeMap();
 
         else {
             //waiting pic
@@ -508,7 +508,7 @@ $(window).on('imready', function(im){
             removeItem(e);
         });
         // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
-        $buttonClicked.after($newButton);
+        $buttonClicked.after($new+Button);
     }
 
 
@@ -646,6 +646,9 @@ $(window).on('imready', function(im){
     // click on hex
     $('#board').on('click', '.hex', function (e) {
         if (isCmdPromptVisible()) return false;
+
+        // FIXME: what if in the progress another cmd
+
         // if already selected a hex, clear
         if (highlightedHexes() >= 1) clearHighlightedHexes();
 
@@ -841,7 +844,7 @@ $(window).on('imready', function(im){
 
         // read cnt
         for (let key in input){
-            if (input.hasOwnProperty(key) && key.includes("cnt") && input[key].length > 0 ){
+            if (input.hasOwnProperty(key) && key.includes("cnt") && input[key] != "" ){
                 let number;
                 if (key.includes("buying")){
                     number = key.substr(6, 1);

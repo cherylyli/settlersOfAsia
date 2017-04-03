@@ -33,6 +33,7 @@ Player.createPlayer = function (name, user) {
     player.VP = 0;
     player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.resourceCardNum = initialGoldNum;
+    // TODO: testing, change later
     player.progressCards = [];
     player.progressCardsCnt = 0;
     //TODO - player can only place at most 5 settlements
@@ -48,7 +49,7 @@ Player.createPlayer = function (name, user) {
     player.knights = [];
     //player.metropolitans = [];  //a list of integer -> position of the metropolitan ????????
     player.winningVP = 10;
-    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 1, [Enum.cityImprovementCategory.Trade]: 1, [Enum.cityImprovementCategory.Science]: 1};
+    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
     player.Metropolis = null;   //Building object
 
     /**TODO: Yuan change this later. Some stuff may not be able to trade!!
