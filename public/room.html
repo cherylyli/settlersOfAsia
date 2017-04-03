@@ -32,7 +32,8 @@
             <!--div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'-->
             <div id='board' class='box-shadow-light'>
                 <div class='map'></div>
-                <div class='dices'>
+
+                <div class='dices right'>
                     <div class='dice red'>
                         <div class='icon center-cropped'></div>
                         <div class='text'>{{ room.match ? room.match.dice.redDie : 'Not Rolled' }}</div>
@@ -48,13 +49,42 @@
                         </div>
                     </div>
                 </div>
-                <div class='barbarian'>
+
+                <div class='barbarian right'>
                     <div class="icon center-cropped"></div>
                     <div class='text'>{{ room.match ? room.match.barbarian.curPos : '' }}</div>
                 </div>
+
+                <div class='progress-card cmds right'>
+                    <div class="card cmd" v-for='card in (room.users[me.username] || my).progressCards' v-bind:data-id="card" v-on:click='executeProgressCard'>
+                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true" v-bind:data-id="card"></i></div>
+                        <div class='text' v-bind:data-id="card">{{card}}</div>
+                    </div>
+                </div>
+
+
+
+                <div class="city-improvements cmds right">
+                    <div class="cmd" v-for='type in Enum.cityImprovementCategory' v-on:click='buyCityImprovement' v-bind:data-type="type">
+                        <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-type="type"></i></div>
+                        <div class='text' v-bind:data-type="type">{{type}}:   {{(room.users[me.username] || my).cityImprovement[type]}}</div>
+                    </div>
+
+                </div>
+<!--
+                <div class="other-cmd cmds right">
+                    <div class="cmd" v-on:click='buyCityImprovement'>
+                        <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-id="card"></i></div>
+                        <div class='text'>Buy City Improvement</div>
+                    </div>
+                </div>
+-->
+
+
                 <div class='ui-btn unselectable turn-event' data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn'
                      v-on:click='trade'><i class="fa fa-institution" aria-hidden="true"></i>Trade With Bank
                 </div>
+
                 <div class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn' data-cmd="tradeWithPlayer"
                      v-on:click='trade'><i class="fa fa-handshake-o" aria-hidden="true"></i>Trade With Player
                 </div>
