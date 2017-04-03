@@ -5,6 +5,7 @@ var _h = require('./api/helper_functions.js');
 var Uuid  = require('uuid');
 var User = require('../models/user.js');
 var notify  = require('./api/notify.js');
+var Data  = require('./engine/Data.js');
 
 
 
@@ -75,6 +76,11 @@ module.exports = function(app) {
             });
         }
         else res.end();
+    });
+
+    // fetch all rooms
+    app.get('/rooms', function(req, res){
+        res.json(Data.rooms);
     });
 
 
