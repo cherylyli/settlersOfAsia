@@ -81,7 +81,7 @@ body{
     top: 10px;
 }
 
-#board .dice, #board .card{
+#board .dice, #board .cmd{
     width: 110px;
     overflow: hidden;
     margin-bottom: 7px;
@@ -121,19 +121,26 @@ body{
 
 /** TODO: refactor this part, extract common class **/
 
-#board .progress-card{
-    top: 140px;
+#board .cmds{
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
 }
 
-#board .progress-card .card{
+#board .progress-card{
+    top: 140px;
+}
+
+#board .city-improvements{
+    top: 250px;
+}
+
+#board .cmds .cmd{
     cursor: pointer;
 }
 
-#board .progress-card .card:hover{
+#board .cmds .cmd:hover{
     padding-left: 5px;
     border-radius: 15%;
     background-color: #e3e8e8;
@@ -144,7 +151,7 @@ body{
     line-height: 20px;
 }
 
-#board .progress-card .fa{
+#board .cmd .fa{
     float: left;
     width: 16px;
     height: 16px;
@@ -152,7 +159,7 @@ body{
 
 
 
-#board .progress-card .text{
+#board .cmd .text{
     float: left;
     margin-left: 6px;
     line-height: 16px;
