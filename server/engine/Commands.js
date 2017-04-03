@@ -633,7 +633,7 @@ Commands.spendFishToken = function(userName, roomID, data){
       case "STEAL_CARD" :
         if(player.getFishSum() >= 3){
           //Commands.stealCard(username, roomID, {'thief' = player.name, 'victim' = data.victim } ;
-          Commands.stealCard(userName, roomID, {'thief' : player.name, 'victim' : data.victim });
+          Commands.stealCard(userName, roomID, {'thief' : data.thiefUserName, 'victim' : data.victimUserName });
           newSum = player.getFishSum() - 3;
           player.setFishSum(newSum);
         }

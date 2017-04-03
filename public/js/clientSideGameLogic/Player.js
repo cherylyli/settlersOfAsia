@@ -43,8 +43,8 @@ let Player = (function () {
          */
         player.resourceCardTotalNum = function (currentPlayer) {
             let sum = 0;
-            for (let card in currentPlayer.resourceAndCommandities) {
-                sum += currentPlayer.resourceAndCommandities[card];
+            for (let card in currentPlayer.resourcesAndCommandities) {
+                sum += currentPlayer.resourcesAndCommandities[card];
             }
             return sum;
         };

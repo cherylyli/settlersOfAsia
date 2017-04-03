@@ -103,7 +103,7 @@ Match.createNewMatch = function (scenario, players, id) {
       if(!access){
         return;
       }
-      //console.log("imrovementL" + improvementLevel);
+
       var maxKey = _.max(Object.keys(improvementLevel), function(player){
         return improvementLevel[player];
       });
