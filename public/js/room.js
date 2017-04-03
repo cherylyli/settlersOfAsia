@@ -841,7 +841,7 @@ $(window).on('imready', function(im){
 
         // read cnt
         for (let key in input){
-            if (input.hasOwnProperty(key) && key.includes("cnt") && input[key].length > 0 ){
+            if (input.hasOwnProperty(key) && key.includes("cnt") && input[key] != "" ){
                 let number;
                 if (key.includes("buying")){
                     number = key.substr(6, 1);

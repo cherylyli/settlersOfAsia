@@ -11,11 +11,11 @@ DATA.matches = matches;
 //----------------------Room---------------------------
 DATA.getRoom = function (roomID) {
     return rooms[roomID];
-}
+};
 
 DATA.existRoom = function (roomID) {
     return rooms.hasOwnProperty(roomID);
-}
+};
 
 /**
  * add a new room to rooms list
@@ -23,14 +23,14 @@ DATA.existRoom = function (roomID) {
  */
 DATA.addRoom = function (room) {
     rooms[room.id] =  room;
-}
+};
 
 /*
  * @param userName {String}
  */
 DATA.getUser = function (userName) {
     return users[userName];
-}
+};
 
 /**
  * add a new user to users list
@@ -38,7 +38,7 @@ DATA.getUser = function (userName) {
  */
 DATA.addUser = function (user) {
     users[user.name] = user;
-}
+};
 
 //---------------------Games---------------------------
 
@@ -47,7 +47,7 @@ DATA.addUser = function (user) {
 // Load it to data when user wants to continue play it.
 DATA.getMatch = function (roomID) {
     return matches[roomID];
-}
+};
 
 /**
  *
@@ -56,10 +56,10 @@ DATA.getMatch = function (roomID) {
  */
 DATA.addMatch = function (roomID, match) {
     matches[roomID] = match;
-}
+};
 
 
 DATA.getPlayer = function (userName, roomID) {
     let match = DATA.getMatch(roomID);
     return match.getPlayer(userName);
-}
+};

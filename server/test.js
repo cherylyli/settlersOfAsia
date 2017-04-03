@@ -2,7 +2,7 @@
  * Created by emol on 2/17/17.
  */
 "use strict"
-let fakeRoom = module.exports = {};
+// let fakeRoom = module.exports = {};
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
@@ -39,7 +39,7 @@ Commands.hireKnight("Max","123",{'position': 1});
 Commands.buildRoad("Emol","123",[1, 2]);
 //Commands.activateKnight("Max","123",7);
 
-fakeRoom.room = data.getRoom("123");
+// fakeRoom.room = data.getRoom("123");
 //TODO test barbarian applyResult + robber produce resource from bank
 /**
 //
