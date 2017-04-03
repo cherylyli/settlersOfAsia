@@ -120,9 +120,11 @@ module.exports = function(socket, user, roomId) {
         //{savedGameID: String, scenario:Sting}
         //Either savedGameID or scenario is undefined
         got('MAP_CONFIG', function (data) {
-            let room = Commands.makeNewRoom(user, roomId, data.savedGameID, data.scenario);
+            if (!_.isObject(data)) return;
 
-            result = CircularJSON.stringify( DATA.getRoom(roomId));
+            let room = Commands.makeNewRoom(user, data.roomId, data.savedGameID, data.scenario, data.roomName);
+
+            result = CircularJSON.stringify( DATA.getRoom(data.roomId));
 
 
             // where msg is an object returned from the API

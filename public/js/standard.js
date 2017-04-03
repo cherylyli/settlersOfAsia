@@ -247,7 +247,7 @@ $.urlParam = function(name, url){
     if (results==null){
        return null;
     } else{ return results[1] || 0; }
-}
+};
 
 
 // when scroll inside an element, disable page scroll

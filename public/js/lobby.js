@@ -147,7 +147,7 @@ $(window).on('imready', function(im){
     // -------------------------- controllers --------------------------
 
      // edit match name
-    function generateMatchName(){
+    function randomMatchName(){
         var n = myObj.username;
         var nameBank = [n+"'s match.", n+" is steadily killin' fools.", n+" much?", n+"'s Maj0r Pwn4ge.", "Drunken master, "+n+'.',
         "Is "+n+" awesome? (y/y)", n+". Kid tested, mother approved.", "Stay classy, stay "+n+".", "Girl you know it's true, "+n+" loves you.",
@@ -156,9 +156,17 @@ $(window).on('imready', function(im){
         return _.sample(nameBank);
     }
 
+    // make random 5 character string
+    function makeId(){
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for( var i=0; i < 5; i++ ) text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
+
     function refreshRooms(){
         $.get('/rooms', function(rooms){
-            console.log(1, rooms)
+            console.log(rooms)
             _.each(rooms, function(room, id){
                 room.host = room.owner;
             });
@@ -172,10 +180,30 @@ $(window).on('imready', function(im){
     renderMatches(matches);
     renderOnlines(onlines);
 
-    // make room
+    // prefill room name
+    $('#editMatch_name_input').val(randomMatchName());
+
+    // show make room popup
     $('#create').click(function(){
-        var room_name = generateMatchName();
-        console.log(room_name)
+        $('#editMatchPop').showPop({ fadeIn: true,fadeDuration: { pop: 150, overlay: 200 } });
+    });
+
+    // change room name
+    $("#editMatch_name_refresh").click(function(){
+        $('#editMatch_name_input').val(randomMatchName());
+    });
+
+    // actually make room
+    $('#editMatchPop .pop_save').click(function(){
+        var roomId = makeId();
+        var roomName = $('#editMatch_name_input').val();
+        var scenario = $('#editMatch_type select').val();
+        var config = {
+            roomId: roomId,
+            scenario: scenario, // 123
+            roomName: roomName
+        };
+        window.location.href = `/room/${roomId}?config=${encodeURIComponent(JSON.stringify(config))}`;
     });
 
 });

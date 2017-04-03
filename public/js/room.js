@@ -58,9 +58,11 @@ $(window).on('imready', function(im){
     // on page load, join room
     sock.emit('JOIN_ROOM', roomId);
 
-    // test data
-    // for now, assume player choose this map
-    let mapConfig = {'scenario': 'Heading For New Shores'};
+    // room configuration is defined on url in stringified json format
+    // we'll parse that and send it to server, then remove it from url
+    // to make it look cleaner
+    let mapConfig = JSON.parse(decodeURIComponent($.urlParam('config')));
+    window.history.replaceState({}, null, window.location.pathname);
     sock.emit('MAP_CONFIG', mapConfig);
 
     // when sock disconnects and reconnects, join room again
