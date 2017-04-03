@@ -63,12 +63,10 @@ Building.buildSettlement = function (player, vertex, map) {
      */
     building.upgradeToMetropolis = function(metropolisType){
         building.level = metropolisType;
-        // TODO: Yuan
-      building.hasMetropolis = true;
     };
 
     building.removeMetropolis = function(){
-      building.hasMetropolis = false;
+      building.level = Enum.Building.City;
     };
     //pillage a city, pre: building is a city
     building.pillage = function () {

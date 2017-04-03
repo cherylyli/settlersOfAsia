@@ -48,7 +48,7 @@ Player.createPlayer = function (name, user) {
     player.knights = [];
     //player.metropolitans = [];  //a list of integer -> position of the metropolitan ????????
     player.winningVP = 10;
-    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 1, [Enum.cityImprovementCategory.Trade]: 1, [Enum.cityImprovementCategory.Science]: 1};
+    player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
     player.Metropolis = null;   //Building object
 
     /**TODO: Yuan change this later. Some stuff may not be able to trade!!

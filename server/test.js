@@ -32,11 +32,22 @@ Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
 
+Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
+Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
+Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
+Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
+console.log(data.getMatch("123").distributeMetropolis(Enum.cityImprovementCategory.Science));
+/*
+Commands.hireKnight("Emol","123",7);
+Commands.activateKnight("Emol","123",7);
+Commands.hireKnight("Max","123",7);
+Commands.moveRobber("Emol","123",7);
 Commands.hireKnight("Emol","123",{'position': 7});
 Commands.activateKnight("Emol","123",{'position': 7});
 Commands.hireKnight("Max","123",{'position': 1});
 // Commands.moveRobber("Emol","123",7);
 Commands.buildRoad("Emol","123",[1, 2]);
+*/
 //Commands.activateKnight("Max","123",7);
 
 // fakeRoom.room = data.getRoom("123");
