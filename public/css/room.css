@@ -123,14 +123,34 @@ body{
 
 #board .progress-card{
     top: 140px;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
 }
 
+#board .progress-card .card{
+    cursor: pointer;
+}
+
+#board .progress-card .card:hover{
+    padding-left: 5px;
+    border-radius: 15%;
+    background-color: #e3e8e8;
+
+    font-size: medium;
+
+    margin-left: 7px;
+    line-height: 20px;
+}
 
 #board .progress-card .fa{
     float: left;
     width: 16px;
     height: 16px;
 }
+
+
 
 #board .progress-card .text{
     float: left;
@@ -143,6 +163,7 @@ body{
 #board .ui-btn .fa {
     margin-right: 6px;
 }
+
 #board .ui-btn{
     float: left;
     width: 150px;
@@ -470,7 +491,6 @@ body{
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
     -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
 }
 /**

@@ -294,9 +294,8 @@ $(window).on('imready', function(im){
                 Commands.movePirate(newHexID);
             },
 
-            executeProgressCard: function(){
-                var {card} = getInput();
-                console.log(card);
+            executeProgressCard: function (e) {
+                let card = $(e.target).attr('data-id');
                 Commands.executeProgressCard(card);
             },
 

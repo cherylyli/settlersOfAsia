@@ -56,18 +56,10 @@
                 </div>
 
                 <div class='progress-card right'>
-                    <div class="card" v-for='card in (room.users[me.username] || my).progressCards'>
-                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true"></i></div>
-                        <div class='text'>{{card}}</div>
+                    <div class="card" v-for='card in (room.users[me.username] || my).progressCards' v-bind:data-id="card" v-on:click='executeProgressCard'>
+                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true" v-bind:data-id="card"></i></div>
+                        <div class='text' v-bind:data-id="card">{{card}}</div>
                     </div>
-                    <!--<div class="card">
-                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true"></i></div>
-                        <div class='text'>324}</div>
-                    </div>
-                    <div class="card">
-                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true"></i></div>
-                        <div class='text'>543</div>
-                    </div>-->
                 </div>
 
                 <div class='ui-btn unselectable turn-event' data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn'
