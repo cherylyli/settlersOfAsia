@@ -508,7 +508,7 @@ $(window).on('imready', function(im){
             removeItem(e);
         });
         // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
-        $buttonClicked.after($newButton);
+        $buttonClicked.after($new+Button);
     }
 
 
@@ -646,6 +646,9 @@ $(window).on('imready', function(im){
     // click on hex
     $('#board').on('click', '.hex', function (e) {
         if (isCmdPromptVisible()) return false;
+
+        // FIXME: what if in the progress another cmd
+
         // if already selected a hex, clear
         if (highlightedHexes() >= 1) clearHighlightedHexes();
 
