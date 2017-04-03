@@ -194,7 +194,7 @@ $(window).on('imready', function(im){
         var scenario = $('#editMatch_type select').val();
         var config = {
             roomId: roomId,
-            scenario: scenario, // 123
+            gameScenario: scenario, // 123
             roomName: roomName
         };
         window.location.href = `/room/${roomId}?config=${encodeURIComponent(JSON.stringify(config))}`;
@@ -210,6 +210,7 @@ $(window).on('imready', function(im){
     // fetch all rooms from server, and display them on screen
     function fetchRooms(){
         $.get('/rooms', function(rooms){
+            rooms = CircularJSON.parse(rooms);
             _.each(rooms, function(room, id){
                 room.host = room.owner;
                 room.type = room.gameScenario;

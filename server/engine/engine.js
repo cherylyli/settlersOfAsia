@@ -122,7 +122,7 @@ module.exports = function(socket, user, roomId) {
         got('MAP_CONFIG', function (data) {
             if (!_.isObject(data)) return;
 
-            let room = Commands.makeNewRoom(user, data.roomId, data.savedGameID, data.scenario, data.roomName);
+            let room = Commands.makeNewRoom(user, data.roomId, data.savedGameID, data.gameScenario, data.roomName);
 
             result = CircularJSON.stringify( DATA.getRoom(data.roomId));
 
