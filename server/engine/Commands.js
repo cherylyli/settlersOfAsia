@@ -46,7 +46,7 @@ let CommandsCheck = {};
      //let user = DATA.getUser(userName);
      //if(!user) user = User.createUser(userName);
      //make new Room
-     let room = Room.createRoom(roomID, user.name);
+     let room = Room.createRoom(roomID, user.name, scenario);
 
 
      //owner also joins room

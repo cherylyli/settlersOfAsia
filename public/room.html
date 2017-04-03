@@ -32,7 +32,7 @@
             <!--div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'-->
             <div id='board' class='box-shadow-light'>
                 <div class='map'></div>
-                <div class='dices'>
+                <div class='dices right'>
                     <div class='dice red'>
                         <div class='icon center-cropped'></div>
                         <div class='text'>{{ room.match ? room.match.dice.redDie : 'Not Rolled' }}</div>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class='barbarian'>
+                <div class='barbarian right'>
                     <div class="icon center-cropped"></div>
                     <div class='text'>{{ room.match ? room.match.barbarian.curPos : '' }}</div>
                 </div>
