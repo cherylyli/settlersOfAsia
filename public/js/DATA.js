@@ -9,18 +9,18 @@ let DATA = {};
  * @return {Match}
  */
 DATA.getMatch = function () {
-    if (app.room) return app.room.match;
+    return app.room.match;
 };
 
 /**
  * @return {Player}
  */
 DATA.getMyPlayer = function () {
-    if (DATA.getMatch()) return DATA.getMatch().players[myObj.username];
+    return DATA.getMatch().players[myObj.username];
 };
 
 DATA.getPlayer = function(username){
-  if (DATA.getMatch()) return DATA.getMatch().players[username];
+  return DATA.getMatch().players[username];
 };
 
 /**
@@ -28,7 +28,7 @@ DATA.getPlayer = function(username){
  * @return {Map}
  */
 DATA.getMap = function () {
-    if (DATA.getMatch()) return DATA.getMatch().map;
+    return DATA.getMatch().map;
 };
 
 /**
@@ -37,7 +37,7 @@ DATA.getMap = function () {
  * @return {*}
  */
 DATA.getHexTileById = function (id) {
-    if (DATA.getMatch()) return DATA.getMap().getHexTileById(id);
+    return DATA.getMap().getHexTileById(id);
 };
 
 
