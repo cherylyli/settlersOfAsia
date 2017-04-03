@@ -479,7 +479,7 @@
                     <!-- TODO: change the form later -->
                     <!-- trade with player -->
                     <div v-else-if='command == "requestTrade"'>
-                        <weui-form-title>Selling</weui-form-title>
+                        <div class="weui-form-title">Selling</div>
                         <div class="weui-cells weui-cells_form">
                             <div class="weui-cell weui-cell_select weui-cell_select-after" v-for='item in Enum.Tradable'>
                                 <div class="weui-cell__hd"><label class="weui-label">{{item}}</label></div>
@@ -489,7 +489,7 @@
                                 </div>
                             </div>
                         </div>
-                        <weui-form-title>Buying</weui-form-title>
+                        <div class="weui-form-title">Buying</div>
                         <div class="weui-cells weui-cells_form">
                             <div class="weui-cell weui-cell_select weui-cell_select-after" v-for='item in Enum.Tradable'>
                                 <div class="weui-cell__hd"><label class="weui-label">{{item}}</label></div>
