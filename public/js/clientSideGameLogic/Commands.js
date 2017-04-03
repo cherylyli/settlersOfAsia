@@ -18,6 +18,11 @@ discardOneProgressCard
 upgradeToCity - round 2
 buildRoad
 spendFishToken
+
+//todo:
+moveKnight - displaceKnight - hireKnight CommandCheck
+moveRobber/pirate - move off board
+addmetropolis - notification
 */
 //(function(){
 let Commands = {};
@@ -343,7 +348,7 @@ CommandsData.stealCard = function (thiefUserName, victimUserName) {
 
 CommandCheck.stealCard = function (thiefUserName, victimUserName) {
     let victim = DATA.getPlayer(victimUserName);
-    if (victim.resourceCardTotalNum(victim) < 1) {
+    if (victim.resourceCardTotalNum() < 1) {
         swalError2("The victim player doesn't have enough resources to be stoled");
         return false;
     }
@@ -473,8 +478,7 @@ CommandCheck.spendFishToken = function (userName, action, data) {
       return true;
     }
     if(action == "STEAL_CARD" && player.getFishSum() >= 3){
-      CommandCheck.stealCard(data.thiefUserName, data.victimUserName) {
-
+      CommandCheck.stealCard(data.thiefUserName, data.victimUserName);
     }
     if(action == "DRAW_RES_FROM_BANK" && player.getFishSum() >= 4){
       CommandCheck.drawOneResourceCard(data.resCard);
@@ -1473,19 +1477,19 @@ _.each(CommandName, function (cmd) {
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
 
-/*
+
         let phase = DATA.getMatch().phase;
         if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
-*/
+
         //comment out this part if you want to disable checks
         //checks
-/*       if (!CommandCheck[cmd].apply(this, arguments)) {
+      if (!CommandCheck[cmd].apply(this, arguments)) {
             return;
         }
-*/
+
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };

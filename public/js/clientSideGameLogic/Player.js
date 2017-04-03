@@ -41,13 +41,13 @@ let Player = (function () {
          * @param currentPlayer {Player}
          * @return sum {Integer}
          */
-        player.resourceCardTotalNum = function (currentPlayer) {
-            let sum = 0;
-            for (let card in currentPlayer.resourcesAndCommandities) {
-                sum += currentPlayer.resourcesAndCommandities[card];
-            }
-            return sum;
-        };
+         player.resourceCardTotalNum = function(){
+             let sum = 0;
+             for (let card in player.resourcesAndCommodities){
+                 sum += player.resourcesAndCommodities[card];
+             }
+             return sum;
+         };
 
 
         /**
