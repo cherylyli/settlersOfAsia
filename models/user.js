@@ -53,14 +53,14 @@ User.sessionFields = sessionFields;
 User.sessionize = sessionize;
 
 // fields in user's redis cache
-var cacheFields = ['_id', 'name', 'profile_pic'];
+var cacheFields = ['_id', 'username', 'profile_pic'];
 var cacheFieldsStr = cacheFields.join(' ');
 var cachize = function(obj){ return _.pick(obj, cacheFields); };
 User.cacheFields = cacheFields;
 User.cachize = cachize;
 
 // minimum fields
-User.minFields = ['_id', 'name', 'profile_pic'];
+User.minFields = ['_id', 'username', 'profile_pic'];
 
 // create the model for users
 var model = User.model = mongoose.model('user', userSchema);
@@ -131,6 +131,24 @@ User.fetchCustomMany = function(user_ids, fields, callback){
     }, function(err){
         if (err) callback(false);
         else callback(data);
+    });
+};
+
+
+User.fetchManyByUsername = function(usernames, fields, callback){
+    callback = _.isFunction(callback) ? callback : function(){};
+    var data = {};
+    async.each(usernames, function (username, _callback) {
+         model
+        .findOne({ username: username })
+        .select(fields.join(' '))
+        .lean()
+        .exec(function (err, doc) {
+            if (doc) data[username] = doc;
+            _callback();
+        });
+    }, function(err){
+        callback(data);
     });
 };
 

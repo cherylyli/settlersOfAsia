@@ -23,7 +23,7 @@
             <div class='desc'>
                 <div class='name slidable dot'><%-match.name%></div>
                 <div class='type'>Game type: <%-match.type%></div>
-                <div class='size'>Players: <%-match.players.length%>/8</div>
+                <div class='size'>Players: <%-match.players.length%>/4</div>
             </div>
         </div>
         <div class='bottom'>
@@ -38,11 +38,11 @@
 </script>
 
 <script id='online-user-template' type="text/template" class="template">
-	<div class="item">
+	<div class="item" data-roomid='<%-user.roomId%>'>
 		<div class="pic center-cropped" style="background-image: url(<%-user.profile_pic%>)"></div>
 		<div class="desc">
 			<div class="title"><%-user.username%></div>
-			<div class="snippet dot slidable"><%-user.status%></div>
+			<div class="snippet dot slidable <%- user.roomId ? 'pseudo-link' : '' %>"><%- user.status %></div>
 		</div>
 	</div>
 </script>
@@ -162,8 +162,8 @@
 	            <div id='editMatch_type' class="weui-cell weui-cell_select weui-cell_select-after">
 	            	<div class="weui-cell__bd">
 	            		<select class="weui-select">
-	            			<option value="basic">Basic</option>
-	            			<option value="shore">Heading For New Shores</option>
+	            			<option value="Basic">Basic</option>
+	            			<option value="Heading For New Shores">Heading For New Shores</option>
 	            		</select>
 	            	</div>
 	            </div>

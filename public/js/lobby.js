@@ -25,6 +25,11 @@ $(window).on('imready', function(im){
 
 
 
+    // helpers
+    function sortObject(o) {
+        return Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {});
+    }
+
 
 
     // ---------------------------- models ----------------------------
@@ -95,8 +100,8 @@ $(window).on('imready', function(im){
         var $match = $(_.template(match_template)({ match: match, host: host }));
         // add players
         var $players = $match.find('.players').empty();
-        // for each spot, (max 8 spots)
-        for (var i=0; i<8; i++){
+        // for each spot, (max 4 spots)
+        for (var i=0; i<4; i++){
             var player = match.players[i];
             var $player = $(_.template(player_template)({ player: player || {} }));
             // if taken by a player, put his picture; else it's gray by default
@@ -113,7 +118,6 @@ $(window).on('imready', function(im){
         _.each(matches, function(match, id){
             $p.append(createMatch(match));
         });
-
     }
 
     // display username on hover pic
@@ -126,6 +130,12 @@ $(window).on('imready', function(im){
             position: { my: 'bottom center', at: 'top center' },
             style: { classes: 'qtip-light qtip-custom' }
         }, event);
+    });
+
+    // go to room when click on link
+    $(document).on('click', '#onlines .snippet.pseudo-link', function(){
+        var roomId = $(this).closest('[data-roomid]').attr('data-roomid');
+        window.location.href = `/room/${roomId}`;
     });
 
     // render list of online users on screen
@@ -144,9 +154,9 @@ $(window).on('imready', function(im){
 
 
 
-    // -------------------------- controllers --------------------------
+    // -------------------------- make room --------------------------
 
-     // edit match name
+    // edit match name
     function randomMatchName(){
         var n = myObj.username;
         var nameBank = [n+"'s match.", n+" is steadily killin' fools.", n+" much?", n+"'s Maj0r Pwn4ge.", "Drunken master, "+n+'.',
@@ -163,22 +173,6 @@ $(window).on('imready', function(im){
         for( var i=0; i < 5; i++ ) text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
     }
-
-    function refreshRooms(){
-        $.get('/rooms', function(rooms){
-            console.log(rooms)
-            _.each(rooms, function(room, id){
-                room.host = room.owner;
-            });
-            // renderMatches(rooms);
-        }); 
-    }
-
-    refreshRooms();
-    // setInterval(refreshRooms, 1000);
-
-    renderMatches(matches);
-    renderOnlines(onlines);
 
     // prefill room name
     $('#editMatch_name_input').val(randomMatchName());
@@ -205,5 +199,44 @@ $(window).on('imready', function(im){
         };
         window.location.href = `/room/${roomId}?config=${encodeURIComponent(JSON.stringify(config))}`;
     });
+
+
+
+
+
+
+    // -------------------------- refresh room list --------------------------
+
+    // fetch all rooms from server, and display them on screen
+    function fetchRooms(){
+        $.get('/rooms', function(rooms){
+            _.each(rooms, function(room, id){
+                room.host = room.owner;
+                room.type = room.gameScenario;
+                room.players = _.map(_.values(room.users), function(u){
+                    return u.user;
+                });
+                if (_.isEmpty(room.players)) delete rooms[id];
+            });
+            renderMatches(rooms);
+        }); 
+    }
+
+    // refresh room list every second
+    fetchRooms();
+    setInterval(fetchRooms, 1000);
+
+
+    // fetch all online users from server, and display them on screen
+    function fetchOnlines(){
+        $.get('/users', function(users){
+            users = sortObject(users);
+            renderOnlines(users);
+        }); 
+    }
+
+    // refresh online list every second
+    fetchOnlines();
+    setInterval(fetchOnlines, 1000);
 
 });

@@ -297,7 +297,7 @@ a {
 .pop_list .item .desc .snippet{
     font-weight: 400;
     font-size: 12px;
-    margin-top: 2px;
+    margin-top: 0px;
     color: #8C9CA8;
 }
 

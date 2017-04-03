@@ -220,13 +220,21 @@ body{
     height: 35px;
 }
 
+#onlines .pop_list .desc{
+    max-width: 153px;
+}
+
 #onlines .pop_list .title{
     font-size: 13px;
     font-weight: 500;
-    margin-top: 1px;
-    margin-bottom: 4px;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 18px;
 }
 
+#onlines .pop_list .snippet.pseudo-link{
+    color: #5eafe5;
+}
 
 #create .wrap{
     height: 370px;

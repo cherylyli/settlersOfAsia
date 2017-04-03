@@ -35,7 +35,7 @@ io.on('connection', function (socket) {
 
     // when a socket connects, he'll join a room of his username by default,
     // this is such that we can send him event using his username, instead of socket id
-    socket.join(username);
+    socket.join('user:' + username);
 
 
     // ---------------------- Game stuffs ----------------------

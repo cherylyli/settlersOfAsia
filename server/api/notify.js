@@ -15,7 +15,7 @@ var notify = {
 	user: function (users, event, data){
 		users = _.isArray(users) ? users : [users];
 		users.forEach(function(username){
-			io.to(username).emit(event, data);
+			io.to('user:' + username).emit(event, data);
 		});
 		console.log(`[notify ${users.join(', ')	}]`, event, data);
 	},

@@ -83,5 +83,40 @@ module.exports = function(app) {
         res.json(Data.rooms);
     });
 
+    // fetch all users
+    app.get('/users', function(req, res){
+        // all online users
+        var keys = _.filter(_.keys(io.sockets.adapter.rooms), function(name){
+            return name.indexOf('user:') == 0;
+        });
+        var usernames = _.map(keys, function(key){
+            return key.replace('user:', '');
+        });
+        // map <username> to an object containing his online activity
+        User.fetchManyByUsername(usernames, User.minFields, function(users){
+            //by default, everyone's status is in lobby
+            _.each(users, function(user){
+                user.status = 'Just chilling'
+            });
+            // then for every in-game player, set status as his current match type
+             _.each(Data.rooms, function(room, id){
+                if (!_.isObject(room) || _.size(room.users) == 0) return;
+                _.each(_.values(room.users), function(u){
+                    var user = _.clone(u.user);
+                    user.roomId = id;
+                    if (!room.match){
+                        user.status = `Waiting for players`;
+                    }
+                    else {
+                        user.status = `Playing ${room.gameScenario}`;
+                    }
+                    users[user.username] = user;
+                });
+            });
+            // send result
+            res.json(users);
+        });
+    });
+
 
 };
