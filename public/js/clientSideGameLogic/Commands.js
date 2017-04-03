@@ -334,11 +334,11 @@ CommandCheck.stealCard = function (thiefUserName, victimUserName) {
 //input : {String} "Trade" / "Science" / "Politics"
 CommandsData.drawOneProgressCard = function (kind) {
     return {'kind': kind};
-}
+};
 
 CommandCheck.drawOneProgressCard = function (progCard) {
     return true;
-}
+};
 
 //input string
 CommandsData.drawOneResourceCard = function (resCard) {

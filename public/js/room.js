@@ -338,6 +338,19 @@ $(window).on('imready', function(im){
                 Commands.moveShip(oldVertex1, oldVertex2, newVertex1, newVertex2);
             },
 
+            trade: function (e) {
+                let cmd = $(e.target).attr('data-cmd');
+                generateTradePrompt(cmd);
+
+                // for different cmd, when we click confirm, we run different cmd.
+
+
+                showCmdPrompt();
+
+                //if (cmd == "tradeWithBank"){
+                //}
+            },
+
             tradeWithBank: function () {
                 var {src, tradeFor} = getInput();
                 Commands.tradeWithBank(src, tradeFor);
@@ -480,6 +493,12 @@ $(window).on('imready', function(im){
     function addNewItem(e) {
         let $buttonClicked = $(e.target).parent();
         let $newButton = $buttonClicked.clone();
+        let $form = $buttonClicked.parent();
+        // change name of input
+        let buttonNumber = $form.find('.button').size();  // title is also a button, so number of buttons is size() - 1, no for this button is size() - 1 +1
+        let type = $form.attr('data-id');
+        $newButton.find('input').attr('name', type + buttonNumber + 'cnt');
+        $newButton.find('select').attr('name', type + buttonNumber);
 
         // create listener for new button
         $newButton.find('i.add').click(function (e) {
@@ -527,6 +546,16 @@ $(window).on('imready', function(im){
     function getInput() {
         var data = {};
         $('#cmd-table .op:visible [name]').each(function () {
+            var name = $(this).attr('name');
+            var val = $(this).val();
+            data[name] = isNum(val) ? parseFloat(val) : val;
+        });
+        return data;
+    }
+
+    function getInputCmdPrompt() {
+        var data = {};
+        $('#cmd-prompt [name]').each(function () {
             var name = $(this).attr('name');
             var val = $(this).val();
             data[name] = isNum(val) ? parseFloat(val) : val;
@@ -616,6 +645,7 @@ $(window).on('imready', function(im){
 
     // click on hex
     $('#board').on('click', '.hex', function (e) {
+        if (isCmdPromptVisible()) return false;
         // if already selected a hex, clear
         if (highlightedHexes() >= 1) clearHighlightedHexes();
 
@@ -690,6 +720,145 @@ $(window).on('imready', function(im){
         showCmdPrompt();
     }
 
+
+    /**
+     *
+     * @param type {String} "selling" / "buying"
+     */
+    function generateTradeForm(type) {
+        let $form = $('<div></div>');
+        $form.attr('data-id', type);
+
+        let $title = $('<div>' + type + '</div>');
+        $title.addClass('button title ' + type);
+        $form.append($title);
+
+        let $item = $('<div class="button ' + type + '" data-id="select"> </div>');
+        let $select = $('<select class="weui-select"></select>');
+        $select.attr('name', type + 1);
+        $item.append($select);
+
+        _.forEach(Enum.Tradable, function (item) {
+            let $option = $('<option value="' + item + '">' + item + '</option>');
+            $select.append($option);
+        });
+
+        let $input = $('<input class="weui-input" type="number" pattern="[0-9]*" placeholder="0">');
+        $input.attr('name', type + 1 + "cnt");
+        $item.append($input);
+
+        // add and delete icon
+        $item.append('<i class="fa fa-minus-circle delete" aria-hidden="true"></i> <i class="fa fa-plus-circle add" aria-hidden="true"></i>');
+        $form.append($item);
+
+        return $form;
+    }
+
+    /**
+     *
+     * @param cmd {String} command name
+     */
+    function generateTradePrompt(cmd) {
+        let $prompt = $('#cmd-prompt');
+        $prompt.append(generateTradeForm('buying'));
+        $prompt.append(generateTradeForm('selling'));
+
+        $prompt.append( '<div class="button" data-id="confirm">Trade</div> <div class="button" data-id="cancel">Cancel</div>');
+
+        // add listener
+        // for trade form cmd prompt, add and remove icon
+        $('#cmd-prompt i.add').click(function (e) {
+            addNewItem(e);
+        });
+
+        $('#cmd-prompt i.delete').click(function (e) {
+            removeItem(e);
+        });
+
+        // cancel button
+        $prompt.find('.button[data-id=cancel]').click(function () {
+            hideCmdPrompt();
+        });
+
+        // confirm button
+        $prompt.find('.button[data-id=confirm]').click(function () {
+            let input = getInputCmdPrompt();
+            let {selling, buying} = readTradeInput(input);
+
+
+            if (cmd == "tradeWithBank"){
+
+                console.log("selling", selling);
+                console.log("buying", buying);
+
+                // command trade with bank
+                // TODO: Yuan / Emol change trade with bank cmd (it should accept cost object)
+            }
+
+            else {
+                // trade with player
+                // TODO: max
+                // here trade with player starts (request trade)
+                // you have the selling and buying object
+
+            }
+
+            hideCmdPrompt();
+
+
+        });
+
+        //getInputCmdPrompt
+    }
+
+    /**
+     *
+     * @param input
+     * @return {Cost, Cost} selling and buying
+     */
+    function readTradeInput(input){
+        let sellingType = {};   // temp storage
+        let buyingType = {};
+
+        let selling = {};
+        let buying = {};
+
+        // read type
+        for (let key in input){
+            if (input.hasOwnProperty(key) && !key.includes("cnt")){
+                let type = input[key];
+                let number;
+                if (key.includes("buying")){
+                    number = key.substr(6);
+                    buyingType[number] = type;
+                }
+                if (key.includes("selling")){
+                    number = key.substr(7);
+                    sellingType[number] = type;
+                }
+            }
+        }
+
+        // read cnt
+        for (let key in input){
+            if (input.hasOwnProperty(key) && key.includes("cnt") && input[key].length > 0 ){
+                let number;
+                if (key.includes("buying")){
+                    number = key.substr(6, 1);
+                    buying[buyingType[number]] = input[key];   // o is dummy value
+                }
+                if (key.includes("selling")){
+                    number = key.substr(7, 1);
+                    selling[sellingType[number]] = input[key];
+                }
+            }
+        }
+
+        return {selling, buying};
+
+
+    }
+
     /**
      *
      * @param cmds String[] a list of cmds used to generate prompt options
@@ -704,6 +873,7 @@ $(window).on('imready', function(im){
             $cmd.attr('cmd', cmd);
             $prompt.prepend($cmd);
         });
+
 
 
         // add listener here because we generate the buttons dynamically
