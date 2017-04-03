@@ -146,6 +146,18 @@ $(window).on('imready', function(im){
 
     // -------------------------- controllers --------------------------
 
+    // modify server returned rooms
+    function envelopeRooms(rooms){
+        _.each(rooms, function(room, id){
+            room.host = room.owner;
+        });
+    }
+
+    $.get('/rooms', function(rooms){
+        envelopeRooms(rooms);
+        // renderMatches(rooms);
+    }); 
+
     renderMatches(matches);
     renderOnlines(onlines);
 
