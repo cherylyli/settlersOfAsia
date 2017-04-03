@@ -454,7 +454,7 @@ CommandsData.buildShipUseFish = function (vertex1, vertex2) {
  * @return {boolean}
  */
 CommandCheck.buildShipUseFish = function (vertex1, vertex2) {
-    CommandCheck.buildShip();
+    CommandCheck.buildShip(vertex1,vertex2);
 };
 
 
@@ -468,12 +468,29 @@ CommandsData.spendFishToken = function (action, data) {
 CommandCheck.spendFishToken = function (userName, action, data) {
     //TODO Yuan add checkPlayerAsset for fish token
     let player = DATA.getPlayer(userName);
-    if (player.getFishSum() < 2) {
-        return false;
+
+    if(action == "MOVE_ROBBER" || action == "MOVE_PIRATE" && player.getFishSum() >= 2){
+      return true;
     }
-    else {
-        return true;
+    if(action == "STEAL_CARD" && player.getFishSum() >= 3){
+      CommandCheck.stealCard(data.thiefUserName, data.victimUserName) {
+
     }
+    if(action == "DRAW_RES_FROM_BANK" && player.getFishSum() >= 4){
+      CommandCheck.drawOneResourceCard(data.resCard);
+    }
+    if(action == "BUILD_ROAD" || action == "BUILD_SHIP" && player.getFishSum() >= 5){
+      if(action == "BUILD_ROAD")
+        CommandCheck.buildRoadUseFish(data.vertex1, data.vertex2);
+      else {
+        CommandCheck.buildShipUseFish(data.vertex1, data.vertex2);
+      }
+    }
+    if(action == "DRAW_PROG" && player.getFishSum() >= 7){
+      CommandCheck.drawOneProgressCard(data.kind);
+    }
+    swalError2("Not enough fish tokens");
+    return false;
 }
 
 //TODO Yuan deactive knights
