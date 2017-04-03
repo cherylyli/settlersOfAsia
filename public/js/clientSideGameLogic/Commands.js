@@ -77,13 +77,13 @@ let CommandName = {
      done testing:
      */
     // 'setDefenderOfCatan': 'setDefenderOfCatan',
-    'discardOneProgressCard': 'discardProgressCard',
-    'stealCard': 'stealCard',
-    'drawOneResourceCard': 'drawOneResourceCard',
-    'giveAwayBoot': 'giveAwayBoot',
-    'drawOneProgressCard': 'drawOneProgressCard',
-    'discardResourceCards': 'discardResourceCards',
-    'chaseAwayThief': 'chaseAwayThief',
+    'discardOneProgressCard': 'discardProgressCard', //TODO
+    'stealCard': 'stealCard',   //TODO
+    'drawOneResourceCard': 'drawOneResourceCard',   //TODO
+    'giveAwayBoot': 'giveAwayBoot', //TODO
+    'drawOneProgressCard': 'drawOneProgressCard',   //TODO
+    'discardResourceCards': 'discardResourceCards', //TODO
+    'chaseAwayThief': 'chaseAwayThief', //TODO
     'hireKnight': 'hireKnight',
     'activateKnight': 'activateKnight',
     'promoteKnight': 'promoteKnight',
@@ -91,19 +91,18 @@ let CommandName = {
 
     //need to test.
     "upgradeToMetropolis": 'upgradeToMetropolis',
-    'chooseCityToBePillaged': 'chooseCityToBePillaged',
+    'chooseCityToBePillaged': 'chooseCityToBePillaged', //TODO
     'moveRobber': 'moveRobber',
     'movePirate': 'movePirate',
-    'spendFishToken': 'spendFishToken',
-    'buildRoadUseFish': 'buildRoadUseFish',
-    'buildShipUseFish': 'buildShipUseFish',
+    'spendFishToken': 'spendFishToken', //TODO
+    'buildRoadUseFish': 'buildRoadUseFish', //TODO: Yuan, combine this with build road
+    'buildShipUseFish': 'buildShipUseFish', //TODO: Yuan
 
-      //TODO:
-    'requestTrade': 'requestTrade',
-    'acceptTrade': 'acceptTrade',
-    'performTradeTransaction':'performTradeTransaction',
+    'requestTrade': 'requestTrade', // TODO: Max
+    'acceptTrade': 'acceptTrade',// TODO: Max
+    'performTradeTransaction':'performTradeTransaction',// TODO: Max
       //INPROGRESS:
-    'executeProgressCard': 'executeProgressCard'
+    'executeProgressCard': 'executeProgressCard'// TODO: Max
 };
 
 let CommandReceived = {};
