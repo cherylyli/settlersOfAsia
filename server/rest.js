@@ -6,7 +6,14 @@ var Uuid  = require('uuid');
 var User = require('../models/user.js');
 var notify  = require('./api/notify.js');
 var Data  = require('./engine/Data.js');
+let CircularJSON = require('circular-json');
 
+
+
+
+function deepClone(o){
+    return CircularJSON.parse(CircularJSON.stringify(o));
+}
 
 
 // all RESTful requests
@@ -80,7 +87,7 @@ module.exports = function(app) {
 
     // fetch all rooms
     app.get('/rooms', function(req, res){
-        res.json(Data.rooms);
+        res.json(CircularJSON.stringify(Data.rooms));
     });
 
     // fetch all users
@@ -99,10 +106,10 @@ module.exports = function(app) {
                 user.status = 'Just chilling'
             });
             // then for every in-game player, set status as his current match type
-             _.each(Data.rooms, function(room, id){
+             _.each(deepClone(Data.rooms), function(room, id){
                 if (!_.isObject(room) || _.size(room.users) == 0) return;
                 _.each(_.values(room.users), function(u){
-                    var user = _.clone(u.user);
+                    var user = deepClone(u.user);
                     user.roomId = id;
                     if (!room.match){
                         user.status = `Waiting for players`;

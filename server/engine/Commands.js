@@ -42,11 +42,11 @@ let CommandsCheck = {};
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
- Commands.makeNewRoom = function (user, roomID, savedGameID, scenario, roomName) {
+ Commands.makeNewRoom = function (user, roomID, savedGameID, gameScenario, roomName) {
      //let user = DATA.getUser(userName);
      //if(!user) user = User.createUser(userName);
      //make new Room
-     let room = Room.createRoom(roomID, user.name, scenario, roomName);
+     let room = Room.createRoom(roomID, user.name, gameScenario, roomName);
 
 
      //owner also joins room

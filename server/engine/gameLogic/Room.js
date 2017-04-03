@@ -17,7 +17,7 @@ let Room = module.exports = {};
 
 
 
-Room.createRoom = function (RoomID, creatorName, scenario, roomName) {
+Room.createRoom = function (RoomID, creatorName, gameScenario, roomName) {
     let gameRoom = {};
 
     gameRoom.id = RoomID;
@@ -26,7 +26,7 @@ Room.createRoom = function (RoomID, creatorName, scenario, roomName) {
     gameRoom.users = {};    //key: userName (string), value: player data (Player object)
     //gameRoom.Users = {};    //user objects
     gameRoom.match = null;
-    gameRoom.gameScenario = scenario;
+    gameRoom.gameScenario = gameScenario;
     gameRoom.name = roomName;
 
 
