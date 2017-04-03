@@ -204,7 +204,7 @@ $(window).on('imready', function(im){
             },
 
             'room.match': function () {
-                if (!app.room.match) return;
+                //if (!app.room.match) return;
                 mapUI.updateMap();
             }
         },
@@ -538,7 +538,7 @@ $(window).on('imready', function(im){
             removeItem(e);
         });
         // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
-        $buttonClicked.after($new+Button);
+        $buttonClicked.after($newButton);
     }
 
 
@@ -653,9 +653,15 @@ $(window).on('imready', function(im){
         if (isNot($(e.target), 'hex')) clearHighlightedHexes();
     });
 
+    //$(document).on('click', '.vertex', function(e){ console.log('lol') })
+
     // click on vertex
-    $('#board').on('click', '.vertex', function (e) {
-        if (isCmdPromptVisible()) return false;
+    $('body').on('click', '.vertex', function (e) {
+        console.log("eeeee");
+        if (isCmdPromptVisible()){
+            console.log("yeee");
+            return false;
+        }
         // if (isCmdTableVisible()) return false;
         // if more than 2 select, clear
         if (highlightedVertices() > 2) clearHighlightedVertices();
@@ -674,7 +680,7 @@ $(window).on('imready', function(im){
     });
 
     // click on hex
-    $('#board').on('click', '.hex', function (e) {
+    $('body').on('click', '.hex', function (e) {
         if (isCmdPromptVisible()) return false;
 
         // FIXME: what if in the progress another cmd
