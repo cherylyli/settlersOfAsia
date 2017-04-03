@@ -146,20 +146,36 @@ $(window).on('imready', function(im){
 
     // -------------------------- controllers --------------------------
 
-    // modify server returned rooms
-    function envelopeRooms(rooms){
-        _.each(rooms, function(room, id){
-            room.host = room.owner;
-        });
+     // edit match name
+    function generateMatchName(){
+        var n = myObj.username;
+        var nameBank = [n+"'s match.", n+" is steadily killin' fools.", n+" much?", n+"'s Maj0r Pwn4ge.", "Drunken master, "+n+'.',
+        "Is "+n+" awesome? (y/y)", n+". Kid tested, mother approved.", "Stay classy, stay "+n+".", "Girl you know it's true, "+n+" loves you.",
+        n+" lifts heavy.", "Good time with "+n+".", "They see "+n+" ridin' they hatin'.", "Keyboard warrior, "+n, "I'd shave for "+n+'.',
+        n+". He simply walks into Mordor."];
+        return _.sample(nameBank);
     }
 
-    $.get('/rooms', function(rooms){
-        envelopeRooms(rooms);
-        // renderMatches(rooms);
-    }); 
+    function refreshRooms(){
+        $.get('/rooms', function(rooms){
+            console.log(1, rooms)
+            _.each(rooms, function(room, id){
+                room.host = room.owner;
+            });
+            // renderMatches(rooms);
+        }); 
+    }
+
+    refreshRooms();
+    // setInterval(refreshRooms, 1000);
 
     renderMatches(matches);
     renderOnlines(onlines);
 
+    // make room
+    $('#create').click(function(){
+        var room_name = generateMatchName();
+        console.log(room_name)
+    });
 
 });

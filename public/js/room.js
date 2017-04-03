@@ -202,6 +202,7 @@ $(window).on('imready', function(im){
             },
 
             'room.match': function () {
+                if (!app.room.match) return;
                 mapUI.updateMap();
             }
         },
