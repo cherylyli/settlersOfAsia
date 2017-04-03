@@ -297,9 +297,8 @@ $(window).on('imready', function(im){
                 Commands.movePirate(newHexID);
             },
 
-            executeProgressCard: function(){
-                var {card} = getInput();
-                console.log(card);
+            executeProgressCard: function (e) {
+                let card = $(e.target).attr('data-id');
                 Commands.executeProgressCard(card);
             },
 
@@ -325,10 +324,38 @@ $(window).on('imready', function(im){
                 Commands.buildShip(vertex1, vertex2);
             },
 
-            buyCityImprovement: function () {
+            buyCityImprovement: function (e) {
+                let cityImprovementCategory = $(e.target).attr('data-type');
+                let nextLevel = DATA.getMyPlayer().cityImprovement[cityImprovementCategory] + 1;
+                let cost = Cost['cityImprove_' + cityImprovementCategory + '_' + nextLevel];
+                let costSentence = "";
+
+                for(let item in cost){
+                    if (cost.hasOwnProperty(item)) costSentence += item + " × " + cost[item] + "  ";
+                }
+
+                swal({
+                        title: "Improve to " + cityImprovementCategory + ": Level " + nextLevel ,
+                        text: "Cost: " + costSentence,
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes!",
+                        cancelButtonText: "No",
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            Commands.buyCityImprovement(cityImprovementCategory);
+                        }
+                    });
+
+                // console.log(cityImprovementCategory);
+                /**
                 var {category} = getInput();
-                var cityImprovementCategory = Enum.cityImprovementCategory[category];
-                Commands.buyCityImprovement(cityImprovementCategory);
+                var cityImprovementCategory = Enum.cityImprovementCategory[category];**/
+                // Commands.buyCityImprovement(cityImprovementCategory);
             },
 
             buildCityWall: function () {
@@ -390,7 +417,7 @@ $(window).on('imready', function(im){
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
 
         // adjust map size
-        if (window.app && DATA.getMatch()) mapUI.resizeMap();
+        if (window.app && window.app.room && DATA.getMatch()) mapUI.resizeMap();
 
         else {
             //waiting pic

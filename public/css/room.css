@@ -72,13 +72,16 @@ body{
     pointer-events: none;
 }
 
-#board .dices{
+#board .right {
     position: absolute;
-    top: 10px;
     right: 10px;
 }
 
-#board .dice{
+#board .dices{
+    top: 10px;
+}
+
+#board .dice, #board .cmd{
     width: 110px;
     overflow: hidden;
     margin-bottom: 7px;
@@ -98,9 +101,7 @@ body{
 }
 #board .barbarian{
     width: 110px;
-    position: absolute;
     top: 100px;
-    right: 10px;
     overflow: hidden;
 }
 
@@ -118,9 +119,58 @@ body{
     font-size: 12px;
 }
 
+/** TODO: refactor this part, extract common class **/
+
+#board .cmds{
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+}
+
+#board .progress-card{
+    top: 140px;
+}
+
+#board .city-improvements{
+    top: 250px;
+}
+
+#board .cmds .cmd{
+    cursor: pointer;
+}
+
+#board .cmds .cmd:hover{
+    padding-left: 5px;
+    border-radius: 15%;
+    background-color: #e3e8e8;
+
+    font-size: medium;
+
+    margin-left: 7px;
+    line-height: 20px;
+}
+
+#board .cmd .fa{
+    float: left;
+    width: 16px;
+    height: 16px;
+}
+
+
+
+#board .cmd .text{
+    float: left;
+    margin-left: 6px;
+    line-height: 16px;
+    font-size: 12px;
+}
+
+
 #board .ui-btn .fa {
     margin-right: 6px;
 }
+
 #board .ui-btn{
     float: left;
     width: 150px;
@@ -448,7 +498,6 @@ body{
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
     -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
 }
 /**

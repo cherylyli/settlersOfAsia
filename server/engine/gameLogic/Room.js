@@ -53,11 +53,11 @@ Room.createRoom = function (RoomID, creatorName, scenario, roomName) {
     gameRoom.ableToStartGame = function(){
         let state = this.state;
         return (state == enums.GameRoomState.Ready || state == enums.GameRoomState.Full);
-    }
+    };
 
     gameRoom.setGameScenario = function (scenario) {
         gameRoom.gameScenario = scenario;
-    }
+    };
 
 
 
@@ -88,9 +88,9 @@ Room.createRoom = function (RoomID, creatorName, scenario, roomName) {
             }
         }
         return gameRoom.match;
-    }
+    };
 
 
     DATA.addRoom(gameRoom);
     return gameRoom;
-}
+};
