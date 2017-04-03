@@ -33,6 +33,7 @@ Player.createPlayer = function (name, user) {
     player.VP = 0;
     player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.resourceCardNum = initialGoldNum;
+    // TODO: testing, change later
     player.progressCards = [];
     player.progressCardsCnt = 0;
     //TODO - player can only place at most 5 settlements
