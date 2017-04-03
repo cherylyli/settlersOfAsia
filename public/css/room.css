@@ -81,7 +81,7 @@ body{
     top: 10px;
 }
 
-#board .dice{
+#board .dice, #board .card{
     width: 110px;
     overflow: hidden;
     margin-bottom: 7px;
@@ -118,6 +118,27 @@ body{
     line-height: 16px;
     font-size: 12px;
 }
+
+/** TODO: refactor this part, extract common class **/
+
+#board .progress-card{
+    top: 140px;
+}
+
+
+#board .progress-card .fa{
+    float: left;
+    width: 16px;
+    height: 16px;
+}
+
+#board .progress-card .text{
+    float: left;
+    margin-left: 6px;
+    line-height: 16px;
+    font-size: 12px;
+}
+
 
 #board .ui-btn .fa {
     margin-right: 6px;

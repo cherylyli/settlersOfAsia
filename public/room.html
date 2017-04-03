@@ -32,6 +32,7 @@
             <!--div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'-->
             <div id='board' class='box-shadow-light'>
                 <div class='map'></div>
+
                 <div class='dices right'>
                     <div class='dice red'>
                         <div class='icon center-cropped'></div>
@@ -48,13 +49,31 @@
                         </div>
                     </div>
                 </div>
+
                 <div class='barbarian right'>
                     <div class="icon center-cropped"></div>
                     <div class='text'>{{ room.match ? room.match.barbarian.curPos : '' }}</div>
                 </div>
+
+                <div class='progress-card right'>
+                    <div class="card" v-for='card in (room.users[me.username] || my).progressCards'>
+                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true"></i></div>
+                        <div class='text'>{{card}}</div>
+                    </div>
+                    <!--<div class="card">
+                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true"></i></div>
+                        <div class='text'>324}</div>
+                    </div>
+                    <div class="card">
+                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true"></i></div>
+                        <div class='text'>543</div>
+                    </div>-->
+                </div>
+
                 <div class='ui-btn unselectable turn-event' data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn'
                      v-on:click='trade'><i class="fa fa-institution" aria-hidden="true"></i>Trade With Bank
                 </div>
+
                 <div class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn' data-cmd="tradeWithPlayer"
                      v-on:click='trade'><i class="fa fa-handshake-o" aria-hidden="true"></i>Trade With Player
                 </div>
