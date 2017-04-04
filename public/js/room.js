@@ -297,11 +297,10 @@ $(window).on('imready', function(im){
                 Commands.movePirate(newHexID);
             },
 
-            executeProgressCard: function (e) {
+            progressCardCommand: function (e) {
                 let card = $(e.target).attr('data-id');
-                Commands.executeProgressCard(card);
+                showProgressCardCmd(card);
             },
-
             /**
              buildEstablishment: function () {
                 var {vertex, establishmentLV } = getInput();
@@ -417,7 +416,7 @@ $(window).on('imready', function(im){
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
 
         // adjust map size
-        if (window.app && window.app.room && DATA.getMatch()) mapUI.resizeMap();
+        if (DATA.getMatch()) mapUI.resizeMap();
 
         else {
             //waiting pic
@@ -953,7 +952,7 @@ $(window).on('imready', function(im){
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "OK!",
-                cancelButtonText: "No, I don't want to move the knight now!",
+                cancelButtonText: "Cancel",
                 closeOnConfirm: true,
                 closeOnCancel: true
             },
@@ -971,7 +970,7 @@ $(window).on('imready', function(im){
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Yes!",
-                cancelButtonText: "No, I don't want to move the knight now!",
+                cancelButtonText: "Cancel",
                 closeOnConfirm: true,
                 closeOnCancel: true
             },
@@ -1017,9 +1016,33 @@ $(window).on('imready', function(im){
         });
 
         showCmdPrompt();
+    };
+
+
+
+
+    function showProgressCardCmd(card){
+        swal({
+                title: "Progress Card: " +  card,
+                type: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Use",
+                cancelButtonText: "Discard",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    Commands.executeProgressCard(card);
+                }
+                else {
+                    // discard card
+                    Commands.discardOneProgressCard(card);
+                }
+
+            });
     }
-
-
 
 
 

@@ -66,7 +66,8 @@ Room.createRoom = function (RoomID, creatorName, gameScenario, roomName) {
         if (!gameRoom.gameScenario){
             //ask user to select scenario.
             //test data
-            //gameRoom.gameScenario = 'Heading For New Shores';
+            // FIXME: change later
+            gameRoom.gameScenario = 'Heading For New Shores';
         }
 
         //init players data for game (either load or create)

@@ -412,6 +412,8 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
  };
  //TODO special case trade with bank - fishmen ver, only trade resources.
 
+
+
  /**
   *
   * @param cards {Array<String>} resource/ commodity cards the player chooses to discard
@@ -559,7 +561,7 @@ Commands.drawOneResourceCard = function (userName, roomID, data){
  */
 Commands.discardOneProgressCard = function (userName, roomID, data) {
   let player = DATA.getPlayer(userName, roomID);
-  player.discarOneProgressCard(data);
+    player.discardOneProgressCard(data.card);
 };
 
 Commands.giveAwayBoot = function(userName, roomID, data){

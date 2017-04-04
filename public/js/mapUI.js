@@ -20,9 +20,7 @@ let mapUI = (function () {
     }
 
     function resizeMap() {
-        if (!app.room || !app.room.match){
-            return;
-        }
+
         /**
         let p1 = new Promise(
             (resolve, reject) => {
@@ -302,8 +300,8 @@ let mapUI = (function () {
             let centerX, centerY;
             // let top = parseInt($hexTile.css('top'));
             // let left = parseInt($hexTile.css('left'));
-            let top = $hexTile.css('top');
-            let left = $hexTile.css('left');
+            let top = parseInt($hexTile.css('top'));
+            let left = parseInt($hexTile.css('left'));
             /**
             console.log(hextile.id, "left", left);
             console.log(hextile.id, "top", top);

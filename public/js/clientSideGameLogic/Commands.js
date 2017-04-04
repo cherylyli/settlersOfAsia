@@ -77,7 +77,7 @@ let CommandName = {
      done testing:
      */
     // 'setDefenderOfCatan': 'setDefenderOfCatan',
-    'discardOneProgressCard': 'discardProgressCard', //TODO
+    'discardOneProgressCard': 'discardOneProgressCard', //TODO
     'stealCard': 'stealCard',   //TODO
     'drawOneResourceCard': 'drawOneResourceCard',   //TODO
     'giveAwayBoot': 'giveAwayBoot', //TODO
@@ -119,7 +119,8 @@ let CommandReceived = {};
         'moveShip': 'Sailing in the sea...',
         'tradeWithBank': 'Deal!',
         'endTurn': 'Hummmm... I think I am done.',
-        'executeProgressCard':'Progress Card was applied'
+        'executeProgressCard':'Progress Card was applied',
+        'discardOneProgressCard': 'Discarded.'
     };
 
 
@@ -360,8 +361,8 @@ CommandCheck.drawOneResourceCard = function (resCard) {
 
 
 CommandsData.discardOneProgressCard = function (progCard) {
-    return progCard;
-}
+    return {card: progCard};
+};
 
 CommandCheck.discardOneProgressCard = function (progCard) {
     let player = DATA.getMyPlayer();

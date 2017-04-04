@@ -35,7 +35,7 @@ Player.createPlayer = function (name, user) {
     player.resourceCardNum = initialGoldNum;
     // TODO: testing, change later
     player.progressCards = [Enum.ProgressCardType.Science.Alchemist, Enum.ProgressCardType.Trade.Merchant, Enum.ProgressCardType.Politics.Bishop];
-    player.progressCardsCnt = 0;
+    player.progressCardsCnt = player.progressCards.length;
     //TODO - player can only place at most 5 settlements
     player.buildings = {};  //key: position (vertex index / int); value: building object
     player.settlementCnt = 0;   //the number of settlements player has. used in check function -> player cannot have more than 5 settlements (he has to upgrade one to city build he builds another settlement
@@ -288,12 +288,12 @@ Player.createPlayer = function (name, user) {
       player.progressCards.push(progCard);
       player.progressCardsCnt++;
       return player.progressCards;
-    }
+    };
 
     player.drawOneResourceCard = function(resCard){
       player.resourcesAndCommodities[resCard]++;
       return player.resourcesAndCommodities;
-    }
+    };
 
     /**
      * this player is stolen by another player, will return the card type that's being stoled.
@@ -398,11 +398,11 @@ Player.createPlayer = function (name, user) {
     //player.progressCards = ["Bishop","Alchemist","Crane"];
     //var discard = "Alchemist"
     player.discardOneProgressCard = function(card){
-        if (player.progressCardsCnt < 1)
-            return false;
+
         for (var i=0; i < player.progressCardsCnt; i++) {
             if (card == player.progressCards[i]) {
                 player.progressCards.splice(i, 1);
+                break;
             }
         }
         player.progCardSum();
