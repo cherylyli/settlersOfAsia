@@ -52,7 +52,8 @@ $(window).on('imready', function(im){
             "Cloth": 0,
             "Coin": 0,
             "Paper": 0
-        }
+        },
+        cityImprovement: {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0}
     };
 
     // on page load, join room
@@ -427,7 +428,7 @@ $(window).on('imready', function(im){
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
 
         // adjust map size
-        if (DATA.getMatch()) mapUI.resizeMap();
+        if (window.app && DATA.getMatch()) mapUI.resizeMap();
 
         else {
             //waiting pic
