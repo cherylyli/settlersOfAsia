@@ -533,6 +533,7 @@ Commands.movePirate = function (userName, roomID, data) {
 Commands.stealCard = function (userName, roomID, data) {
     let playerA = DATA.getPlayer(data.thief, roomID);
     let playerB = DATA.getPlayer(data.victim, roomID);
+    let match = DATA.getMatch(roomID);
     playerB.stolenBy(playerA);
     if(data.fishUsed){
       if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerFish(player,'stealUseFish');
@@ -543,6 +544,7 @@ Commands.drawOneProgressCard = function(userName,roomID,data){
     var progCardList = [];
     var playersCards = [];
     var kind = data.kind;
+    let match = DATA.getMatch(roomID);
     for(var card in Enum.ProgressCardType[kind]){
       progCardList.push(Enum.ProgressCardType[kind][card]);
     }
@@ -558,7 +560,8 @@ Commands.drawOneProgressCard = function(userName,roomID,data){
     var progCard = _.difference(progCardList,duplicates);
     player.drawOneProgressCard(progCard[0]);
     if(data.fishUsed){
-      if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerFish(player,'drawProgUseFish');
+    //  if (match.phase == Enum.MatchPhase.TurnPhase)
+      match.bank.decreasePlayerFish(player,'drawProgUseFish');
     }
 }
 
@@ -571,6 +574,7 @@ Commands.drawOneProgressCard = function (userName, roomID, data){
 
 Commands.drawOneResourceCard = function (userName, roomID, data, fishUsed){
   let player = DATA.getPlayer(userName, roomID);
+  let match = DATA.getMatch(roomID);
   player.drawOneResourceCard(data.resCard);
   if(data.fishUsed){
     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerFish(player,'drawResUseFish');

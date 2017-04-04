@@ -38,10 +38,11 @@ Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityI
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
 console.log(data.getMatch("123").distributeMetropolis(Enum.cityImprovementCategory.Science));
 
-data.getMatch("123").getPlayer("Emol").fishSum = 20;
+data.getMatch("123").getPlayer("Emol").setFishSum(20);
 console.log(data.getMatch("123").getPlayer("Emol").fishSum);
-Commands.spendFishToken("Emol","123",{'action' : "DRAW_PROG", 'kind': "Trade"});
+Commands.drawOneProgressCard("Emol","123",{'kind':"Trade", 'fishUsed' : true});
 console.log(data.getMatch("123").getPlayer("Emol").progressCards);
+console.log(data.getMatch("123").getPlayer("Emol").fishSum);
 /*
 Commands.hireKnight("Emol","123",7);
 Commands.activateKnight("Emol","123",7);
