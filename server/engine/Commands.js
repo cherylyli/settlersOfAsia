@@ -550,7 +550,7 @@ Commands.drawOneProgressCard = function (userName, roomID, data){
 };
 */
 
-Commands.drawOneResourceCard = function (userName, roomID, data){
+Commands.drawOneResourceCard = function (userName, roomID, data, fishUsed){
   let player = DATA.getPlayer(userName, roomID);
   player.drawOneResourceCard(data.resCard);
 };
@@ -582,25 +582,6 @@ Commands.giveAwayBoot = function(userName, roomID, data){
   * @param match {Match}
   * @return player's current fishSum
   */
-  Commands.buildRoadUseFish = function (userName, roomID, data) {
-      let player = DATA.getPlayer(userName, roomID);
-      let match = DATA.getMatch(roomID);
-      Building.buildRoad(player, data, match, 'road');
-  };
-
-  /**
-   * build a ship
-   * @param userName {String}
-   * @param roomID {String}
-   * @param data {[int, int]} the edge where player wants to build the ship
-   */
-  Commands.buildShipUseFish = function (userName, roomID, data) {
-      //TODO: improvement, combine buildRoad and buildShip
-      let player = DATA.getPlayer(userName, roomID);
-      let match = DATA.getMatch(roomID);
-      Building.buildRoad(player, data, match, 'ship');
-  };
-
 Commands.spendFishToken = function(userName, roomID, data){
     player.spendFishToken(data.action);
     switch(data.action){
