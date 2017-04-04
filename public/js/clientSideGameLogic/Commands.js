@@ -64,6 +64,14 @@ let ProgressCardCommand = {
     'executeProgressCard': 'executeProgressCard'
 };
 
+let FishTokenCommand = {
+    "Fish": {
+        'spendFishToken': 'spendFishToken'
+    },
+    "Boot": {
+        'giveAwayBoot': 'giveAwayBoot'
+    }
+};
 
 let CommandName = {
     //old ones TODO test citywall, buy improvement, move ship
@@ -440,14 +448,12 @@ CommandCheck.buildShipUseFish = function (vertex1, vertex2) {
 };
 
 
-CommandsData.spendFishToken = function (action, data) {
-    let player = DATA.getMyPlayer();
-    let match = DATA.getMatch();
-    return {'userName': player.name, 'action': action, 'data': data, 'match': match};
-}
+CommandsData.spendFishToken = function (action) {
+    return {'action': action};
+};
 
 
-CommandCheck.spendFishToken = function (userName, action, data) {
+CommandCheck.spendFishToken = function (action) {
     //TODO Yuan add checkPlayerAsset for fish token
     let player = DATA.getPlayer(userName);
     if (player.getFishSum() < 2) {

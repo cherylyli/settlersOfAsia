@@ -56,6 +56,10 @@
                 </div>
 
                 <div class='progress-card cmds right'>
+                    <div class="card cmd" v-bind:data-id="card" v-on:click='drawProgressCard'>
+                        <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true" v-bind:data-id="card"></i></div>
+                        <div class='text' v-bind:data-id="card">Draw Progress Card</div>
+                    </div>
                     <div class="card cmd" v-for='card in (room.users[me.username] || my).progressCards' v-bind:data-id="card" v-on:click='progressCardCommand'>
                         <div class="icon center-cropped"><i class="fa fa-rebel" aria-hidden="true" v-bind:data-id="card"></i></div>
                         <div class='text' v-bind:data-id="card">{{card}}</div>
@@ -63,7 +67,7 @@
                 </div>
 
                 <div class='fish-token cmds right'>
-                    <div class="card cmd" v-for='(value, tokenName) in (room.users[me.username] || my).fishToken' v-bind:data-id="tokenName" v-on:click='progressCardCommand'>
+                    <div class="card cmd" v-for='(value, tokenName) in (room.users[me.username] || my).fishToken' v-bind:data-id="tokenName" v-on:click='fishTokenCommand'>
                         <div class="icon center-cropped"></div>
                         <div class='text' v-bind:data-id="tokenName">{{tokenName}}: {{value}}</div>
                     </div>

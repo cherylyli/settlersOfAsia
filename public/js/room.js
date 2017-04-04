@@ -298,10 +298,18 @@ $(window).on('imready', function(im){
             },
 
             progressCardCommand: function (e) {
-                console.log("fsdf");
                 let card = $(e.target).attr('data-id');
                 // console.log($(e.target).attr('data').id, $(e.target).attr('data').cmd);
                 showProgressCardCmd(card);
+            },
+            drawProgressCard: function () {
+                alert("hi");
+            },
+
+            fishTokenCommand: function (e) {
+                let tokenType = $(e.target).attr('data-id');
+                // console.log($(e.target).attr('data').id, $(e.target).attr('data').cmd);
+                showFishTokenInfo(tokenType);
             },
 
             /**
@@ -659,9 +667,7 @@ $(window).on('imready', function(im){
 
     // click on vertex
     $('body').on('click', '.vertex', function (e) {
-        console.log("eeeee");
         if (isCmdPromptVisible()){
-            console.log("yeee");
             return false;
         }
         // if (isCmdTableVisible()) return false;
@@ -794,6 +800,47 @@ $(window).on('imready', function(im){
 
         return $form;
     }
+
+    /**
+     *
+     * @param cmd
+     * @param options {String[]}
+     */
+    function generateOptionPrompt(cmd, options) {
+        let $prompt = $('#cmd-prompt');
+
+        $prompt.append( '<div class="button" data-id="confirm">' + cmd + '</div> <div class="button" data-id="cancel">Cancel</div>');
+
+        // cancel button
+        $prompt.find('.button[data-id=cancel]').click(function () {
+            hideCmdPrompt();
+        });
+
+
+        // confirm button
+        $prompt.find('.button[data-id=confirm]').click(function () {
+            let input = getInputCmdPrompt();
+            let {selling, buying} = readTradeInput(input);
+
+
+            if (cmd == "tradeWithBank"){
+
+                console.log("selling", selling);
+                console.log("buying", buying);
+
+                // command trade with bank
+                // TODO: Yuan / Emol change trade with bank cmd (it should accept cost object)
+            }
+
+            else {
+
+            }
+
+            hideCmdPrompt();
+
+        });
+    }
+
 
     /**
      *
@@ -1028,28 +1075,27 @@ $(window).on('imready', function(im){
         hideCmdPrompt();
         populateCmdPromptCmds(ProgressCardCommand, [card]);
         showCmdPrompt();
-        /**swal({
-                title: "Progress Card: " +  card,
-                text: "Press ESC to cancel.",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Use",
-                cancelButtonText: "Discard",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    Commands.executeProgressCard(card);
-                }
-                if (!isConfirm) {
-                    console.log("heehe", card);
-                    // discard card
-                    Commands.discardOneProgressCard(card);
-                }
 
-            });**/
+    }
+
+    function showFishTokenInfo(tokenType) {
+        //hideCmdPrompt();
+
+        if (tokenType == Enum.fishToken.BOOT){
+
+            //populateCmdPromptCmds(FishTokenCommand.Boot, [tokenType]);
+        }
+        else {
+            swal({
+                    html: true,
+                    title: "Fish Token",
+                    text: "Hey, you can use fish tokens to do a lot of things!<br>2 fish - move robber off board (click robber)<br>3 fish - steal resource card (click the player you want to steal from)<br>4 fish - take a resource from bank (click bank icon)<br>5 fish - build road<br>7 fish - draw development card!",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Cool!",
+                    closeOnConfirm: true,
+                })
+        }
+        //showCmdPrompt();
     }
 
 
