@@ -82,7 +82,7 @@ body{
 }
 
 #board .dice, #board .cmd{
-    width: 110px;
+    width: 150px;
     overflow: hidden;
     margin-bottom: 7px;
 }
@@ -100,7 +100,7 @@ body{
     font-size: 12px;
 }
 #board .barbarian{
-    width: 110px;
+    width: 150px;
     top: 100px;
     overflow: hidden;
 }
@@ -112,11 +112,24 @@ body{
     background-image: url(/img/room/finalIcons/Barbarian.png);
 }
 
-#board .barbarian .text{
+#board .barbarian .text, #board .fish-token .text{
     float: left;
     margin-left: 6px;
     line-height: 16px;
     font-size: 12px;
+}
+
+#board .fish-token{
+    /*width: 150px;*/
+    top: 350px;
+    overflow: hidden;
+}
+
+#board .fish-token .icon{
+    width: 16px;
+    height: 16px;
+    float: left;
+    background-image: url(/img/room/finalIcons/fishToken.jpg);
 }
 
 /** TODO: refactor this part, extract common class **/

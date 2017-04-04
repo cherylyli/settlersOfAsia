@@ -298,9 +298,12 @@ $(window).on('imready', function(im){
             },
 
             progressCardCommand: function (e) {
+                console.log("fsdf");
                 let card = $(e.target).attr('data-id');
+                // console.log($(e.target).attr('data').id, $(e.target).attr('data').cmd);
                 showProgressCardCmd(card);
             },
+
             /**
              buildEstablishment: function () {
                 var {vertex, establishmentLV } = getInput();
@@ -1022,8 +1025,12 @@ $(window).on('imready', function(im){
 
 
     function showProgressCardCmd(card){
-        swal({
+        hideCmdPrompt();
+        populateCmdPromptCmds(ProgressCardCommand, [card]);
+        showCmdPrompt();
+        /**swal({
                 title: "Progress Card: " +  card,
+                text: "Press ESC to cancel.",
                 type: "info",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -1036,12 +1043,13 @@ $(window).on('imready', function(im){
                 if (isConfirm) {
                     Commands.executeProgressCard(card);
                 }
-                else {
+                if (!isConfirm) {
+                    console.log("heehe", card);
                     // discard card
                     Commands.discardOneProgressCard(card);
                 }
 
-            });
+            });**/
     }
 
 

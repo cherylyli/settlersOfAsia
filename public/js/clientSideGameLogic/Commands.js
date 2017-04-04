@@ -59,6 +59,11 @@ let HexCommand = {
     // TODO: MAX, we may need command like place merchant for the merchant progress card
 };
 
+let ProgressCardCommand = {
+    'discardOneProgressCard': 'discardOneProgressCard',
+    'executeProgressCard': 'executeProgressCard'
+};
+
 
 let CommandName = {
     //old ones TODO test citywall, buy improvement, move ship
@@ -77,7 +82,7 @@ let CommandName = {
      done testing:
      */
     // 'setDefenderOfCatan': 'setDefenderOfCatan',
-    'discardOneProgressCard': 'discardOneProgressCard', //TODO
+    'discardOneProgressCard': 'discardOneProgressCard',
     'stealCard': 'stealCard',   //TODO
     'drawOneResourceCard': 'drawOneResourceCard',   //TODO
     'giveAwayBoot': 'giveAwayBoot', //TODO
