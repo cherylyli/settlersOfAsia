@@ -293,9 +293,10 @@ CommandReceived.requestTrade = function (selling, buying) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.moveRobber = function (newHexID, fishUsed) {
-    if(newHexID == 0){
-      return true;
-    }
+  if(fishUsed && !checkEnoughFish(Cost.buildUseFish)){
+    return false;
+  }
+
     var newHex = DATA.getMatch().map.getHexTileById(newHexID);
     if (newHex) { //
           if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
@@ -315,7 +316,7 @@ CommandCheck.moveRobber = function (newHexID, fishUsed) {
  * @return {newHexID: *}
  */
 CommandsData.movePirate = function (newHexID, fishUsed) {
-    return {'newHexID': newHexID， 'fishUsed' : fishUsed};
+    return {'newHexID': newHexID, 'fishUsed' : fishUsed};
 };
 
 /**
@@ -325,9 +326,9 @@ CommandsData.movePirate = function (newHexID, fishUsed) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.movePirate = function (newHexID, fishUsed) {
-    if(newHexID == 0){
-      return true;
-    }
+  if(fishUsed && !checkEnoughFish(Cost.buildUseFish)){
+    return false;
+  }
 
     var newHex = DATA.getMatch().map.getHexTileById(newHexID);
     if (newHex) { //
@@ -347,6 +348,9 @@ CommandsData.stealCard = function (thiefUserName, victimUserName, fishUsed) {
 };
 
 CommandCheck.stealCard = function (thiefUserName, victimUserName, fishUsed) {
+    if(fishUsed && !checkEnoughFish(Cost.buildUseFish)){
+      return false;
+    }
     let victim = DATA.getPlayer(victimUserName);
     if (victim.resourceCardTotalNum() < 1) {
         swalError2("The victim player doesn't have enough resources to be stoled");
@@ -362,7 +366,9 @@ CommandsData.drawOneProgressCard = function (kind, fishUsed) {
 }
 
 CommandCheck.drawOneProgressCard = function (progCard, fishUsed) {
-    return true;
+  if(fishUsed && !checkEnoughFish(Cost.buildUseFish)){
+    return false;
+  }
 }
 
 //input string
@@ -371,6 +377,9 @@ CommandsData.drawOneResourceCard = function (resCard, fishUsed) {
 }
 
 CommandCheck.drawOneResourceCard = function (resCard, fishUsed) {
+    if(fishUsed && !checkEnoughFish(Cost.buildUseFish)){
+      return false;
+    }
     var res = ['Grain', 'Lumber', 'Wool', 'Brick', 'Ore', 'Gold'];
     var found = 0;
     for (var i = 0; i < 6; i++) {
@@ -435,7 +444,7 @@ CommandsData.spendFishToken = function (username, action, data, fishUsed) {
     return {'userName': player.name, 'action': action, 'data': data, 'match': match, 'fishUsed' : fishUsed};
 }
 
-
+/*
 CommandCheck.spendFishToken = function (userName, action, data, fishUsed) {
     //TODO Yuan add checkPlayerAsset for fish token
     let player = DATA.getPlayer(userName);
@@ -462,6 +471,7 @@ CommandCheck.spendFishToken = function (userName, action, data, fishUsed) {
     swalError2("Not enough fish tokens");
     return false;
 }
+*/
 
 //TODO Yuan deactive knights
 CommandsData.hireKnight = function (position) {
@@ -861,11 +871,16 @@ CommandCheck.buildRoad = function (vertex1, vertex2, fishUsed) {
         return false;
     }
 
-    if(fishUsed == false){
+    if(fishUsed && !checkEnoughFish(Cost.buildUseFish)){
+      return false;
+    }
+
+    if(!fishUsed){
       if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)) {
           return false;
       }
     }
+
 
     //Only 1 road can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
@@ -946,10 +961,14 @@ CommandCheck.buildShip = function (vertex1, vertex2, fishUsed) {
         return false;
     }
 
-    if(fishUsed  == false){
+    if(fishUsed && !checkEnoughFish(Cost.buildUseFish)){
+      return false;
+    }
+
+    if(!fishUsed){
       if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)) {
           return false;
-      }      
+      }
     }
 
     return shipPostionTest(edge);
@@ -1195,11 +1214,9 @@ let checkInput = function (data) {
 
 let checkEnoughFish = function (cost) {
     let fish = DATA.getMyPlayer().fishSum;
-    for (let fishAction in cost) {
-        if (fish < cost) {
-            swalError2("Not enough fish !");
-            return false
-        }
+    if(cost > fish){
+      swalError2("Not enough fish !");
+      return false
     }
     return true;
 };

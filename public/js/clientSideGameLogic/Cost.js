@@ -44,5 +44,5 @@ Cost.merchantTradeRatio = -1;
 Cost.moveUseFish = 2;
 Cost.stealUseFish = 3;
 Cost.drawResUseFish = 4;
-Cost.buildRoadUseFish = 5;
+Cost.buildUseFish = 5;
 Cost.drawProgUseFish = 7;

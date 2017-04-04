@@ -173,7 +173,7 @@ Player.createPlayer = function (name, user) {
       * @param match {Match}
       * @return player's current fishSum
       */
-
+/*
     player.spendFishToken = function(userName, roomID, data){
       let newSum = 0;
       switch(data.action){
@@ -213,7 +213,7 @@ Player.createPlayer = function (name, user) {
       }
       return player.fishSum;
     }
-
+*/
     /**
       * count the total number of cards (Resource+Commodity) current player owns
       * @param currentPlayer {Player}

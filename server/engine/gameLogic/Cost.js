@@ -4,8 +4,8 @@
 let Cost = module.exports = {};
 let Enum = require('./Enum.js');
 
-//reference: http://www.unc.edu/~rvp/GameRules/RulesSettlersCitiesAndKnights.html 
-//TODO: progress cards + city improvements. 
+//reference: http://www.unc.edu/~rvp/GameRules/RulesSettlersCitiesAndKnights.html
+//TODO: progress cards + city improvements.
 Cost.buildSettlement = {[Enum.Resource.Lumber]: 1, [Enum.Resource.Wool]: 1, [Enum.Resource.Brick]: 1, [Enum.Resource.Grain]: 1};
 Cost.upgradeToCity = {[Enum.Resource.Ore]: 3, [Enum.Resource.Grain]: 2};
 //Cost.settlementToCity = {[Enum.Resource.Ore]: 3, [Enum.Resource.Grain]: 2};
@@ -40,3 +40,10 @@ Cost.goldTradeRatio = 2;
 Cost.generalHarborTradeRatio = 3;
 Cost.specialHarborTradeRatio = 2;
 Cost.merchantTradeRatio = -1;
+
+//================fish token====
+Cost.moveUseFish = 2;
+Cost.stealUseFish = 3;
+Cost.drawResUseFish = 4;
+Cost.buildUseFish = 5;
+Cost.drawProgUseFish = 7;
