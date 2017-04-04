@@ -287,12 +287,12 @@ CommandReceived.requestTrade = function (selling, buying) {
      * @return true/false
      */
 
-    CommandsData.moveRobber = function (newHexID){
-      return {'newHexID' : newHexID};
+    CommandsData.moveRobber = function (newHexID, fishUsed){
+      return {'newHexID' : newHexID, 'fishUsed' : fishUsed};
     };
 
 //consider different cases: move off board, move from a to b, move from null to b
-CommandCheck.moveRobber = function (newHexID) {
+CommandCheck.moveRobber = function (newHexID, fishUsed) {
     if(newHexID == 0){
       return true;
     }
@@ -314,8 +314,8 @@ CommandCheck.moveRobber = function (newHexID) {
  * @param newHexID {int}
  * @return {newHexID: *}
  */
-CommandsData.movePirate = function (newHexID) {
-    return {'newHexID': newHexID};
+CommandsData.movePirate = function (newHexID, fishUsed) {
+    return {'newHexID': newHexID， 'fishUsed' : fishUsed};
 };
 
 /**
@@ -324,7 +324,7 @@ CommandsData.movePirate = function (newHexID) {
  */
 
 //consider different cases: move off board, move from a to b, move from null to b
-CommandCheck.movePirate = function (newHexID) {
+CommandCheck.movePirate = function (newHexID, fishUsed) {
     if(newHexID == 0){
       return true;
     }
@@ -341,12 +341,12 @@ CommandCheck.movePirate = function (newHexID) {
     }
 };
 
-CommandsData.stealCard = function (thiefUserName, victimUserName) {
+CommandsData.stealCard = function (thiefUserName, victimUserName, fishUsed) {
     //var victim = DATA.getPlayer(victimUserName);
-    return {'thief': thiefUserName, 'victim': victimUserName};
+    return {'thief': thiefUserName, 'victim': victimUserName, 'fishUsed' : fishUsed};
 };
 
-CommandCheck.stealCard = function (thiefUserName, victimUserName) {
+CommandCheck.stealCard = function (thiefUserName, victimUserName, fishUsed) {
     let victim = DATA.getPlayer(victimUserName);
     if (victim.resourceCardTotalNum() < 1) {
         swalError2("The victim player doesn't have enough resources to be stoled");
@@ -357,20 +357,20 @@ CommandCheck.stealCard = function (thiefUserName, victimUserName) {
     }
 };
 //input : {String} "Trade" / "Science" / "Politics"
-CommandsData.drawOneProgressCard = function (kind) {
-    return {'kind': kind};
+CommandsData.drawOneProgressCard = function (kind, fishUsed) {
+    return {'kind': kind, 'fishUsed' : fishUsed};
 }
 
-CommandCheck.drawOneProgressCard = function (progCard) {
+CommandCheck.drawOneProgressCard = function (progCard, fishUsed) {
     return true;
 }
 
 //input string
-CommandsData.drawOneResourceCard = function (resCard) {
-    return {'resCard': resCard};
+CommandsData.drawOneResourceCard = function (resCard, fishUsed) {
+    return {'resCard': resCard, 'fishUsed' : fishUsed};
 }
 
-CommandCheck.drawOneResourceCard = function (resCard) {
+CommandCheck.drawOneResourceCard = function (resCard, fishUsed) {
     var res = ['Grain', 'Lumber', 'Wool', 'Brick', 'Ore', 'Gold'];
     var found = 0;
     for (var i = 0; i < 6; i++) {
@@ -427,50 +427,16 @@ CommandCheck.giveAwayBoot = function (bootHolder, transferTo) {
     }
 }
 
-/**
- *
- * @param vertex1 {int} vertex 1 is smaller than vertex2
- * @param vertex2
- */
-CommandsData.buildRoadUseFish = function (vertex1, vertex2) {
-    return Map.edge(vertex1, vertex2);
-};
-
-/**
- *
- * @param data {CommandsData.buildRoad}
- * @return {boolean}
- */
-CommandCheck.buildRoadUseFish = function (vertex1, vertex2) {
-    CommandCheck.buildRoad();
-};
-
-/**
- * @param vertex1
- * @param vertex2
- */
-CommandsData.buildShipUseFish = function (vertex1, vertex2) {
-    return Map.edge(vertex1, vertex2);
-};
-
-/**
- * TODO: modularize. reduce duplication
- * @param data {CommandsData.buildShip}
- * @return {boolean}
- */
-CommandCheck.buildShipUseFish = function (vertex1, vertex2) {
-    CommandCheck.buildShip(vertex1,vertex2);
-};
 
 
-CommandsData.spendFishToken = function (action, data) {
+CommandsData.spendFishToken = function (username, action, data, fishUsed) {
     let player = DATA.getMyPlayer();
     let match = DATA.getMatch();
-    return {'userName': player.name, 'action': action, 'data': data, 'match': match};
+    return {'userName': player.name, 'action': action, 'data': data, 'match': match, 'fishUsed' : fishUsed};
 }
 
 
-CommandCheck.spendFishToken = function (userName, action, data) {
+CommandCheck.spendFishToken = function (userName, action, data, fishUsed) {
     //TODO Yuan add checkPlayerAsset for fish token
     let player = DATA.getPlayer(userName);
 
@@ -478,20 +444,20 @@ CommandCheck.spendFishToken = function (userName, action, data) {
       return true;
     }
     if(action == "STEAL_CARD" && player.getFishSum() >= 3){
-      CommandCheck.stealCard(data.thiefUserName, data.victimUserName);
+      CommandCheck.stealCard(data.thiefUserName, data.victimUserName, fishUsed);
     }
     if(action == "DRAW_RES_FROM_BANK" && player.getFishSum() >= 4){
       CommandCheck.drawOneResourceCard(data.resCard);
     }
     if(action == "BUILD_ROAD" || action == "BUILD_SHIP" && player.getFishSum() >= 5){
       if(action == "BUILD_ROAD")
-        CommandCheck.buildRoadUseFish(data.vertex1, data.vertex2);
+        CommandCheck.buildRoad(data.vertex1, data.vertex2, fishUsed);
       else {
-        CommandCheck.buildShipUseFish(data.vertex1, data.vertex2);
+        CommandCheck.buildShip(data.vertex1, data.vertex2, fishUsed);
       }
     }
     if(action == "DRAW_PROG" && player.getFishSum() >= 7){
-      CommandCheck.drawOneProgressCard(data.kind);
+      CommandCheck.drawOneProgressCard(data.kind, fishUsed);
     }
     swalError2("Not enough fish tokens");
     return false;
@@ -870,7 +836,7 @@ CommandCheck.upgradeToCity = function (vertex) {
  * @param vertex1 {int} vertex 1 is smaller than vertex2
  * @param vertex2
  */
-CommandsData.buildRoad = function (vertex1, vertex2) {
+CommandsData.buildRoad = function (vertex1, vertex2, fishUsed) {
     return Map.edge(vertex1, vertex2);
 };
 
@@ -880,7 +846,7 @@ CommandsData.buildRoad = function (vertex1, vertex2) {
  * @param data {CommandsData.buildRoad}
  * @return {boolean}
  */
-CommandCheck.buildRoad = function (vertex1, vertex2) {
+CommandCheck.buildRoad = function (vertex1, vertex2, fishUsed) {
     let edge = Map.edge(vertex1, vertex2);
 
     //set up phrase you can build one road for free
@@ -895,9 +861,10 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         return false;
     }
 
-
-    if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)) {
-        return false;
+    if(fishUsed == false){
+      if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)) {
+          return false;
+      }
     }
 
     //Only 1 road can be built on any given path
@@ -953,7 +920,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
  * @param vertex1
  * @param vertex2
  */
-CommandsData.buildShip = function (vertex1, vertex2) {
+CommandsData.buildShip = function (vertex1, vertex2, fishUsed) {
     return Map.edge(vertex1, vertex2);
 
 };
@@ -964,7 +931,7 @@ CommandsData.buildShip = function (vertex1, vertex2) {
  * @param data {CommandsData.buildShip}
  * @return {boolean}
  */
-CommandCheck.buildShip = function (vertex1, vertex2) {
+CommandCheck.buildShip = function (vertex1, vertex2, fishUsed) {
     let edge = Map.edge(vertex1, vertex2);
 
     //set up phrase you can build one road for free
@@ -979,9 +946,10 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
         return false;
     }
 
-
-    if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)) {
-        return false;
+    if(fishUsed  == false){
+      if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)) {
+          return false;
+      }      
     }
 
     return shipPostionTest(edge);

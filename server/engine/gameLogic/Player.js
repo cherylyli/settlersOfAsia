@@ -178,89 +178,38 @@ Player.createPlayer = function (name, user) {
       let newSum = 0;
       switch(data.action){
         case "MOVE_ROBBER" :
-        //TODO check knight chase away thief.
-          if(player.getFishSum() >= 2){
-            //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.moveRobber(userName, roomID, {'newHexID' : 0});
             newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
           break;
 
         case "MOVE_PIRATE" :
-          if(player.getFishSum() >= 2){
-            //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.movePirate(userName, roomID, {'newHexID' : 0});
             newSum = player.getFishSum() - 2;
             player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
           break;
 
         case "STEAL_CARD" :
-          if(player.getFishSum() >= 3){
-            //Commands.stealCard(username, roomID, {'thief' = player.name, 'victim' = data.victim } ;
-            Commands.stealCard(userName, roomID, {'thief' : player.name, 'victim' : data.victim });
             newSum = player.getFishSum() - 3;
             player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
           break;
 
         case "DRAW_RES_FROM_BANK" :
-          if(player.getFishSum() >= 4){
-            //TODO
-            //player.drawOneResourceCard(data);
-            //draw one resource card but not Commodity
-            Commands.drawOneResourceCard(userName, roomID, {'resCard' :data.resCard});
             newSum = player.getFishSum() - 4;
             player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
           break;
 
         case "BUILD_ROAD" :
-          if(player.getFishSum() >= 5){
-            Commands.buildRoadUseFish(userName, roomID, data.data);
             newSum = player.fish - 5;
             player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
           break;
 
         case "BUILD_SHIP" :
-          if(player.getFishSum() >= 5){
-            Commands.buildShipUseFish (userName, roomID, data.data);
             newSum = player.fish - 5;
             player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
           break;
 
         case "DRAW_PROG" :
-          if(player.getFishSum() >= 7){
-            console.log(data);
-            Commands.drawOneProgressCard(userName, roomID, {'progCard' : data.progCard});
             newSum = player.fish - 7;
             player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
-
       }
       return player.fishSum;
     }
