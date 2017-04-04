@@ -560,8 +560,7 @@ Commands.drawOneProgressCard = function(userName,roomID,data){
     var progCard = _.difference(progCardList,duplicates);
     player.drawOneProgressCard(progCard[0]);
     if(data.fishUsed){
-    //  if (match.phase == Enum.MatchPhase.TurnPhase)
-      match.bank.decreasePlayerFish(player,'drawProgUseFish');
+      if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerFish(player,'drawProgUseFish');
     }
 }
 

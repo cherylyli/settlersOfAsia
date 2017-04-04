@@ -106,11 +106,7 @@ Bank.createBank = function (match) {
         if (!cost && costName){
             cost = Cost[costName];
         }
-        for (let fish in cost){
-            if (cost.hasOwnProperty(fish)){
-                player.fishSum -= cost[fish];
-            }
-        }
+        player.fishSum -= cost;
       }
 
 

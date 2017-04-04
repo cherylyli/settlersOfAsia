@@ -42,7 +42,7 @@ data.getMatch("123").getPlayer("Emol").setFishSum(20);
 console.log(data.getMatch("123").getPlayer("Emol").fishSum);
 Commands.drawOneProgressCard("Emol","123",{'kind':"Trade", 'fishUsed' : true});
 console.log(data.getMatch("123").getPlayer("Emol").progressCards);
-console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+
 /*
 Commands.hireKnight("Emol","123",7);
 Commands.activateKnight("Emol","123",7);

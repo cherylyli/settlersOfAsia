@@ -1218,7 +1218,6 @@ let checkEnoughFish = function (cost) {
       swalError2("Not enough fish !");
       return false
     }
-    return true;
 };
 
 let update = function (room) {
