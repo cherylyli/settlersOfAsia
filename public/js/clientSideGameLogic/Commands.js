@@ -64,6 +64,7 @@ let ProgressCardCommand = {
     'executeProgressCard': 'executeProgressCard'
 };
 
+/**
 let FishTokenCommand = {
     "Fish": {
         'spendFishToken': 'spendFishToken'
@@ -72,6 +73,16 @@ let FishTokenCommand = {
         'giveAwayBoot': 'giveAwayBoot'
     }
 };
+**/
+
+
+// Command whose input is another player
+
+let PlayerCommand = {
+    'stealCard': 'stealCard',
+    'giveAwayBoot': 'giveAwayBoot'
+};
+
 
 let CommandName = {
     //old ones TODO test citywall, buy improvement, move ship

@@ -1154,4 +1154,23 @@ $(window).on('imready', function(im){
 
 
 
+
+    // --------------------- user -----------------------
+    $('#users').on('click', '.user', function (e) {
+        if (isCmdPromptVisible()) return false;
+
+        // FIXME: what if in the progress another cmd
+
+        // if already selected a hex, clear
+        if (highlightedHexes() >= 1) clearHighlightedHexes();
+        if (highlightedVertices() >= 1) clearHighlightedVertices();
+
+        let selectedPlayerName = $(this).attr('data-username');
+        // populateCmdPromptCmds(Player.getCommands(DATA.getMyPlayer()), [selectedPlayerName]);
+        // TODO: for testing
+        populateCmdPromptCmds(Object.values(PlayerCommand), [selectedPlayerName]);
+        showCmdPrompt();
+    });
+
+
 });
