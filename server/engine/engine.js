@@ -99,7 +99,7 @@ module.exports = function(socket, user, roomId) {
 
         //if now we have 4 players, game start
         console.log(Object.keys(DATA.getRoom(roomId).users).length);
-        if(Object.keys(DATA.getRoom(roomId).users).length == 4){
+        if(Object.keys(DATA.getRoom(roomId).users).length == 2){
             let currentPlayer = Commands.startGame(roomId);
             result = CircularJSON.stringify( DATA.getRoom(roomId));
             sendRoom('GAME_START', result);

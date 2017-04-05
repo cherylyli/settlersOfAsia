@@ -466,7 +466,6 @@ Player.createPlayer = function (name, user) {
 
         // find root node(s), form initial paths
         var paths = [];
-        var traversed = [];
         var endToEndPaths = [];
 
         // push root nodes (any node beginning at a vertex with only that edge that's owned by the player)
@@ -474,10 +473,10 @@ Player.createPlayer = function (name, user) {
         for (var key in mappedData){
           if (mappedData[key].length==1){
             var path = [];
+
             // first element in path is the path
-            path.push(mappedData[key]);
-            traversed.push(mappedData[key]);
-            var edge = mappedData[key];
+            path.push([mappedData[key][0]]);
+            var edge = mappedData[key][0];
 
             // second element in the path is the non-starting end  
             if (edge[0] == key){
@@ -489,9 +488,8 @@ Player.createPlayer = function (name, user) {
             paths.push(path);
           }
         }
-        
 
-        // do DFS
+
         
 
         // each path is an array of edges and an ending node: [[[1, 2], [2, 3], [3, 4]], 4]
@@ -499,48 +497,57 @@ Player.createPlayer = function (name, user) {
           var currPath = paths.shift();
           var lastNode = currPath[1];
           currPath = currPath[0];
+          
 
           // find the lastNode in mappedData, if we've edge is in traversed list, throw it out
           possiblePaths = mappedData[lastNode];
           var i_0 = 0;
-          var traversedString = JSON.stringify(traversed);
+          var traversedString = JSON.stringify(currPath);
+
+          
+
           if (!possiblePaths || possiblePaths.length == 0){
             endToEndPaths.push(currPath);
             continue;
           }
-          while (i_0 < possiblePaths.length){
-            if (traversedString.indexOf(JSON.stringify(possiblePaths[0]))>-1){
-              possiblePaths.splice(i_0, 1);
-            }else{
-              i_0++;
+
+          var hasNewPath = false;
+
+          for (var i_0 = 0; i_0<possiblePaths.length; i_0++){
+            var possibleString = JSON.stringify(possiblePaths[i_0]);
+
+            if (traversedString.indexOf(possibleString)<-1){
+              // push into paths
+              var p = possiblePaths[i_0];
+              var newPath = [];
+              var newCurrentPath = currPath;
+              newCurrentPath.push(p);
+
+              newPath.push(newCurrentPath);
+
+              var lastestNode = p[1-p.indexOf(lastNode)];
+              newPath.push(lastestNode);
+
+
+              paths.push(newPath);
+              hasNewPath = true;
             }
           }
 
           // for each possible path in possiblePaths that remain, add to currPath, append last node, and append to 
-          if (possiblePaths.length > 0){
-            possiblePaths.forEach(function(p){
-              var newPath = [];
-              var newCurrentPath = currPath;
-              newCurrentPath.push(p);
-              newPath.push(newCurrentPath);
-              var indexPrevNode = p.indexOf(lastNode);
-              newPath.push(p[1-indexPrevNode]);
-              paths.push(newPath);
-            });
-          } else {
+          if (!hasNewPath){
             endToEndPaths.push(currPath);
           }
 
-
         }
 
-        console.log(endToEndPaths);
         var longestRoad = endToEndPaths[0];
         endToEndPaths.forEach(function(p){
           if (p.length > longestRoad.length){
             longestRoad = p;
           }
         });
+
 
         return longestRoad;
 
@@ -565,20 +572,25 @@ Player.createPlayer = function (name, user) {
         // from list, break down each element and store according to what vertices they touch
         function storeVerticesToMap(items, mappedData){
           mappedData = mappedData || {};
+          var newVertexStuffV1;
+          var newVertexStuffV2;
           for (var key in items){
+            newVertexStuffV1 = [];
+            newVertexStuffV2 = [];
+
             v1 = items[key][0];
             v2 = items[key][1];
             if (mappedData[v1]){
-              mappedData[v1] = mappedData[v1].push(items[key]);
-            } else{
-              mappedData[v1] = [items[key]];
-            }
+              newVertexStuffV1 = mappedData[v1];
+            } 
+            newVertexStuffV1.push(items[key]);
+            mappedData[v1] = newVertexStuffV1;
 
             if (mappedData[v2]){
-              mappedData[v2] = mappedData[v2].push(items[key]);
-            } else{
-              mappedData[v2] = [items[key]];
-            }  
+              newVertexStuffV2 = mappedData[v2];
+            } 
+            newVertexStuffV2.push(items[key]);
+            mappedData[v2] = newVertexStuffV2;
             
           }
           return mappedData;
