@@ -448,20 +448,18 @@ Player.createPlayer = function (name, user) {
 
         /**
          * TODO: 
-         * 1. check vertices
+         * 1. check vertices -- DONE
          * 2. check roads vs ships
          *  
          */
         var mappedData = storeVerticesToMap(player.roads, {});
         var mappedData = storeVerticesToMap(player.ships, mappedData);
           
-        console.log("vertexInfo");
-        //console.log(map);
+        var strRoads = JSON.stringify(player.roads);
+        var strShips = JSON.stringify(player.ships);
+
         var vertexData = storeVertexElements(map['vertexInfo'], {});
 
-        for (var key in vertexData){
-          console.log(key + " " + vertexData[key]);
-        }
 
         // find root node(s), form initial paths
         var paths = [];
@@ -503,12 +501,15 @@ Player.createPlayer = function (name, user) {
             lastNode = newCurrPath[1];
           }
           var prevNode = lastNode;
+          var roadType;
+          if (strRoads.indexOf(JSON.stringify(currPath[currPath.length -1])) == -1){
+            roadType = "ship";
+          }else{
+            roadType = "road";
+          }
 
-          
 
-          
-          
-          
+
 
           // find the lastNode in mappedData, if we've edge is in traversed list, throw it out
           possiblePaths = mappedData[prevNode];
@@ -521,18 +522,11 @@ Player.createPlayer = function (name, user) {
             continue;
           }
 
-          console.log("current path, possible paths, lastNode");
-          console.log(currPath);
-          console.log(possiblePaths);
-          console.log(prevNode);
-
           // if there is something on the lastNode
           // check if it's the player's
           // if not, push current path to endToEndPaths
           if (vertexData && vertexData[prevNode]){
-            console.log("vertexData: last node");
-            console.log(vertexData[prevNode]);
-            if (vertexData[prevNode] != player.name){
+            if (vertexData[prevNode].name != player.name){
               endToEndPaths.push(currPath);
               currPath = [];
             }
@@ -553,7 +547,32 @@ Player.createPlayer = function (name, user) {
 
               newCurrentPath.push(p);
               newPath.push(newCurrentPath);
-              
+
+              // get roadType of new edge
+              var newRoadType;
+              if (strRoads.indexOf(JSON.stringify(p)) == -1){
+                newRoadType = "ship";
+              }else{
+                newRoadType = "road";
+              }
+
+              if (newRoadType != roadType){
+                if (vertexData && vertexData[prevNode] && (vertexData[prevNode].type == 'City' || vertexData[prevNode].type == 'Settlement' || vertexData[prevNode].type =='Metropolis') && vertexData[prevNode].name == player.name){
+                  //continue
+                  
+
+                }
+                else {
+                  //different partitions
+                  endToEndPaths.push(currPath);
+                  newPath = [];
+                  var newPartition = [];
+                  newPartition.push(p);
+                  newPath.push(newPartition);
+                  newPath.push(p[1-p.indexOf(prevNode)]);
+                }
+              }
+
               if (!hasNewPath){
                 lastNode = p[1-p.indexOf(prevNode)];
                 newPath.push(lastNode);
@@ -567,15 +586,13 @@ Player.createPlayer = function (name, user) {
                 paths.push(newPath);
               }
               
-              console.log("new path");
-              console.log(newPath);
+            
 
               hasNewPath = true;
+            
+              
             }
           }
-          console.log("paths, endToEndPaths");
-          console.log(paths);
-          console.log(endToEndPaths);
 
           // for each possible path in possiblePaths that remain, add to currPath, append last node, and append to 
           if (!hasNewPath){
@@ -601,7 +618,7 @@ Player.createPlayer = function (name, user) {
           var vertexData = vertexData || {};
           for (var i = 0; i<vertexInfo.length; i++){
             if (vertexInfo[i] && vertexInfo[i]['owner']){
-              vertexData[vertexInfo[i].position] = vertexInfo[i].owner.name;
+              vertexData[vertexInfo[i].position] = {name: vertexInfo[i].owner.name, type: vertexInfo[i].level};
             } 
           }
           return vertexData;
