@@ -32,7 +32,7 @@
             <!--div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'-->
             <div id='board' class='box-shadow-light'>
                 <div class='map'></div>
-
+                <div id="sideCmds">
                 <div class='dices right'>
                     <div class='dice red'>
                         <div class='icon center-cropped'></div>
@@ -54,6 +54,22 @@
                     <div class="icon center-cropped"></div>
                     <div class='text'>Barbarian distance: {{ room.match ? 7 - room.match.barbarian.curPos : '' }}</div>
                 </div>
+
+                <div class='trade cmds right'>
+                    <div class="card cmd" data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn' v-on:click='trade'>
+                        <div class="icon center-cropped"><i class="fa fa-money" aria-hidden="true"></i></div>
+                        <div class='text'>Bank</div>
+                    </div>
+                    <div class="card cmd" data-cmd="tradeWithPlayer" v-bind:disabled='!isMyTurn' v-on:click='trade'>
+                        <div class="icon center-cropped"><i class="fa fa-handshake-o" aria-hidden="true"></i></div>
+                        <div class='text'>Trade</div>
+                    </div>
+                    <div class="card cmd" data-cmd="drawResourceCard" v-bind:disabled='!isMyTurn' v-on:click='drawResourceCard'>
+                        <div class="icon center-cropped"><i class="fa fa-usd" aria-hidden="true"></i></div>
+                        <div class='text'>Draw Resource Card</div>
+                    </div>
+                </div>
+
 
                 <div class='progress-card cmds right'>
                     <div class="card cmd" v-on:click='drawProgressCard'>
@@ -90,16 +106,7 @@
                     </div>
                 </div>
 -->
-
-
-                <div class='ui-btn unselectable turn-event' data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn'
-                     v-on:click='trade'><i class="fa fa-institution" aria-hidden="true"></i>Trade With Bank
                 </div>
-
-                <div class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn' data-cmd="tradeWithPlayer"
-                     v-on:click='trade'><i class="fa fa-handshake-o" aria-hidden="true"></i>Trade With Player
-                </div>
-
             </div>
 
         <div id='utils' class='box-shadow-light'>

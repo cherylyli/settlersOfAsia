@@ -129,8 +129,6 @@
     align-content:center;
     flex-direction:column;
     color: white;
-
-    z-index: 10;
 }
 
 .vertex .knight{

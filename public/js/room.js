@@ -296,6 +296,9 @@ $(window).on('imready', function(im){
                 var {newHexID} = getInput();
                 Commands.movePirate(newHexID);
             },
+            drawResourceCard: function () {
+                showDrawCardPrompt("drawOneResourceCard");
+            },
 
             progressCardCommand: function (e) {
                 let card = $(e.target).attr('data-id');
@@ -1146,7 +1149,14 @@ $(window).on('imready', function(im){
         //hideCmdPrompt();
 
         if (tokenType == Enum.fishToken.BOOT){
-
+             swal({
+                    title: "Boot Token",
+                    text: "Click other player to give away the boot!",
+                    type: "info",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Cool!",
+                    closeOnConfirm: true,
+                });
             //populateCmdPromptCmds(FishTokenCommand.Boot, [tokenType]);
         }
         else {
@@ -1154,6 +1164,7 @@ $(window).on('imready', function(im){
             let opts = Object.values(Enum.fishEvent);
             let cmds = new Array(opts.length).fill("spendFishToken");
             populateCmdPromptOptions(opts, cmds);
+            showCmdPrompt();
             /**
             swal({
                     html: true,
@@ -1164,7 +1175,6 @@ $(window).on('imready', function(im){
                     closeOnConfirm: true,
                 })*/
         }
-        showCmdPrompt();
     }
 
 
