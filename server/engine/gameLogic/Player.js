@@ -455,10 +455,12 @@ Player.createPlayer = function (name, user) {
         var mappedData = storeVerticesToMap(player.roads, {});
         var mappedData = storeVerticesToMap(player.ships, mappedData);
           
-        var vertexData = storeVertexElements(map.vetexInfo, {});
+        console.log("vertexInfo");
+        //console.log(map);
+        var vertexData = storeVertexElements(map['vertexInfo'], {});
 
         for (var key in vertexData){
-          console.log(key + " " + vertexData);
+          console.log(key + " " + vertexData[key]);
         }
 
         // find root node(s), form initial paths
@@ -500,6 +502,7 @@ Player.createPlayer = function (name, user) {
             currPath = newCurrPath[0].slice();
             lastNode = newCurrPath[1];
           }
+          var prevNode = lastNode;
 
           
 
@@ -508,7 +511,7 @@ Player.createPlayer = function (name, user) {
           
 
           // find the lastNode in mappedData, if we've edge is in traversed list, throw it out
-          possiblePaths = mappedData[lastNode];
+          possiblePaths = mappedData[prevNode];
           var i_0 = 0;
           var traversedString = JSON.stringify(currPath);
 
@@ -521,15 +524,15 @@ Player.createPlayer = function (name, user) {
           console.log("current path, possible paths, lastNode");
           console.log(currPath);
           console.log(possiblePaths);
-          console.log(lastNode);
+          console.log(prevNode);
 
           // if there is something on the lastNode
           // check if it's the player's
           // if not, push current path to endToEndPaths
-          if (vertexData[lastNode]){
+          if (vertexData && vertexData[prevNode]){
             console.log("vertexData: last node");
-            console.log(vertexData[lastNode]);
-            if (vertexData[lastNode] != player.name){
+            console.log(vertexData[prevNode]);
+            if (vertexData[prevNode] != player.name){
               endToEndPaths.push(currPath);
               currPath = [];
             }
@@ -545,20 +548,21 @@ Player.createPlayer = function (name, user) {
               var p = possiblePaths[i_0];
               var newPath = [];
               var newCurrentPath = currPath.slice();
+              
 
 
               newCurrentPath.push(p);
               newPath.push(newCurrentPath);
               
               if (!hasNewPath){
-                lastNode = p[1-p.indexOf(lastNode)];
+                lastNode = p[1-p.indexOf(prevNode)];
                 newPath.push(lastNode);
                 newCurrPath = newPath.slice();
               }
               
 
               if (hasNewPath){
-                newlastNode = p[1-p.indexOf(lastNode)];
+                newlastNode = p[1-p.indexOf(prevNode)];
                 newPath.push(newlastNode);
                 paths.push(newPath);
               }
@@ -593,10 +597,11 @@ Player.createPlayer = function (name, user) {
         // vertexInfo is an array
         // for each vertex, store buildings/knights of all players
         function storeVertexElements(vertexInfo, vertexData){
+          if (!vertexInfo) return;
           var vertexData = vertexData || {};
-          for (var v in vertexInfo){
-            if (v && v['owner']){
-              vertexData[v.position] = v.owner.name;
+          for (var i = 0; i<vertexInfo.length; i++){
+            if (vertexInfo[i] && vertexInfo[i]['owner']){
+              vertexData[vertexInfo[i].position] = vertexInfo[i].owner.name;
             } 
           }
           return vertexData;
