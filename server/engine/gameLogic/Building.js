@@ -32,6 +32,7 @@ Building.buildSettlement = function (player, vertex, map) {
     building.level = Enum.Building.Settlement;
     //building.hasMetropolis = false;
     updateInfo(map, building);
+    player['longestRoad'] = player.calculateLongestRoad(map);
 
     building.upgradeToCity = function () {
         building.level = Enum.Building.City;

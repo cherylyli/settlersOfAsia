@@ -3,6 +3,7 @@
  */
 let Map = require('./Map.js');
 let Knight = module.exports = {};
+let Player = require('./Player.js');
 
 /**
  *
@@ -27,6 +28,7 @@ Knight.createKnight = function (player, map) {
     knight.place = function (vertex, map) {
         knight.position = vertex;
         map.setVertexInfo(knight, vertex);
+        player['longestRoad'] = player.calculateLongestRoad(map);
     };
 
     knight.activate = function () {
@@ -46,6 +48,7 @@ Knight.createKnight = function (player, map) {
         let opponentKnight = map.getVertexInfo(vertex);
         map.setVertexInfo(undefined, knight.position);
         knight.place(vertex, map);
+        player['longestRoad'] = player.calculateLongestRoad(map);
 
         if (opponentKnight) {
           map.opponentKnight = opponentKnight.owner;

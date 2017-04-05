@@ -460,6 +460,10 @@ Player.createPlayer = function (name, user) {
 
         var vertexData = storeVertexElements(map['vertexInfo'], {});
 
+        for (var key in vertexData){
+          console.log(key + " " + vertexData.name + " " + vertexData.level);
+        }
+
 
         // find root node(s), form initial paths
         var paths = [];
@@ -486,6 +490,8 @@ Player.createPlayer = function (name, user) {
           }
         }
 
+        console.log("paths");
+        console.log(paths);
 
         var hasNewPath = false;
         var currPath;
@@ -542,7 +548,10 @@ Player.createPlayer = function (name, user) {
               var p = possiblePaths[i_0];
               var newPath = [];
               var newCurrentPath = currPath.slice();
-              
+
+              console.log('new current path and prevNode');
+              console.log(newCurrentPath);
+              console.log(prevNode);              
 
 
               newCurrentPath.push(p);
@@ -589,6 +598,8 @@ Player.createPlayer = function (name, user) {
             
 
               hasNewPath = true;
+              console.log("new path");
+              console.log(newPath);
             
               
             }
@@ -608,8 +619,10 @@ Player.createPlayer = function (name, user) {
           }
         });
 
-
-        return longestRoad;
+        if (!longestRoad){
+          return 0;
+        }
+        return longestRoad.length;
 
         // vertexInfo is an array
         // for each vertex, store buildings/knights of all players
