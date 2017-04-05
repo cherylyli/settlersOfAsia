@@ -447,22 +447,19 @@ Player.createPlayer = function (name, user) {
     player.calculateLongestRoad = function(map){
 
         /**
-         * TODO: Cheryl
-         *  u may want to use:
-         *   player.roads = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
-         *   player.ships = {};  // key: edge key, value: edge. Use edge key as hash function so it's easier to remove an element
-         *
-         *   u may want to store routes in player, anyway, come out with an algo to do this
-         *
-         *   to get a vertexUnit (knight/ building) at a vertex : map.getVertexInfo(vertexID)
-         *
-         *   at end, store your calculated longest path in player.longestRoad  --> an array of edge
-         *   edge is just a array of two integer [v1, v2] v1 < v2
+         * TODO: 
+         * 1. check vertices
+         * 2. check roads vs ships
+         *  
          */
         var mappedData = storeVerticesToMap(player.roads, {});
         var mappedData = storeVerticesToMap(player.ships, mappedData);
           
         var vertexData = storeVertexElements(map.vetexInfo, {});
+
+        for (var key in vertexData){
+          console.log(key + " " + vertexData);
+        }
 
         // find root node(s), form initial paths
         var paths = [];
@@ -490,13 +487,24 @@ Player.createPlayer = function (name, user) {
         }
 
 
-        
+        var hasNewPath = false;
+        var currPath;
 
         // each path is an array of edges and an ending node: [[[1, 2], [2, 3], [3, 4]], 4]
         while (paths.length > 0){
-          var currPath = paths.shift();
-          var lastNode = currPath[1];
-          currPath = currPath[0];
+          if (!hasNewPath){
+            currPath = paths.shift();
+            var lastNode = currPath[1];
+            currPath = currPath[0];
+          } else {
+            currPath = newCurrPath[0].slice();
+            lastNode = newCurrPath[1];
+          }
+
+          
+
+          
+          
           
 
           // find the lastNode in mappedData, if we've edge is in traversed list, throw it out
@@ -504,35 +512,66 @@ Player.createPlayer = function (name, user) {
           var i_0 = 0;
           var traversedString = JSON.stringify(currPath);
 
-          
-
+          // if no more possible paths, then push current path into endToEndPaths
           if (!possiblePaths || possiblePaths.length == 0){
             endToEndPaths.push(currPath);
             continue;
           }
 
-          var hasNewPath = false;
+          console.log("current path, possible paths, lastNode");
+          console.log(currPath);
+          console.log(possiblePaths);
+          console.log(lastNode);
+
+          // if there is something on the lastNode
+          // check if it's the player's
+          // if not, push current path to endToEndPaths
+          if (vertexData[lastNode]){
+            console.log("vertexData: last node");
+            console.log(vertexData[lastNode]);
+            if (vertexData[lastNode] != player.name){
+              endToEndPaths.push(currPath);
+              currPath = [];
+            }
+          }
+
+          hasNewPath = false;
 
           for (var i_0 = 0; i_0<possiblePaths.length; i_0++){
             var possibleString = JSON.stringify(possiblePaths[i_0]);
 
-            if (traversedString.indexOf(possibleString)<-1){
+            if (traversedString.indexOf(possibleString)==-1){
               // push into paths
               var p = possiblePaths[i_0];
               var newPath = [];
-              var newCurrentPath = currPath;
+              var newCurrentPath = currPath.slice();
+
+
               newCurrentPath.push(p);
-
               newPath.push(newCurrentPath);
+              
+              if (!hasNewPath){
+                lastNode = p[1-p.indexOf(lastNode)];
+                newPath.push(lastNode);
+                newCurrPath = newPath.slice();
+              }
+              
 
-              var lastestNode = p[1-p.indexOf(lastNode)];
-              newPath.push(lastestNode);
+              if (hasNewPath){
+                newlastNode = p[1-p.indexOf(lastNode)];
+                newPath.push(newlastNode);
+                paths.push(newPath);
+              }
+              
+              console.log("new path");
+              console.log(newPath);
 
-
-              paths.push(newPath);
               hasNewPath = true;
             }
           }
+          console.log("paths, endToEndPaths");
+          console.log(paths);
+          console.log(endToEndPaths);
 
           // for each possible path in possiblePaths that remain, add to currPath, append last node, and append to 
           if (!hasNewPath){
@@ -551,20 +590,14 @@ Player.createPlayer = function (name, user) {
 
         return longestRoad;
 
-
-        
-        
-
-
-
         // vertexInfo is an array
         // for each vertex, store buildings/knights of all players
         function storeVertexElements(vertexInfo, vertexData){
           var vertexData = vertexData || {};
           for (var v in vertexInfo){
-            if (vertexData && vertexData[v.position]){
+            if (v && v['owner']){
               vertexData[v.position] = v.owner.name;
-            }
+            } 
           }
           return vertexData;
         }
