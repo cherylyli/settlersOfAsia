@@ -33,7 +33,6 @@ $(window).on('imready', function(im){
     let CircularJSON = window.CircularJSON;
 
     window.myObj = im.myObj;
-    // console.log(window.myObj);
     let roomId = window.location.pathname.split("/").pop();
 
     // parse a fake room data just for test
@@ -990,6 +989,55 @@ $(window).on('imready', function(im){
 
 
 
+    /**
+     * @param opts String[] a list of options used to generate prompt options
+     * @param cmds String[] a list of cmds used to generate prompt options
+     * @param data the data user inputted (command argument)
+     */
+    function populateCmdPromptOptions(opts, cmds, data = []) {
+        let $prompt = $('#cmd-prompt');
+        //$prompt.find('.button').not('.button[data-id=cancel]').remove();
+        $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
+        for (let i = 0; i < opts.length; i++){
+            let cmd = cmds[i];
+            let opt = opts[i];
+            let $cmd = $('<div class="button">' + opt + '</div>');
+            $cmd.attr({
+                'cmd': cmd,
+                'opt': opt
+            });
+            $prompt.prepend($cmd);
+        }
+
+        // add listener here because we generate the buttons dynamically
+        $('#cmd-prompt .button').click(function (e) {
+            let $button = $(e.target);
+
+            if ($button.attr('data-id') == 'cancel') {
+                hideCmdPrompt();
+            }
+            else {
+                let cmdName = $button.attr('cmd');
+                let opt = $button.attr('opt');
+                hideCmdPrompt();
+                data.push(opt);
+                console.log(data);
+
+                if (_.has(SpecialsCommands, cmdName)){
+                    SpecialsCommandsNextStep[cmdName].apply(this, data);
+                }
+                else {
+                    Commands[cmdName].apply(this, data);
+                }
+                // console.log($button.attr('cmd'));**/
+            }
+
+        });
+    }
+
+
+
+
     // -----------------special cmd prompt for cmd requires multi-steps-----------------------
     /**
      *
@@ -1087,6 +1135,11 @@ $(window).on('imready', function(im){
             //populateCmdPromptCmds(FishTokenCommand.Boot, [tokenType]);
         }
         else {
+            hideCmdPrompt();
+            let opts = Object.values(Enum.fishEvent);
+            let cmds = new Array(opts.length).fill("spendFishToken");
+            populateCmdPromptOptions(opts, cmds);
+            /**
             swal({
                     html: true,
                     title: "Fish Token",
@@ -1094,9 +1147,9 @@ $(window).on('imready', function(im){
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "Cool!",
                     closeOnConfirm: true,
-                })
+                })*/
         }
-        //showCmdPrompt();
+        showCmdPrompt();
     }
 
 

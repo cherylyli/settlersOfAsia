@@ -462,12 +462,12 @@ CommandCheck.spendFishToken = function (action) {
     else {
         return true;
     }
-}
+};
 
 //TODO Yuan deactive knights
 CommandsData.hireKnight = function (position) {
     return {'position': position}
-}
+};
 
 
 CommandCheck.hireKnight = function (position) {
