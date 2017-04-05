@@ -91,6 +91,7 @@ $(window).on('imready', function(im){
 
 
     sock.on('GAME_START', function (msg) {
+        $('#waiting-page').css('transition', '2.5s ease');
         mapUI.initializeGame();
         /**
          swal({
@@ -204,7 +205,7 @@ $(window).on('imready', function(im){
             },
 
             'room.match': function () {
-                //if (!app.room.match) return;
+                if (!window.app.room.match) return;
                 mapUI.updateMap();
             }
         },
@@ -430,11 +431,16 @@ $(window).on('imready', function(im){
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
 
         // adjust map size
-        if (window.app && DATA.getMatch()) mapUI.resizeMap();
+        if (window.app && window.app.room && DATA.getMatch()) mapUI.resizeMap();
 
         else {
+            let $leftScreen = $('#left-screen');
+            let len = $leftScreen.width() > $leftScreen.height() ? $leftScreen.width() : $leftScreen.height();
             //waiting pic
-            $('#waiting-page img').width($('#board').width());
+            $('#waiting-page').width(len);
+            $('#waiting-page').height(len);
+            $('#waiting-page img').width(len);
+            $('#waiting-page img').height(len);
         }
     }
 

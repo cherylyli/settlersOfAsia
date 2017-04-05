@@ -24,19 +24,20 @@ body{
     bottom: 15px;
     top: 15px;
     left: 15px;
+    overflow: hidden;
 }
 
 #waiting-page {
     position: absolute;
     bottom: 0;
-    /*top: 0;*/
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
     height: 100%;
     /*background-color: #3A79B8;*/
     overflow: hidden;
-    transition: 2.5s ease;
+    /*transition: 2.5s ease;*/
     z-index: 11;
 
 }
