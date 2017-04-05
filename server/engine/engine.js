@@ -12,7 +12,7 @@ var User    = require('../../models/user.js');
 var notify  = require('../api/notify.js');
 var fs = require("fs"); // Has to be installed first with “npm install fs”
 let CircularJSON = require('circular-json');
-let fakeRoom = require('../test.js');
+// let fakeRoom = require('../test.js');
 
 
 let DATA = require('./Data.js');
@@ -87,23 +87,23 @@ module.exports = function(socket, user, roomId) {
         result = CircularJSON.stringify(cloneRoom);
 
         // TODO: TESTING!!!
-        // send('JOIN_ROOM_SUCCESS', result);
-       send('JOIN_ROOM_SUCCESS', CircularJSON.stringify(fakeRoom.room));
-        sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
+        send('JOIN_ROOM_SUCCESS', result);
+       // send('JOIN_ROOM_SUCCESS', CircularJSON.stringify(fakeRoom.room));
+       //  sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
 
 
 
         //notify other users in the room about the new player
         // TODO: TESTING!!
-        // broadcast('NEW_PLAYER_JOINED', result);
+        broadcast('NEW_PLAYER_JOINED', result);
 
         //if now we have 4 players, game start
         console.log(Object.keys(DATA.getRoom(roomId).users).length);
         if(Object.keys(DATA.getRoom(roomId).users).length == 4){
             let currentPlayer = Commands.startGame(roomId);
             result = CircularJSON.stringify( DATA.getRoom(roomId));
-            // sendRoom('GAME_START', result);
-            sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
+            sendRoom('GAME_START', result);
+            // sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
 
             setTimeout(function(){
                 notify.user(currentPlayer, 'TAKE_TURN');
@@ -134,8 +134,8 @@ module.exports = function(socket, user, roomId) {
             });**/
 
             send('JOIN_ROOM_SUCCESS', result);
-            send('JOIN_ROOM_SUCCESS', CircularJSON.stringify(fakeRoom.room));
-            sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
+            // send('JOIN_ROOM_SUCCESS', CircularJSON.stringify(fakeRoom.room));
+            // sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
 
         });
 

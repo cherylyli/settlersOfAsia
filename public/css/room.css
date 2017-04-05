@@ -24,19 +24,20 @@ body{
     bottom: 15px;
     top: 15px;
     left: 15px;
+    overflow: hidden;
 }
 
 #waiting-page {
     position: absolute;
     bottom: 0;
-    /*top: 0;*/
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
     height: 100%;
     /*background-color: #3A79B8;*/
     overflow: hidden;
-    transition: 2.5s ease;
+    /*transition: 2.5s ease;*/
     z-index: 11;
 
 }
@@ -74,7 +75,15 @@ body{
 
 #board .right {
     position: absolute;
-    right: 10px;
+    left: 10px;
+}
+
+#sideCmds {
+    background: rgba(237, 241, 241, 0.8);
+    position: absolute;
+    width: 160px;
+    right: 0;
+    height: 100%;
 }
 
 #board .dices{
@@ -119,9 +128,15 @@ body{
     font-size: 12px;
 }
 
-#board .fish-token{
+
+#board .trade{
     /*width: 150px;*/
-    top: 350px;
+    top: 140px;
+    overflow: hidden;
+}
+
+#board .fish-token{
+    top: 430px;
     overflow: hidden;
 }
 
@@ -142,11 +157,11 @@ body{
 }
 
 #board .progress-card{
-    top: 140px;
+    top: 220px;
 }
 
 #board .city-improvements{
-    top: 250px;
+    top: 350px;
 }
 
 #board .cmds .cmd{
@@ -375,6 +390,10 @@ body{
     overflow: hidden;
     border-bottom: 1px solid #e7ebf3;
     transition: all 0.3s;
+}
+
+#users .user:hover{
+    background: linear-gradient(to right, rgb(159, 210, 163) 0%, rgba(255, 255, 255, 0.08) 100%);
 }
 
 #users .user[active]{

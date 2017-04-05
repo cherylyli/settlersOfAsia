@@ -33,7 +33,6 @@ $(window).on('imready', function(im){
     let CircularJSON = window.CircularJSON;
 
     window.myObj = im.myObj;
-    // console.log(window.myObj);
     let roomId = window.location.pathname.split("/").pop();
 
     // parse a fake room data just for test
@@ -52,7 +51,8 @@ $(window).on('imready', function(im){
             "Cloth": 0,
             "Coin": 0,
             "Paper": 0
-        }
+        },
+        cityImprovement: {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0}
     };
 
     // on page load, join room
@@ -91,6 +91,7 @@ $(window).on('imready', function(im){
 
 
     sock.on('GAME_START', function (msg) {
+        $('#waiting-page').css('transition', '2.5s ease');
         mapUI.initializeGame();
         /**
          swal({
@@ -204,7 +205,7 @@ $(window).on('imready', function(im){
             },
 
             'room.match': function () {
-                //if (!app.room.match) return;
+                if (!window.app.room.match) return;
                 mapUI.updateMap();
             }
         },
@@ -296,6 +297,9 @@ $(window).on('imready', function(im){
                 var {newHexID} = getInput();
                 Commands.movePirate(newHexID);
             },
+            drawResourceCard: function () {
+                showDrawCardPrompt("drawOneResourceCard");
+            },
 
             progressCardCommand: function (e) {
                 let card = $(e.target).attr('data-id');
@@ -303,7 +307,7 @@ $(window).on('imready', function(im){
                 showProgressCardCmd(card);
             },
             drawProgressCard: function () {
-                alert("hi");
+                showDrawCardPrompt("drawOneProgressCard");
             },
 
             fishTokenCommand: function (e) {
@@ -427,11 +431,16 @@ $(window).on('imready', function(im){
         $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
 
         // adjust map size
-        if (DATA.getMatch()) mapUI.resizeMap();
+        if (window.app && window.app.room && DATA.getMatch()) mapUI.resizeMap();
 
         else {
+            let $leftScreen = $('#left-screen');
+            let len = $leftScreen.width() > $leftScreen.height() ? $leftScreen.width() : $leftScreen.height();
             //waiting pic
-            $('#waiting-page img').width($('#board').width());
+            $('#waiting-page').width(len);
+            $('#waiting-page').height(len);
+            $('#waiting-page img').width(len);
+            $('#waiting-page img').height(len);
         }
     }
 
@@ -989,6 +998,55 @@ $(window).on('imready', function(im){
 
 
 
+    /**
+     * @param opts String[] a list of options used to generate prompt options
+     * @param cmds String[] a list of cmds used to generate prompt options
+     * @param data the data user inputted (command argument)
+     */
+    function populateCmdPromptOptions(opts, cmds, data = []) {
+        let $prompt = $('#cmd-prompt');
+        //$prompt.find('.button').not('.button[data-id=cancel]').remove();
+        $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
+        for (let i = 0; i < opts.length; i++){
+            let cmd = cmds[i];
+            let opt = opts[i];
+            let $cmd = $('<div class="button">' + opt + '</div>');
+            $cmd.attr({
+                'cmd': cmd,
+                'opt': opt
+            });
+            $prompt.prepend($cmd);
+        }
+
+        // add listener here because we generate the buttons dynamically
+        $('#cmd-prompt .button').click(function (e) {
+            let $button = $(e.target);
+
+            if ($button.attr('data-id') == 'cancel') {
+                hideCmdPrompt();
+            }
+            else {
+                let cmdName = $button.attr('cmd');
+                let opt = $button.attr('opt');
+                hideCmdPrompt();
+                data.push(opt);
+                console.log(data);
+
+                if (_.has(SpecialsCommands, cmdName)){
+                    SpecialsCommandsNextStep[cmdName].apply(this, data);
+                }
+                else {
+                    Commands[cmdName].apply(this, data);
+                }
+                // console.log($button.attr('cmd'));**/
+            }
+
+        });
+    }
+
+
+
+
     // -----------------special cmd prompt for cmd requires multi-steps-----------------------
     /**
      *
@@ -1069,7 +1127,7 @@ $(window).on('imready', function(im){
     };
 
 
-
+    
 
     function showProgressCardCmd(card){
         hideCmdPrompt();
@@ -1078,14 +1136,42 @@ $(window).on('imready', function(im){
 
     }
 
+    function showDrawCardPrompt(cmd) {
+        // FIXME: maybe text whether player have selected other stuffs here?
+        let opts;
+        if (cmd == "drawOneResourceCard"){
+            opts = Object.values(Enum.Resource);
+        }
+        if (cmd == "drawOneProgressCard"){
+            opts = Object.values(Enum.cityImprovementCategory);
+        }
+        let cmds = new Array(opts.length).fill(cmd);
+
+        populateCmdPromptOptions(opts, cmds);
+        showCmdPrompt();
+    }
+
     function showFishTokenInfo(tokenType) {
         //hideCmdPrompt();
 
         if (tokenType == Enum.fishToken.BOOT){
-
+             swal({
+                    title: "Boot Token",
+                    text: "Click other player to give away the boot!",
+                    type: "info",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Cool!",
+                    closeOnConfirm: true,
+                });
             //populateCmdPromptCmds(FishTokenCommand.Boot, [tokenType]);
         }
         else {
+            hideCmdPrompt();
+            let opts = Object.values(Enum.fishEvent);
+            let cmds = new Array(opts.length).fill("spendFishToken");
+            populateCmdPromptOptions(opts, cmds);
+            showCmdPrompt();
+            /**
             swal({
                     html: true,
                     title: "Fish Token",
@@ -1093,11 +1179,29 @@ $(window).on('imready', function(im){
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "Cool!",
                     closeOnConfirm: true,
-                })
+                })*/
         }
-        //showCmdPrompt();
     }
 
+
+
+
+    // --------------------- user -----------------------
+    $('#users').on('click', '.user', function (e) {
+        if (isCmdPromptVisible()) return false;
+
+        // FIXME: what if in the progress another cmd
+
+        // if already selected a hex, clear
+        if (highlightedHexes() >= 1) clearHighlightedHexes();
+        if (highlightedVertices() >= 1) clearHighlightedVertices();
+
+        let selectedPlayerName = $(this).attr('data-username');
+        // populateCmdPromptCmds(Player.getCommands(DATA.getMyPlayer()), [selectedPlayerName]);
+        // TODO: for testing
+        populateCmdPromptCmds(Object.values(PlayerCommand), [selectedPlayerName]);
+        showCmdPrompt();
+    });
 
 
 });

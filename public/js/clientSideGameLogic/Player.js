@@ -98,11 +98,23 @@ let Player = (function () {
             return player.progressCardsCnt;
         };
 
+
         return player;
     }
 
+    function getCommands(player){
+        let cmds = [];
+        if (player.hasBoot) cmds.push('giveAwayBoot');
+
+        // TODO: check if steal card is allowed
+        cmds.push('stealCard');
+        return cmds;
+    }
+
+
     return {
-        addHelperFunctions
+        addHelperFunctions,
+        getCommands
     }
 
 })();
