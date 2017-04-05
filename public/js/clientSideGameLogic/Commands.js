@@ -102,10 +102,10 @@ let CommandName = {
      */
     // 'setDefenderOfCatan': 'setDefenderOfCatan',
     'discardOneProgressCard': 'discardOneProgressCard',
-    'stealCard': 'stealCard',   //TODO
-    'drawOneResourceCard': 'drawOneResourceCard',   //TODO
-    'giveAwayBoot': 'giveAwayBoot', //TODO
-    'drawOneProgressCard': 'drawOneProgressCard',   //TODO
+    'stealCard': 'stealCard',
+    'drawOneResourceCard': 'drawOneResourceCard',
+    'giveAwayBoot': 'giveAwayBoot',
+    'drawOneProgressCard': 'drawOneProgressCard',
     'discardResourceCards': 'discardResourceCards', //TODO
     'chaseAwayThief': 'chaseAwayThief', //TODO
     'hireKnight': 'hireKnight',
@@ -118,7 +118,7 @@ let CommandName = {
     'chooseCityToBePillaged': 'chooseCityToBePillaged', //TODO
     'moveRobber': 'moveRobber',
     'movePirate': 'movePirate',
-    'spendFishToken': 'spendFishToken', //TODO
+    'spendFishToken': 'spendFishToken',
     'buildRoadUseFish': 'buildRoadUseFish', //TODO: Yuan, combine this with build road
     'buildShipUseFish': 'buildShipUseFish', //TODO: Yuan
 
