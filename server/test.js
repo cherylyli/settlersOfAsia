@@ -37,18 +37,19 @@ Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityI
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
 console.log(data.getMatch("123").distributeMetropolis(Enum.cityImprovementCategory.Science));
-/*
-Commands.hireKnight("Emol","123",7);
-Commands.activateKnight("Emol","123",7);
-Commands.hireKnight("Max","123",7);
-Commands.moveRobber("Emol","123",7);
-Commands.hireKnight("Emol","123",{'position': 7});
-Commands.activateKnight("Emol","123",{'position': 7});
-Commands.hireKnight("Max","123",{'position': 1});
+
+// Commands.hireKnight("Emol","123",7);
+// Commands.activateKnight("Emol","123",7);
+// Commands.hireKnight("Max","123",7);
+// Commands.moveRobber("Emol","123",7);
+// Commands.hireKnight("Emol","123",{'position': 7});
+// Commands.activateKnight("Emol","123",{'position': 7});
+// Commands.hireKnight("Max","123",{'position': 1});
 // Commands.moveRobber("Emol","123",7);
 Commands.buildRoad("Emol","123",[1, 2]);
-*/
-//Commands.activateKnight("Max","123",7);
+Commands.buildRoad("Emol", "123", [2, 3]);
+
+// Commands.activateKnight("Max","123",7);
 
 fakeRoom.room = data.getRoom("123");
 //TODO test barbarian applyResult + robber produce resource from bank
@@ -200,15 +201,18 @@ console.log(player1.progressCards);
 /*
 let myHex3 = my.getHexTileById(10);
 let myHex4 = my.getHexTileById(17);
-
-//Commands.buildShip("Emol", "123", [53, 54]);
+*/
+Commands.buildShip("Emol", "123", [53, 54]);
+/*
 Commands.movePirate("Emol", "123", {'oldHexID' : 10 , 'newHexID' : 17})
 console.log("pirate removed: blocked :" + myHex3.blockedByPirate);
 console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
 
 
 //TODO check this:
+*/
 Commands.buildShip("Yuan", "123", [52,53]);
+/*
 //Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
 //Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
 console.log(player2.ships);
@@ -218,9 +222,10 @@ console.log(player2.ships);
 //console.log("now move away : blocked :" + myHex4.blockedByRobber);
 
 //get stealable player list - working
-/*
+*/
 Commands.buildShip("Emol", "123", [21,22]);
 Commands.buildShip("Yuan", "123", [51,52]);
+/*
 //let p = myHex1.getPlayersAroundByBuildings(my);
 //get stealable player list - working
 let steal = my.pirate.stealFrom(myHex4, my);

@@ -111,7 +111,7 @@ Building.buildRoad = function (player, edge, match, type) {
           match.map.setEdgeInfo(road, edge);
           //update player info
           player[type + 's'][Map.edgeKey(edge)] = edge;
-          player.calculateLongestRoad();
+          player['longestRoad'] = player.calculateLongestRoad(match.map);
         }
       }
 

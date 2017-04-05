@@ -9,6 +9,7 @@ let Cost = require('./Cost.js');
 let Building = require('./Building.js');
 let Robber = require('./Robber.js');
 let Commands = require('../Commands.js');
+
 /**
  * Player stores the game info of a user in a game.
  */
@@ -458,6 +459,131 @@ Player.createPlayer = function (name, user) {
          *   at end, store your calculated longest path in player.longestRoad  --> an array of edge
          *   edge is just a array of two integer [v1, v2] v1 < v2
          */
+        var mappedData = storeVerticesToMap(player.roads, {});
+        var mappedData = storeVerticesToMap(player.ships, mappedData);
+          
+        var vertexData = storeVertexElements(map.vetexInfo, {});
+
+        // find root node(s), form initial paths
+        var paths = [];
+        var traversed = [];
+        var endToEndPaths = [];
+
+        // push root nodes (any node beginning at a vertex with only that edge that's owned by the player)
+        // each path would be a number of vertices and the end of the last edge: 
+        for (var key in mappedData){
+          if (mappedData[key].length==1){
+            var path = [];
+            // first element in path is the path
+            path.push(mappedData[key]);
+            traversed.push(mappedData[key]);
+            var edge = mappedData[key];
+
+            // second element in the path is the non-starting end  
+            if (edge[0] == key){
+              path.push(edge[1]);
+            } else{
+              path.push(edge[0]);
+            }
+
+            paths.push(path);
+          }
+        }
+        
+
+        // do DFS
+        
+
+        // each path is an array of edges and an ending node: [[[1, 2], [2, 3], [3, 4]], 4]
+        while (paths.length > 0){
+          var currPath = paths.shift();
+          var lastNode = currPath[1];
+          currPath = currPath[0];
+
+          // find the lastNode in mappedData, if we've edge is in traversed list, throw it out
+          possiblePaths = mappedData[lastNode];
+          var i_0 = 0;
+          var traversedString = JSON.stringify(traversed);
+          if (!possiblePaths || possiblePaths.length == 0){
+            endToEndPaths.push(currPath);
+            continue;
+          }
+          while (i_0 < possiblePaths.length){
+            if (traversedString.indexOf(JSON.stringify(possiblePaths[0]))>-1){
+              possiblePaths.splice(i_0, 1);
+            }else{
+              i_0++;
+            }
+          }
+
+          // for each possible path in possiblePaths that remain, add to currPath, append last node, and append to 
+          if (possiblePaths.length > 0){
+            possiblePaths.forEach(function(p){
+              var newPath = [];
+              var newCurrentPath = currPath;
+              newCurrentPath.push(p);
+              newPath.push(newCurrentPath);
+              var indexPrevNode = p.indexOf(lastNode);
+              newPath.push(p[1-indexPrevNode]);
+              paths.push(newPath);
+            });
+          } else {
+            endToEndPaths.push(currPath);
+          }
+
+
+        }
+
+        console.log(endToEndPaths);
+        var longestRoad = endToEndPaths[0];
+        endToEndPaths.forEach(function(p){
+          if (p.length > longestRoad.length){
+            longestRoad = p;
+          }
+        });
+
+        return longestRoad;
+
+
+        
+        
+
+
+
+        // vertexInfo is an array
+        // for each vertex, store buildings/knights of all players
+        function storeVertexElements(vertexInfo, vertexData){
+          var vertexData = vertexData || {};
+          for (var v in vertexInfo){
+            if (vertexData && vertexData[v.position]){
+              vertexData[v.position] = v.owner.name;
+            }
+          }
+          return vertexData;
+        }
+
+        // from list, break down each element and store according to what vertices they touch
+        function storeVerticesToMap(items, mappedData){
+          mappedData = mappedData || {};
+          for (var key in items){
+            v1 = items[key][0];
+            v2 = items[key][1];
+            if (mappedData[v1]){
+              mappedData[v1] = mappedData[v1].push(items[key]);
+            } else{
+              mappedData[v1] = [items[key]];
+            }
+
+            if (mappedData[v2]){
+              mappedData[v2] = mappedData[v2].push(items[key]);
+            } else{
+              mappedData[v2] = [items[key]];
+            }  
+            
+          }
+          return mappedData;
+        }
+
 
 
     };
