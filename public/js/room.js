@@ -303,7 +303,7 @@ $(window).on('imready', function(im){
                 showProgressCardCmd(card);
             },
             drawProgressCard: function () {
-                alert("hi");
+                showDrawCardPrompt("drawOneProgressCard");
             },
 
             fishTokenCommand: function (e) {
@@ -1118,13 +1118,28 @@ $(window).on('imready', function(im){
     };
 
 
-
+    
 
     function showProgressCardCmd(card){
         hideCmdPrompt();
         populateCmdPromptCmds(ProgressCardCommand, [card]);
         showCmdPrompt();
 
+    }
+
+    function showDrawCardPrompt(cmd) {
+        // FIXME: maybe text whether player have selected other stuffs here?
+        let opts;
+        if (cmd == "drawOneResourceCard"){
+            opts = Object.values(Enum.Resource);
+        }
+        if (cmd == "drawOneProgressCard"){
+            opts = Object.values(Enum.cityImprovementCategory);
+        }
+        let cmds = new Array(opts.length).fill(cmd);
+
+        populateCmdPromptOptions(opts, cmds);
+        showCmdPrompt();
     }
 
     function showFishTokenInfo(tokenType) {

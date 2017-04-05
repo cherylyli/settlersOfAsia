@@ -357,14 +357,14 @@ CommandsData.drawOneProgressCard = function (kind) {
     return {'kind': kind};
 };
 
-CommandCheck.drawOneProgressCard = function (progCard) {
+CommandCheck.drawOneProgressCard = function (kind) {
     return true;
 };
 
 //input string
 CommandsData.drawOneResourceCard = function (resCard) {
     return {'resCard': resCard};
-}
+};
 
 CommandCheck.drawOneResourceCard = function (resCard) {
     var res = ['Grain', 'Lumber', 'Wool', 'Brick', 'Ore'];
