@@ -85,7 +85,6 @@ let PlayerCommand = {
 
 
 let CommandName = {
-    //old ones TODO test citywall, buy improvement, move ship
     'rollDice': 'rollDice',
     'buildSettlement': 'buildSettlement',
     'upgradeToCity': 'upgradeToCity',
@@ -97,10 +96,6 @@ let CommandName = {
     'buyCityImprovement': 'buyCityImprovement',
     'moveShip': 'moveShip',
     'tradeWithBank': 'tradeWithBank',
-    /*
-     done testing:
-     */
-    // 'setDefenderOfCatan': 'setDefenderOfCatan',
     'discardOneProgressCard': 'discardOneProgressCard',
     'stealCard': 'stealCard',
     'drawOneResourceCard': 'drawOneResourceCard',
@@ -112,15 +107,11 @@ let CommandName = {
     'activateKnight': 'activateKnight',
     'promoteKnight': 'promoteKnight',
     'moveKnight': 'moveKnight',
-
-    //need to test.
     "upgradeToMetropolis": 'upgradeToMetropolis',
     'chooseCityToBePillaged': 'chooseCityToBePillaged', //TODO
     'moveRobber': 'moveRobber',
     'movePirate': 'movePirate',
     'spendFishToken': 'spendFishToken',
-    'buildRoadUseFish': 'buildRoadUseFish', //TODO: Yuan, combine this with build road
-    'buildShipUseFish': 'buildShipUseFish', //TODO: Yuan
 
     'requestTrade': 'requestTrade', // TODO: Max
     'acceptTrade': 'acceptTrade',// TODO: Max
@@ -423,41 +414,6 @@ CommandCheck.giveAwayBoot = function (bootHolder, transferTo) {
     }
 }
 
-/**
- *
- * @param vertex1 {int} vertex 1 is smaller than vertex2
- * @param vertex2
- */
-CommandsData.buildRoadUseFish = function (vertex1, vertex2) {
-    return Map.edge(vertex1, vertex2);
-};
-
-/**
- *
- * @param data {CommandsData.buildRoad}
- * @return {boolean}
- */
-CommandCheck.buildRoadUseFish = function (vertex1, vertex2) {
-    CommandCheck.buildRoad();
-};
-
-/**
- * @param vertex1
- * @param vertex2
- */
-CommandsData.buildShipUseFish = function (vertex1, vertex2) {
-    return Map.edge(vertex1, vertex2);
-};
-
-/**
- * TODO: modularize. reduce duplication
- * @param data {CommandsData.buildShip}
- * @return {boolean}
- */
-CommandCheck.buildShipUseFish = function (vertex1, vertex2) {
-    CommandCheck.buildShip();
-};
-
 
 CommandsData.spendFishToken = function (action) {
     return {'action': action};
@@ -466,14 +422,25 @@ CommandsData.spendFishToken = function (action) {
 
 CommandCheck.spendFishToken = function (action) {
     //TODO Yuan add checkPlayerAsset for fish token
-    let player = DATA.getPlayer(userName);
-    if (player.getFishSum() < 2) {
-        return false;
+    let player = DATA.getMyPlayer();
+    if((action == "MOVE_ROBBER" || action == "MOVE_PIRATE") && checkEnoughFish(Cost.moveUseFish)){
+      return true;
     }
-    else {
-        return true;
+    if(action == "STEAL_CARD" && checkEnoughFish(Cost.stealUseFish)){
+      return true
     }
-};
+    if(action == "DRAW_RES_FROM_BANK" && checkEnoughFish(Cost.drawResUseFish)){
+      return true;
+    }
+    if((action == "BUILD_ROAD" || action == "BUILD_SHIP" )&& checkEnoughFish(Cost.buildUseFish)){
+      return true;
+    }
+    if(action == "DRAW_PROG" && checkEnoughFish(Cost.drawProgUseFish)){
+      return true;
+    }
+    swalError2("Not enough fish tokens");
+    return false;
+}
 
 //TODO Yuan deactive knights
 CommandsData.hireKnight = function (position) {
@@ -873,10 +840,13 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         return false;
     }
 
-
-    if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)) {
-        return false;
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_ROAD")){
+        if(!checkEnoughResource(Cost.buildUseFish)){
+          return false;
+        }
     }
+
+
 
     //Only 1 road can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
@@ -958,10 +928,11 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
     }
 
 
-    if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)) {
-        return false;
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_SHIP")){
+        if(!checkEnoughResource(Cost.buildUseFish)){
+          return false;
+        }
     }
-
     return shipPostionTest(edge);
 
 
@@ -1205,14 +1176,15 @@ let checkInput = function (data) {
 
 let checkEnoughFish = function (cost) {
     let fish = DATA.getMyPlayer().fishSum;
-    for (let fishAction in cost) {
-        if (fish < cost) {
-            // swalError2("Not enough fish !");
-            return false
-        }
+    if(cost > fish){
+      console.log( "cost" + cost + " >  fishsum " + fish);
+      swalError2("Not enough fish !");
+      return false
     }
+    console.log( "cost" + cost + " <  fishsum" + fish);
     return true;
 };
+
 
 let update = function (room) {
     if (room.match) {
@@ -1457,13 +1429,14 @@ _.each(CommandName, function (cmd) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
-
+**/
         //comment out this part if you want to disable checks
         //checks
+
         if (!CommandCheck[cmd].apply(this, arguments)) {
             return;
         }
-
+/**
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;

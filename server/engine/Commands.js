@@ -243,7 +243,14 @@ let CommandsCheck = {};
      let match = DATA.getMatch(roomID);
      Building.buildRoad(player, data, match, 'road');
 
-     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'buildRoad');
+     if (match.phase == Enum.MatchPhase.TurnPhase) {
+       if(match.fish == "BUILD_ROAD"){
+            match.bank.decreasePlayerFish(player,'buildUseFish');
+       }
+       else {
+         match.bank.decreasePlayerAsset(player,'buildRoad');
+       }
+     }
  };
 
  /**
@@ -258,7 +265,15 @@ let CommandsCheck = {};
      let match = DATA.getMatch(roomID);
      Building.buildRoad(player, data, match, 'ship');
 
-     if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'buildShip');
+     if (match.phase == Enum.MatchPhase.TurnPhase) {
+       if(match.fish == "BUILD_SHIP"){
+            match.bank.decreasePlayerFish(player,'buildUseFish');
+       }
+       else {
+         match.bank.decreasePlayerAsset(player,'buildShip');
+       }
+     }
+     //if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'buildShip');
  };
 
 
@@ -484,7 +499,6 @@ Commands.cancelTrade = function(roomID){
 
 //spend fish tokens  + add checkers
 Commands.moveRobber = function (userName, roomID, data) {
-
     // TODO: Yuan, remove all the checks to client side
     let match = DATA.getMatch(roomID);
     let robber = match.map.robber;
@@ -498,6 +512,9 @@ Commands.moveRobber = function (userName, roomID, data) {
       hextile2 = match.map.getHexTileById(data.newHexID);
       //robber.hasToDiscardCards(match.players);
     robber.moveTo(hextile1,hextile2,match);
+    if(match.fish = "MOVE_ROBBER" && match.phase == Enum.MatchPhase.TurnPhase){
+       match.bank.decreasePlayerFish(player,'moveUseFish');
+    }
 };
 
 Commands.movePirate = function (userName, roomID, data) {
@@ -511,6 +528,9 @@ Commands.movePirate = function (userName, roomID, data) {
     if(data.newHexID)
       hextile2 = match.map.getHexTileById(data.newHexID);
     pirate.moveTo(hextile1,hextile2,match);
+    if(match.fish = "MOVE_PIRATE" && match.phase == Enum.MatchPhase.TurnPhase){
+       match.bank.decreasePlayerFish(player,'moveUseFish');
+    }
 };
 
 /**
@@ -518,15 +538,21 @@ Commands.movePirate = function (userName, roomID, data) {
  * @param victim {Player}
  */
 Commands.stealCard = function (userName, roomID, data) {
+    let match = DATA.getMatch(roomID);
     let playerA = DATA.getPlayer(data.thief, roomID);
     let playerB = DATA.getPlayer(data.victim, roomID);
     playerB.stolenBy(playerA);
+    if(match.phase == Enum.MatchPhase.TurnPhase){
+      if(match.fish = "STEAL_CARD")
+         match.bank.decreasePlayerFish(player,'stealUseFish');
+    }
 };
 
 Commands.drawOneProgressCard = function(userName,roomID,data){
     var progCardList = [];
     var playersCards = [];
     var kind = data.kind;
+    let match = DATA.getMatch(roomID);
     for(var card in Enum.ProgressCardType[kind]){
       progCardList.push(Enum.ProgressCardType[kind][card]);
     }
@@ -541,6 +567,11 @@ Commands.drawOneProgressCard = function(userName,roomID,data){
     var duplicates = _.intersection(progCardList,playersCards);
     var progCard = _.difference(progCardList,duplicates);
     player.drawOneProgressCard(progCard[0]);
+
+    if (match.phase == Enum.MatchPhase.TurnPhase){
+      if(match.fish = "DRAW_PROG")
+         match.bank.decreasePlayerFish(player,'drawProgUseFish');
+    }
 }
 
 /*
@@ -551,8 +582,13 @@ Commands.drawOneProgressCard = function (userName, roomID, data){
 */
 
 Commands.drawOneResourceCard = function (userName, roomID, data){
+  let match = DATA.getMatch(roomID);
   let player = DATA.getPlayer(userName, roomID);
   player.drawOneResourceCard(data.resCard);
+  if (match.phase == Enum.MatchPhase.TurnPhase){
+    if(match.fish = "DRAW_RES_FROM_BANK")
+       match.bank.decreasePlayerFish(player,'drawResUseFish');
+  }
 };
 /**
  *
@@ -570,129 +606,11 @@ Commands.giveAwayBoot = function(userName, roomID, data){
   playerA.giveAwayBoat(playerB);
 };
 
-/**
-  * @param action Enum.fishEvent
-  * @param data whatever the data is
-      cases:
-      move robber & move pirate - doesn't matter.
-      steal card - data: {Player}
-      draw one resource card - data {Enum.ResourceCard}
-      build road/ ship - data {[int, [int]}
-      draw the selected progress card - data {String}
-  * @param match {Match}
-  * @return player's current fishSum
-  */
-  Commands.buildRoadUseFish = function (userName, roomID, data) {
-      let player = DATA.getPlayer(userName, roomID);
-      let match = DATA.getMatch(roomID);
-      Building.buildRoad(player, data, match, 'road');
-  };
-
-  /**
-   * build a ship
-   * @param userName {String}
-   * @param roomID {String}
-   * @param data {[int, int]} the edge where player wants to build the ship
-   */
-  Commands.buildShipUseFish = function (userName, roomID, data) {
-      //TODO: improvement, combine buildRoad and buildShip
-      let player = DATA.getPlayer(userName, roomID);
-      let match = DATA.getMatch(roomID);
-      Building.buildRoad(player, data, match, 'ship');
-  };
-
 Commands.spendFishToken = function(userName, roomID, data){
-    let player = DATA.getPlayer(userName,roomID);
-  //  let match = DATA.getMatch(roomID);
-  //  player.spendFishToken(userName, roomID, data);
-    let newSum = 0;
-    switch(data.action){
-      case "MOVE_ROBBER" :
-      //TODO check knight chase away thief.
-        if(player.getFishSum() >= 2){
-          //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-          Commands.moveRobber(userName, roomID, {'newHexID' : 0});
-          newSum = player.getFishSum() - 2;
-          player.setFishSum(newSum);
-        }
-        else{
-          return false;
-        }
-        break;
-
-      case "MOVE_PIRATE" :
-        if(player.getFishSum() >= 2){
-          //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-          Commands.movePirate(userName, roomID, {'newHexID' : 0});
-          newSum = player.getFishSum() - 2;
-          player.setFishSum(newSum);
-        }
-        else{
-          return false;
-        }
-        break;
-
-      case "STEAL_CARD" :
-        if(player.getFishSum() >= 3){
-          //Commands.stealCard(username, roomID, {'thief' = player.name, 'victim' = data.victim } ;
-          Commands.stealCard(userName, roomID, {'thief' : player.name, 'victim' : data.victim });
-          newSum = player.getFishSum() - 3;
-          player.setFishSum(newSum);
-        }
-        else{
-          return false;
-        }
-        break;
-
-      case "DRAW_RES_FROM_BANK" :
-        if(player.getFishSum() >= 4){
-          //TODO
-          //player.drawOneResourceCard(data);
-          //draw one resource card but not Commodity
-          Commands.drawOneResourceCard(userName, roomID, {'resCard' :data.resCard});
-          newSum = player.getFishSum() - 4;
-          player.setFishSum(newSum);
-        }
-        else{
-          return false;
-        }
-        break;
-
-      case "BUILD_ROAD" :
-        if(player.getFishSum() >= 5){
-          Commands.buildRoadUseFish(userName, roomID, data.data);
-          newSum = player.fish - 5;
-          player.setFishSum(newSum);
-        }
-        else{
-          return false;
-        }
-        break;
-
-      case "BUILD_SHIP" :
-        if(player.getFishSum() >= 5){
-          Commands.buildShipUseFish (userName, roomID, data.data);
-          newSum = player.fish - 5;
-          player.setFishSum(newSum);
-        }
-        else{
-          return false;
-        }
-        break;
-
-      case "DRAW_PROG" :
-        if(player.getFishSum() >= 7){
-          console.log(data);
-          Commands.drawOneProgressCard(userName, roomID, {'kind' : data.kind});
-          newSum = player.fish - 7;
-          player.setFishSum(newSum);
-        }
-        else{
-          return false;
-        }
-
-    }
-          return player.fishSum;
+  let player = DATA.getPlayer(userName, roomID);
+  let match = DATA.getMatch(roomID);
+  player.spendFishToken(data.action, match);
+  //if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerFish(player,'buildUseFish');
 
 };
 

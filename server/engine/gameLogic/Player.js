@@ -176,95 +176,36 @@ Player.createPlayer = function (name, user) {
       * @return player's current fishSum
       */
 
-    player.spendFishToken = function(userName, roomID, data){
+    player.spendFishToken = function(action, match){
       let newSum = 0;
-      switch(data.action){
+      switch(action){
         case "MOVE_ROBBER" :
-        //TODO check knight chase away thief.
-          if(player.getFishSum() >= 2){
-            //Commands.moveRobber(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.moveRobber(userName, roomID, {'newHexID' : 0});
-            newSum = player.getFishSum() - 2;
-            player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
+          match.fish = "MOVE_ROBBER";
           break;
 
         case "MOVE_PIRATE" :
-          if(player.getFishSum() >= 2){
-            //Commands.movePirate(username,roomID,{'oldHexID' = data.oldHexID, 'newHexID' = 0});
-            Commands.movePirate(userName, roomID, {'newHexID' : 0});
-            newSum = player.getFishSum() - 2;
-            player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
+          match.fish = "MOVE_PIRATE";
           break;
 
         case "STEAL_CARD" :
-          if(player.getFishSum() >= 3){
-            //Commands.stealCard(username, roomID, {'thief' = player.name, 'victim' = data.victim } ;
-            Commands.stealCard(userName, roomID, {'thief' : player.name, 'victim' : data.victim });
-            newSum = player.getFishSum() - 3;
-            player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
+          match.fish = "STEAL_CARD";
           break;
 
         case "DRAW_RES_FROM_BANK" :
-          if(player.getFishSum() >= 4){
-            //TODO
-            //player.drawOneResourceCard(data);
-            //draw one resource card but not Commodity
-            Commands.drawOneResourceCard(userName, roomID, {'resCard' :data.resCard});
-            newSum = player.getFishSum() - 4;
-            player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
+          match.fish = "DRAW_RES_FROM_BANK"
           break;
 
         case "BUILD_ROAD" :
-          if(player.getFishSum() >= 5){
-            Commands.buildRoadUseFish(userName, roomID, data.data);
-            newSum = player.fish - 5;
-            player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
+          match.fish = "BUILD_ROAD";
           break;
 
         case "BUILD_SHIP" :
-          if(player.getFishSum() >= 5){
-            Commands.buildShipUseFish (userName, roomID, data.data);
-            newSum = player.fish - 5;
-            player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
+          match.fish = "BUILD_SHIP";
           break;
 
         case "DRAW_PROG" :
-          if(player.getFishSum() >= 7){
-            console.log(data);
-            Commands.drawOneProgressCard(userName, roomID, {'progCard' : data.progCard});
-            newSum = player.fish - 7;
-            player.setFishSum(newSum);
-          }
-          else{
-            return false;
-          }
-
+          match.fish = "DRAW_PROG";
       }
-      return player.fishSum;
     }
 
     /**
@@ -447,14 +388,14 @@ Player.createPlayer = function (name, user) {
     player.calculateLongestRoad = function(map){
 
         /**
-         * TODO: 
+         * TODO:
          * 1. check vertices -- DONE
          * 2. check roads vs ships
-         *  
+         *
          */
         var mappedData = storeVerticesToMap(player.roads, {});
         var mappedData = storeVerticesToMap(player.ships, mappedData);
-          
+
         var strRoads = JSON.stringify(player.roads);
         var strShips = JSON.stringify(player.ships);
 
@@ -470,7 +411,7 @@ Player.createPlayer = function (name, user) {
         var endToEndPaths = [];
 
         // push root nodes (any node beginning at a vertex with only that edge that's owned by the player)
-        // each path would be a number of vertices and the end of the last edge: 
+        // each path would be a number of vertices and the end of the last edge:
         for (var key in mappedData){
           if (mappedData[key].length==1){
             var path = [];
@@ -479,7 +420,7 @@ Player.createPlayer = function (name, user) {
             path.push([mappedData[key][0]]);
             var edge = mappedData[key][0];
 
-            // second element in the path is the non-starting end  
+            // second element in the path is the non-starting end
             if (edge[0] == key){
               path.push(edge[1]);
             } else{
@@ -551,7 +492,7 @@ Player.createPlayer = function (name, user) {
 
               console.log('new current path and prevNode');
               console.log(newCurrentPath);
-              console.log(prevNode);              
+              console.log(prevNode);
 
 
               newCurrentPath.push(p);
@@ -568,7 +509,7 @@ Player.createPlayer = function (name, user) {
               if (newRoadType != roadType){
                 if (vertexData && vertexData[prevNode] && (vertexData[prevNode].type == 'City' || vertexData[prevNode].type == 'Settlement' || vertexData[prevNode].type =='Metropolis') && vertexData[prevNode].name == player.name){
                   //continue
-                  
+
 
                 }
                 else {
@@ -587,25 +528,25 @@ Player.createPlayer = function (name, user) {
                 newPath.push(lastNode);
                 newCurrPath = newPath.slice();
               }
-              
+
 
               if (hasNewPath){
                 newlastNode = p[1-p.indexOf(prevNode)];
                 newPath.push(newlastNode);
                 paths.push(newPath);
               }
-              
-            
+
+
 
               hasNewPath = true;
               console.log("new path");
               console.log(newPath);
-            
-              
+
+
             }
           }
 
-          // for each possible path in possiblePaths that remain, add to currPath, append last node, and append to 
+          // for each possible path in possiblePaths that remain, add to currPath, append last node, and append to
           if (!hasNewPath){
             endToEndPaths.push(currPath);
           }
@@ -632,7 +573,7 @@ Player.createPlayer = function (name, user) {
           for (var i = 0; i<vertexInfo.length; i++){
             if (vertexInfo[i] && vertexInfo[i]['owner']){
               vertexData[vertexInfo[i].position] = {name: vertexInfo[i].owner.name, type: vertexInfo[i].level};
-            } 
+            }
           }
           return vertexData;
         }
@@ -650,16 +591,16 @@ Player.createPlayer = function (name, user) {
             v2 = items[key][1];
             if (mappedData[v1]){
               newVertexStuffV1 = mappedData[v1];
-            } 
+            }
             newVertexStuffV1.push(items[key]);
             mappedData[v1] = newVertexStuffV1;
 
             if (mappedData[v2]){
               newVertexStuffV2 = mappedData[v2];
-            } 
+            }
             newVertexStuffV2.push(items[key]);
             mappedData[v2] = newVertexStuffV2;
-            
+
           }
           return mappedData;
         }
