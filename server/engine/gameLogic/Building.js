@@ -113,6 +113,8 @@ Building.buildRoad = function (player, edge, match, type) {
           //update player info
           player[type + 's'][Map.edgeKey(edge)] = edge;
           player['longestRoad'] = player.calculateLongestRoad(match.map);
+          
+          console.log(player.getEmptyAdjacentVertices(26, match));
         }
       }
 
