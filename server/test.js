@@ -32,6 +32,16 @@ Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
 
+console.log("spend fish");
+data.getMatch("123").getPlayer("Emol").setFishSum(20);
+console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+console.log(data.getMatch("123").getPlayer("Emol").progressCards);
+Commands.drawOneProgressCard("Emol","123",{'kind':"Trade"});
+Commands.spendFishToken("Emol","123",{'action' : "MOVE_ROBBER"});
+console.log(data.getMatch("123").fish);
+console.log(data.getMatch("123").getPlayer("Emol").progressCards);
+console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});

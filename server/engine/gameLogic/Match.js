@@ -52,6 +52,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.Metropolis = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: player name  {String}
     match.currentTrade = null;
     match.discardList = {};
+    match.fish = null;
     assignColors(match);
 
 

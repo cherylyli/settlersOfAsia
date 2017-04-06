@@ -48,7 +48,8 @@ Enum.fishEvent = {
   "STEAL_CARD" : "STEAL_CARD",
   "BUILD_ROAD" : "BUILD_ROAD",
   "BUILD_SHIP" : "BUILD_SHIP",
-  "DRAW_PROG" : "DRAW_PROG"
+  "DRAW_PROG" : "DRAW_PROG",
+  "DRAW_RES_FROM_BANK" : "DRAW_RES_FROM_BANK"
 }
 /**
  * "Waiting" : Player number in the room is under the minimum required player number to start a game
