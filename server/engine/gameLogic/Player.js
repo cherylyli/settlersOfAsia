@@ -460,9 +460,9 @@ Player.createPlayer = function (name, user) {
 
         var vertexData = storeVertexElements(map['vertexInfo'], {});
 
-        for (var key in vertexData){
-          console.log(key + " " + vertexData.name + " " + vertexData.level);
-        }
+        // for (var key in vertexData){
+        //   console.log(key + " " + vertexData.name + " " + vertexData.level);
+        // }
 
 
         // find root node(s), form initial paths
@@ -490,8 +490,8 @@ Player.createPlayer = function (name, user) {
           }
         }
 
-        console.log("paths");
-        console.log(paths);
+        // console.log("paths");
+        // console.log(paths);
 
         var hasNewPath = false;
         var currPath;
@@ -549,9 +549,9 @@ Player.createPlayer = function (name, user) {
               var newPath = [];
               var newCurrentPath = currPath.slice();
 
-              console.log('new current path and prevNode');
-              console.log(newCurrentPath);
-              console.log(prevNode);              
+              // console.log('new current path and prevNode');
+              // console.log(newCurrentPath);
+              // console.log(prevNode);              
 
 
               newCurrentPath.push(p);
@@ -598,8 +598,8 @@ Player.createPlayer = function (name, user) {
             
 
               hasNewPath = true;
-              console.log("new path");
-              console.log(newPath);
+              // console.log("new path");
+              // console.log(newPath);
             
               
             }
@@ -623,50 +623,47 @@ Player.createPlayer = function (name, user) {
           return 0;
         }
         return longestRoad.length;
-
-        // vertexInfo is an array
-        // for each vertex, store buildings/knights of all players
-        function storeVertexElements(vertexInfo, vertexData){
-          if (!vertexInfo) return;
-          var vertexData = vertexData || {};
-          for (var i = 0; i<vertexInfo.length; i++){
-            if (vertexInfo[i] && vertexInfo[i]['owner']){
-              vertexData[vertexInfo[i].position] = {name: vertexInfo[i].owner.name, type: vertexInfo[i].level};
-            } 
-          }
-          return vertexData;
-        }
-
-        // from list, break down each element and store according to what vertices they touch
-        function storeVerticesToMap(items, mappedData){
-          mappedData = mappedData || {};
-          var newVertexStuffV1;
-          var newVertexStuffV2;
-          for (var key in items){
-            newVertexStuffV1 = [];
-            newVertexStuffV2 = [];
-
-            v1 = items[key][0];
-            v2 = items[key][1];
-            if (mappedData[v1]){
-              newVertexStuffV1 = mappedData[v1];
-            } 
-            newVertexStuffV1.push(items[key]);
-            mappedData[v1] = newVertexStuffV1;
-
-            if (mappedData[v2]){
-              newVertexStuffV2 = mappedData[v2];
-            } 
-            newVertexStuffV2.push(items[key]);
-            mappedData[v2] = newVertexStuffV2;
-            
-          }
-          return mappedData;
-        }
-
-
-
     };
+
+    // vertexInfo is an array
+    // for each vertex, store buildings/knights of all players
+    function storeVertexElements(vertexInfo, vertexData){
+      if (!vertexInfo) return;
+      var vertexData = vertexData || {};
+      for (var i = 0; i<vertexInfo.length; i++){
+        if (vertexInfo[i] && vertexInfo[i]['owner']){
+          vertexData[vertexInfo[i].position] = {name: vertexInfo[i].owner.name, type: vertexInfo[i].level};
+        } 
+      }
+      return vertexData;
+    }
+
+    // from list, break down each element and store according to what vertices they touch
+    function storeVerticesToMap(items, mappedData){
+      mappedData = mappedData || {};
+      var newVertexStuffV1;
+      var newVertexStuffV2;
+      for (var key in items){
+        newVertexStuffV1 = [];
+        newVertexStuffV2 = [];
+
+        v1 = items[key][0];
+        v2 = items[key][1];
+        if (mappedData[v1]){
+          newVertexStuffV1 = mappedData[v1];
+        } 
+        newVertexStuffV1.push(items[key]);
+        mappedData[v1] = newVertexStuffV1;
+
+        if (mappedData[v2]){
+          newVertexStuffV2 = mappedData[v2];
+        } 
+        newVertexStuffV2.push(items[key]);
+        mappedData[v2] = newVertexStuffV2;
+        
+      }
+      return mappedData;
+    }
 
 
     /**
@@ -676,7 +673,7 @@ Player.createPlayer = function (name, user) {
      * @param vertex {Int}
      * @return Int list - all vertices on that road.
      */
-    player.getContinuousRoadByVertex = function(vertex){
+    player.getContinuousRoadByVertex = function(vertex, match){
       /**
        * TODO: Cheryl
        */
