@@ -1124,7 +1124,7 @@ $(window).on('imready', function(im){
     };
 
 
-    
+
 
     function showProgressCardCmd(card){
         hideCmdPrompt();
@@ -1150,7 +1150,7 @@ $(window).on('imready', function(im){
 
     function showFishTokenInfo(tokenType) {
         //hideCmdPrompt();
-
+        console.log(tokenType);
         if (tokenType == Enum.fishToken.BOOT){
              swal({
                     title: "Boot Token",

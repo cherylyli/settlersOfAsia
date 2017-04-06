@@ -143,8 +143,6 @@ let CommandReceived = {};
 let CommandCheck = {};
 
 let room = {users: {}};
-
-
 /**
  *
  * @param cmds
@@ -178,16 +176,18 @@ CommandCheck.upgradeToMetropolis = function (vertex, metropolisType) {
     if (DATA.getMatch().Metropolis[metropolisType] == DATA.getMyPlayer().name) {
       let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
       if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-          // swalError2("There is no city at this position!");
+          swalError2("There is no city at this position!");
           return false;
       }
       if (vertexUnit.level == metropolisType) {
-          // swalError2("This city already has metropolis!");
+          swalError2("This city already has metropolis!");
           return false;
       }
       return true;
     }
     //player doesn't have a metropolis at all.
+    swalError2("You don't have " + metropolisType + "!");
+    return false;
 };
 
 CommandsData.chooseCityToBePillaged = function (vertex) {
@@ -199,7 +199,7 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
     let player = DATA.getMyPlayer();
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
     if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-        // swalError2("There is no city at this position!");
+        swalError2("There is no city at this position!");
         return false;
     }
     if (vertexUnit.hasMetropolis) {
@@ -260,7 +260,7 @@ CommandReceived.requestTrade = function (selling, buying) {
         });
 
     // TODO: max
-    // check if we are the one that initialize this trade, if yes, alert with // swal ("trade sent")
+    // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
 
     // else
     // alert them that there is a trade offer.
@@ -289,7 +289,7 @@ CommandCheck.moveRobber = function (newHexID) {
               return true;
           }
           else {
-              // swalError2("Invalid Position. Please select a landTile to perform such action.");
+              swalError2("Invalid Position. Please select a landTile to perform such action.");
               return false;
           }
     }
@@ -312,31 +312,30 @@ CommandsData.movePirate = function (newHexID) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.movePirate = function (newHexID) {
-    if(newHexID == 0){
-      return true;
-    }
-
-    var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-    if(nexHex){
-      if (newHex.blockedByPirate == false && newHex.type == Enum.HexType.Sea) {
+  if(newHexID == 0){
+    return true;
+  }
+  var newHex = DATA.getMatch().map.getHexTileById(newHexID);
+  if (newHex) { 
+      if (newHex.blockedByPirate == false && newHex.type === Enum.HexType.Sea) {
           return true;
       }
       else {
-          // swalError2("Invalid Position. Please select a seaTile.");
+          swalError2("Invalid Position. Please select a seaTile.");
           return false;
       }
     }
 };
 
-CommandsData.stealCard = function (thiefUserName, victimUserName) {
+CommandsData.stealCard = function (victimUserName) {
     //var victim = DATA.getPlayer(victimUserName);
-    return {'thief': thiefUserName, 'victim': victimUserName};
+    return {'thief': DATA.getMyPlayer().name, 'victim': victimUserName};
 };
 
-CommandCheck.stealCard = function (thiefUserName, victimUserName) {
+CommandCheck.stealCard = function (victimUserName) {
     let victim = DATA.getPlayer(victimUserName);
-    if (victim.resourceCardTotalNum() < 1) {
-        // swalError2("The victim player doesn't have enough resources to be stoled");
+    if (victim.resourceCardTotalNum(victim) < 1) {
+        swalError2("The victim player doesn't have enough resources to be stoled");
         return false;
     }
     else {
@@ -369,7 +368,7 @@ CommandCheck.drawOneResourceCard = function (resCard) {
         return true;
     }
     else {
-        // swalError2("Player can only use the fish token to draw one resource card");
+        swalError2("Player can only use the fish token to draw one resource card");
         return false;
     }
 }
@@ -389,7 +388,7 @@ CommandCheck.discardOneProgressCard = function (progCard) {
         if (progCard == player.progressCards[i])
             return true;
     }
-    // swalError2("Card not found!");
+    swalError2("Card not found!");
     return false;
 }
 
@@ -406,11 +405,11 @@ CommandCheck.giveAwayBoot = function (bootHolder, transferTo) {
             return true;
         }
         else {
-            // swalError2("Transfer boot failed because selected player doesn't have enough vp.");
+            swalError2("Transfer boot failed because selected player doesn't have enough vp.");
         }
     }
     else {
-        // swalError2("Transfer boot failed.");
+        swalError2("Transfer boot failed.");
     }
 }
 
@@ -452,7 +451,7 @@ CommandCheck.hireKnight = function (position) {
     //QUESTION: immediately place knight after hired it???
     //if so: check if position is availble.
     if (!checkEnoughResource(Cost.basicKnights)) {
-        // swalError2("Not enough resource to purchase a knight");
+        swalError2("Not enough resource to purchase a knight");
         return false;
     }
     else {
@@ -467,11 +466,11 @@ CommandsData.activateKnight = function (position) {
 CommandCheck.activateKnight = function (position) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
     if (knight.active) {
-        // swalError2("Knight has already been activated");
+        swalError2("Knight has already been activated");
         return false;
     }
     if (!checkEnoughResource(Cost.activateKnight)) {
-        // swalError2("Not enough resource to activate a knight");
+        swalError2("Not enough resource to activate a knight");
         return false;
     }
     else {
@@ -486,15 +485,15 @@ CommandsData.promoteKnight = function (position) {
 CommandCheck.promoteKnight = function (position) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
     if (knight.hasBeenPromotedThisTurn) {
-        // swalError2("Knight has already been promoted");
+        swalError2("Knight has already been promoted");
         return false;
     }
     if (knight.level == 3) {
-        // swalError2("You've got the strongest knight already.");
+        swalError2("You've got the strongest knight already.");
         return false;
     }
     if (!checkEnoughResource(Cost.promoteKnight)) {
-        // swalError2("Not enough resource to promote a knight");
+        swalError2("Not enough resource to promote a knight");
         return false;
     }
     else {
@@ -514,7 +513,7 @@ CommandCheck.moveKnight = function (position, newPosition) {
     2.check whether the newPosition lies on the same continuous road as position.
     */
     if (knight.hasMovedThisTurn || !knight.active) {
-        // swalError2("Error, knight has been moved this turn or selected knight is not active");
+        swalError2("Error, knight has been moved this turn or selected knight is not active");
         return false;
     }
     else {
@@ -553,11 +552,11 @@ CommandCheck.chaseAwayThief = function (knightPosition, thiefPosition, newPositi
     var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
     var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
     if (!thiefHex.blockedByRobber) {
-        // swalError2("No robber on the hextile");
+        swalError2("No robber on the hextile");
         return false;
     }
     if (!knight.active) {
-        // swalError2("This knight is not active!");
+        swalError2("This knight is not active!");
         return false;
     }
     return true;
@@ -575,7 +574,7 @@ CommandCheck.discardResourceCards = function (cards, num) {
         size += cards[i];
     }
     if (size != num) {
-        // swalError2("You need to discard " + num + " card(s)!");
+        swalError2("You need to discard " + num + " card(s)!");
         return false;
     }
     var counter = 0;
@@ -590,7 +589,7 @@ CommandCheck.discardResourceCards = function (cards, num) {
     if (counter) {
         return true;
     }
-    // swalError2("Not enough resource!");
+    swalError2("Not enough resource!");
     return false;
 };
 
@@ -650,7 +649,7 @@ CommandsData.rollDice = function () {
 //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
 CommandCheck.rollDice = function () {
     if (DATA.getMatch().diceRolled) {
-        // swalError2("Dice already rolled!");
+        swalError2("Dice already rolled!");
         return false;
     }
     return true;
@@ -677,12 +676,18 @@ CommandCheck.buildEstablishment = function (vertex, establishmentLV) {
     if (establishmentLV == 1) {
         if (player.getSettlements().length <= 5)
             return CommandCheck.buildSettlement(vertex);
+        else{
+          swalError2("You can only build 5 settlements");
+          return false;
+        }
     }
-    else if (player.getCityCnt() <= 4) {
+    else{
+      if(player.getCityCnt() <= 4)
         return CommandCheck.upgradeToCity(vertex);
-    }
-    else {
-        // swalError2("You can only place 5 settlements and 4 cities");
+      else{
+        swalError2("You can only place 5 settlements and 4 cities");
+        return false;
+      }
     }
 };
 
@@ -694,12 +699,12 @@ CommandCheck.buildEstablishment = function (vertex, establishmentLV) {
 CommandCheck.buildSettlement = function (vertex) {
     //set up phrase you can build one settlement for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().settlementCnt >= 1) {
-        // swalError2("You can only build one settlement in set up round one!");
+        swalError2("You can only build one settlement in set up round one!");
         return false;
     }
 
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getBuildingCnt() >= 2) {
-        // swalError2("You can only build one settlement in set up round two!");
+        swalError2("You can only build one settlement in set up round two!");
         return false;
     }
 
@@ -710,7 +715,7 @@ CommandCheck.buildSettlement = function (vertex) {
 
     //check if the vertex is not empty
     if (DATA.getMatch().map.getVertexInfo(vertex)) {
-        // swalError2("Invalid position!");
+        swalError2("Invalid position!");
         return false;
     }
 
@@ -743,12 +748,12 @@ CommandCheck.buildSettlement = function (vertex) {
 
 
     if (!connectedToOneRoad && (!DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne)) {
-        // swalError2("Settlement should be connected with at least one road.");
+        swalError2("Settlement should be connected with at least one road.");
         return false;
     }
 
     if (!distanceRuleSatisfied) {
-        // swalError2("Distance rule violated! All 3 of the adjacent intersections must be vacant to build a settlement!");
+        swalError2("Distance rule violated! All 3 of the adjacent intersections must be vacant to build a settlement!");
         return false;
     }
 
@@ -762,16 +767,9 @@ CommandCheck.buildSettlement = function (vertex) {
     }
 
     if (inSea) {
-        // swalError2("Cannot build settlement in sea!");
+        swalError2("Cannot build settlement in sea!");
         return false;
     }
-
-    //if you have more than 5 settlements, you have to upgrade one to a city before you build another one
-    if (DATA.getMyPlayer().settlementCnt == 5) {
-        // swalError2("You already have 5 settlements! Upgrade one to city before you build another one!");
-        return false;
-    }
-
 
     return true;
 };
@@ -795,13 +793,13 @@ CommandCheck.upgradeToCity = function (vertex) {
 
     //check if there is a settlement in the vertex
     if (!isSettlement(vertex)) {
-        // swalError2("You can only update a settlement!");
+        swalError2("You can only update a settlement!");
         return false;
     }
 
     //you can only update one city
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (DATA.getMyPlayer().getCities().length >= 1)) {
-        // swalError2("You can only update one settlement during set up round two!");
+        swalError2("You can only update one settlement during set up round two!");
         return false;
     }
 
@@ -830,13 +828,13 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().getRoadAndShipCnt() >= 1) {
-        // swalError2("You can only build one road or ship in set up round one!");
+        swalError2("You can only build one road or ship in set up round one!");
         return false;
     }
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getRoadAndShipCnt() >= 2) {
-        // swalError2("You can only build one road or ship in set up round two!");
+        swalError2("You can only build one road or ship in set up round two!");
         return false;
     }
 
@@ -850,7 +848,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
 
     //Only 1 road can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
-        // swalError2("Only 1 road can be built on any given path!");
+        swalError2("Only 1 road can be built on any given path!");
         return false;
     }
 
@@ -861,7 +859,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         if (DATA.getMatch().map.getHexTileById(hexID).type != Enum.HexType.Sea) adjacentToLandHex = true;
     }
     if (!adjacentToLandHex) {
-        // swalError2("You cannot build road in sea!");
+        swalError2("You cannot build road in sea!");
         return false;
     }
 
@@ -889,7 +887,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
     }
 
     if (!connected) {
-        // swalError2("A new road must always connect to 1 of your existing roads, settlements, or cities.");
+        swalError2("A new road must always connect to 1 of your existing roads, settlements, or cities.");
         return false;
     }
 
@@ -917,13 +915,13 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().getRoadAndShipCnt() >= 1) {
-        // swalError2("You can only build one road or ship in set up round one!");
+        swalError2("You can only build one road or ship in set up round one!");
         return false;
     }
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getRoadAndShipCnt() >= 2) {
-        // swalError2("You can only build one road or ship in set up round two!");
+        swalError2("You can only build one road or ship in set up round two!");
         return false;
     }
 
@@ -942,7 +940,7 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
 function shipPostionTest(edge) {
     //Only 1 ship can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
-        // swalError2("Only 1 ship can be built on any given path!");
+        swalError2("Only 1 ship can be built on any given path!");
         return false;
     }
 
@@ -952,7 +950,7 @@ function shipPostionTest(edge) {
         if (DATA.getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea) adjacentToSeaHex = true;
     }
     if (!adjacentToSeaHex) {
-        // swalError2("You cannot build road in inland area!");
+        swalError2("You cannot build road in inland area!");
         return false;
     }
 
@@ -980,7 +978,7 @@ function shipPostionTest(edge) {
     }
 
     if (!connected) {
-        // swalError2("A new ship must always connect to 1 of your existing ships, settlements, or cities.");
+        swalError2("A new ship must always connect to 1 of your existing ships, settlements, or cities.");
         return false;
     }
 
@@ -1008,12 +1006,12 @@ CommandCheck.buildCityWall = function (vertex) {
 
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
     if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-        // swalError2("There is no city at this position!");
+        swalError2("There is no city at this position!");
         return false;
     }
 
     if (vertexUnit.cityWall) {
-        // swalError2("This city already has city wall!");
+        swalError2("This city already has city wall!");
         return false
     }
 
@@ -1035,7 +1033,7 @@ CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
 
     // 6 = 5 + 1
     if (level >= 6) {
-        // swalError2("Maximum level of city improvement in this category is already achieved!");
+        swalError2("Maximum level of city improvement in this category is already achieved!");
         return false;
     }
     return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]));
@@ -1069,22 +1067,22 @@ CommandCheck.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2
 
     //You may only move 1 ship per turn, and only during your building phase -> dice rolled
     if (!DATA.getMatch().diceRolled) {
-        // swalError2("You can only move ship during building phase!");
+        swalError2("You can only move ship during building phase!");
     }
 
     if (DATA.getMatch().shipMoved) {
-        // swalError2("You can only move 1 ship per turn!");
+        swalError2("You can only move 1 ship per turn!");
         return false;
     }
 
     let ship = DATA.getMatch().map.getEdgeInfo(oldPosition);
 
     if (!ship || ship.type == 'ship') {
-        // swalError2("No ship found!");
+        swalError2("No ship found!");
     }
     //You may not move a ship on the same turn you originally built it
     if (ship.builtTurnNum == DATA.getMatch().turnNum) {
-        // swalError2("You cannot move a ship on the same turn you originally built it!");
+        swalError2("You cannot move a ship on the same turn you originally built it!");
         return false;
     }
 
@@ -1094,7 +1092,7 @@ CommandCheck.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2
 
     ship.remove(DATA.getMatch().map, oldPosition);
     if (!shipPostionTest(newPosition)) {
-        // swalError2("You cannot move ship here!");
+        swalError2("You cannot move ship here!");
         return false;
     }
 
@@ -1158,7 +1156,7 @@ let checkEnoughResource = function (cost) {
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
-            // swalError2("Not enough " + cardName + "!");
+            swalError2("Not enough " + cardName + "!");
             return false
         }
     }
@@ -1168,7 +1166,7 @@ let checkEnoughResource = function (cost) {
 let checkInput = function (data) {
     for (let key in data) {
         if (typeof data[key] == 'undefined') {
-            // swalError2("Input not complete!");
+            swalError2("Input not complete!");
             return false;
         }
     }
@@ -1177,11 +1175,11 @@ let checkInput = function (data) {
 let checkEnoughFish = function (cost) {
     let fish = DATA.getMyPlayer().fishSum;
     if(cost > fish){
-      console.log( "cost" + cost + " >  fishsum " + fish);
+    //  console.log( "cost" + cost + " >  fishsum " + fish);
       swalError2("Not enough fish !");
       return false
     }
-    console.log( "cost" + cost + " <  fishsum" + fish);
+    //console.log( "cost" + cost + " <  fishsum" + fish);
     return true;
 };
 
@@ -1365,6 +1363,7 @@ CommandReceived.rollDice = function () {
   "BUILD_SHIP" : "BUILD_SHIP",    [vertex, vertex]
   "DRAW_PROG" : "DRAW_PROG"       String, case sensitive "Trade" / "Politics" / "Science"
 */
+
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
@@ -1432,7 +1431,7 @@ _.each(CommandName, function (cmd) {
 **/
         //comment out this part if you want to disable checks
         //checks
-
+        DATA.getMatch().phase = Enum.MatchPhase.TurnPhase; //for testing
         if (!CommandCheck[cmd].apply(this, arguments)) {
             return;
         }
