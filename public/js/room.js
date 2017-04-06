@@ -893,11 +893,8 @@ $(window).on('imready', function(im){
             }
 
             else {
-                // trade with player
-                // TODO: max
-                // here trade with player starts (request trade)
-                // you have the selling and buying object
-
+                console.log("Trade is working!");
+                Commands.requestTrade(selling, buying);
             }
 
             hideCmdPrompt();

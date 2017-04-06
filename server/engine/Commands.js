@@ -445,6 +445,9 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * @param buying   {'resName':2, 'resname': 3}
   */
  Commands.requestTrade = function (data) {
+     console.log("TRADE was requested: ");
+     console.log("Selling: "+data.selling);
+     console.log("Buying: "+data.buying);
      let trade = Trade.createTrade(data.selling, data.buying);
  };
 
