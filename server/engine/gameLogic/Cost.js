@@ -39,7 +39,7 @@ Cost.defaultTradeRatio = 4;
 Cost.goldTradeRatio = 2;
 Cost.generalHarborTradeRatio = 3;
 Cost.specialHarborTradeRatio = 2;
-Cost.merchantTradeRatio = -1;
+Cost.merchantTradeRatio = 2;
 
 
 //================fish token====

@@ -5,6 +5,8 @@
 let Player = (function () {
 
     function addHelperFunctions(player) {
+
+
         /**
          *
          * @return {Number}

@@ -34,6 +34,12 @@ Building.buildSettlement = function (player, vertex, map) {
     updateInfo(map, building);
     player['longestRoad'] = player.calculateLongestRoad(map);
 
+
+    building.getVertexUnitType = function(){
+        return "building";
+    };
+
+
     building.upgradeToCity = function () {
         building.level = Enum.Building.City;
         building.cityWall = false;
@@ -64,10 +70,12 @@ Building.buildSettlement = function (player, vertex, map) {
      */
     building.upgradeToMetropolis = function(metropolisType){
         building.level = metropolisType;
+        building.owner.updateVP(VP.metropolis);
     };
 
     building.removeMetropolis = function(){
       building.level = Enum.Building.City;
+      building.owner.updateVP(-VP.metropolis);
     };
     //pillage a city, pre: building is a city
     building.pillage = function () {
@@ -75,7 +83,7 @@ Building.buildSettlement = function (player, vertex, map) {
         else {
             //city becomes a settlement
             building.level = Enum.Building.Settlement;
-            building.owner.updateVP(-VP.upgradeTocity)
+            building.owner.updateVP(-VP.upgradeTocity);
             //TODO: if it is the last city, what will happen to city improvement??
         }
     };

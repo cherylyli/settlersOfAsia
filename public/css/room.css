@@ -38,8 +38,7 @@ body{
     /*background-color: #3A79B8;*/
     overflow: hidden;
     /*transition: 2.5s ease;*/
-    z-index: 11;
-
+    z-index: 12;
 }
 
 #waiting-page img{

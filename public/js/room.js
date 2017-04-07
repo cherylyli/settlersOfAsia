@@ -102,6 +102,11 @@ $(window).on('imready', function(im){
          app.log(null, 'The game starts.', true);**/
     });
 
+    sock.on('GAME_ENDS', function (msg) {
+         swal("BYE! Game ended!");
+    });
+
+
     sock.on('TAKE_TURN', function (msg) {
         app.isMyTurn = true;
         setTimeout(function () {

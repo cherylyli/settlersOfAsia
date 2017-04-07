@@ -183,16 +183,13 @@ let CommandsCheck = {};
  };
 
  Commands.upgradeToMetropolis = function (userName, roomID, data) {
-     let position = data.position;
      let type = data.type;
 
      let player = DATA.getPlayer(userName, roomID);
      let match = DATA.getMatch(roomID);
-     let map = match.map;
+     let building = player.getBuilding(data.position);
 
-     let building = player.getBuilding(position);
-     building.upgradeToMetropolis(type);
-     // no cost for upgrade to metropolis
+     match.distributeMetropolis(type, player, building);
  };
 
  /**
