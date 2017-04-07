@@ -120,6 +120,8 @@ let CommandName = {
     'performTradeTransaction':'performTradeTransaction',// TODO: Max
       //INPROGRESS:
     'executeProgressCard': 'executeProgressCard'// TODO: Max
+
+
 };
 
 let CommandReceived = {};
@@ -158,10 +160,19 @@ let generateCommandPomptObject = function (cmds) {
   })
 };**/
 
+/**
+ *
+ * @param gameID {int} 1-3
+ */
+function testGame(gameID) {
+    sock.emit('TEST_GAME', gameID);
+    sock.on('TEST_GAME_ACK', function (msg) {
+        console.log(msg, "TESTING");
+    });
+}
+
 
 //============================REQUIRE TEST ==============================
-
-
 
 /**
  *

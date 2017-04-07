@@ -206,7 +206,7 @@ Player.createPlayer = function (name, user) {
         case "DRAW_PROG" :
           match.fish = "DRAW_PROG";
       }
-    }
+    };
 
     /**
       * count the total number of cards (Resource+Commodity) current player owns

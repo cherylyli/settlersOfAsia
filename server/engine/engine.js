@@ -12,6 +12,7 @@ var User    = require('../../models/user.js');
 var notify  = require('../api/notify.js');
 var fs = require("fs"); // Has to be installed first with “npm install fs”
 let CircularJSON = require('circular-json');
+let testGame = require('../testGames.js');
 // let fakeRoom = require('../test.js');
 
 
@@ -170,6 +171,10 @@ module.exports = function(socket, user, roomId) {
     });
 
 
+    got('TEST_GAME', function (gameID) {
+        let gameRoom = testGame.startTestGame(gameID);
+           send('TEST_GAME_ACK', gameRoom);
+    });
 
 
 
