@@ -396,6 +396,7 @@ Player.createPlayer = function (name, user) {
          * 2. check roads vs ships
          *
          */
+        if (!map) return 0;
         var mappedData = storeVerticesToMap(player.roads, {});
         var mappedData = storeVerticesToMap(player.ships, mappedData);
 
@@ -642,6 +643,8 @@ Player.createPlayer = function (name, user) {
        * 1. Separate road / ships unless connected with player's city/settlement
        * 2. Knight or building at a vertex removes it from empty vertex list -- checked
        */
+
+      if (!vertex || !match) return [];
       var mappedData = storeVerticesToMap(player.roads, {});
       var mappedData = storeVerticesToMap(player.ships, mappedData);
 

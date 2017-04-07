@@ -56,7 +56,8 @@ Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityI
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
 Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-console.log(data.getMatch("123").distributeMetropolis(Enum.cityImprovementCategory.Science));
+console.log(data.getMatch("123").getMetropolisOwner(Enum.cityImprovementCategory.Science));
+console.log(data.getMatch("123").Metropolis);
 
 // Commands.hireKnight("Emol","123",7);
 // Commands.activateKnight("Emol","123",7);
