@@ -438,17 +438,15 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      player.discardResourceCards(data.cards, data.num);
  };
 
+
  /**
   * create trade object, notifies all the other players about the trade offer.
-  * @new {Trade}
-  * @param selling {'resName': 1, 'resName': 2} cost object
-  * @param buying   {'resName':2, 'resname': 3}
   */
- Commands.requestTrade = function (data) {
+ Commands.requestTrade = function (userName, roomID, data) {
      console.log("TRADE was requested: ");
-     console.log("Selling: "+data.selling);
-     console.log("Buying: "+data.buying);
+     console.log(data);
      let trade = Trade.createTrade(data.selling, data.buying);
+     DATA.getMatch(roomID).currentTrade = trade;
  };
 
 
