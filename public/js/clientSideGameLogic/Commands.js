@@ -5,7 +5,8 @@ let CommandsData = {};
 // commands require more than 1 steps
 let SpecialsCommands = {
     'moveKnight': 'moveKnight',
-    'upgradeToMetropolis': 'upgradeToMetropolis'
+    'upgradeToMetropolis': 'upgradeToMetropolis',
+    'moveShip': 'moveShip'
 };
 
 // this map to functions

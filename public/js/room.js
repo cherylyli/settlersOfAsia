@@ -687,7 +687,8 @@ $(window).on('imready', function(im){
         if (isCtrlPressed(e)) highlightVertex($(this));
         // if ctrl-clicked vertices accumulate to 2 -> edge operation
         if (highlightedVertices() == 2) {
-            showEdgeOperations();
+            if (!app.ongoingCmd) showEdgeOperations();
+            else SpecialsCommandsFinalStep[app.ongoingCmd]();
         }
         // if click on single vertex -> vertex operation
         else if (!isCtrlPressed(e)) {
@@ -708,7 +709,8 @@ $(window).on('imready', function(im){
 
         highlightHexes($(this));
         console.log($(this).attr('data-id'));
-        showHexOperations($(this));
+        if (!app.ongoingCmd) showHexOperations($(this));
+
     });
 
     // click on 1 vertex
@@ -1157,6 +1159,60 @@ $(window).on('imready', function(im){
 
 
 
+    SpecialsCommandsNextStep.moveShip = function (oldV1, oldV2) {
+        swal({
+                title: "Move Ship",
+                text: "Where do you want to move the ship to? (Click two points with CTRL pressed)",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK!",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    app.ongoingCmd = "moveShip";
+                    app.ongoingCmdData = [oldV1, oldV2];
+                }
+            });
+    };
+
+
+    SpecialsCommandsFinalStep.moveShip = function () {
+        var $map = $('#board .map');
+        var $cmd = $('#cmd-table');
+        var $v1 = $map.find('.ctrl-clicked').eq(0);
+        var $v2 = $map.find('.ctrl-clicked').eq(1);
+        let newPosition = Map.edge($v1.attr('data-id'), $v2.attr('data-id'));
+
+        swal({
+                title: "Move Ship here?",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes!",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    let oldVertex1 = app.ongoingCmdData[0];
+                    let oldVertex2 = app.ongoingCmdData[1];
+                    Commands.moveShip(oldVertex1, oldVertex2, newPosition[0], newPosition[1]);
+                }
+
+                app.ongoingCmd = null;
+                app.ongoingCmdData = null;
+                clearHighlightedVertices();
+            });
+    };
+
+
+
+
+    // -----------------------right side command buttons ------------------------
 
     function showProgressCardCmd(card){
         hideCmdPrompt();

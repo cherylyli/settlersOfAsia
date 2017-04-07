@@ -2,7 +2,7 @@
  * Created by emol on 2/17/17.
  */
 "use strict"
-let fakeRoom = module.exports = {};
+// let fakeRoom = module.exports = {};
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
@@ -28,6 +28,10 @@ Commands.joinRoom(userB, "123");
 Commands.joinRoom(userC, "123");
 
 Commands.startGame("123");
+
+
+Commands.buildShip("Emol", "123", [53, 54]);
+Commands.moveShip("Emol", "123", {'oldPosition':[53, 54], 'newPosition':[1,2]});
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
@@ -63,7 +67,7 @@ Commands.buildRoad("Emol", "123", [2, 3]);
 
 // Commands.activateKnight("Max","123",7);
 
-fakeRoom.room = data.getRoom("123");
+// fakeRoom.room = data.getRoom("123");
 //TODO test barbarian applyResult + robber produce resource from bank
 /**
 //

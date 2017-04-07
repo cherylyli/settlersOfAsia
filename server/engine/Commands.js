@@ -340,7 +340,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      let oldPosition = data.oldPosition;
      let newPosition = data.newPosition;
      let ship = match.map.getEdgeInfo(oldPosition);
-     ship.move(oldPosition, newPosition, match.map);
+     ship.move(oldPosition, newPosition, match);
  };
 
 

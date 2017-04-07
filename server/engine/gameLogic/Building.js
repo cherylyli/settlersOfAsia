@@ -144,21 +144,22 @@ Building.buildRoad = function (player, edge, match, type) {
         //can't build new ships along the pirate hex
         //cannot move a ship along the pirate hex
         road.move = function (oldPosition, newPosition, match) {
-          var info = match.map.getHexTileByEdge(newPosition);
-          let blockedByPirate = false;
-          for (let hexTileInfo of info){
-              let hexTile = match.map.getHexTileById(hexTileInfo[0]);
-              if (hexTile.blockedByPirate) blockedByPirate = true;
-          }
-
-          if(blockedByPirate == false){
+            var info = match.map.getHexTileByEdge(newPosition);
             match.map.setEdgeInfo(undefined, oldPosition);
             match.map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];
             player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
-          }
 
-            this.owner.calculateLongestRoad();
+          // TO TEST IN SERVER SIDE
+          /**
+          let blockedByPirate = false;
+          for (let hexTileInfo of info){
+              let hexTile = match.map.getHexTileById(hexTileInfo[0]);
+              if (hexTile.blockedByPirate) blockedByPirate = true;
+          }**/
+
+          // FIXME: Cheryl, there is a bug, so I comment it out for now :p
+          // this.owner.calculateLongestRoad();
         };
 
         road.builtTurnNum = match.turnNum;
