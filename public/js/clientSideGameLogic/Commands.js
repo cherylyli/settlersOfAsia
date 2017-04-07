@@ -27,7 +27,8 @@ let VertexCommand = {
 
     "City": {
         'buildCityWall': 'buildCityWall',
-        "upgradeToMetropolis": 'upgradeToMetropolis'
+        "upgradeToMetropolis": 'upgradeToMetropolis',
+        'chooseCityToBePillaged': 'chooseCityToBePillaged'
     },
 
     "Knight": {

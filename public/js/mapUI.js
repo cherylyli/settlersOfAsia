@@ -450,8 +450,12 @@ let mapUI = (function () {
                 $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
                 $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
 
-                let divLeft = $vertex1.css("left") < $vertex2.css("left") ? $vertex1.css("left") : $vertex2.css("left");
-                let divTop = $vertex1.css("top") < $vertex2.css("top") ? $vertex1.css("top") : $vertex2.css("top");
+                let v1L = parseInt($vertex1.css("left"));
+                let v1T = parseInt($vertex1.css("top"));
+                let v2L = parseInt($vertex2.css("left"));
+                let v2T = parseInt($vertex2.css("top"));
+                let divLeft = v1L < v2L ? v1L : v2L;
+                let divTop = v1T < v2T ? v1T : v2T;
 
                 $edgeUnit.attr({
                     'id': edgeKey,
@@ -460,22 +464,22 @@ let mapUI = (function () {
                     // 'top': divTop,
                 });
 
-                let width = Math.abs($vertex1.css("left") - $vertex2.css("left"));
+                let width = Math.abs(v1L - v2L);
 
                 $edgeUnit.css({
                     'left': width > 0 ? divLeft + vertexRadius : divLeft + vertexRadius - edgeWidth / 2,
                     'top': divTop + vertexRadius,
                     'width': width > 0 ? width : 10,
-                    'height': Math.abs($vertex1.css("top") - $vertex2.css("top")),
+                    'height': Math.abs(v1T - v2T),
                     'position': 'absolute',
                     'z-index': 1
                 });
 
                 let draw = SVG(edgeKey);
-                let x1 = width > 0 ? $vertex1.css("left") - divLeft : $vertex1.css("left") - divLeft + edgeWidth / 2;
-                let y1 = $vertex1.css("top") - divTop;
-                let x2 = width > 0 ? $vertex2.css("left") - divLeft : $vertex2.css("left") - divLeft + edgeWidth / 2;
-                let y2 = $vertex2.css("top") - divTop;
+                let x1 = width > 0 ? v1L - divLeft : v1L - divLeft + edgeWidth / 2;
+                let y1 = v1T - divTop;
+                let x2 = width > 0 ? v2L - divLeft : v2L - divLeft + edgeWidth / 2;
+                let y2 = v2T - divTop;
                 let line = draw.line(x1, y1, x2, y2).stroke({
                     width: edgeWidth,
                     color: Enum.CSSColors[edgeUnit.owner.color]
