@@ -540,13 +540,15 @@ Commands.movePirate = function (userName, roomID, data) {
  */
 Commands.stealCard = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
-    let playerA = DATA.getPlayer(data.thief, roomID);
+    let playerA = DATA.getPlayer(userName, roomID);
     let playerB = DATA.getPlayer(data.victim, roomID);
-    playerB.stolenBy(playerA);
+    let card = playerB.stolenBy(playerA);
     if(match.phase == Enum.MatchPhase.TurnPhase){
       if(match.fish = "STEAL_CARD")
          match.bank.decreasePlayerFish(player,'stealUseFish');
     }
+
+    notify.user(playerB.name, 'StolenBy', {theif: playerA.name, card: card});
 };
 
 Commands.drawOneProgressCard = function(userName,roomID,data){

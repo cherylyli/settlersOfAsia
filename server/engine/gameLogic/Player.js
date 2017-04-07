@@ -259,7 +259,10 @@ Player.createPlayer = function (name, user) {
         //generate a random index
         let stolenCard = Math.floor(Math.random() * keys.length);
         opponentPlayer.resourcesAndCommodities[keys[stolenCard]] ++;
+        opponentPlayer.resourceCardNum  ++;
+
         player.resourcesAndCommodities[keys[stolenCard]]--;
+        player.resourceCardNum --;
 
         return keys[stolenCard];
     };

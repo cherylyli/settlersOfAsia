@@ -334,7 +334,7 @@ CommandCheck.movePirate = function (newHexID) {
 
 CommandsData.stealCard = function (victimUserName) {
     //var victim = DATA.getPlayer(victimUserName);
-    return {'thief': DATA.getMyPlayer().name, 'victim': victimUserName};
+    return {'victim': victimUserName};
 };
 
 CommandCheck.stealCard = function (victimUserName) {

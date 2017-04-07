@@ -1289,4 +1289,30 @@ $(window).on('imready', function(im){
     });
 
 
+
+
+
+
+
+
+
+
+    // ---------------------listen for special events
+    sock.on('StolenBy', function (data) {
+        let theif = data.theif;
+        let card = data.card;
+
+
+        swal({
+            title: "Watch out for thief!",
+            text: theif + " stole one " + card + " from you!",
+            type: "warning",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "What?!",
+            closeOnConfirm: false,
+        })
+
+    });
+
+
 });

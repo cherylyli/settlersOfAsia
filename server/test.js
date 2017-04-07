@@ -30,6 +30,8 @@ Commands.joinRoom(userC, "123");
 Commands.startGame("123");
 
 
+Commands.stealCard("Emol", "123", {'victim': "Yuan"});
+
 Commands.buildShip("Emol", "123", [53, 54]);
 Commands.moveShip("Emol", "123", {'oldPosition':[53, 54], 'newPosition':[1,2]});
 Commands.buildSettlement("Emol", "123", {'position': 1});

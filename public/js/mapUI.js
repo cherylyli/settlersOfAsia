@@ -449,7 +449,7 @@ let mapUI = (function () {
                 $map.append($edgeUnit);
                 $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
                 $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
-
+8
                 let v1L = parseInt($vertex1.css("left"));
                 let v1T = parseInt($vertex1.css("top"));
                 let v2L = parseInt($vertex2.css("left"));
