@@ -339,13 +339,16 @@ CommandsData.stealCard = function (victimUserName) {
 
 CommandCheck.stealCard = function (victimUserName) {
     let victim = DATA.getPlayer(victimUserName);
-    if (victim.resourceCardTotalNum(victim) < 1) {
-        swalError2("The victim player doesn't have enough resources to be stoled");
-        return false;
-    }
-    else {
-        return true;
-    }
+//    if(DATA.getMatch().fish == "STEAL_CARD" || app.rolledSeven){
+      if (victim.resourceCardTotalNum(victim) < 1) {
+          swalError2("The victim player doesn't have enough resources to be stoled");
+          return false;
+      }
+      else {
+          return true;
+      }
+//    }
+//    return false;
 };
 //input : {String} "Trade" / "Science" / "Politics"
 CommandsData.drawOneProgressCard = function (kind) {
@@ -369,7 +372,7 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
-    if (found) {
+    if (found && DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
@@ -452,8 +455,7 @@ CommandsData.hireKnight = function (position) {
 
 
 CommandCheck.hireKnight = function (position) {
-    //QUESTION: immediately place knight after hired it???
-    //if so: check if position is availble.
+    //copy the build settlement conditions here
     if (!checkEnoughResource(Cost.hireKnight)) {
         swalError2("Not enough resource to purchase a knight");
         return false;
@@ -512,16 +514,17 @@ CommandsData.moveKnight = function (position, newPosition) {
 CommandCheck.moveKnight = function (position, newPosition) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
     var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
-    /*TODO Yuan
-    1.if the newPosition has been occupied by one of player's knight, return false with msg.
-    2.check whether the newPosition lies on the same continuous road as position.
-    */
+    var validVertices = DATA.getMyPlayer().getEmptyAdjacentVertices(position,DATA.getMatch());
+
     if (knight.hasMovedThisTurn || !knight.active) {
         swalError2("Error, knight has been moved this turn or selected knight is not active");
         return false;
     }
     else {
+      if(_.contains(validVertices, newPosition)){
         return true;
+      }
+      return false;
     }
 };
 
@@ -1239,17 +1242,21 @@ CommandReceived.moveKnight = function () {
     DATA.getMap().opponentKnight.name should relocate his knight
     swal(input:newVertex)
   */
-  if (_.contains(DATA.getMap().opponentKnight.name, DATA.getMyPlayer().name)) {
-      swal({
-          title: "Please relocate your knight",
-          text: "Your knight has been displaced by a stronger knight."
-          //TODO Emol
-          /*
-            activate command table & map, allow this player to select a new spot to relocate his knight
-            use Commands.moveKnight
-          */
-      });
-    }
+
+  if(DATA.getMap().opponentKnight.name){
+    if (_.contains(DATA.getMap().opponentKnight.name, DATA.getMyPlayer().name)) {
+        swal({
+            title: "Please relocate your knight",
+            text: "Your knight has been displaced by a stronger knight."
+            //TODO Emol
+            /*
+              activate command table & map, allow this player to select a new spot to relocate his knight
+              use Commands.moveKnight
+            */
+        });
+      };
+      return;
+  }
 
 };
 
@@ -1356,17 +1363,6 @@ CommandReceived.rollDice = function () {
         }
     }
 };
-/*
-  TODO Emol
-  add Commands.spendFishToken(action, data) to command table
-  5 possible actions:              data
-  "MOVE_ROBBER" : "MOVE_ROBBER",   nexHexID
-  "MOVE_PIRATE" : "MOVE_PIRATE",   newHexID
-  "STEAL_CARD" : "STEAL_CARD",     thiefUserName, victimUserName
-  "BUILD_ROAD" : "BUILD_ROAD",    [vertex, vertex ]
-  "BUILD_SHIP" : "BUILD_SHIP",    [vertex, vertex]
-  "DRAW_PROG" : "DRAW_PROG"       String, case sensitive "Trade" / "Politics" / "Science"
-*/
 
 _.each(CommandName, function (cmd) {
 
@@ -1426,19 +1422,20 @@ _.each(CommandName, function (cmd) {
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-/**
-        let phase = DATA.getMatch().phase;
-        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
+        //let phase = DATA.getMatch().phase;
+/*        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
-**/
+*/
         //comment out this part if you want to disable checks
         //checks
-        // DATA.getMatch().phase = Enum.MatchPhase.TurnPhase; //for testing
-        // if (!CommandCheck[cmd].apply(this, arguments)) {
-        //     return;
-        // }
+        //DATA.getMatch().phase = Enum.MatchPhase.TurnPhase; //for testing
+        if (!CommandCheck[cmd].apply(this, arguments)) {
+             return;
+         }
+
+
 /**
         // if barbarian result commands
         if (app.barbarianResult) {
