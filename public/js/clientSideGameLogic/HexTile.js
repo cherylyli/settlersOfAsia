@@ -49,6 +49,7 @@ let HexTile = (function () {
      * @param hexTileID {int}
      */
     function getCommands(hexTileID) {
+        let map = DATA.getMap();
         return HexCommand;
     }
 

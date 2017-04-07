@@ -183,16 +183,13 @@ let CommandsCheck = {};
  };
 
  Commands.upgradeToMetropolis = function (userName, roomID, data) {
-     let position = data.position;
      let type = data.type;
 
      let player = DATA.getPlayer(userName, roomID);
      let match = DATA.getMatch(roomID);
-     let map = match.map;
+     let building = player.getBuilding(data.position);
 
-     let building = player.getBuilding(position);
-     building.upgradeToMetropolis(type);
-     // no cost for upgrade to metropolis
+     match.distributeMetropolis(type, player, building);
  };
 
  /**
@@ -340,7 +337,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      let oldPosition = data.oldPosition;
      let newPosition = data.newPosition;
      let ship = match.map.getEdgeInfo(oldPosition);
-     ship.move(oldPosition, newPosition, match.map);
+     ship.move(oldPosition, newPosition, match);
  };
 
 
@@ -438,17 +435,15 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
      player.discardResourceCards(data.cards, data.num);
  };
 
+
  /**
   * create trade object, notifies all the other players about the trade offer.
-  * @new {Trade}
-  * @param selling {'resName': 1, 'resName': 2} cost object
-  * @param buying   {'resName':2, 'resname': 3}
   */
- Commands.requestTrade = function (data) {
+ Commands.requestTrade = function (userName, roomID, data) {
      console.log("TRADE was requested: ");
-     console.log("Selling: "+data.selling);
-     console.log("Buying: "+data.buying);
+     console.log(data);
      let trade = Trade.createTrade(data.selling, data.buying);
+     DATA.getMatch(roomID).currentTrade = trade;
  };
 
 
@@ -542,13 +537,15 @@ Commands.movePirate = function (userName, roomID, data) {
  */
 Commands.stealCard = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
-    let playerA = DATA.getPlayer(data.thief, roomID);
+    let playerA = DATA.getPlayer(userName, roomID);
     let playerB = DATA.getPlayer(data.victim, roomID);
-    playerB.stolenBy(playerA);
+    let card = playerB.stolenBy(playerA);
     if(match.phase == Enum.MatchPhase.TurnPhase){
       if(match.fish = "STEAL_CARD")
          match.bank.decreasePlayerFish(player,'stealUseFish');
     }
+
+    notify.user(playerB.name, 'StolenBy', {theif: playerA.name, card: card});
 };
 
 Commands.drawOneProgressCard = function(userName,roomID,data){
@@ -604,9 +601,9 @@ Commands.discardOneProgressCard = function (userName, roomID, data) {
 };
 
 Commands.giveAwayBoot = function(userName, roomID, data){
-  let playerA = DATA.getPlayer(data.bootHolder, roomID);
+  let playerA = DATA.getPlayer(userName, roomID);
   let playerB = DATA.getPlayer(data.transferTo, roomID);
-  playerA.giveAwayBoat(playerB);
+  playerA.giveAwayBoot(playerB);
 };
 
 Commands.spendFishToken = function(userName, roomID, data){

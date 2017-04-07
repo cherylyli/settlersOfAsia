@@ -51,7 +51,7 @@ Player.createPlayer = function (name, user) {
     //player.metropolitans = [];  //a list of integer -> position of the metropolitan ????????
     player.winningVP = 10;
     player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
-    player.Metropolis = null;   //Building object
+    // player.Metropolis = [];   //Building object
 
     /**TODO: Yuan change this later. Some stuff may not be able to trade!!
      * delete all resourece that cannot be trade, add stuff can can be traded
@@ -150,7 +150,7 @@ Player.createPlayer = function (name, user) {
 
     };
 
-    player.giveAwayBoot = function(opponentPlayer){
+    player.giveAwayBoot = function (opponentPlayer){
       if(player.VP <= opponentPlayer.VP){
         opponentPlayer.hasBoot = true;
         opponentPlayer.winningVP += 1;
@@ -259,7 +259,10 @@ Player.createPlayer = function (name, user) {
         //generate a random index
         let stolenCard = Math.floor(Math.random() * keys.length);
         opponentPlayer.resourcesAndCommodities[keys[stolenCard]] ++;
+        opponentPlayer.resourceCardNum  ++;
+
         player.resourcesAndCommodities[keys[stolenCard]]--;
+        player.resourceCardNum --;
 
         return keys[stolenCard];
     };
@@ -497,6 +500,9 @@ Player.createPlayer = function (name, user) {
               }
 
               if (newRoadType != roadType){
+
+                  // FIXME: vertexData[prevNode].type does not have 'Metropolis' type. Check Enum.Building. For Metropolis, it's 'Science, Trade or Politcs' LOL. I added one helper function for you. To tell whether a vertexUnit is building or knight. do vertexUnit.getVertexUnitType(), it return "building" or "knight" XD. By.Emol
+
                 if (vertexData && vertexData[prevNode] && (vertexData[prevNode].type == 'City' || vertexData[prevNode].type == 'Settlement' || vertexData[prevNode].type =='Metropolis') && vertexData[prevNode].name == player.name){
                   //continue
 
@@ -758,7 +764,7 @@ Player.createPlayer = function (name, user) {
         numToBeDiscarded = Math.floor(player.resourceCardTotalNum()/2) - cardsToKeep;
       }
       return numToBeDiscarded;
-    }
+    };
 
 
   //  player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};

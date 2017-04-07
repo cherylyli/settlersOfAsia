@@ -74,7 +74,7 @@ Bank.createBank = function (match) {
         player.resourcesAndCommodities[tradeFor] += 1;
 
         player.resourceCardNum = player.resourceCardTotalNum();
-    }
+    };
 
     /**
      * every player performs an action, there may be some cost associated with this action.

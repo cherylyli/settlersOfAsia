@@ -68,6 +68,11 @@ Knight.createKnight = function (player, map) {
         else map.robborPositon = newPosition
     };
 
+    knight.getVertexUnitType = function(){
+        return "knight";
+    };
+
+
 
 
 

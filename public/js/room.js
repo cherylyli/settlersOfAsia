@@ -102,6 +102,11 @@ $(window).on('imready', function(im){
          app.log(null, 'The game starts.', true);**/
     });
 
+    sock.on('GAME_ENDS', function (msg) {
+         swal("BYE! Game ended!");
+    });
+
+
     sock.on('TAKE_TURN', function (msg) {
         app.isMyTurn = true;
         setTimeout(function () {
@@ -168,6 +173,7 @@ $(window).on('imready', function(im){
             ],
             isMyTurn: false,
             barbarianResult: false,
+            Metropolis: (room.match) ? room.match.Metropolis : {'Science': {owner: 'Nobody'}, 'Trade': {owner: 'Nobody'}, 'Politics': {owner: 'Nobody'}},
             ongoingCmd: null,   // some cmd may take more than one steps to finish
             ongoingCmdData: null,
             cmdThatEnablesOtherCmd: null,   // some cmd may enable user to use other cmd, like chaseAwayThief enables moveRobber/ movePirate
@@ -255,19 +261,6 @@ $(window).on('imready', function(im){
                 sock.emit('send-sys-message', msg);
             },
 
-            // cmd prompt
-            addItem: function (e) {
-                let $buttonClicked = $(e.target).parent();
-                let $newButton = $buttonClicked.clone();
-                // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
-                $buttonClicked.after($newButton);
-                // $("#cmd-prompt .button[data-id=add]").before($button);
-               // (($("#cmd-prompt .button[data-id=select]"))[0]).clone().before($("#cmd-prompt .button[data-id=add]"));
-            },
-
-            deleteItem: function () {
-
-            },
 
             endTurn: function () {
                 Commands.endTurn();
@@ -384,6 +377,7 @@ $(window).on('imready', function(im){
 
             trade: function (e) {
                 let cmd = $(e.target).attr('data-cmd');
+
                 generateTradePrompt(cmd);
 
                 // for different cmd, when we click confirm, we run different cmd.
@@ -686,7 +680,8 @@ $(window).on('imready', function(im){
         if (isCtrlPressed(e)) highlightVertex($(this));
         // if ctrl-clicked vertices accumulate to 2 -> edge operation
         if (highlightedVertices() == 2) {
-            showEdgeOperations();
+            if (!app.ongoingCmd) showEdgeOperations();
+            else SpecialsCommandsFinalStep[app.ongoingCmd]();
         }
         // if click on single vertex -> vertex operation
         else if (!isCtrlPressed(e)) {
@@ -707,7 +702,8 @@ $(window).on('imready', function(im){
 
         highlightHexes($(this));
         console.log($(this).attr('data-id'));
-        showHexOperations($(this));
+        if (!app.ongoingCmd) showHexOperations($(this));
+
     });
 
     // click on 1 vertex
@@ -781,7 +777,7 @@ $(window).on('imready', function(im){
      *
      * @param type {String} "selling" / "buying"
      */
-    function generateTradeForm(type) {
+    function generateTradeForm(type, cmd) {
         let $form = $('<div></div>');
         $form.attr('data-id', type);
 
@@ -799,12 +795,35 @@ $(window).on('imready', function(im){
             $select.append($option);
         });
 
-        let $input = $('<input class="weui-input" type="number" pattern="[0-9]*" placeholder="0">');
-        $input.attr('name', type + 1 + "cnt");
-        $item.append($input);
 
-        // add and delete icon
-        $item.append('<i class="fa fa-minus-circle delete" aria-hidden="true"></i> <i class="fa fa-plus-circle add" aria-hidden="true"></i>');
+
+
+        if (cmd != "tradeWithBank"){
+            // trade with player
+            let $input = $('<input class="weui-input" type="number" pattern="[0-9]*" placeholder="0">');
+            $input.attr('name', type + 1 + "cnt");
+            $item.append($input);
+
+            // add and delete icon
+            $item.append('<i class="fa fa-minus-circle delete" aria-hidden="true"></i> <i class="fa fa-plus-circle add" aria-hidden="true"></i>');
+        }
+
+        else if (type == "buying"){
+            // default
+            let ratio = DATA.getMyPlayer().tradeRatio["Lumber"];
+            // trade with bank
+            let $ratioInfo = $('<div class="trade-info"><i class="fa fa-info-circle" aria-hidden="true">  trade ratio</i><div class="text">'+ ratio +'</div><div></div>');
+
+            $select.change(function () {
+                let type = $select.val();
+                $ratioInfo.find('.text').text(DATA.getMyPlayer().tradeRatio[type]);
+                console.log(DATA.getMyPlayer().tradeRatio[type]);
+                console.log($select.val());
+            });
+        
+            $item.append($ratioInfo);
+        }
+
         $form.append($item);
 
         return $form;
@@ -856,9 +875,10 @@ $(window).on('imready', function(im){
      * @param cmd {String} command name
      */
     function generateTradePrompt(cmd) {
+        if (isCmdPromptVisible()) hideCmdPrompt();
         let $prompt = $('#cmd-prompt');
-        $prompt.append(generateTradeForm('buying'));
-        $prompt.append(generateTradeForm('selling'));
+        $prompt.append(generateTradeForm('buying', cmd));
+        $prompt.append(generateTradeForm('selling', cmd));
 
         $prompt.append( '<div class="button" data-id="confirm">Trade</div> <div class="button" data-id="cancel">Cancel</div>');
 
@@ -880,13 +900,14 @@ $(window).on('imready', function(im){
         // confirm button
         $prompt.find('.button[data-id=confirm]').click(function () {
             let input = getInputCmdPrompt();
-            let {selling, buying} = readTradeInput(input);
+            let {selling, buying} = readTradeInput(input, cmd);
 
 
             if (cmd == "tradeWithBank"){
 
                 console.log("selling", selling);
                 console.log("buying", buying);
+                Commands.tradeWithBank(selling, buying);
 
                 // command trade with bank
                 // TODO: Yuan / Emol change trade with bank cmd (it should accept cost object)
@@ -910,7 +931,7 @@ $(window).on('imready', function(im){
      * @param input
      * @return {Cost, Cost} selling and buying
      */
-    function readTradeInput(input){
+    function readTradeInput(input, cmd){
         let sellingType = {};   // temp storage
         let buyingType = {};
 
@@ -931,6 +952,12 @@ $(window).on('imready', function(im){
                     sellingType[number] = type;
                 }
             }
+        }
+
+        if (cmd == "tradeWithBank"){
+            selling = _.values(sellingType)[0];
+            buying = _.values(buyingType)[0];
+            return {selling, buying};
         }
 
         // read cnt
@@ -1125,6 +1152,60 @@ $(window).on('imready', function(im){
 
 
 
+    SpecialsCommandsNextStep.moveShip = function (oldV1, oldV2) {
+        swal({
+                title: "Move Ship",
+                text: "Where do you want to move the ship to? (Click two points with CTRL pressed)",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK!",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    app.ongoingCmd = "moveShip";
+                    app.ongoingCmdData = [oldV1, oldV2];
+                }
+            });
+    };
+
+
+    SpecialsCommandsFinalStep.moveShip = function () {
+        var $map = $('#board .map');
+        var $cmd = $('#cmd-table');
+        var $v1 = $map.find('.ctrl-clicked').eq(0);
+        var $v2 = $map.find('.ctrl-clicked').eq(1);
+        let newPosition = Map.edge($v1.attr('data-id'), $v2.attr('data-id'));
+
+        swal({
+                title: "Move Ship here?",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes!",
+                cancelButtonText: "Cancel",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    let oldVertex1 = app.ongoingCmdData[0];
+                    let oldVertex2 = app.ongoingCmdData[1];
+                    Commands.moveShip(oldVertex1, oldVertex2, newPosition[0], newPosition[1]);
+                }
+
+                app.ongoingCmd = null;
+                app.ongoingCmdData = null;
+                clearHighlightedVertices();
+            });
+    };
+
+
+
+
+    // -----------------------right side command buttons ------------------------
 
     function showProgressCardCmd(card){
         hideCmdPrompt();
@@ -1182,6 +1263,21 @@ $(window).on('imready', function(im){
 
 
 
+    $('body').on('click', '.metropolis', function (e) {
+        showMetropolis(e);
+    });
+
+    function showMetropolis(e) {
+        let metroType = $(e.target).attr('data-type');
+        let building = DATA.getMatch().Metropolis[metroType];
+        if (building){
+            let $map =  $('.map');
+            let $v = $map.find('.vertex[data-id=' + building.position + ']').eq(0);
+            // $v.addClass('ctrl-clicked');
+            highlightVertex($v);
+        }
+    }
+
 
     // --------------------- user -----------------------
     $('#users').on('click', '.user', function (e) {
@@ -1201,4 +1297,31 @@ $(window).on('imready', function(im){
     });
 
 
+
+
+
+
+
+
+
+
+    // ---------------------listen for special events
+    sock.on('StolenBy', function (data) {
+        let theif = data.theif;
+        let card = data.card;
+
+
+        swal({
+            title: "Watch out for thief!",
+            text: theif + " stole one " + card + " from you!",
+            type: "warning",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "What?!",
+            closeOnConfirm: false,
+        })
+
+    });
+
+
 });
+

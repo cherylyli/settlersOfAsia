@@ -28,9 +28,19 @@ Commands.joinRoom(userB, "123");
 Commands.joinRoom(userC, "123");
 
 Commands.startGame("123");
+
+
+// Commands.stealCard("Emol", "123", {'victim': "Yuan"});
+// DATA.getMatch().players[]
+Commands.giveAwayBoot("Emol", "123", {transferTo: "Yuan"});
+
+Commands.buildShip("Emol", "123", [53, 54]);
+Commands.moveShip("Emol", "123", {'oldPosition':[53, 54], 'newPosition':[1,2]});
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
+Commands.buildSettlement("Emol", "123", {'position': 10});
+
 
 console.log("spend fish");
 data.getMatch("123").getPlayer("Emol").setFishSum(20);

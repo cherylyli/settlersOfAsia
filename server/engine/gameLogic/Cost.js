@@ -30,7 +30,7 @@ Cost.cityImprove_Science_4 = {[Enum.Commodity.Paper]: 4};
 Cost.cityImprove_Science_5 = {[Enum.Commodity.Paper]: 5};
 
 //Cost.hireKnight = {};
-Cost.basicKnights = {[Enum.Resource.Wool]: 1, [Enum.Resource.Ore]: 1};
+Cost.hireKnight = {[Enum.Resource.Wool]: 1, [Enum.Resource.Ore]: 1};
 Cost.activateKnight = {[Enum.Resource.Grain]: 1};
 Cost.promoteKnight = {[Enum.Resource.Grain]: 1};
 
@@ -39,7 +39,7 @@ Cost.defaultTradeRatio = 4;
 Cost.goldTradeRatio = 2;
 Cost.generalHarborTradeRatio = 3;
 Cost.specialHarborTradeRatio = 2;
-Cost.merchantTradeRatio = -1;
+Cost.merchantTradeRatio = 2;
 
 
 //================fish token====

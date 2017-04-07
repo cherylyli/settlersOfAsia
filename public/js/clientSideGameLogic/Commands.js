@@ -5,7 +5,8 @@ let CommandsData = {};
 // commands require more than 1 steps
 let SpecialsCommands = {
     'moveKnight': 'moveKnight',
-    'upgradeToMetropolis': 'upgradeToMetropolis'
+    'upgradeToMetropolis': 'upgradeToMetropolis',
+    'moveShip': 'moveShip'
 };
 
 // this map to functions
@@ -27,7 +28,8 @@ let VertexCommand = {
 
     "City": {
         'buildCityWall': 'buildCityWall',
-        "upgradeToMetropolis": 'upgradeToMetropolis'
+        "upgradeToMetropolis": 'upgradeToMetropolis',
+        'chooseCityToBePillaged': 'chooseCityToBePillaged'
     },
 
     "Knight": {
@@ -239,26 +241,29 @@ CommandReceived.performTradeTransaction = function () {
 
 
 CommandReceived.requestTrade = function (selling, buying) {
-    alert('=O');
-/*    if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
-        return;
-    }*/
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
+        //skip
+    }else{
+        let selling = DATA.getMatch().currentTrade.selling;
+        let buying = DATA.getMatch().currentTrade.buying;
+        console.log(selling);
 
-    swal({
-            title: "TRADE BRO?",
-            text: DATA.getMatch().currentPlayer +"wants to buy:"+buying +" and wants to sell: "+selling,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "TRADE RESOURCES!",
-            closeOnConfirm: false
-        },
-        function(){
-            swal("Trade started!", "Your trade response was sent", "success", function () {
-                Commands.acceptTrade();
+        console.log(DATA.getMatch().currentTrade);
+        swal({
+                title: "TRADE BRO?",
+                text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "TRADE RESOURCES!",
+                closeOnConfirm: false
+            },
+            function(){
+                swal("Trade started!", "Your trade response was sent", "success", function () {
+                    Commands.acceptTrade();
+                });
             });
-        });
-
+    }
     // TODO: max
     // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
 
@@ -329,7 +334,7 @@ CommandCheck.movePirate = function (newHexID) {
 
 CommandsData.stealCard = function (victimUserName) {
     //var victim = DATA.getPlayer(victimUserName);
-    return {'thief': DATA.getMyPlayer().name, 'victim': victimUserName};
+    return {'victim': victimUserName};
 };
 
 CommandCheck.stealCard = function (victimUserName) {
@@ -390,15 +395,14 @@ CommandCheck.discardOneProgressCard = function (progCard) {
     }
     swalError2("Card not found!");
     return false;
-}
+};
 
-CommandsData.giveAwayBoot = function (bootHolder, transferTo) {
-    //var victim = DATA.getPlayer(victimUserName);
-    return {'bootHolder': bootHolder, 'transferTo': transferTo};
-}
+CommandsData.giveAwayBoot = function (transferTo) {
+    return {'transferTo': transferTo};
+};
 
-CommandCheck.giveAwayBoot = function (bootHolder, transferTo) {
-    let playerA = DATA.getPlayer(bootHolder);
+CommandCheck.giveAwayBoot = function (transferTo) {
+    let playerA = DATA.getMyPlayer();
     let playerB = DATA.getPlayer(transferTo);
     if (playerA.hasBoot == true && playerB.hasBoot == false) {
         if (playerA.VP <= playerB.VP) {
@@ -450,18 +454,18 @@ CommandsData.hireKnight = function (position) {
 CommandCheck.hireKnight = function (position) {
     //QUESTION: immediately place knight after hired it???
     //if so: check if position is availble.
-    if (!checkEnoughResource(Cost.basicKnights)) {
+    if (!checkEnoughResource(Cost.hireKnight)) {
         swalError2("Not enough resource to purchase a knight");
         return false;
     }
     else {
         return true;
     }
-}
+};
 
 CommandsData.activateKnight = function (position) {
     return {'position': position};
-}
+};
 
 CommandCheck.activateKnight = function (position) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
@@ -476,7 +480,7 @@ CommandCheck.activateKnight = function (position) {
     else {
         return true;
     }
-}
+};
 
 CommandsData.promoteKnight = function (position) {
     return {'position': position};

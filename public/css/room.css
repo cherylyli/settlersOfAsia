@@ -38,8 +38,7 @@ body{
     /*background-color: #3A79B8;*/
     overflow: hidden;
     /*transition: 2.5s ease;*/
-    z-index: 11;
-
+    z-index: 12;
 }
 
 #waiting-page img{
@@ -84,6 +83,7 @@ body{
     width: 160px;
     right: 0;
     height: 100%;
+    z-index: 11;
 }
 
 #board .dices{
@@ -136,7 +136,7 @@ body{
 }
 
 #board .fish-token{
-    top: 430px;
+    top: 500px;
     overflow: hidden;
 }
 
@@ -579,6 +579,22 @@ body{
 #cmd-prompt .button.selling.title{
     background: #ffe7bf
 }
+
+#cmd-prompt .trade-info{
+    height: 16px;
+    line-height: 16px;
+    width: 30%;
+    float: right;
+}
+
+#cmd-prompt .trade-info i{
+    float: left;
+}
+
+#cmd-prompt .trade-info .text{
+    position: relative;
+    left: 20px;
+}
 #cmd-prompt .button select{
     position: relative;
     left: 0;
@@ -598,6 +614,8 @@ body{
 #cmd-prompt .button[data-id=cancel]:hover{
     background: #6595c1;
 }
+
+
 
 #cmd-table {
     position: fixed;

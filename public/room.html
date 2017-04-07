@@ -56,13 +56,13 @@
                 </div>
 
                 <div class='trade cmds right'>
-                    <div class="card cmd" data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn' v-on:click='trade'>
-                        <div class="icon center-cropped"><i class="fa fa-money" aria-hidden="true"></i></div>
-                        <div class='text'>Bank</div>
+                    <div class="card cmd" data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn'  v-on:click='trade'>
+                        <div class="icon center-cropped" data-cmd="tradeWithBank"><i class="fa fa-money" aria-hidden="true" data-cmd="tradeWithBank"></i></div>
+                        <div class='text' data-cmd="tradeWithBank">Bank</div>
                     </div>
                     <div class="card cmd" data-cmd="tradeWithPlayer" v-bind:disabled='!isMyTurn' v-on:click='trade'>
-                        <div class="icon center-cropped"><i class="fa fa-handshake-o" aria-hidden="true"></i></div>
-                        <div class='text'>Trade</div>
+                        <div class="icon center-cropped" data-cmd="tradeWithPlayer"><i class="fa fa-handshake-o" aria-hidden="true" data-cmd="tradeWithPlayer"></i></div>
+                        <div class='text' data-cmd="tradeWithPlayer">Trade</div>
                     </div>
                     <div class="card cmd" data-cmd="drawResourceCard" v-bind:disabled='!isMyTurn' v-on:click='drawResourceCard'>
                         <div class="icon center-cropped"><i class="fa fa-usd" aria-hidden="true"></i></div>
@@ -83,9 +83,9 @@
                 </div>
 
                 <div class='fish-token cmds right'>
-                    <div class="card cmd" v-bind:data-id="value = (room.users[me.username] || my).fishSum" v-on:click='fishTokenCommand'>
+                    <div class="card cmd" v-on:click='fishTokenCommand'>
                         <div class="icon center-cropped"></div>
-                        <div class='text' v-bind:data-id="value"> Fish : {{value}}</div>
+                        <div class='text'> Fish : {{(room.users[me.username] || my).fishSum}}</div>
                     </div>
                     <div class="card cmd" v-bind:data-id="Enum.fishToken.BOOT" v-on:click='fishTokenCommand'>
                         <div class="icon center-cropped"></div>
@@ -95,11 +95,14 @@
 
 
                 <div class="city-improvements cmds right">
+                    <div class="cmd metropolis" v-for='type in Enum.cityImprovementCategory' v-bind:data-type="type">
+                        <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-type="type"></i></div>
+                        <div class='text' v-bind:data-type="type">{{type}}:   {{(room.match && room.match.Metropolis[type]) ? room.match.Metropolis[type].owner.name : "Nobody"}}</div>
+                    </div>
                     <div class="cmd" v-for='type in Enum.cityImprovementCategory' v-on:click='buyCityImprovement' v-bind:data-type="type">
                         <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-type="type"></i></div>
-                        <div class='text' v-bind:data-type="type">{{type}}:   {{(room.users[me.username] || my).cityImprovement[type]}}</div>
+                        <div class='text' v-bind:data-type="type">{{type}} LV:   {{(room.users[me.username] || my).cityImprovement[type]}}</div>
                     </div>
-
                 </div>
 <!--
                 <div class="other-cmd cmds right">
@@ -162,9 +165,9 @@
                         <div class='name' v-bind:data-username='player.name'>{{player.user.username}}</div>
                     </div>
                     <ul class='info'>
-                        <li>Metropolis: 0</li>
+                        <!--<li>Metropolis: 0</li>-->
                         <li>Longest Road: {{player.longestRoad}}</li>
-                        <li>Defender of Catan: 0</li>
+                        <!--<li>Defender of Catan: 0</li>-->
                         <li>Progress Card: {{player.progressCardsCnt}}</li>
                         <li>Resource Card: {{player.resourceCardNum}}</li>
                         <li>VP: {{player.VP}}</li>

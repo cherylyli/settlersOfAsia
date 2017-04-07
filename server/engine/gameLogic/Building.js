@@ -34,6 +34,12 @@ Building.buildSettlement = function (player, vertex, map) {
     updateInfo(map, building);
     player['longestRoad'] = player.calculateLongestRoad(map);
 
+
+    building.getVertexUnitType = function(){
+        return "building";
+    };
+
+
     building.upgradeToCity = function () {
         building.level = Enum.Building.City;
         building.cityWall = false;
@@ -64,10 +70,12 @@ Building.buildSettlement = function (player, vertex, map) {
      */
     building.upgradeToMetropolis = function(metropolisType){
         building.level = metropolisType;
+        building.owner.updateVP(VP.metropolis);
     };
 
     building.removeMetropolis = function(){
       building.level = Enum.Building.City;
+      building.owner.updateVP(-VP.metropolis);
     };
     //pillage a city, pre: building is a city
     building.pillage = function () {
@@ -75,7 +83,7 @@ Building.buildSettlement = function (player, vertex, map) {
         else {
             //city becomes a settlement
             building.level = Enum.Building.Settlement;
-            building.owner.updateVP(-VP.upgradeTocity)
+            building.owner.updateVP(-VP.upgradeTocity);
             //TODO: if it is the last city, what will happen to city improvement??
         }
     };
@@ -144,21 +152,22 @@ Building.buildRoad = function (player, edge, match, type) {
         //can't build new ships along the pirate hex
         //cannot move a ship along the pirate hex
         road.move = function (oldPosition, newPosition, match) {
-          var info = match.map.getHexTileByEdge(newPosition);
-          let blockedByPirate = false;
-          for (let hexTileInfo of info){
-              let hexTile = match.map.getHexTileById(hexTileInfo[0]);
-              if (hexTile.blockedByPirate) blockedByPirate = true;
-          }
-
-          if(blockedByPirate == false){
+            var info = match.map.getHexTileByEdge(newPosition);
             match.map.setEdgeInfo(undefined, oldPosition);
             match.map.setEdgeInfo(this, newPosition);
             delete player[type + 's'][Map.edgeKey(oldPosition)];
             player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
-          }
 
-            this.owner.calculateLongestRoad();
+          // TO TEST IN SERVER SIDE
+          /**
+          let blockedByPirate = false;
+          for (let hexTileInfo of info){
+              let hexTile = match.map.getHexTileById(hexTileInfo[0]);
+              if (hexTile.blockedByPirate) blockedByPirate = true;
+          }**/
+
+          // FIXME: Cheryl, there is a bug, so I comment it out for now :p
+          // this.owner.calculateLongestRoad();
         };
 
         road.builtTurnNum = match.turnNum;
