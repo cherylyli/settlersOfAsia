@@ -40,7 +40,7 @@ Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
 Commands.buildSettlement("Emol", "123", {'position': 10});
-
+/*
 
 console.log("spend fish");
 data.getMatch("123").getPlayer("Emol").setFishSum(20);
@@ -51,14 +51,22 @@ Commands.spendFishToken("Emol","123",{'action' : "MOVE_ROBBER"});
 console.log(data.getMatch("123").fish);
 console.log(data.getMatch("123").getPlayer("Emol").progressCards);
 console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+*/
+//Commands.drawOneProgressCard("Emol","123",{'kind': "Trade"});
 
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
 //console.log(data.getMatch("123").getMetropolisOwner(Enum.cityImprovementCategory.Science));
 //console.log(data.getMatch("123").Metropolis);
-
+Commands.drawOneProgressCard("Yuan","123",{'kind' : "Trade"});
+let player = data.getMatch("123").getPlayer("Yuan");
+console.log(player.progressCards);
+Commands.rollDice("Emol","123","");
+console.log("red die " + data.getMatch("123").dice.redDie);
+console.log("event die" + data.getMatch("123").dice.eventDie);
+console.log(player.progressCards);
 // Commands.hireKnight("Emol","123",7);
 // Commands.activateKnight("Emol","123",7);
 // Commands.hireKnight("Max","123",7);
