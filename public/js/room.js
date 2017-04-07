@@ -905,13 +905,14 @@ $(window).on('imready', function(im){
         // confirm button
         $prompt.find('.button[data-id=confirm]').click(function () {
             let input = getInputCmdPrompt();
-            let {selling, buying} = readTradeInput(input);
+            let {selling, buying} = readTradeInput(input, cmd);
 
 
             if (cmd == "tradeWithBank"){
 
                 console.log("selling", selling);
                 console.log("buying", buying);
+                Commands.tradeWithBank(selling, buying);
 
                 // command trade with bank
                 // TODO: Yuan / Emol change trade with bank cmd (it should accept cost object)
@@ -935,7 +936,7 @@ $(window).on('imready', function(im){
      * @param input
      * @return {Cost, Cost} selling and buying
      */
-    function readTradeInput(input){
+    function readTradeInput(input, cmd){
         let sellingType = {};   // temp storage
         let buyingType = {};
 
@@ -956,6 +957,12 @@ $(window).on('imready', function(im){
                     sellingType[number] = type;
                 }
             }
+        }
+
+        if (cmd == "tradeWithBank"){
+            selling = _.values(sellingType)[0];
+            buying = _.values(buyingType)[0];
+            return {selling, buying};
         }
 
         // read cnt
