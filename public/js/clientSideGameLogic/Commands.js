@@ -586,13 +586,15 @@ CommandCheck.chaseAwayThief = function (knightPosition, thiefPosition, newPositi
     return true;
 };
 //num : total number of cards to be discarded
-//cards: {Enum.Resourca.card : # of this type to be discarded}
-CommandsData.discardResourceCards = function (cards, num) {
-    return {'cards': cards, 'num': num}
+//cards: {Enum.Resourca.card : # of this type to be discarded} {Cost}
+CommandsData.discardResourceCards = function (cards) {
+    return {'cards': cards}
 };
 
-CommandCheck.discardResourceCards = function (cards, num) {
-    var player = player1
+CommandCheck.discardResourceCards = function (cards) {
+    let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
+
+    var player = player1;
     var size = 0;
     for (var i in cards) {
         size += cards[i];
