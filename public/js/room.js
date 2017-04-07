@@ -173,6 +173,7 @@ $(window).on('imready', function(im){
             ],
             isMyTurn: false,
             barbarianResult: false,
+            Metropolis: (room.match) ? room.match.Metropolis : {'Science': {owner: 'Nobody'}, 'Trade': {owner: 'Nobody'}, 'Politics': {owner: 'Nobody'}},
             ongoingCmd: null,   // some cmd may take more than one steps to finish
             ongoingCmdData: null,
             cmdThatEnablesOtherCmd: null,   // some cmd may enable user to use other cmd, like chaseAwayThief enables moveRobber/ movePirate
@@ -260,19 +261,6 @@ $(window).on('imready', function(im){
                 sock.emit('send-sys-message', msg);
             },
 
-            // cmd prompt
-            addItem: function (e) {
-                let $buttonClicked = $(e.target).parent();
-                let $newButton = $buttonClicked.clone();
-                // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
-                $buttonClicked.after($newButton);
-                // $("#cmd-prompt .button[data-id=add]").before($button);
-               // (($("#cmd-prompt .button[data-id=select]"))[0]).clone().before($("#cmd-prompt .button[data-id=add]"));
-            },
-
-            deleteItem: function () {
-
-            },
 
             endTurn: function () {
                 Commands.endTurn();
@@ -1275,6 +1263,21 @@ $(window).on('imready', function(im){
 
 
 
+    $('body').on('click', '.metropolis', function (e) {
+        showMetropolis(e);
+    });
+
+    function showMetropolis(e) {
+        let metroType = $(e.target).attr('data-type');
+        let building = DATA.getMatch().Metropolis[metroType];
+        if (building){
+            let $map =  $('.map');
+            let $v = $map.find('.vertex[data-id=' + building.position + ']').eq(0);
+            // $v.addClass('ctrl-clicked');
+            highlightVertex($v);
+        }
+    }
+
 
     // --------------------- user -----------------------
     $('#users').on('click', '.user', function (e) {
@@ -1321,3 +1324,4 @@ $(window).on('imready', function(im){
 
 
 });
+

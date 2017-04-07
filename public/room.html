@@ -95,11 +95,14 @@
 
 
                 <div class="city-improvements cmds right">
+                    <div class="cmd metropolis" v-for='type in Enum.cityImprovementCategory' v-bind:data-type="type">
+                        <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-type="type"></i></div>
+                        <div class='text' v-bind:data-type="type">{{type}}:   {{(room.match && room.match.Metropolis[type]) ? room.match.Metropolis[type].owner.name : "Nobody"}}</div>
+                    </div>
                     <div class="cmd" v-for='type in Enum.cityImprovementCategory' v-on:click='buyCityImprovement' v-bind:data-type="type">
                         <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-type="type"></i></div>
-                        <div class='text' v-bind:data-type="type">{{type}}:   {{(room.users[me.username] || my).cityImprovement[type]}}</div>
+                        <div class='text' v-bind:data-type="type">{{type}} LV:   {{(room.users[me.username] || my).cityImprovement[type]}}</div>
                     </div>
-
                 </div>
 <!--
                 <div class="other-cmd cmds right">
@@ -162,9 +165,9 @@
                         <div class='name' v-bind:data-username='player.name'>{{player.user.username}}</div>
                     </div>
                     <ul class='info'>
-                        <li>Metropolis: 0</li>
+                        <!--<li>Metropolis: 0</li>-->
                         <li>Longest Road: {{player.longestRoad}}</li>
-                        <li>Defender of Catan: 0</li>
+                        <!--<li>Defender of Catan: 0</li>-->
                         <li>Progress Card: {{player.progressCardsCnt}}</li>
                         <li>Resource Card: {{player.resourceCardNum}}</li>
                         <li>VP: {{player.VP}}</li>
