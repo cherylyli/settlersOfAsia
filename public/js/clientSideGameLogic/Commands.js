@@ -1431,10 +1431,10 @@ _.each(CommandName, function (cmd) {
         //comment out this part if you want to disable checks
         //checks
         //DATA.getMatch().phase = Enum.MatchPhase.TurnPhase; //for testing
-        if (!CommandCheck[cmd].apply(this, arguments)) {
+/*        if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
-
+*/
 
 /**
         // if barbarian result commands
