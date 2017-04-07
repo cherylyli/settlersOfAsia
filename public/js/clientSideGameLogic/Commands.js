@@ -450,18 +450,18 @@ CommandsData.hireKnight = function (position) {
 CommandCheck.hireKnight = function (position) {
     //QUESTION: immediately place knight after hired it???
     //if so: check if position is availble.
-    if (!checkEnoughResource(Cost.basicKnights)) {
+    if (!checkEnoughResource(Cost.hireKnight)) {
         swalError2("Not enough resource to purchase a knight");
         return false;
     }
     else {
         return true;
     }
-}
+};
 
 CommandsData.activateKnight = function (position) {
     return {'position': position};
-}
+};
 
 CommandCheck.activateKnight = function (position) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
@@ -476,7 +476,7 @@ CommandCheck.activateKnight = function (position) {
     else {
         return true;
     }
-}
+};
 
 CommandsData.promoteKnight = function (position) {
     return {'position': position};

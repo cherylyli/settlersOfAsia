@@ -384,6 +384,7 @@ $(window).on('imready', function(im){
 
             trade: function (e) {
                 let cmd = $(e.target).attr('data-cmd');
+
                 generateTradePrompt(cmd);
 
                 // for different cmd, when we click confirm, we run different cmd.
@@ -781,7 +782,7 @@ $(window).on('imready', function(im){
      *
      * @param type {String} "selling" / "buying"
      */
-    function generateTradeForm(type) {
+    function generateTradeForm(type, cmd) {
         let $form = $('<div></div>');
         $form.attr('data-id', type);
 
@@ -799,12 +800,35 @@ $(window).on('imready', function(im){
             $select.append($option);
         });
 
-        let $input = $('<input class="weui-input" type="number" pattern="[0-9]*" placeholder="0">');
-        $input.attr('name', type + 1 + "cnt");
-        $item.append($input);
 
-        // add and delete icon
-        $item.append('<i class="fa fa-minus-circle delete" aria-hidden="true"></i> <i class="fa fa-plus-circle add" aria-hidden="true"></i>');
+
+
+        if (cmd != "tradeWithBank"){
+            // trade with player
+            let $input = $('<input class="weui-input" type="number" pattern="[0-9]*" placeholder="0">');
+            $input.attr('name', type + 1 + "cnt");
+            $item.append($input);
+
+            // add and delete icon
+            $item.append('<i class="fa fa-minus-circle delete" aria-hidden="true"></i> <i class="fa fa-plus-circle add" aria-hidden="true"></i>');
+        }
+
+        else if (type == "buying"){
+            // default
+            let ratio = DATA.getMyPlayer().tradeRatio["Lumber"];
+            // trade with bank
+            let $ratioInfo = $('<div class="trade-info"><i class="fa fa-info-circle" aria-hidden="true">  trade ratio</i><div class="text">'+ ratio +'</div><div></div>');
+
+            $select.change(function () {
+                let type = $select.val();
+                $ratioInfo.find('.text').text(DATA.getMyPlayer().tradeRatio[type]);
+                console.log(DATA.getMyPlayer().tradeRatio[type]);
+                console.log($select.val());
+            });
+        
+            $item.append($ratioInfo);
+        }
+
         $form.append($item);
 
         return $form;
@@ -857,8 +881,8 @@ $(window).on('imready', function(im){
      */
     function generateTradePrompt(cmd) {
         let $prompt = $('#cmd-prompt');
-        $prompt.append(generateTradeForm('buying'));
-        $prompt.append(generateTradeForm('selling'));
+        $prompt.append(generateTradeForm('buying', cmd));
+        $prompt.append(generateTradeForm('selling', cmd));
 
         $prompt.append( '<div class="button" data-id="confirm">Trade</div> <div class="button" data-id="cancel">Cancel</div>');
 

@@ -450,8 +450,8 @@ let mapUI = (function () {
                 $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
                 $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
 
-                let divLeft = $vertex1.position().left < $vertex2.position().left ? $vertex1.position().left : $vertex2.position().left;
-                let divTop = $vertex1.position().top < $vertex2.position().top ? $vertex1.position().top : $vertex2.position().top;
+                let divLeft = $vertex1.css("left") < $vertex2.css("left") ? $vertex1.css("left") : $vertex2.css("left");
+                let divTop = $vertex1.css("top") < $vertex2.css("top") ? $vertex1.css("top") : $vertex2.css("top");
 
                 $edgeUnit.attr({
                     'id': edgeKey,
@@ -460,22 +460,22 @@ let mapUI = (function () {
                     // 'top': divTop,
                 });
 
-                let width = Math.abs($vertex1.position().left - $vertex2.position().left);
+                let width = Math.abs($vertex1.css("left") - $vertex2.css("left"));
 
                 $edgeUnit.css({
                     'left': width > 0 ? divLeft + vertexRadius : divLeft + vertexRadius - edgeWidth / 2,
                     'top': divTop + vertexRadius,
                     'width': width > 0 ? width : 10,
-                    'height': Math.abs($vertex1.position().top - $vertex2.position().top),
+                    'height': Math.abs($vertex1.css("top") - $vertex2.css("top")),
                     'position': 'absolute',
                     'z-index': 1
                 });
 
                 let draw = SVG(edgeKey);
-                let x1 = width > 0 ? $vertex1.position().left - divLeft : $vertex1.position().left - divLeft + edgeWidth / 2;
-                let y1 = $vertex1.position().top - divTop;
-                let x2 = width > 0 ? $vertex2.position().left - divLeft : $vertex2.position().left - divLeft + edgeWidth / 2;
-                let y2 = $vertex2.position().top - divTop;
+                let x1 = width > 0 ? $vertex1.css("left") - divLeft : $vertex1.css("left") - divLeft + edgeWidth / 2;
+                let y1 = $vertex1.css("top") - divTop;
+                let x2 = width > 0 ? $vertex2.css("left") - divLeft : $vertex2.css("left") - divLeft + edgeWidth / 2;
+                let y2 = $vertex2.css("top") - divTop;
                 let line = draw.line(x1, y1, x2, y2).stroke({
                     width: edgeWidth,
                     color: Enum.CSSColors[edgeUnit.owner.color]

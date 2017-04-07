@@ -27,6 +27,7 @@ Harbor.createHarbor = function (position, type) {
      */
     harbor.acquireBy = function(player){
         this.owner = player;
+        player.harbors.push(this);
 
         //change player trade ratio if it offers lower ratio
         if (this.type == Enum.HarborType.General){
