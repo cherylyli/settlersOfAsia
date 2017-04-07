@@ -222,4 +222,7 @@ function updateInfo(map, building) {
             }
         }
     }
+
+    // check for fish tile
+
 }

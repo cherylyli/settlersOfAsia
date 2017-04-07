@@ -293,6 +293,9 @@ $(window).on('imready', function(im){
             drawResourceCard: function () {
                 showDrawCardPrompt("drawOneResourceCard");
             },
+            discardResourceCards: function () {
+                showDiscardCardPrompt();
+            },
 
             progressCardCommand: function (e) {
                 let card = $(e.target).attr('data-id');
@@ -308,18 +311,6 @@ $(window).on('imready', function(im){
                 // console.log($(e.target).attr('data').id, $(e.target).attr('data').cmd);
                 showFishTokenInfo(tokenType);
             },
-
-            /**
-             buildEstablishment: function () {
-                var {vertex, establishmentLV } = getInput();
-
-                if (establishmentLV == 1){
-                    Commands.buildEstablishment(vertex, establishmentLV);
-                }
-                if (establishmentLV == 2){
-                    Commands.buildEstablishment(vertex, establishmentLV);
-                };
-            },**/
 
             buildRoad: function () {
                 var {vertex1, vertex2} = getInput();
@@ -781,9 +772,19 @@ $(window).on('imready', function(im){
         let $form = $('<div></div>');
         $form.attr('data-id', type);
 
-        let $title = $('<div>' + type + '</div>');
-        $title.addClass('button title ' + type);
-        $form.append($title);
+        if (cmd != "discardResourceCards"){
+            // trade
+            let $title = $('<div>' + type + '</div>');
+            $title.addClass('button title ' + type);
+            $form.append($title);
+        }
+        else {
+            // discard cards
+            let $title = $('<div>' + 'Choose cards to discard' + '</div>');
+            $title.addClass('button title ' + type);
+            $form.append($title);
+        }
+
 
         let $item = $('<div class="button ' + type + '" data-id="select"> </div>');
         let $select = $('<select class="weui-select"></select>');
@@ -833,7 +834,7 @@ $(window).on('imready', function(im){
      *
      * @param cmd
      * @param options {String[]}
-     */
+     *//**
     function generateOptionPrompt(cmd, options) {
         let $prompt = $('#cmd-prompt');
 
@@ -868,7 +869,7 @@ $(window).on('imready', function(im){
 
         });
     }
-
+**/
 
     /**
      *
@@ -880,22 +881,7 @@ $(window).on('imready', function(im){
         $prompt.append(generateTradeForm('buying', cmd));
         $prompt.append(generateTradeForm('selling', cmd));
 
-        $prompt.append( '<div class="button" data-id="confirm">Trade</div> <div class="button" data-id="cancel">Cancel</div>');
-
-        // add listener
-        // for trade form cmd prompt, add and remove icon
-        $('#cmd-prompt i.add').click(function (e) {
-            addNewItem(e);
-        });
-
-        $('#cmd-prompt i.delete').click(function (e) {
-            removeItem(e);
-        });
-
-        // cancel button
-        $prompt.find('.button[data-id=cancel]').click(function () {
-            hideCmdPrompt();
-        });
+        addConfirmAndCancelButtonForPrompt();
 
         // confirm button
         $prompt.find('.button[data-id=confirm]').click(function () {
@@ -924,6 +910,54 @@ $(window).on('imready', function(im){
         });
 
         //getInputCmdPrompt
+    }
+
+    function addConfirmAndCancelButtonForPrompt() {
+        let $prompt = $('#cmd-prompt');
+        
+        $prompt.append( '<div class="button" data-id="confirm">Confirm</div> <div class="button" data-id="cancel">Cancel</div>');
+
+        // add listener
+        // for trade form cmd prompt, add and remove icon
+        $('#cmd-prompt i.add').click(function (e) {
+            addNewItem(e);
+        });
+
+        $('#cmd-prompt i.delete').click(function (e) {
+            removeItem(e);
+        });
+
+        // cancel button
+        $prompt.find('.button[data-id=cancel]').click(function () {
+            hideCmdPrompt();
+        });
+    }
+
+
+    function showDiscardCardPrompt(){
+        if (isCmdPromptVisible()) hideCmdPrompt();
+        let $prompt = $('#cmd-prompt');
+        $prompt.append(generateTradeForm('selling', 'discardResourceCards'));
+
+        addConfirmAndCancelButtonForPrompt();
+
+        // confirm button
+        $prompt.find('.button[data-id=confirm]').click(function () {
+            let input = getInputCmdPrompt();
+            let {selling, buying} = readTradeInput(input);
+            // selling is the cards object ({Cost}) we want to discard, the name is inappropriate, because I am using the trade input function...
+
+
+            console.log("selling", selling);
+            Commands.discardResourceCards(selling);
+
+
+            hideCmdPrompt();
+
+
+        });
+        showCmdPrompt();
+
     }
 
     /**

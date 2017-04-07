@@ -791,7 +791,7 @@ Player.createPlayer = function (name, user) {
 
   //  player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     //DATA INPUT {{[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};} - Int : discarded amount
-    player.discardResourceCards = function(cards, num){
+    player.discardResourceCards = function(cards){
       let keys = [];
       for (var card in player.resourcesAndCommodities){
         for(var discard in cards){
@@ -801,7 +801,7 @@ Player.createPlayer = function (name, user) {
         }
       }
       player.resourceCardTotalNum();
-    }
+    };
 
 
     player.getCitySum = function(){

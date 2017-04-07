@@ -432,7 +432,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   */
  Commands.discardResourceCards = function (userName, roomID, data) {
      let player = DATA.getPlayer(userName, roomID);
-     player.discardResourceCards(data.cards, data.num);
+     player.discardResourceCards(data.cards);
  };
 
 
