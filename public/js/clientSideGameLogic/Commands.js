@@ -1439,8 +1439,8 @@ _.each(CommandName, function (cmd) {
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-        //let phase = DATA.getMatch().phase;
-/*        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
+      let phase = DATA.getMatch().phase;
+/*       if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
