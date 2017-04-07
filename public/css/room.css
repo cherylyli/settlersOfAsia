@@ -594,7 +594,7 @@ body{
 
 #cmd-prompt .trade-info .text{
     position: relative;
-    left: 10px;
+    left: 20px;
 }
 #cmd-prompt .button select{
     position: relative;
@@ -609,8 +609,8 @@ body{
 }
 
 #cmd-prompt .button i{
-    /* position: relative; */
-    /* left: 10%; */
+    position: relative;
+    left: 10%;
 }
 #cmd-prompt .button[data-id=cancel]:hover{
     background: #6595c1;

@@ -880,6 +880,7 @@ $(window).on('imready', function(im){
      * @param cmd {String} command name
      */
     function generateTradePrompt(cmd) {
+        if (isCmdPromptVisible()) hideCmdPrompt();
         let $prompt = $('#cmd-prompt');
         $prompt.append(generateTradeForm('buying', cmd));
         $prompt.append(generateTradeForm('selling', cmd));
