@@ -239,26 +239,29 @@ CommandReceived.performTradeTransaction = function () {
 
 
 CommandReceived.requestTrade = function (selling, buying) {
-    alert('=O');
-/*    if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
-        return;
-    }*/
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
+        //skip
+    }else{
+        let selling = DATA.getMatch().currentTrade.selling;
+        let buying = DATA.getMatch().currentTrade.buying;
+        console.log(selling);
 
-    swal({
-            title: "TRADE BRO?",
-            text: DATA.getMatch().currentPlayer +"wants to buy:"+buying +" and wants to sell: "+selling,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "TRADE RESOURCES!",
-            closeOnConfirm: false
-        },
-        function(){
-            swal("Trade started!", "Your trade response was sent", "success", function () {
-                Commands.acceptTrade();
+        console.log(DATA.getMatch().currentTrade);
+        swal({
+                title: "TRADE BRO?",
+                text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "TRADE RESOURCES!",
+                closeOnConfirm: false
+            },
+            function(){
+                swal("Trade started!", "Your trade response was sent", "success", function () {
+                    Commands.acceptTrade();
+                });
             });
-        });
-
+    }
     // TODO: max
     // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
 
