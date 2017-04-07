@@ -321,7 +321,7 @@ CommandCheck.movePirate = function (newHexID) {
     return true;
   }
   var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-  if (newHex) { 
+  if (newHex) {
       if (newHex.blockedByPirate == false && newHex.type === Enum.HexType.Sea) {
           return true;
       }
