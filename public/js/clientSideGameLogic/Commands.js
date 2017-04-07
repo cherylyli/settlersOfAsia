@@ -395,15 +395,14 @@ CommandCheck.discardOneProgressCard = function (progCard) {
     }
     swalError2("Card not found!");
     return false;
-}
+};
 
-CommandsData.giveAwayBoot = function (bootHolder, transferTo) {
-    //var victim = DATA.getPlayer(victimUserName);
-    return {'bootHolder': bootHolder, 'transferTo': transferTo};
-}
+CommandsData.giveAwayBoot = function (transferTo) {
+    return {'transferTo': transferTo};
+};
 
-CommandCheck.giveAwayBoot = function (bootHolder, transferTo) {
-    let playerA = DATA.getPlayer(bootHolder);
+CommandCheck.giveAwayBoot = function (transferTo) {
+    let playerA = DATA.getMyPlayer();
     let playerB = DATA.getPlayer(transferTo);
     if (playerA.hasBoot == true && playerB.hasBoot == false) {
         if (playerA.VP <= playerB.VP) {

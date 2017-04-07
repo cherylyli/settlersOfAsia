@@ -150,7 +150,7 @@ Player.createPlayer = function (name, user) {
 
     };
 
-    player.giveAwayBoot = function(opponentPlayer){
+    player.giveAwayBoot = function (opponentPlayer){
       if(player.VP <= opponentPlayer.VP){
         opponentPlayer.hasBoot = true;
         opponentPlayer.winningVP += 1;

@@ -30,7 +30,9 @@ Commands.joinRoom(userC, "123");
 Commands.startGame("123");
 
 
-Commands.stealCard("Emol", "123", {'victim': "Yuan"});
+// Commands.stealCard("Emol", "123", {'victim': "Yuan"});
+// DATA.getMatch().players[]
+Commands.giveAwayBoot("Emol", "123", {transferTo: "Yuan"});
 
 Commands.buildShip("Emol", "123", [53, 54]);
 Commands.moveShip("Emol", "123", {'oldPosition':[53, 54], 'newPosition':[1,2]});

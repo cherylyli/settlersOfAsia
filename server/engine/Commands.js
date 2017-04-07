@@ -604,9 +604,9 @@ Commands.discardOneProgressCard = function (userName, roomID, data) {
 };
 
 Commands.giveAwayBoot = function(userName, roomID, data){
-  let playerA = DATA.getPlayer(data.bootHolder, roomID);
+  let playerA = DATA.getPlayer(userName, roomID);
   let playerB = DATA.getPlayer(data.transferTo, roomID);
-  playerA.giveAwayBoat(playerB);
+  playerA.giveAwayBoot(playerB);
 };
 
 Commands.spendFishToken = function(userName, roomID, data){
