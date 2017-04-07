@@ -549,24 +549,11 @@ Commands.stealCard = function (userName, roomID, data) {
 };
 
 Commands.drawOneProgressCard = function(userName,roomID,data){
-    var progCardList = [];
-    var playersCards = [];
     var kind = data.kind;
     let match = DATA.getMatch(roomID);
-    for(var card in Enum.ProgressCardType[kind]){
-      progCardList.push(Enum.ProgressCardType[kind][card]);
-    }
-
     let players = DATA.getMatch(roomID).players;
-    for (var i in players) {
-      for(var card in players[i].progressCards){
-        playersCards.push(players[i].progressCards[card]);
-      }
-    }
     var player = DATA.getPlayer(userName, roomID);
-    var duplicates = _.intersection(progCardList,playersCards);
-    var progCard = _.difference(progCardList,duplicates);
-    player.drawOneProgressCard(progCard[0]);
+    player.drawOneProgressCard(match,kind);
 
     if (match.phase == Enum.MatchPhase.TurnPhase){
       if(match.fish = "DRAW_PROG")

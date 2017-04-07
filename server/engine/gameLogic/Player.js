@@ -9,6 +9,7 @@ let Cost = require('./Cost.js');
 let Building = require('./Building.js');
 let Robber = require('./Robber.js');
 let Commands = require('../Commands.js');
+let _ = require('underscore');
 
 /**
  * Player stores the game info of a user in a game.
@@ -35,7 +36,8 @@ Player.createPlayer = function (name, user) {
     player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.resourceCardNum = initialGoldNum;
     // TODO: testing, change later
-    player.progressCards = [Enum.ProgressCardType.Science.Alchemist, Enum.ProgressCardType.Trade.Merchant, Enum.ProgressCardType.Politics.Bishop];
+    player.progressCards = [];
+    //[Enum.ProgressCardType.Science.Alchemist, Enum.ProgressCardType.Trade.Merchant, Enum.ProgressCardType.Politics.Bishop];
     player.progressCardsCnt = player.progressCards.length;
     //TODO - player can only place at most 5 settlements
     player.buildings = {};  //key: position (vertex index / int); value: building object
@@ -226,8 +228,28 @@ Player.createPlayer = function (name, user) {
      * @param progCard  progress card of player's choice
      * @return player.progressCards {String}
      */
-    player.drawOneProgressCard = function(progCard){
-      player.progressCards.push(progCard);
+    player.drawOneProgressCard = function(match, kind){
+      var progCardList = [];
+      var playersCards = [];
+      let players = match.players;
+
+      for (var i in players) {
+        for(var card in players[i].progressCards){
+          playersCards.push(players[i].progressCards[card]);
+        }
+      }
+
+      for(var progCard in Enum.ProgressCardType[kind]){
+        progCardList.push(Enum.ProgressCardType[kind][progCard]);
+      }
+      //console.log(playersCards);
+      //console.log(progCardList);
+      var duplicates = _.intersection(progCardList,playersCards);
+      var progCard = _.difference(progCardList,duplicates);
+
+      console.log("from it" + progCard[0]);
+
+      player.progressCards.push(progCard[0]);
       player.progressCardsCnt++;
       return player.progressCards;
     };
@@ -615,16 +637,16 @@ Player.createPlayer = function (name, user) {
         v2 = items[key][1];
         if (mappedData[v1]){
           newVertexStuffV1 = mappedData[v1];
-        } 
+        }
         newVertexStuffV1.push(items[key]);
         mappedData[v1] = newVertexStuffV1;
 
         if (mappedData[v2]){
           newVertexStuffV2 = mappedData[v2];
-        } 
+        }
         newVertexStuffV2.push(items[key]);
         mappedData[v2] = newVertexStuffV2;
-        
+
       }
       return mappedData;
     }
@@ -681,11 +703,11 @@ Player.createPlayer = function (name, user) {
         paths.push(nextV);
       }
 
-      
+
       // traverse the path until no more possible roads
       while (paths.length > 0){
-        
-        
+
+
         var lastVertex = parseInt(paths.shift());
 
         // console.log("paths, traversed, lastVertex");
@@ -713,7 +735,7 @@ Player.createPlayer = function (name, user) {
             }
             traversed.push(p);
             paths.push(newLastVertex);
-            
+
             // console.log("new p & new last vertex");
             // console.log(p);
             // console.log(newLastVertex);
@@ -724,7 +746,7 @@ Player.createPlayer = function (name, user) {
 
 
       }
-      
+
       return emptyVertices;
 
     };
