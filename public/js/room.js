@@ -293,6 +293,9 @@ $(window).on('imready', function(im){
             drawResourceCard: function () {
                 showDrawCardPrompt("drawOneResourceCard");
             },
+            discardResourceCards: function () {
+              showDiscardprompt();
+            },
 
             progressCardCommand: function (e) {
                 let card = $(e.target).attr('data-id');
@@ -308,18 +311,6 @@ $(window).on('imready', function(im){
                 // console.log($(e.target).attr('data').id, $(e.target).attr('data').cmd);
                 showFishTokenInfo(tokenType);
             },
-
-            /**
-             buildEstablishment: function () {
-                var {vertex, establishmentLV } = getInput();
-
-                if (establishmentLV == 1){
-                    Commands.buildEstablishment(vertex, establishmentLV);
-                }
-                if (establishmentLV == 2){
-                    Commands.buildEstablishment(vertex, establishmentLV);
-                };
-            },**/
 
             buildRoad: function () {
                 var {vertex1, vertex2} = getInput();
