@@ -129,6 +129,32 @@ Match.createNewMatch = function (scenario, players, id) {
       return maxKey;**/
     };
 
+    match.getMetropolisOwner = function(cityImprovementCategory){
+      var improvementLevel = {};
+      let players = match.players;
+      var access = 0;
+      for(var player in players){
+        //console.log(players[player].cityImprovement[cityImprovementCategory]);
+        if(players[player].cityImprovement[cityImprovementCategory] >= 4){
+          improvementLevel[players[player].name] = players[player].cityImprovement[cityImprovementCategory];
+          access = 1;
+        }
+      }
+      if(!access){
+        return;
+      }
+      //console.log("imrovementL" + improvementLevel);
+      var maxKey = _.max(Object.keys(improvementLevel), function(player){
+        return improvementLevel[player];
+      });
+
+      match.Metropolis[cityImprovementCategory] = maxKey;
+      //console.log("max key is " + maxKey);
+    //  var player = match.getPlayer(maxKey);
+    //  player.hasMetropolis = true;
+      return maxKey;
+    }
+
     match.endGame = function(){
         notify.room(this.id, "GAME_ENDS", CircularJSON.stringify(DATA.getRoom(match.id)));
     };

@@ -97,7 +97,7 @@
                 <div class="city-improvements cmds right">
                     <div class="cmd metropolis" v-for='type in Enum.cityImprovementCategory' v-bind:data-type="type">
                         <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-type="type"></i></div>
-                        <div class='text' v-bind:data-type="type">{{type}}:   {{(room.match && room.match.Metropolis[type]) ? room.match.Metropolis[type].owner.name : "Nobody"}}</div>
+                        <div class='text' v-bind:data-type="type">{{type}}:   {{(room.match && room.match.Metropolis[type]) ? room.match.Metropolis[type] : "Nobody"}}</div>
                     </div>
                     <div class="cmd" v-for='type in Enum.cityImprovementCategory' v-on:click='buyCityImprovement' v-bind:data-type="type">
                         <div class="icon center-cropped"><i class="fa fa-institution" aria-hidden="true" v-bind:data-type="type"></i></div>

@@ -494,24 +494,40 @@ CommandCheck.promoteKnight = function (position) {
         swalError2("Knight has already been promoted");
         return false;
     }
-    if (knight.level == 3) {
-        swalError2("You've got the strongest knight already.");
-        return false;
-    }
     if (!checkEnoughResource(Cost.promoteKnight)) {
         swalError2("Not enough resource to promote a knight");
         return false;
     }
-    else {
-        return true;
+    //if player has a fortress (i.e enters the 3rd level of politics,
+    //they can promote a strong knight to a mighty knight
+    //otherwise the highest level of knight they can promote to is level 2- strong knight
+    if (DATA.getPlayer().cityImprovement.Politcs >= 3) {
+       if(knight.level == 3){
+        swalError2("You've got the strongest knight already.");
+        return false;
+      }
+      else{
+        return true
+      }
+    }
+    else{
+      if(knight.level == 2){
+       swalError2("To upgrade your current knight, you need a Fortress.");
+       return false;
+      }
+      return true;
     }
 };
-//TODO
+
 CommandsData.moveKnight = function (position, newPosition) {
     return {'position': position, 'newPosition': newPosition};
 };
 
 CommandCheck.moveKnight = function (position, newPosition) {
+  //TODO : for move knight and chase away thief - knight must be activated during the last turn
+  //otherwise return false;
+  //TODO add displaceKnight feature
+  //TODO check if newPosition is a valid vertex [continuous road]
     var knight = DATA.getMatch().map.getVertexInfo(position);
     var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
     var validVertices = DATA.getMyPlayer().getEmptyAdjacentVertices(position,DATA.getMatch());
@@ -557,6 +573,7 @@ CommandsData.chaseAwayThief = function (knightPosition, thiefPosition, newPositi
 //pos, theifpos, new pos : hextile ID
 CommandCheck.chaseAwayThief = function (knightPosition, thiefPosition, newPositionForThief) {
     var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
+    var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
     var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
     if (!thiefHex.blockedByRobber) {
         swalError2("No robber on the hextile");
