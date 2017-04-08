@@ -107,7 +107,8 @@ Bank.createBank = function (match) {
            cost = Cost[costName];
        }
        player.fishSum -= cost;
-     }
+     };
      
     return bank;
-}
+};
+

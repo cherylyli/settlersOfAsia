@@ -128,12 +128,6 @@ module.exports = function(socket, user, roomId) {
             result = CircularJSON.stringify( DATA.getRoom(data.roomId));
 
 
-            // where msg is an object returned from the API
-            /**
-            fs.writeFile("matchNew.json", result, function (err) {
-                if (err) throw err;
-            });**/
-
             send('JOIN_ROOM_SUCCESS', result);
             // send('JOIN_ROOM_SUCCESS', CircularJSON.stringify(fakeRoom.room));
             // sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));

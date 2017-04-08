@@ -8,45 +8,60 @@ const MIN_PLAYER_NUM = 3;
 const MAX_PLAYER_NUM = 4;
 
 let enums = require('./Enum.js');
-//import _ from "underscore";
 let Player = require('./Player.js');
 let Match = require('./Match.js');
 let DATA = require('../Data.js');
+let fs = require("fs");
+let CircularJSON = require('circular-json');
 
 let Room = module.exports = {};
 
 
 
-Room.createRoom = function (RoomID, creatorName, gameScenario, roomName) {
+
+Room.createRoom = function (savedGameID, RoomID, creatorName, gameScenario, roomName) {
     let gameRoom = {};
 
-    gameRoom.id = RoomID;
-    gameRoom.state = enums.GameRoomState.Waiting;   //after game starts, gameRoom.state = match.state
-    gameRoom.owner = creatorName;
-    gameRoom.users = {};    //key: userName (string), value: player data (Player object)
-    //gameRoom.Users = {};    //user objects
-    gameRoom.match = null;
-    gameRoom.gameScenario = gameScenario;
-    gameRoom.name = roomName;
+    if (savedGameID) {
+        gameRoom = CircularJSON.parse(fs.readFileSync("./data/saveGame/"+ savedGameID + ".json"));
+        gameRoom.savedGame = true;
+        DATA.addMatch(gameRoom.id, gameRoom.match);
 
+        // DATA.addRoom(gameRoom);
+    }
+    else {
+        gameRoom.id = RoomID;
+        gameRoom.state = enums.GameRoomState.Waiting;   //after game starts, gameRoom.state = match.state
+        gameRoom.owner = creatorName;
+        gameRoom.users = {};    //key: userName (string), value: player data (Player object)
+        //gameRoom.Users = {};    //user objects
+        gameRoom.match = null;
+        gameRoom.gameScenario = gameScenario;
+        gameRoom.name = roomName;
+
+    }
 
     gameRoom.addUser = function(user){
         let gameRoomID = this.id;
-        if (!this.match || !this.users[user.username]){
-            this.users[user.username] = Player.createPlayer(user.username, user);
 
-            if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
-                this.state = enums.GameRoomState.Ready;
-            }
-            if (Object.keys(this.users).length  == MAX_PLAYER_NUM ){
-                this.state = enums.GameRoomState.Full;
-            }
-        }
-        else {
+        if (gameRoom.savedGame){
             this.users[user.username].user = user;
         }
 
+        else {
+            if (!this.match || !this.users[user.username]){
+                this.users[user.username] = Player.createPlayer(user.username, user);
+
+                if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
+                    this.state = enums.GameRoomState.Ready;
+                }
+                if (Object.keys(this.users).length  == MAX_PLAYER_NUM ){
+                    this.state = enums.GameRoomState.Full;
+                }
+            }
+        }
     };
+
 
     gameRoom.isFull = function () {
         return this.state == enums.GameRoomState.Full;
@@ -69,7 +84,7 @@ Room.createRoom = function (RoomID, creatorName, gameScenario, roomName) {
 
 
     gameRoom.startGame = function () {
-        if (this.match) return gameRoom.match;
+        if (this.savedGame && this.match) return gameRoom.match;
         if (!gameRoom.gameScenario){
             //ask user to select scenario.
             //test data

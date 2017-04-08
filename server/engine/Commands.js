@@ -21,6 +21,7 @@ let Robber = require('./gameLogic/Robber.js');
 let Pirate = require('./gameLogic/Pirate.js');
 let ProgressCard = require('./gameLogic/ProgressCards.js');
 let _ = require('underscore');
+let fs = require("fs");
 
 let Commands = module.exports = {};
 let CommandsCheck = {};
@@ -30,7 +31,6 @@ let CommandsCheck = {};
 //TODO: change return value of commands, some commands may not need to return anything
 //Payment and action are separate!
 //--------------------Commands used when user is not in game----------------------------
-
 /**
  * Use this command when you create a new game room
  *
@@ -42,11 +42,13 @@ let CommandsCheck = {};
  * @param savedGameID the game ID {String} of a previous game, only use this field if the user wants to play a saved game
  * @param scenario {String} use this field if user wants to start a new game
  */
+
  Commands.makeNewRoom = function (user, roomID, savedGameID, gameScenario, roomName) {
      //let user = DATA.getUser(userName);
-     //if(!user) user = User.createUser(userName);
+     // if(!user) user = User.createUser(userName);
+
      //make new Room
-     let room = Room.createRoom(roomID, user.name, gameScenario, roomName);
+     let room = Room.createRoom(savedGameID, roomID, user.name, gameScenario, roomName);
 
 
      //owner also joins room
@@ -135,6 +137,18 @@ let CommandsCheck = {};
 
  //=================================================================================
  //-------------------------------Commands used in game-----------------------------
+
+
+
+Commands.saveGame = function (userName, roomID) {
+    let room = DATA.getRoom(roomID);
+    // TODO: now just write to file, change this part later
+    fs.writeFile("./data/saveGame/"+roomID+".json", CircularJSON.stringify(room), function (err) {
+        if (err) throw err;
+    });
+};
+
+
 
  /**
   *
