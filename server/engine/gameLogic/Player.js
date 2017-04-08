@@ -72,6 +72,7 @@ Player.createPlayer = function (name, user) {
     player.progress_cards = {'CommercialHarbor':'CommercialHarbor'}; //we place new progress cards into this dictionary
     player.active_cards = {}; //after processing progress card we add here permmissions to build roads or take stuff from others
 
+
     /**
      *
      * @return {Number}
@@ -220,6 +221,7 @@ Player.createPlayer = function (name, user) {
         for (let card in player.resourcesAndCommodities){
             sum += player.resourcesAndCommodities[card];
         }
+        player.resourceCardNum = sum;
         return sum;
     };
 

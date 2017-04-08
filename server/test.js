@@ -2,7 +2,7 @@
  * Created by emol on 2/17/17.
  */
 "use strict"
-// let fakeRoom = module.exports = {};
+let fakeRoom = module.exports = {};
 let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
@@ -13,10 +13,10 @@ let rooms = data.rooms;
 let users = data.users;
 let match = data.matches;
 **/
-let user_A = {username :  "Emol"};
-let user_B = {username :  "Max"};
-let user_C = {username :  "Cheryl"};
-let user_D = {username :  "Yuan"};
+let user_A = {username :  "Emol", profile_pic : '/img/default_profile_pic.png'};
+let user_B = {username :  "Max", profile_pic : '/img/default_profile_pic.png'};
+let user_C = {username :  "Cheryl", profile_pic : '/img/default_profile_pic.png'};
+let user_D = {username :  "Yuan", profile_pic : '/img/default_profile_pic.png'};
 let userA = User.createUser(user_A);
 let userB = User.createUser(user_B);
 let userC = User.createUser(user_C);
@@ -80,7 +80,7 @@ Commands.buildRoad("Emol", "123", [2, 3]);
 
 // Commands.activateKnight("Max","123",7);
 
-// fakeRoom.room = data.getRoom("123");
+fakeRoom.room = data.getRoom("123");
 //TODO test barbarian applyResult + robber produce resource from bank
 /**
 //

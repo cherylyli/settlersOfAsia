@@ -39,6 +39,10 @@ let VertexUnit = (function () {
         }
     }
 
+    function getTheifAround(knight) {
+
+    }
+
     return {
         getUIType,
         isKnight,
