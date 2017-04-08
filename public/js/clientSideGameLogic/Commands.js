@@ -247,9 +247,39 @@ CommandReceived.performTradeTransaction = function () {
     //DATA.getMatch().currentTrade
     //maybe set a flah so that we know with whom trade was performed
     //don't delete trade right away it is going to be overwritted later anyway
+    //don't delete trade right away it is going to be overwritted later anyway
     //just check who is left in the currentTrade
 };
 
+//we need to wait until all players accept or decline trade
+//we can do it by adding counter inside of current trade and check it after
+CommandReceived.acceptTrade = function () {
+    //if not everyone participated we are not showing anything
+    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1)){
+        console.log("skip");
+        return;
+    }
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
+        swal({
+                title: "Please choose a player to trade with",
+                text: "Players that accepted trade:" + JSON.stringify(DATA.getMatch().currentTrade.accepted),
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Write something"
+            },
+            function(inputValue){
+                if (inputValue === false) return false;
+
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+                swal("Nice!", "You wrote: " + inputValue, "success");
+            });
+    }
+};
 
 CommandReceived.requestTrade = function (selling, buying) {
     if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
@@ -258,21 +288,26 @@ CommandReceived.requestTrade = function (selling, buying) {
         let selling = DATA.getMatch().currentTrade.selling;
         let buying = DATA.getMatch().currentTrade.buying;
         console.log(selling);
-
         console.log(DATA.getMatch().currentTrade);
         swal({
-                title: "TRADE BRO?",
+                title: "TRADE ??? =)",
                 text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "TRADE RESOURCES!",
-                closeOnConfirm: false
+                cancelButtonText: "NOOO!!1",
+                closeOnConfirm: false,
+                closeOnCancel: false
             },
-            function(){
-                swal("Trade started!", "Your trade response was sent", "success", function () {
-                    Commands.acceptTrade();
-                });
+            function(isConfirm){
+                if (isConfirm) {
+                    swal("Trade started!", "Your trade response was sent", "success");
+                    Commands.acceptTrade(true);
+                } else {
+                    swal("You declined trade!", "Trade has been stopped", "error");
+                    Commands.acceptTrade(false);
+                }
             });
     }
     // TODO: max
@@ -673,22 +708,6 @@ CommandsData.acceptTrade = function (selling, buying) {
 
 CommandCheck.acceptTrade = function (selling, buying) {
     checkEnoughResource(buying);
-};
-
-// TODO: Max
-// commandReceived does not take any input
-// to get the most recent room object, app.room
-CommandReceived.acceptTrade = function () {
-    //
-    if (DATA.getMyPlayer().name == trade.offerer){
-        // show a list of players who accepted the trade
-    }
-
-    // if we play the progress card
-    // we dont need to choose
-
-
-    // send to server we confirm the trade
 };
 
 CommandsData.tradeWithPlayer = function (userNameA, userNameB, trade) {
