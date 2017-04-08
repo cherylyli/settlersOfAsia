@@ -235,7 +235,7 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
  */
 CommandsData.requestTrade = function (selling, buying) {
         return {'selling': selling, 'buying': buying};
-    };
+};
 
 CommandCheck.requestTrade = function (selling, buying) {
     // check if we have the cards we offer
@@ -281,7 +281,9 @@ CommandReceived.acceptTrade = function () {
     }
 };
 
-CommandReceived.requestTrade = function (selling, buying) {
+CommandReceived.requestTrade = function () {
+
+    // FIXME: commandReceived does not take any parameter
     if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
         //skip
     }else{
@@ -296,7 +298,7 @@ CommandReceived.requestTrade = function (selling, buying) {
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "TRADE RESOURCES!",
-                cancelButtonText: "NOOO!!1",
+                cancelButtonText: "NOOO!!",
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
@@ -698,10 +700,11 @@ CommandCheck.discardResourceCards = function (cards) {
 
 /**
  *
- * @param selling {object}
- * @param buying {object}
+ * @param accept {boolean}
  */
-CommandsData.acceptTrade = function (selling, buying) {
+CommandsData.acceptTrade = function (accept) {
+    return {accept: accept};
+    // TODO: change this in server part corresponding
     //checkEnoughResource(buying);
 
 };
