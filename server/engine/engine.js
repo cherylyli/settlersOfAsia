@@ -9,6 +9,7 @@ var async   = require('async');
 var _h      = require('../api/helper_functions.js');
 var Uuid    = require('uuid');
 var User    = require('../../models/user.js');
+var Game    = require('../../models/game.js');
 var notify  = require('../api/notify.js');
 var fs = require("fs"); // Has to be installed first with “npm install fs”
 let CircularJSON = require('circular-json');
