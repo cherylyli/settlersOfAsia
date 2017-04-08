@@ -6,6 +6,7 @@ let CommandsData = {};
 let SpecialsCommands = {
     'moveKnight': 'moveKnight',
     'upgradeToMetropolis': 'upgradeToMetropolis',
+    'chaseAwayThief': 'chaseAwayThief',
     'moveShip': 'moveShip'
 };
 
@@ -576,26 +577,40 @@ CommandCheck.displaceKnight = function (position, newPosition) {
 
 
 // TODO: Emol, also chase away theif cmd prompt not finished
-CommandsData.chaseAwayThief = function (knightPosition, thiefPosition, newPositionForThief) {
-    return {'knightPosition': knightPosition, 'thiefPosition': thiefPosition, 'newPositionForThief': newPositionForThief}
+// for move thief part, we use Command.moveThief
+/**
+ *
+ * @param knightPosition {int}
+ */
+CommandsData.chaseAwayThief = function (knightPosition) {
+    return {'knightPosition': knightPosition};
 };
 
 
 //pos, theifpos, new pos : hextile ID
-CommandCheck.chaseAwayThief = function (knightPosition, thiefPosition, newPositionForThief) {
+CommandCheck.chaseAwayThief = function (knightPosition) {
     var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
     var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
+    /**
     var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
     if (!thiefHex.blockedByRobber) {
         swalError2("No robber on the hextile");
         return false;
-    }
+    }**/
     if (!knight.active) {
         swalError2("This knight is not active!");
         return false;
     }
     return true;
 };
+/**
+CommandReceived.chaseAwayThief = function () {
+    let knight = DATA.getMatch().knightInAction;
+    let thiefAround = VertexUnit.getThiefAround(knight);
+
+
+
+};**/
 //num : total number of cards to be discarded
 //cards: {Enum.Resourca.card : # of this type to be discarded} {Cost}
 CommandsData.discardResourceCards = function (cards) {

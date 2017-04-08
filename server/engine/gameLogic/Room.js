@@ -32,7 +32,7 @@ Room.createRoom = function (RoomID, creatorName, gameScenario, roomName) {
 
     gameRoom.addUser = function(user){
         let gameRoomID = this.id;
-        if (!this.match){
+        if (!this.match || !this.users[user.username]){
             this.users[user.username] = Player.createPlayer(user.username, user);
 
             if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){

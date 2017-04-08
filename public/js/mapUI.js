@@ -22,18 +22,18 @@ let mapUI = (function () {
     function resizeMap() {
 
         /**
-        let p1 = new Promise(
-            (resolve, reject) => {
+         let p1 = new Promise(
+         (resolve, reject) => {
                 positionMap();
                 resolve();
             }
-        );
-        p1.then(
-            function() {
+         );
+         p1.then(
+         function() {
                 placeRoadsAndShips();
                 placeHarbors();
             });
-        **/
+         **/
 
         positionMap();
         placeRobberAndPirate();
@@ -89,7 +89,7 @@ let mapUI = (function () {
             if (hextile.productionNum) {
                 let $numToken = $("<div class='num-token'></div>");
                 $numToken.text(hextile.productionNum);
-                if (hextile.type == Enum.HexType.Lake){
+                if (hextile.type == Enum.HexType.Lake) {
                     $numToken.css('width', 65);
                 }
                 $hex.append($numToken);
@@ -192,7 +192,7 @@ let mapUI = (function () {
         let thiefs = ['robber', 'pirate'];
 
         _.forEach(thiefs, function (thief) {
-            if (map[thief].pos != 0){
+            if (map[thief].pos != 0) {
                 let $hex = $map.find('.hex[data-id=' + map[thief].pos + ']');
                 let $thief = $("<div class='thief'></div>");
                 $thief.addClass(thief);
@@ -216,10 +216,10 @@ let mapUI = (function () {
             $fishTile.attr({
                 'data-id': fishTile.id
             });
-            let tempTiles= map.getHexTileByEdge(Map.edge(fishTile.vertices['1'], fishTile.vertices['2']));
+            let tempTiles = map.getHexTileByEdge(Map.edge(fishTile.vertices['1'], fishTile.vertices['2']));
             let hextileID, positionInHex;
             _.forEach(tempTiles, function (temp) {
-                if (DATA.getHexTileById(temp[0]).type != Enum.HexType.Sea){
+                if (DATA.getHexTileById(temp[0]).type != Enum.HexType.Sea) {
                     [hextileID, positionInHex] = temp;
                 }
             });
@@ -234,7 +234,7 @@ let mapUI = (function () {
             let right = left + 1.732 * hexEdgeLength;
             let bottom = top + 2 * hexEdgeLength;
             let harborRadius = hexEdgeLength * 0.6 / 2;
-            switch (positionInHex){
+            switch (positionInHex) {
                 case 'TopLeft':
                     centerX = left;
                     centerY = top - 0.5 * hexEdgeLength;
@@ -249,7 +249,7 @@ let mapUI = (function () {
                     break;
                 case 'BottomRight':
                     centerX = right;
-                    centerY = bottom + 0.5 * hexEdgeLength ;
+                    centerY = bottom + 0.5 * hexEdgeLength;
                     break;
                 case 'BottomLeft':
                     centerX = left;
@@ -303,13 +303,13 @@ let mapUI = (function () {
             let top = parseInt($hexTile.css('top'));
             let left = parseInt($hexTile.css('left'));
             /**
-            console.log(hextile.id, "left", left);
-            console.log(hextile.id, "top", top);
+             console.log(hextile.id, "left", left);
+             console.log(hextile.id, "top", top);
              **/
             let right = left + 1.732 * hexEdgeLength;
             let bottom = top + 2 * hexEdgeLength;
             let harborRadius = hexEdgeLength * 0.6 / 2;
-            switch (positionInHex){
+            switch (positionInHex) {
                 case 'TopLeft':
                     centerX = left + 0.5 * 0.7 * 0.866 * hexEdgeLength;
                     centerY = top - 0.5 * hexEdgeLength + 0.866 * 0.7 * 0.866 * hexEdgeLength;
@@ -401,9 +401,9 @@ let mapUI = (function () {
                     setUpKnight(vertexUnit, $vertexUnit);
                 }
 
-                else if (vertexUnit.level != Enum.Building.Settlement){
+                else if (vertexUnit.level != Enum.Building.Settlement) {
                     // for city, check if it has city wall
-                    if (vertexUnit.cityWall){
+                    if (vertexUnit.cityWall) {
                         $vertexUnit.css({
                             'border-width': 3,
                             'border-color': '#6a6b93'
@@ -449,7 +449,6 @@ let mapUI = (function () {
                 $map.append($edgeUnit);
                 $vertex1 = $map.find('.vertex[data-id=' + vertex1 + ']');
                 $vertex2 = $map.find('.vertex[data-id=' + vertex2 + ']');
-8
                 let v1L = parseInt($vertex1.css("left"));
                 let v1T = parseInt($vertex1.css("top"));
                 let v2L = parseInt($vertex2.css("left"));
@@ -505,7 +504,64 @@ let mapUI = (function () {
         placeRoadsAndShips,
         resizeMap,
         addVertexUnit,
-        updateMap
+        updateMap,
+
     }
 
 })();
+
+
+//-------------------------map action-------------------------
+// test if control key is pressed
+function isCtrlPressed(e) {
+    return e.ctrlKey || e.metaKey;
+}
+
+// clear highlighted vertices
+function clearHighlightedVertices($except) {
+    var $p = $('#cmd-table');
+    var $map = $('#board .map');
+    $map.find('.vertex').not($except).removeClass('ctrl-clicked');
+}
+
+// clear highlighted hexes
+function clearHighlightedHexes($except) {
+    var $p = $('#cmd-table');
+    var $map = $('#board .map');
+    $map.find('.hex').not($except).removeClass('clicked');
+}
+
+// clear highlighted commands
+function clearHighlightedCommands() {
+    var $p = $('#cmd-table');
+    //var $map = $('#board .map');
+    $p.find('.cmds .cmd').removeClass('matched'); // remove highlighted commands
+}
+
+// count number of highlighted vertices
+function highlightedVertices() {
+    return $('#board .map .vertex.ctrl-clicked').length;
+}
+
+// count number of highlighted hexes
+function highlightedHexes() {
+    return $('#board .map .hex.clicked').length;
+}
+
+// highlight a vertex
+function highlightVertex($e) {
+    $e.addClass('ctrl-clicked');
+}
+
+// highlight a hex
+function highlightHexes($e) {
+    $e.addClass('clicked');
+}
+
+// check if element has class
+function isNot($e, cls) {
+    return (!$e.hasClass(cls) && !$e.closest('.' + cls).length);
+}
+
+
+

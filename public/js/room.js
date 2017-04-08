@@ -300,7 +300,7 @@ $(window).on('imready', function(im){
             progressCardCommand: function (e) {
                 let card = $(e.target).attr('data-id');
                 // console.log($(e.target).attr('data').id, $(e.target).attr('data').cmd);
-                showProgressCardCmd(card);
+                showProgressCardCmd(card)
             },
             drawProgressCard: function () {
                 showDrawCardPrompt("drawOneProgressCard");
@@ -370,14 +370,7 @@ $(window).on('imready', function(im){
                 let cmd = $(e.target).attr('data-cmd');
 
                 generateTradePrompt(cmd);
-
-                // for different cmd, when we click confirm, we run different cmd.
-
-
                 showCmdPrompt();
-
-                //if (cmd == "tradeWithBank"){
-                //}
             },
 
             tradeWithBank: function () {
@@ -457,60 +450,48 @@ $(window).on('imready', function(im){
 
 
 
-    function placeIntoWebpage(newNode) {
-        $('#board .map').append(newNode);
-    }
+
 
 
     // ----------------------------------------- Command Table ----------------------------------------- //
 
-    $('#cmd-table').draggable();
+    // $('#cmd-table').draggable();
 
     // display command table
-    function showCmdTable() {
-        $('#cmd-table').show();
-        if (!$('#cmd-table .cmd.chosen').length) $('#cmd-table .cmd').first().click();
-    }
-
-    // display command prompt
-    function showCmdPrompt() {
-        $('#cmd-prompt').show();
-    }
+    // function showCmdTable() {
+    //     $('#cmd-table').show();
+    //     if (!$('#cmd-table .cmd.chosen').length) $('#cmd-table .cmd').first().click();
+    // }
 
 
-    $(document).on('click', '#trigger-cmd-table', showCmdTable);
+
+    // $(document).on('click', '#trigger-cmd-table', showCmdTable);
 
     // hide command table by clicking on 'X' or press 'ESC' key
-    function hideCmdTable() {
-        var $p = $('#cmd-table');
-        clearHighlightedCommands();
-        clearHighlightedVertices();
-        $p.find('input').val('');
-        $p.hide();
-    }
+    // function hideCmdTable() {
+    //     var $p = $('#cmd-table');
+    //     clearHighlightedCommands();
+    //     clearHighlightedVertices();
+    //     $p.find('input').val('');
+    //     $p.hide();
+    // }
 
 
-    function hideCmdPrompt() {
-        clearHighlightedVertices();
-        clearHighlightedHexes();
-        let $prompt = $('#cmd-prompt');
-        $prompt.find('.button').remove();
-        $prompt.hide();
-    }
 
-    $('#cmd-table .pop_close').click(hideCmdTable);
-    $(document).keyup(function (e) {
-        if (e.keyCode == 27) hideCmdTable()
-    });
+
+    // $('#cmd-table .pop_close').click(hideCmdTable);
+    // $(document).keyup(function (e) {
+    //     if (e.keyCode == 27) hideCmdTable()
+    // });
 
     // check if cmd table is visible
-    function isCmdTableVisible() {
-        return $('#cmd-table').is(':visible');
-    }
+    // function isCmdTableVisible() {
+    //     return $('#cmd-table').is(':visible');
+    // }
 
-    function isCmdPromptVisible() {
-        return $('#cmd-prompt').is(':visible');
-    }
+    // function isCmdPromptVisible() {
+    //     return $('#cmd-prompt').is(':visible');
+    // }
 
 
 
@@ -523,57 +504,16 @@ $(window).on('imready', function(im){
         removeItem(e);
     });
 
-    // FIXME: Is there a nicer way to create listner on dynamically generated divs???
-    function addNewItem(e) {
-        let $buttonClicked = $(e.target).parent();
-        let $newButton = $buttonClicked.clone();
-        let $form = $buttonClicked.parent();
-        // change name of input
-        let buttonNumber = $form.find('.button').size();  // title is also a button, so number of buttons is size() - 1, no for this button is size() - 1 +1
-        let type = $form.attr('data-id');
-        $newButton.find('input').attr('name', type + buttonNumber + 'cnt');
-        $newButton.find('select').attr('name', type + buttonNumber);
-
-        // create listener for new button
-        $newButton.find('i.add').click(function (e) {
-            addNewItem(e);
-        });
-        $newButton.find('i.delete').click(function (e) {
-            removeItem(e);
-        });
-        // let $button =  $("#cmd-prompt .button[data-id=select]").eq(0).clone();
-        $buttonClicked.after($newButton);
-    }
-
-
-    function removeItem(e) {
-        let $button = $(e.target).parent();
-        let $form = $button.parent();
-        if ($form.find('.button').size() <= 2){
-            swalError2("You should at least have one item!");
-            return;
-        }
-        $button.remove();
-
-    }
-
-
 
     // choose a command
-    $('#cmd-table .cmd').click(function () {
-        $('#cmd-table .cmd').removeClass('chosen');
-        $(this).addClass('chosen');
-        var cmd = $(this).attr('data-cmd');
-        $('#cmd-table .op').hide();
-        $('#cmd-table .op[data-cmd="' + cmd + '"]').show().find('input:first, select:first').eq(0).focus();
-    });
+    // $('#cmd-table .cmd').click(function () {
+    //     $('#cmd-table .cmd').removeClass('chosen');
+    //     $(this).addClass('chosen');
+    //     var cmd = $(this).attr('data-cmd');
+    //     $('#cmd-table .op').hide();
+    //     $('#cmd-table .op[data-cmd="' + cmd + '"]').show().find('input:first, select:first').eq(0).focus();
+    // });
 
-    // return true if input is a number or a stringified number
-    function isNum(n) {
-        if (_.isNumber(n)) return true;
-        if (String(parseInt(n)) == String(n)) return true;
-        return false;
-    }
 
     // Get command table inputs based on name attributes, return key-value pairs.
     // If value resembles to number, it's converted to number
@@ -587,69 +527,9 @@ $(window).on('imready', function(im){
         return data;
     }
 
-    function getInputCmdPrompt() {
-        var data = {};
-        $('#cmd-prompt [name]').each(function () {
-            var name = $(this).attr('name');
-            var val = $(this).val();
-            data[name] = isNum(val) ? parseFloat(val) : val;
-        });
-        return data;
-    }
-
 
     // ----------------------------------------- Map actions ----------------------------------------- //
 
-    // test if control key is pressed
-    function isCtrlPressed(e) {
-        return e.ctrlKey || e.metaKey;
-    }
-
-    // clear highlighted vertices
-    function clearHighlightedVertices($except) {
-        var $p = $('#cmd-table');
-        var $map = $('#board .map');
-        $map.find('.vertex').not($except).removeClass('ctrl-clicked');
-    }
-
-    // clear highlighted hexes
-    function clearHighlightedHexes($except) {
-        var $p = $('#cmd-table');
-        var $map = $('#board .map');
-        $map.find('.hex').not($except).removeClass('clicked');
-    }
-
-    // clear highlighted commands
-    function clearHighlightedCommands() {
-        var $p = $('#cmd-table');
-        //var $map = $('#board .map');
-        $p.find('.cmds .cmd').removeClass('matched'); // remove highlighted commands
-    }
-
-    // count number of highlighted vertices
-    function highlightedVertices() {
-        return $('#board .map .vertex.ctrl-clicked').length;
-    }
-
-    // count number of highlighted hexes
-    function highlightedHexes() {
-        return $('#board .map .hex.clicked').length;
-    }
-
-    // highlight a vertex
-    function highlightVertex($e) {
-        $e.addClass('ctrl-clicked');
-    }
-
-    // highlight a hex
-    function highlightHexes($e) {
-        $e.addClass('clicked');
-    }
-
-    // check if element has class
-    function isNot($e, cls) {
-        return (!$e.hasClass(cls) && !$e.closest('.' + cls).length);
-    }
 
     // un-highlight vertices and hexes when click elsewhere
     $('#board').click(function (e) {
@@ -657,7 +537,6 @@ $(window).on('imready', function(im){
         if (isNot($(e.target), 'hex')) clearHighlightedHexes();
     });
 
-    //$(document).on('click', '.vertex', function(e){ console.log('lol') })
 
     // click on vertex
     $('body').on('click', '.vertex', function (e) {
@@ -697,620 +576,13 @@ $(window).on('imready', function(im){
 
     });
 
-    // click on 1 vertex
-    function showVertexOpeartions($e) {
-        let vertexID = parseInt($e.attr('data-id'));
-        populateCmdPromptCmds(VertexUnit.getCommands(vertexID), [vertexID]);
-        showCmdPrompt();
 
-        /**
-        var id = $e.attr('data-id');
-        var $p = $('#cmd-table');
-        var $ops = $p.find(`[vertex-needed="1"]`);
-        var cmds = $ops.map(function () {
-            return $(this).closest('.op').attr("data-cmd");
-        });
-        var $btns = $p.find('.cmds .cmd').filter(function () {
-            return _.contains(cmds, $(this).attr('data-cmd'));
-        });
-        // highlight buttons for each matched opration
-        $btns.addClass('matched');
-        // fill vertex id for each matched operation
-        $ops.find('input').val(id);
-        // display first matched opeartion
-        showCmdTable();
-        $btns.first().click();**/
-    }
-
-    // click on 2 vertices
-    function showEdgeOperations() {
-        var $map = $('#board .map');
-        var $cmd = $('#cmd-table');
-        var $v1 = $map.find('.ctrl-clicked').eq(0);
-        var $v2 = $map.find('.ctrl-clicked').eq(1);
-        let edge = Map.edge($v1.attr('data-id'), $v2.attr('data-id'));
-        populateCmdPromptCmds(EdgeUnit.getCommands(edge), [edge[0], edge[1]]);
-        showCmdPrompt();
-        /**
-        var $map = $('#board .map');
-        var $cmd = $('#cmd-table');
-        var $v1 = $map.find('.ctrl-clicked').eq(0);
-        var $v2 = $map.find('.ctrl-clicked').eq(1);
-        var id1 = $v1.attr('data-id');
-        var id2 = $v2.attr('data-id');
-        var $ops = $cmd.find(`[vertex-needed="2"]`);
-        var cmds = $ops.map(function () {
-            return $(this).closest('.op').attr("data-cmd");
-        });
-        var $btns = $cmd.find('.cmds .cmd').filter(function () {
-            return _.contains(cmds, $(this).attr('data-cmd'));
-        });
-        // highlight buttons for each matched opration
-        $btns.addClass('matched');
-        // fill vertex id for each matched operation
-        $ops.each(function () {
-            $(this).find('input').eq(0).val(id1);
-            $(this).find('input').eq(1).val(id2);
-        });
-        // display first matched opeartion
-        showCmdTable();
-        $btns.first().click();**/
-    }
-
-    function showHexOperations($e){
-        let hexID = parseInt($e.attr('data-id'));
-        populateCmdPromptCmds(HexTile.getCommands(hexID), [hexID]);
-        showCmdPrompt();
-    }
-
-
-    /**
-     *
-     * @param type {String} "selling" / "buying"
-     */
-    function generateTradeForm(type, cmd) {
-        let $form = $('<div></div>');
-        $form.attr('data-id', type);
-
-        if (cmd != "discardResourceCards"){
-            // trade
-            let $title = $('<div>' + type + '</div>');
-            $title.addClass('button title ' + type);
-            $form.append($title);
-        }
-        else {
-            // discard cards
-            let $title = $('<div>' + 'Choose cards to discard' + '</div>');
-            $title.addClass('button title ' + type);
-            $form.append($title);
-        }
-
-
-        let $item = $('<div class="button ' + type + '" data-id="select"> </div>');
-        let $select = $('<select class="weui-select"></select>');
-        $select.attr('name', type + 1);
-        $item.append($select);
-
-        _.forEach(Enum.Tradable, function (item) {
-            let $option = $('<option value="' + item + '">' + item + '</option>');
-            $select.append($option);
-        });
-
-
-
-
-        if (cmd != "tradeWithBank"){
-            // trade with player
-            let $input = $('<input class="weui-input" type="number" pattern="[0-9]*" placeholder="0">');
-            $input.attr('name', type + 1 + "cnt");
-            $item.append($input);
-
-            // add and delete icon
-            $item.append('<i class="fa fa-minus-circle delete" aria-hidden="true"></i> <i class="fa fa-plus-circle add" aria-hidden="true"></i>');
-        }
-
-        else if (type == "buying"){
-            // default
-            let ratio = DATA.getMyPlayer().tradeRatio["Lumber"];
-            // trade with bank
-            let $ratioInfo = $('<div class="trade-info"><i class="fa fa-info-circle" aria-hidden="true">  trade ratio</i><div class="text">'+ ratio +'</div><div></div>');
-
-            $select.change(function () {
-                let type = $select.val();
-                $ratioInfo.find('.text').text(DATA.getMyPlayer().tradeRatio[type]);
-                console.log(DATA.getMyPlayer().tradeRatio[type]);
-                console.log($select.val());
-            });
-        
-            $item.append($ratioInfo);
-        }
-
-        $form.append($item);
-
-        return $form;
-    }
-
-    /**
-     *
-     * @param cmd
-     * @param options {String[]}
-     *//**
-    function generateOptionPrompt(cmd, options) {
-        let $prompt = $('#cmd-prompt');
-
-        $prompt.append( '<div class="button" data-id="confirm">' + cmd + '</div> <div class="button" data-id="cancel">Cancel</div>');
-
-        // cancel button
-        $prompt.find('.button[data-id=cancel]').click(function () {
-            hideCmdPrompt();
-        });
-
-
-        // confirm button
-        $prompt.find('.button[data-id=confirm]').click(function () {
-            let input = getInputCmdPrompt();
-            let {selling, buying} = readTradeInput(input);
-
-
-            if (cmd == "tradeWithBank"){
-
-                console.log("selling", selling);
-                console.log("buying", buying);
-
-                // command trade with bank
-                // TODO: Yuan / Emol change trade with bank cmd (it should accept cost object)
-            }
-
-            else {
-
-            }
-
-            hideCmdPrompt();
-
-        });
-    }
-**/
-
-    /**
-     *
-     * @param cmd {String} command name
-     */
-    function generateTradePrompt(cmd) {
-        if (isCmdPromptVisible()) hideCmdPrompt();
-        let $prompt = $('#cmd-prompt');
-        $prompt.append(generateTradeForm('buying', cmd));
-        $prompt.append(generateTradeForm('selling', cmd));
-
-        addConfirmAndCancelButtonForPrompt();
-
-        // confirm button
-        $prompt.find('.button[data-id=confirm]').click(function () {
-            let input = getInputCmdPrompt();
-            let {selling, buying} = readTradeInput(input, cmd);
-
-
-            if (cmd == "tradeWithBank"){
-
-                console.log("selling", selling);
-                console.log("buying", buying);
-                Commands.tradeWithBank(selling, buying);
-
-                // command trade with bank
-                // TODO: Yuan / Emol change trade with bank cmd (it should accept cost object)
-            }
-
-            else {
-                console.log("Trade is working!");
-                Commands.requestTrade(selling, buying);
-            }
-
-            hideCmdPrompt();
-
-
-        });
-
-        //getInputCmdPrompt
-    }
-
-    function addConfirmAndCancelButtonForPrompt() {
-        let $prompt = $('#cmd-prompt');
-        
-        $prompt.append( '<div class="button" data-id="confirm">Confirm</div> <div class="button" data-id="cancel">Cancel</div>');
-
-        // add listener
-        // for trade form cmd prompt, add and remove icon
-        $('#cmd-prompt i.add').click(function (e) {
-            addNewItem(e);
-        });
-
-        $('#cmd-prompt i.delete').click(function (e) {
-            removeItem(e);
-        });
-
-        // cancel button
-        $prompt.find('.button[data-id=cancel]').click(function () {
-            hideCmdPrompt();
-        });
-    }
-
-
-    function showDiscardCardPrompt(){
-        if (isCmdPromptVisible()) hideCmdPrompt();
-        let $prompt = $('#cmd-prompt');
-        $prompt.append(generateTradeForm('selling', 'discardResourceCards'));
-
-        addConfirmAndCancelButtonForPrompt();
-
-        // confirm button
-        $prompt.find('.button[data-id=confirm]').click(function () {
-            let input = getInputCmdPrompt();
-            let {selling, buying} = readTradeInput(input);
-            // selling is the cards object ({Cost}) we want to discard, the name is inappropriate, because I am using the trade input function...
-
-
-            console.log("selling", selling);
-            Commands.discardResourceCards(selling);
-
-
-            hideCmdPrompt();
-
-
-        });
-        showCmdPrompt();
-
-    }
-
-    /**
-     *
-     * @param input
-     * @return {Cost, Cost} selling and buying
-     */
-    function readTradeInput(input, cmd){
-        let sellingType = {};   // temp storage
-        let buyingType = {};
-
-        let selling = {};
-        let buying = {};
-
-        // read type
-        for (let key in input){
-            if (input.hasOwnProperty(key) && !key.includes("cnt")){
-                let type = input[key];
-                let number;
-                if (key.includes("buying")){
-                    number = key.substr(6);
-                    buyingType[number] = type;
-                }
-                if (key.includes("selling")){
-                    number = key.substr(7);
-                    sellingType[number] = type;
-                }
-            }
-        }
-
-        if (cmd == "tradeWithBank"){
-            selling = _.values(sellingType)[0];
-            buying = _.values(buyingType)[0];
-            return {selling, buying};
-        }
-
-        // read cnt
-        for (let key in input){
-            if (input.hasOwnProperty(key) && key.includes("cnt") && input[key] != "" ){
-                let number;
-                if (key.includes("buying")){
-                    number = key.substr(6, 1);
-                    buying[buyingType[number]] = input[key];   // o is dummy value
-                }
-                if (key.includes("selling")){
-                    number = key.substr(7, 1);
-                    selling[sellingType[number]] = input[key];
-                }
-            }
-        }
-
-        return {selling, buying};
-
-
-    }
-
-    /**
-     *
-     * @param cmds String[] a list of cmds used to generate prompt options
-     * @param data the data user inputted (command argument)
-     */
-    function populateCmdPromptCmds(cmds, data) {
-        let $prompt = $('#cmd-prompt');
-        //$prompt.find('.button').not('.button[data-id=cancel]').remove();
-        $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
-        _.forEach(cmds, function (cmd) {
-            let $cmd = $('<div class="button">' + cmd + '</div>');
-            $cmd.attr('cmd', cmd);
-            $prompt.prepend($cmd);
-        });
-
-
-
-        // add listener here because we generate the buttons dynamically
-        $('#cmd-prompt .button').click(function (e) {
-            let $button = $(e.target);
-
-            if ($button.attr('data-id') == 'cancel') {
-                hideCmdPrompt();
-            }
-            else {
-                let cmdName = $button.attr('cmd');
-                hideCmdPrompt();
-                if (_.has(SpecialsCommands, cmdName)){
-                    SpecialsCommandsNextStep[cmdName].apply(this, data);
-                }
-                else {
-                    Commands[cmdName].apply(this, data);
-                }
-                // console.log($button.attr('cmd'));
-            }
-
-        });
-    }
-
-
-
-
-    /**
-     * @param opts String[] a list of options used to generate prompt options
-     * @param cmds String[] a list of cmds used to generate prompt options
-     * @param data the data user inputted (command argument)
-     */
-    function populateCmdPromptOptions(opts, cmds, data = []) {
-        let $prompt = $('#cmd-prompt');
-        //$prompt.find('.button').not('.button[data-id=cancel]').remove();
-        $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
-        for (let i = 0; i < opts.length; i++){
-            let cmd = cmds[i];
-            let opt = opts[i];
-            let $cmd = $('<div class="button">' + opt + '</div>');
-            $cmd.attr({
-                'cmd': cmd,
-                'opt': opt
-            });
-            $prompt.prepend($cmd);
-        }
-
-        // add listener here because we generate the buttons dynamically
-        $('#cmd-prompt .button').click(function (e) {
-            let $button = $(e.target);
-
-            if ($button.attr('data-id') == 'cancel') {
-                hideCmdPrompt();
-            }
-            else {
-                let cmdName = $button.attr('cmd');
-                let opt = $button.attr('opt');
-                hideCmdPrompt();
-                data.push(opt);
-                console.log(data);
-
-                if (_.has(SpecialsCommands, cmdName)){
-                    SpecialsCommandsNextStep[cmdName].apply(this, data);
-                }
-                else {
-                    Commands[cmdName].apply(this, data);
-                }
-                // console.log($button.attr('cmd'));**/
-            }
-
-        });
-    }
-
-
-
-
-    // -----------------special cmd prompt for cmd requires multi-steps-----------------------
-    /**
-     *
-     * @param position {int} old position
-     */
-    SpecialsCommandsNextStep.moveKnight = function (position) {
-        swal({
-                title: "Move Knight",
-                text: "Click on the map where you want to move the knight!",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "OK!",
-                cancelButtonText: "Cancel",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    app.ongoingCmd = "moveKnight";
-                    app.ongoingCmdData = [position];
-                }
-            });
-    };
-
-    SpecialsCommandsFinalStep.moveKnight = function (newPosition) {
-        swal({
-                title: "Move knight here?",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes!",
-                cancelButtonText: "Cancel",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    let oldPosition = app.ongoingCmdData[0];
-                    Commands.moveKnight(oldPosition, newPosition);
-                }
-
-                app.ongoingCmd = null;
-                app.ongoingCmdData = null;
-                clearHighlightedVertices();
-            });
-    };
-
-
-    SpecialsCommandsNextStep.upgradeToMetropolis = function(position){
-        let $prompt = $('#cmd-prompt');
-
-        $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
-
-        _.forEach(Enum.cityImprovementCategory, function (type) {
-            let $opt = $('<div class="button">' + type + '</div>');
-            $opt.attr('type', type);
-            $prompt.prepend($opt);
-        });
-
-
-        // add listener here because we generate the buttons dynamically
-        $('#cmd-prompt .button').click(function (e) {
-            let $button = $(e.target);
-
-            if ($button.attr('data-id') == 'cancel') {
-            }
-
-            else {
-                let type = $button.attr('type');
-                Commands.upgradeToMetropolis.apply(this, [position, type]);
-                // console.log($button.attr('cmd'));
-            }
-            hideCmdPrompt();
-
-        });
-
-        showCmdPrompt();
-    };
-
-
-
-    SpecialsCommandsNextStep.moveShip = function (oldV1, oldV2) {
-        swal({
-                title: "Move Ship",
-                text: "Where do you want to move the ship to? (Click two points with CTRL pressed)",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "OK!",
-                cancelButtonText: "Cancel",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    app.ongoingCmd = "moveShip";
-                    app.ongoingCmdData = [oldV1, oldV2];
-                }
-            });
-    };
-
-
-    SpecialsCommandsFinalStep.moveShip = function () {
-        var $map = $('#board .map');
-        var $cmd = $('#cmd-table');
-        var $v1 = $map.find('.ctrl-clicked').eq(0);
-        var $v2 = $map.find('.ctrl-clicked').eq(1);
-        let newPosition = Map.edge($v1.attr('data-id'), $v2.attr('data-id'));
-
-        swal({
-                title: "Move Ship here?",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes!",
-                cancelButtonText: "Cancel",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    let oldVertex1 = app.ongoingCmdData[0];
-                    let oldVertex2 = app.ongoingCmdData[1];
-                    Commands.moveShip(oldVertex1, oldVertex2, newPosition[0], newPosition[1]);
-                }
-
-                app.ongoingCmd = null;
-                app.ongoingCmdData = null;
-                clearHighlightedVertices();
-            });
-    };
-
-
-
-
-    // -----------------------right side command buttons ------------------------
-
-    function showProgressCardCmd(card){
-        hideCmdPrompt();
-        populateCmdPromptCmds(ProgressCardCommand, [card]);
-        showCmdPrompt();
-
-    }
-
-    function showDrawCardPrompt(cmd) {
-        // FIXME: maybe text whether player have selected other stuffs here?
-        let opts;
-        if (cmd == "drawOneResourceCard"){
-            opts = Object.values(Enum.Resource);
-        }
-        if (cmd == "drawOneProgressCard"){
-            opts = Object.values(Enum.cityImprovementCategory);
-        }
-        let cmds = new Array(opts.length).fill(cmd);
-
-        populateCmdPromptOptions(opts, cmds);
-        showCmdPrompt();
-    }
-
-    function showFishTokenInfo(tokenType) {
-        //hideCmdPrompt();
-        console.log(tokenType);
-        if (tokenType == Enum.fishToken.BOOT){
-             swal({
-                    title: "Boot Token",
-                    text: "Click other player to give away the boot!",
-                    type: "info",
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Cool!",
-                    closeOnConfirm: true,
-                });
-            //populateCmdPromptCmds(FishTokenCommand.Boot, [tokenType]);
-        }
-        else {
-            hideCmdPrompt();
-            let opts = Object.values(Enum.fishEvent);
-            let cmds = new Array(opts.length).fill("spendFishToken");
-            populateCmdPromptOptions(opts, cmds);
-            showCmdPrompt();
-            /**
-            swal({
-                    html: true,
-                    title: "Fish Token",
-                    text: "Hey, you can use fish tokens to do a lot of things!<br>2 fish - move robber off board (click robber)<br>3 fish - steal resource card (click the player you want to steal from)<br>4 fish - take a resource from bank (click bank icon)<br>5 fish - build road<br>7 fish - draw development card!",
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Cool!",
-                    closeOnConfirm: true,
-                })*/
-        }
-    }
 
 
 
     $('body').on('click', '.metropolis', function (e) {
         showMetropolis(e);
     });
-
-    function showMetropolis(e) {
-        let metroType = $(e.target).attr('data-type');
-        let building = DATA.getMatch().Metropolis[metroType];
-        if (building){
-            let $map =  $('.map');
-            let $v = $map.find('.vertex[data-id=' + building.position + ']').eq(0);
-            // $v.addClass('ctrl-clicked');
-            highlightVertex($v);
-        }
-    }
 
 
     // --------------------- user -----------------------
@@ -1329,6 +601,7 @@ $(window).on('imready', function(im){
         populateCmdPromptCmds(Object.values(PlayerCommand), [selectedPlayerName]);
         showCmdPrompt();
     });
+
 
 
 

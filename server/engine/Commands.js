@@ -116,6 +116,9 @@ let CommandsCheck = {};
      }
      let currentOwner = room.owner;
      user.leaveRoom();
+
+     if (room.match) room.match = null; //TODO: end game
+     // FIXME: bug here
      let newRoom = DATA.getRoom(roomID);
      if (newRoom && newRoom.owner != room.owner){
          notify.user(newRoom.owner, 'NEW_ROOM_OWNER');
@@ -406,8 +409,9 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   */
  Commands.chaseAwayThief = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
+     // chaseAwayThief = function (knightPosition, thiefType)
      let knight = match.map.getVertexInfo(data.knightPosition);
-     knight.chaseAwayThief(match.map, data.thiefPosition, data.newPositionForThief);
+     knight.chaseAwayThief(match);
  };
 
 

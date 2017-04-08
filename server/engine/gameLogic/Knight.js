@@ -62,10 +62,11 @@ Knight.createKnight = function (player, map) {
      * @param thiefPosition {int}
      * @param newPosition {int}
      */
-    knight.chaseAwayThief = function (map, thiefPosition, newPosition) {
+    knight.chaseAwayThief = function (match) {
         this.active = false;
-        if(map.piratePositon == thiefPosition) map.piratePositon = newPosition;
-        else map.robborPositon = newPosition
+        // if(map.piratePositon == thiefPosition) map.piratePositon = newPosition;
+        // else map.robborPositon = newPosition
+        match.knightInAction = this;
     };
 
     knight.getVertexUnitType = function(){

@@ -54,6 +54,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.currentTrade = null;
     match.discardList = {};
     match.fish = null;
+    match.knightInAction = null;
     assignColors(match);
 
 
