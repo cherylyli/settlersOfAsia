@@ -74,7 +74,7 @@ Bank.createBank = function (match) {
         player.resourcesAndCommodities[tradeFor] += 1;
 
         player.resourceCardNum = player.resourceCardTotalNum();
-    }
+    };
 
     /**
      * every player performs an action, there may be some cost associated with this action.
@@ -94,5 +94,20 @@ Bank.createBank = function (match) {
         }
         player.resourceCardNum = player.resourceCardTotalNum();
     };
+
+      /**
+    * every player performs an action, there may be some cost associated with this action.
+    * This method update player's asset.
+    * @param player
+    * @param costName {String} name of the cost
+    * @param cost {object} a object, key: Card nume (string); value: number of the card (int), positive for deduction, negative for addition
+    */
+   bank.decreasePlayerFish = function (player, costName = null, cost) {
+       if (!cost && costName){
+           cost = Cost[costName];
+       }
+       player.fishSum -= cost;
+     }
+     
     return bank;
 }

@@ -13,6 +13,7 @@ var Game    = require('../../models/game.js');
 var notify  = require('../api/notify.js');
 var fs = require("fs"); // Has to be installed first with “npm install fs”
 let CircularJSON = require('circular-json');
+let testGame = require('../testGames.js');
 // let fakeRoom = require('../test.js');
 
 
@@ -96,11 +97,11 @@ module.exports = function(socket, user, roomId) {
 
         //notify other users in the room about the new player
         // TODO: TESTING!!
-        // broadcast('NEW_PLAYER_JOINED', result);
+        broadcast('NEW_PLAYER_JOINED', result);
 
         //if now we have 4 players, game start
         console.log(Object.keys(DATA.getRoom(roomId).users).length);
-        if(Object.keys(DATA.getRoom(roomId).users).length == 4){
+        if(Object.keys(DATA.getRoom(roomId).users).length == 2){
             let currentPlayer = Commands.startGame(roomId);
             result = CircularJSON.stringify( DATA.getRoom(roomId));
             sendRoom('GAME_START', result);
@@ -171,6 +172,10 @@ module.exports = function(socket, user, roomId) {
     });
 
 
+    got('TEST_GAME', function (gameID) {
+        let gameRoom = testGame.startTestGame(gameID);
+           send('TEST_GAME_ACK', gameRoom);
+    });
 
 
 

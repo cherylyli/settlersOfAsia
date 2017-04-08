@@ -12,6 +12,7 @@ Trade.createTrade = function (offer, request) {
     let trade = {};
     trade.selling = offer;
     trade.buying = request;
+    return trade;
 }
 
 /**

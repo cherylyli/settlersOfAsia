@@ -13,10 +13,10 @@ let rooms = data.rooms;
 let users = data.users;
 let match = data.matches;
 **/
-let user_A = {username :  "Emol"};
-let user_B = {username :  "Max"};
-let user_C = {username :  "Cheryl"};
-let user_D = {username :  "Yuan"};
+let user_A = {username :  "Emol", profile_pic : '/img/default_profile_pic.png'};
+let user_B = {username :  "Max", profile_pic : '/img/default_profile_pic.png'};
+let user_C = {username :  "Cheryl", profile_pic : '/img/default_profile_pic.png'};
+let user_D = {username :  "Yuan", profile_pic : '/img/default_profile_pic.png'};
 let userA = User.createUser(user_A);
 let userB = User.createUser(user_B);
 let userC = User.createUser(user_C);
@@ -28,27 +28,57 @@ Commands.joinRoom(userB, "123");
 Commands.joinRoom(userC, "123");
 
 Commands.startGame("123");
+
+
+// Commands.stealCard("Emol", "123", {'victim': "Yuan"});
+// DATA.getMatch().players[]
+Commands.giveAwayBoot("Emol", "123", {transferTo: "Yuan"});
+
+Commands.buildShip("Emol", "123", [53, 54]);
+Commands.moveShip("Emol", "123", {'oldPosition':[53, 54], 'newPosition':[1,2]});
 Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
-
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-Commands.buyCityImprovement("Emol","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Science});
-console.log(data.getMatch("123").distributeMetropolis(Enum.cityImprovementCategory.Science));
+Commands.buildSettlement("Emol", "123", {'position': 10});
 /*
-Commands.hireKnight("Emol","123",7);
-Commands.activateKnight("Emol","123",7);
-Commands.hireKnight("Max","123",7);
-Commands.moveRobber("Emol","123",7);
-Commands.hireKnight("Emol","123",{'position': 7});
-Commands.activateKnight("Emol","123",{'position': 7});
-Commands.hireKnight("Max","123",{'position': 1});
+
+console.log("spend fish");
+data.getMatch("123").getPlayer("Emol").setFishSum(20);
+console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+console.log(data.getMatch("123").getPlayer("Emol").progressCards);
+Commands.drawOneProgressCard("Emol","123",{'kind':"Trade"});
+Commands.spendFishToken("Emol","123",{'action' : "MOVE_ROBBER"});
+console.log(data.getMatch("123").fish);
+console.log(data.getMatch("123").getPlayer("Emol").progressCards);
+console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+*/
+//Commands.drawOneProgressCard("Emol","123",{'kind': "Trade"});
+
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
+Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
+//console.log(data.getMatch("123").getMetropolisOwner(Enum.cityImprovementCategory.Science));
+//console.log(data.getMatch("123").Metropolis);
+Commands.drawOneProgressCard("Yuan","123",{'kind' : "Trade"});
+let player = data.getMatch("123").getPlayer("Yuan");
+console.log(player.progressCards);
+Commands.rollDice("Emol","123","");
+console.log("red die " + data.getMatch("123").dice.redDie);
+console.log("event die" + data.getMatch("123").dice.eventDie);
+console.log(player.progressCards);
+// Commands.hireKnight("Emol","123",7);
+// Commands.activateKnight("Emol","123",7);
+// Commands.hireKnight("Max","123",7);
+// Commands.moveRobber("Emol","123",7);
+// Commands.hireKnight("Emol","123",{'position': 7});
+// Commands.activateKnight("Emol","123",{'position': 7});
+// Commands.hireKnight("Max","123",{'position': 1});
 // Commands.moveRobber("Emol","123",7);
 Commands.buildRoad("Emol","123",[1, 2]);
-*/
-//Commands.activateKnight("Max","123",7);
+Commands.buildRoad("Emol", "123", [2, 3]);
+
+// Commands.activateKnight("Max","123",7);
 
 // fakeRoom.room = data.getRoom("123");
 //TODO test barbarian applyResult + robber produce resource from bank
@@ -200,15 +230,18 @@ console.log(player1.progressCards);
 /*
 let myHex3 = my.getHexTileById(10);
 let myHex4 = my.getHexTileById(17);
-
-//Commands.buildShip("Emol", "123", [53, 54]);
+*/
+Commands.buildShip("Emol", "123", [53, 54]);
+/*
 Commands.movePirate("Emol", "123", {'oldHexID' : 10 , 'newHexID' : 17})
 console.log("pirate removed: blocked :" + myHex3.blockedByPirate);
 console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
 
 
 //TODO check this:
+*/
 Commands.buildShip("Yuan", "123", [52,53]);
+/*
 //Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
 //Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
 console.log(player2.ships);
@@ -218,9 +251,10 @@ console.log(player2.ships);
 //console.log("now move away : blocked :" + myHex4.blockedByRobber);
 
 //get stealable player list - working
-/*
+*/
 Commands.buildShip("Emol", "123", [21,22]);
 Commands.buildShip("Yuan", "123", [51,52]);
+/*
 //let p = myHex1.getPlayersAroundByBuildings(my);
 //get stealable player list - working
 let steal = my.pirate.stealFrom(myHex4, my);

@@ -2,6 +2,7 @@ let HexTile = require('./HexTile.js');
 let Dice = module.exports = {};
 const eventDie = Object.freeze({"BlueCityGate":"BlueCityGate", "GreenCityGate":"GreenCityGate", "YellowCityGate":"YellowCityGate", "Ship":"Ship" });
 let Barbarian = require('./Barbarian.js');
+let Commands = require('../Commands.js');
 
 Dice.createDice = function () {
     let dice = {};
@@ -57,6 +58,8 @@ Dice.createDice = function () {
         */
         let event = dice.eventDie;
         let result = {};
+        let player = match.getPlayer(match.currentPlayer);
+
         //number dice produce resource
         let productionNum = dice.yellowDie + dice.redDie;
         dice.numberDiceResult = productionNum;
@@ -64,7 +67,8 @@ Dice.createDice = function () {
         if(dice.numberDiceResult == 7){
           result.event = "Choose Between Robber Pirate";
         }
-        switch (event){
+        match.barbarianResult = null;
+        switch ("YellowCityGate"){
           case "Ship" :
             if(match.barbarian){
             //  if(match.barbarian.toAttack()){
@@ -87,14 +91,75 @@ Dice.createDice = function () {
 
             //active barbarian
             break;
-            case "BlueCityGate" :
+          case "BlueCityGate" :
+            if(player.cityImprovement.Politics == 1 && (dice.redDie == 1 || dice.redDie == 2)){
+              player.drawOneProgressCard(match, "Politics");
+
+            }
+            if(player.cityImprovement.Politics == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)){
+              player.drawOneProgressCard(match, "Politics");
+
+            }
+            if(player.cityImprovement.Politics == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)){
+              player.drawOneProgressCard(match, "Politics");
+
+            }
+            if(player.cityImprovement.Politics == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)){
+              player.drawOneProgressCard(match, "Politics");
+
+            }
+            if(player.cityImprovement.Politics == 5){
+              player.drawOneProgressCard(match, "Politics");
+
+            }
 
               // TODO: Max / Cheryl
                 // result = blablabla
             break;
           case "YellowCityGate" :
+            if(player.cityImprovement.Trade == 1 && (dice.redDie == 1 || dice.redDie == 2)){
+              player.drawOneProgressCard(match, "Trade");
+
+            }
+            if(player.cityImprovement.Trade == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)){
+              player.drawOneProgressCard(match, "Trade");
+
+            }
+            if(player.cityImprovement.Trade == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)){
+              player.drawOneProgressCard(match, "Trade");
+
+            }
+            if(player.cityImprovement.Trade == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)){
+              player.drawOneProgressCard(match, "Trade");
+
+            }
+            if(player.cityImprovement.Trade == 5){
+              player.drawOneProgressCard(match, "Trade");
+
+            }
+
             break;
           case "GreenCityGate" :
+            if(player.cityImprovement.Science == 1 && (dice.redDie == 1 || dice.redDie == 2)){
+              player.drawOneProgressCard(match, "Science");
+
+            }
+            if(player.cityImprovement.Science == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)){
+              player.drawOneProgressCard(match, "Science");
+
+            }
+            if(player.cityImprovement.Science == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)){
+              player.drawOneProgressCard(match, "Science");
+
+            }
+            if(player.cityImprovement.Science == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)){
+             player.drawOneProgressCard(match, "Science");
+
+            }
+            if(player.cityImprovement.Science == 5){
+              player.drawOneProgressCard(match, "Science");
+
+            }
             break;
           default:
             console.log("Error");

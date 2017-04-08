@@ -21,6 +21,7 @@ let Bank = require('./Bank.js');
 let Player = require('./Player.js');
 let notify  = require('../../api/notify.js');
 let Barbarian = require('./Barbarian.js');
+let CircularJSON = require('circular-json');
 
 
 // users is a list of String, names of the user in the room
@@ -49,9 +50,11 @@ Match.createNewMatch = function (scenario, players, id) {
     match.turnNum = 0;
     match.barbarian = Barbarian.createBarbarian();
     match.barbarianResult = null;
-    match.Metropolis = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: player name  {String}
+    match.Metropolis = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: building object  {Building}
     match.currentTrade = null;
     match.discardList = {};
+    match.fish = null;
+    match.knightInAction = null;
     assignColors(match);
 
 
@@ -75,7 +78,7 @@ Match.createNewMatch = function (scenario, players, id) {
       }
       //console.log(discardCards);
       return match.discardList;
-    }
+    };
 
     match.checkPlayerVP = function(player){
         if (player.VP >= player.winningVP) {
@@ -87,9 +90,21 @@ Match.createNewMatch = function (scenario, players, id) {
     /**
      * First player who enters level 4 can get a metropolis -> later this metropolis will pass to the player who has highest improvement level
      * @param cityImprovementCategory {Enum.cityImprovementCategory}
+     * @param {Player} now we give the metropolis to this guy
      * @return playerName {String} player who gets the metropolis of the cityImprovementCategory
      */
-    match.distributeMetropolis = function(cityImprovementCategory){
+    match.distributeMetropolis = function(cityImprovementCategory, player, city){
+        let oldCity = this.Metropolis[cityImprovementCategory];    // city of the guy who used to have this metropolis
+        if (oldCity){
+            // if there really exist this guy
+            let theOldGuy = oldCity.owner;
+
+            // ooops sorry now the metropolis is ours
+            oldCity.removeMetropolis();
+        }
+        this.Metropolis[cityImprovementCategory] = city;
+        city.upgradeToMetropolis(cityImprovementCategory);
+        /**
       var improvementLevel = {};
       let players = match.players;
       var access = 0;
@@ -112,11 +127,11 @@ Match.createNewMatch = function (scenario, players, id) {
       //console.log("max key is " + maxKey);
       var player = match.getPlayer(maxKey);
     //  player.hasMetropolis = true;
-      return maxKey;
-    }
+      return maxKey;**/
+    };
 
     match.endGame = function(){
-        notify.room(roomId, "GAME_ENDS", DATA.getRoom(match.id));
+        notify.room(this.id, "GAME_ENDS", CircularJSON.stringify(DATA.getRoom(match.id)));
     };
 
     /**

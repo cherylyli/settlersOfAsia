@@ -39,9 +39,26 @@ let VertexUnit = (function () {
         }
     }
 
+    /**
+     *
+     * @param knight
+     * @return {Array} {String[]}
+     */
+    function getThiefAround(knight) {
+        let map = DATA.getMap();
+        let theif = [];
+        let neighborHexs = map.getHexTileByVertex(knight.position);
+        _.forEach(neighborHexs, function ([hexID, positionInHex]) {
+            if (map.robber.pos == hexID) theif.push("robber");
+            if (map.pirate.pos == hexID) theif.push("pirate");
+        })
+        return theif;
+    }
+
     return {
         getUIType,
         isKnight,
-        getCommands
+        getCommands,
+        getThiefAround
     }
 })();

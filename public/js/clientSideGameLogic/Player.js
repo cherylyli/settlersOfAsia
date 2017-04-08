@@ -5,6 +5,8 @@
 let Player = (function () {
 
     function addHelperFunctions(player) {
+
+
         /**
          *
          * @return {Number}
@@ -41,13 +43,13 @@ let Player = (function () {
          * @param currentPlayer {Player}
          * @return sum {Integer}
          */
-        player.resourceCardTotalNum = function (currentPlayer) {
-            let sum = 0;
-            for (let card in currentPlayer.resourceAndCommandities) {
-                sum += currentPlayer.resourceAndCommandities[card];
-            }
-            return sum;
-        };
+         player.resourceCardTotalNum = function(){
+             let sum = 0;
+             for (let card in player.resourcesAndCommodities){
+                 sum += player.resourcesAndCommodities[card];
+             }
+             return sum;
+         };
 
 
         /**
@@ -98,11 +100,23 @@ let Player = (function () {
             return player.progressCardsCnt;
         };
 
+
         return player;
     }
 
+    function getCommands(player){
+        let cmds = [];
+        if (player.hasBoot) cmds.push('giveAwayBoot');
+
+        // TODO: check if steal card is allowed
+        cmds.push('stealCard');
+        return cmds;
+    }
+
+
     return {
-        addHelperFunctions
+        addHelperFunctions,
+        getCommands
     }
 
 })();

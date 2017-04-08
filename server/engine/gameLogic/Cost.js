@@ -4,8 +4,8 @@
 let Cost = module.exports = {};
 let Enum = require('./Enum.js');
 
-//reference: http://www.unc.edu/~rvp/GameRules/RulesSettlersCitiesAndKnights.html 
-//TODO: progress cards + city improvements. 
+//reference: http://www.unc.edu/~rvp/GameRules/RulesSettlersCitiesAndKnights.html
+//TODO: progress cards + city improvements.
 Cost.buildSettlement = {[Enum.Resource.Lumber]: 1, [Enum.Resource.Wool]: 1, [Enum.Resource.Brick]: 1, [Enum.Resource.Grain]: 1};
 Cost.upgradeToCity = {[Enum.Resource.Ore]: 3, [Enum.Resource.Grain]: 2};
 //Cost.settlementToCity = {[Enum.Resource.Ore]: 3, [Enum.Resource.Grain]: 2};
@@ -30,7 +30,7 @@ Cost.cityImprove_Science_4 = {[Enum.Commodity.Paper]: 4};
 Cost.cityImprove_Science_5 = {[Enum.Commodity.Paper]: 5};
 
 //Cost.hireKnight = {};
-Cost.basicKnights = {[Enum.Resource.Wool]: 1, [Enum.Resource.Ore]: 1};
+Cost.hireKnight = {[Enum.Resource.Wool]: 1, [Enum.Resource.Ore]: 1};
 Cost.activateKnight = {[Enum.Resource.Grain]: 1};
 Cost.promoteKnight = {[Enum.Resource.Grain]: 1};
 
@@ -39,4 +39,12 @@ Cost.defaultTradeRatio = 4;
 Cost.goldTradeRatio = 2;
 Cost.generalHarborTradeRatio = 3;
 Cost.specialHarborTradeRatio = 2;
-Cost.merchantTradeRatio = -1;
+Cost.merchantTradeRatio = 2;
+
+
+//================fish token====
+Cost.moveUseFish = 2;
+Cost.stealUseFish = 3;
+Cost.drawResUseFish = 4;
+Cost.buildUseFish = 5;
+Cost.drawProgUseFish = 7;

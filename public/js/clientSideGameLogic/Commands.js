@@ -5,7 +5,8 @@ let CommandsData = {};
 // commands require more than 1 steps
 let SpecialsCommands = {
     'moveKnight': 'moveKnight',
-    'upgradeToMetropolis': 'upgradeToMetropolis'
+    'upgradeToMetropolis': 'upgradeToMetropolis',
+    'moveShip': 'moveShip'
 };
 
 // this map to functions
@@ -27,7 +28,8 @@ let VertexCommand = {
 
     "City": {
         'buildCityWall': 'buildCityWall',
-        "upgradeToMetropolis": 'upgradeToMetropolis'
+        "upgradeToMetropolis": 'upgradeToMetropolis',
+        'chooseCityToBePillaged': 'chooseCityToBePillaged'
     },
 
     "Knight": {
@@ -59,9 +61,32 @@ let HexCommand = {
     // TODO: MAX, we may need command like place merchant for the merchant progress card
 };
 
+let ProgressCardCommand = {
+    'discardOneProgressCard': 'discardOneProgressCard',
+    'executeProgressCard': 'executeProgressCard'
+};
+
+/**
+let FishTokenCommand = {
+    "Fish": {
+        'spendFishToken': 'spendFishToken'
+    },
+    "Boot": {
+        'giveAwayBoot': 'giveAwayBoot'
+    }
+};
+**/
+
+
+// Command whose input is another player
+
+let PlayerCommand = {
+    'stealCard': 'stealCard',
+    'giveAwayBoot': 'giveAwayBoot'
+};
+
 
 let CommandName = {
-    //old ones TODO test citywall, buy improvement, move ship
     'rollDice': 'rollDice',
     'buildSettlement': 'buildSettlement',
     'upgradeToCity': 'upgradeToCity',
@@ -73,37 +98,30 @@ let CommandName = {
     'buyCityImprovement': 'buyCityImprovement',
     'moveShip': 'moveShip',
     'tradeWithBank': 'tradeWithBank',
-    /*
-     done testing:
-     */
-    // 'setDefenderOfCatan': 'setDefenderOfCatan',
-    'discardOneProgressCard': 'discardProgressCard',
+    'discardOneProgressCard': 'discardOneProgressCard',
     'stealCard': 'stealCard',
     'drawOneResourceCard': 'drawOneResourceCard',
     'giveAwayBoot': 'giveAwayBoot',
     'drawOneProgressCard': 'drawOneProgressCard',
-    'discardResourceCards': 'discardResourceCards',
-    'chaseAwayThief': 'chaseAwayThief',
+    'discardResourceCards': 'discardResourceCards', //TODO
+    'chaseAwayThief': 'chaseAwayThief', //TODO
     'hireKnight': 'hireKnight',
     'activateKnight': 'activateKnight',
     'promoteKnight': 'promoteKnight',
     'moveKnight': 'moveKnight',
-
-    //need to test.
     "upgradeToMetropolis": 'upgradeToMetropolis',
-    'chooseCityToBePillaged': 'chooseCityToBePillaged',
+    'chooseCityToBePillaged': 'chooseCityToBePillaged', //TODO
     'moveRobber': 'moveRobber',
     'movePirate': 'movePirate',
     'spendFishToken': 'spendFishToken',
-    'buildRoadUseFish': 'buildRoadUseFish',
-    'buildShipUseFish': 'buildShipUseFish',
 
-      //TODO:
-    'requestTrade': 'requestTrade',
-    'acceptTrade': 'acceptTrade',
-    'performTradeTransaction':'performTradeTransaction',
+    'requestTrade': 'requestTrade', // TODO: Max
+    'acceptTrade': 'acceptTrade',// TODO: Max
+    'performTradeTransaction':'performTradeTransaction',// TODO: Max
       //INPROGRESS:
-    'executeProgressCard': 'executeProgressCard'
+    'executeProgressCard': 'executeProgressCard'// TODO: Max
+
+
 };
 
 let CommandReceived = {};
@@ -120,7 +138,8 @@ let CommandReceived = {};
         'moveShip': 'Sailing in the sea...',
         'tradeWithBank': 'Deal!',
         'endTurn': 'Hummmm... I think I am done.',
-        'executeProgressCard':'Progress Card was applied'
+        'executeProgressCard':'Progress Card was applied',
+        'discardOneProgressCard': 'Discarded.'
     };
 
 
@@ -128,8 +147,6 @@ let CommandReceived = {};
 let CommandCheck = {};
 
 let room = {users: {}};
-
-
 /**
  *
  * @param cmds
@@ -143,10 +160,19 @@ let generateCommandPomptObject = function (cmds) {
   })
 };**/
 
+/**
+ *
+ * @param gameID {int} 1-3
+ */
+function testGame(gameID) {
+    sock.emit('TEST_GAME', gameID);
+    sock.on('TEST_GAME_ACK', function (msg) {
+        console.log(msg, "TESTING");
+    });
+}
+
 
 //============================REQUIRE TEST ==============================
-
-
 
 /**
  *
@@ -163,16 +189,18 @@ CommandCheck.upgradeToMetropolis = function (vertex, metropolisType) {
     if (DATA.getMatch().Metropolis[metropolisType] == DATA.getMyPlayer().name) {
       let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
       if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-          // swalError2("There is no city at this position!");
+          swalError2("There is no city at this position!");
           return false;
       }
       if (vertexUnit.level == metropolisType) {
-          // swalError2("This city already has metropolis!");
+          swalError2("This city already has metropolis!");
           return false;
       }
       return true;
     }
     //player doesn't have a metropolis at all.
+    swalError2("You don't have " + metropolisType + "!");
+    return false;
 };
 
 CommandsData.chooseCityToBePillaged = function (vertex) {
@@ -184,7 +212,7 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
     let player = DATA.getMyPlayer();
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
     if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-        // swalError2("There is no city at this position!");
+        swalError2("There is no city at this position!");
         return false;
     }
     if (vertexUnit.hasMetropolis) {
@@ -224,28 +252,31 @@ CommandReceived.performTradeTransaction = function () {
 
 
 CommandReceived.requestTrade = function (selling, buying) {
-    alert('=O');
-/*    if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
-        return;
-    }*/
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
+        //skip
+    }else{
+        let selling = DATA.getMatch().currentTrade.selling;
+        let buying = DATA.getMatch().currentTrade.buying;
+        console.log(selling);
 
-    swal({
-            title: "TRADE BRO?",
-            text: DATA.getMatch().currentPlayer +"wants to buy:"+buying +" and wants to sell: "+selling,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "TRADE RESOURCES!",
-            closeOnConfirm: false
-        },
-        function(){
-            swal("Trade started!", "Your trade response was sent", "success", function () {
-                Commands.acceptTrade();
+        console.log(DATA.getMatch().currentTrade);
+        swal({
+                title: "TRADE BRO?",
+                text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "TRADE RESOURCES!",
+                closeOnConfirm: false
+            },
+            function(){
+                swal("Trade started!", "Your trade response was sent", "success", function () {
+                    Commands.acceptTrade();
+                });
             });
-        });
-
+    }
     // TODO: max
-    // check if we are the one that initialize this trade, if yes, alert with // swal ("trade sent")
+    // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
 
     // else
     // alert them that there is a trade offer.
@@ -274,13 +305,24 @@ CommandCheck.moveRobber = function (newHexID) {
               return true;
           }
           else {
-              // swalError2("Invalid Position. Please select a landTile to perform such action.");
+              swalError2("Invalid Position. Please select a landTile to perform such action.");
               return false;
           }
     }
 
 };
 
+
+
+CommandReceived.moveRobber = function () {
+    if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+};
+
+
+
+CommandReceived.movePirate = function () {
+    if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+};
 /**
  *
  * @param newHexID {int}
@@ -297,50 +339,52 @@ CommandsData.movePirate = function (newHexID) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.movePirate = function (newHexID) {
-    if(newHexID == 0){
-      return true;
-    }
-
-    var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-    if(nexHex){
-      if (newHex.blockedByPirate == false && newHex.type == Enum.HexType.Sea) {
+  if(newHexID == 0){
+    return true;
+  }
+  var newHex = DATA.getMatch().map.getHexTileById(newHexID);
+  if (newHex) {
+      if (newHex.blockedByPirate == false && newHex.type === Enum.HexType.Sea) {
           return true;
       }
       else {
-          // swalError2("Invalid Position. Please select a seaTile.");
+          swalError2("Invalid Position. Please select a seaTile.");
           return false;
       }
     }
 };
 
-CommandsData.stealCard = function (thiefUserName, victimUserName) {
+CommandsData.stealCard = function (victimUserName) {
     //var victim = DATA.getPlayer(victimUserName);
-    return {'thief': thiefUserName, 'victim': victimUserName};
+    return {'victim': victimUserName};
 };
 
-CommandCheck.stealCard = function (thiefUserName, victimUserName) {
+CommandCheck.stealCard = function (victimUserName) {
     let victim = DATA.getPlayer(victimUserName);
-    if (victim.resourceCardTotalNum() < 1) {
-        // swalError2("The victim player doesn't have enough resources to be stoled");
-        return false;
-    }
-    else {
-        return true;
-    }
+//    if(DATA.getMatch().fish == "STEAL_CARD" || app.rolledSeven){
+      if (victim.resourceCardTotalNum(victim) < 1) {
+          swalError2("The victim player doesn't have enough resources to be stoled");
+          return false;
+      }
+      else {
+          return true;
+      }
+//    }
+//    return false;
 };
 //input : {String} "Trade" / "Science" / "Politics"
 CommandsData.drawOneProgressCard = function (kind) {
     return {'kind': kind};
 };
 
-CommandCheck.drawOneProgressCard = function (progCard) {
+CommandCheck.drawOneProgressCard = function (kind) {
     return true;
 };
 
 //input string
 CommandsData.drawOneResourceCard = function (resCard) {
     return {'resCard': resCard};
-}
+};
 
 CommandCheck.drawOneResourceCard = function (resCard) {
     var res = ['Grain', 'Lumber', 'Wool', 'Brick', 'Ore'];
@@ -350,19 +394,19 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
-    if (found) {
+    if (found && DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
-        // swalError2("Player can only use the fish token to draw one resource card");
+        swalError2("Player can only use the fish token to draw one resource card");
         return false;
     }
 }
 
 
 CommandsData.discardOneProgressCard = function (progCard) {
-    return progCard;
-}
+    return {card: progCard};
+};
 
 CommandCheck.discardOneProgressCard = function (progCard) {
     let player = DATA.getMyPlayer();
@@ -374,121 +418,93 @@ CommandCheck.discardOneProgressCard = function (progCard) {
         if (progCard == player.progressCards[i])
             return true;
     }
-    // swalError2("Card not found!");
+    swalError2("Card not found!");
     return false;
-}
+};
 
-CommandsData.giveAwayBoot = function (bootHolder, transferTo) {
-    //var victim = DATA.getPlayer(victimUserName);
-    return {'bootHolder': bootHolder, 'transferTo': transferTo};
-}
+CommandsData.giveAwayBoot = function (transferTo) {
+    return {'transferTo': transferTo};
+};
 
-CommandCheck.giveAwayBoot = function (bootHolder, transferTo) {
-    let playerA = DATA.getPlayer(bootHolder);
+CommandCheck.giveAwayBoot = function (transferTo) {
+    let playerA = DATA.getMyPlayer();
     let playerB = DATA.getPlayer(transferTo);
     if (playerA.hasBoot == true && playerB.hasBoot == false) {
         if (playerA.VP <= playerB.VP) {
             return true;
         }
         else {
-            // swalError2("Transfer boot failed because selected player doesn't have enough vp.");
+            swalError2("Transfer boot failed because selected player doesn't have enough vp.");
         }
     }
     else {
-        // swalError2("Transfer boot failed.");
+        swalError2("Transfer boot failed.");
     }
 }
 
-/**
- *
- * @param vertex1 {int} vertex 1 is smaller than vertex2
- * @param vertex2
- */
-CommandsData.buildRoadUseFish = function (vertex1, vertex2) {
-    return Map.edge(vertex1, vertex2);
-};
 
-/**
- *
- * @param data {CommandsData.buildRoad}
- * @return {boolean}
- */
-CommandCheck.buildRoadUseFish = function (vertex1, vertex2) {
-    CommandCheck.buildRoad();
-};
-
-/**
- * @param vertex1
- * @param vertex2
- */
-CommandsData.buildShipUseFish = function (vertex1, vertex2) {
-    return Map.edge(vertex1, vertex2);
-};
-
-/**
- * TODO: modularize. reduce duplication
- * @param data {CommandsData.buildShip}
- * @return {boolean}
- */
-CommandCheck.buildShipUseFish = function (vertex1, vertex2) {
-    CommandCheck.buildShip();
+CommandsData.spendFishToken = function (action) {
+    return {'action': action};
 };
 
 
-CommandsData.spendFishToken = function (action, data) {
-    let player = DATA.getMyPlayer();
-    let match = DATA.getMatch();
-    return {'userName': player.name, 'action': action, 'data': data, 'match': match};
-}
-
-
-CommandCheck.spendFishToken = function (userName, action, data) {
+CommandCheck.spendFishToken = function (action) {
     //TODO Yuan add checkPlayerAsset for fish token
-    let player = DATA.getPlayer(userName);
-    if (player.getFishSum() < 2) {
-        return false;
+    let player = DATA.getMyPlayer();
+    if((action == "MOVE_ROBBER" || action == "MOVE_PIRATE") && checkEnoughFish(Cost.moveUseFish)){
+      return true;
     }
-    else {
-        return true;
+    if(action == "STEAL_CARD" && checkEnoughFish(Cost.stealUseFish)){
+      return true
     }
+    if(action == "DRAW_RES_FROM_BANK" && checkEnoughFish(Cost.drawResUseFish)){
+      return true;
+    }
+    if((action == "BUILD_ROAD" || action == "BUILD_SHIP" )&& checkEnoughFish(Cost.buildUseFish)){
+      return true;
+    }
+    if(action == "DRAW_PROG" && checkEnoughFish(Cost.drawProgUseFish)){
+      return true;
+    }
+    swalError2("Not enough fish tokens");
+    return false;
 }
 
 //TODO Yuan deactive knights
 CommandsData.hireKnight = function (position) {
     return {'position': position}
-}
+};
 
 
 CommandCheck.hireKnight = function (position) {
-    //QUESTION: immediately place knight after hired it???
-    //if so: check if position is availble.
-    if (!checkEnoughResource(Cost.basicKnights)) {
-        // swalError2("Not enough resource to purchase a knight");
+    //copy the build settlement conditions here
+    if (!checkEnoughResource(Cost.hireKnight)) {
+        swalError2("Not enough resource to purchase a knight");
         return false;
     }
     else {
         return true;
     }
-}
+};
 
 CommandsData.activateKnight = function (position) {
     return {'position': position};
-}
+};
 
 CommandCheck.activateKnight = function (position) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
     if (knight.active) {
-        // swalError2("Knight has already been activated");
+        swalError2("Knight has already been activated");
         return false;
     }
     if (!checkEnoughResource(Cost.activateKnight)) {
-        // swalError2("Not enough resource to activate a knight");
+        swalError2("Not enough resource to activate a knight");
         return false;
     }
     else {
         return true;
     }
-}
+};
 
 CommandsData.promoteKnight = function (position) {
     return {'position': position};
@@ -497,39 +513,56 @@ CommandsData.promoteKnight = function (position) {
 CommandCheck.promoteKnight = function (position) {
     var knight = DATA.getMatch().map.getVertexInfo(position);
     if (knight.hasBeenPromotedThisTurn) {
-        // swalError2("Knight has already been promoted");
-        return false;
-    }
-    if (knight.level == 3) {
-        // swalError2("You've got the strongest knight already.");
+        swalError2("Knight has already been promoted");
         return false;
     }
     if (!checkEnoughResource(Cost.promoteKnight)) {
-        // swalError2("Not enough resource to promote a knight");
+        swalError2("Not enough resource to promote a knight");
         return false;
     }
-    else {
-        return true;
+    //if player has a fortress (i.e enters the 3rd level of politics,
+    //they can promote a strong knight to a mighty knight
+    //otherwise the highest level of knight they can promote to is level 2- strong knight
+    if (DATA.getPlayer().cityImprovement.Politcs >= 3) {
+       if(knight.level == 3){
+        swalError2("You've got the strongest knight already.");
+        return false;
+      }
+      else{
+        return true
+      }
+    }
+    else{
+      if(knight.level == 2){
+       swalError2("To upgrade your current knight, you need a Fortress.");
+       return false;
+      }
+      return true;
     }
 };
-//TODO
+
 CommandsData.moveKnight = function (position, newPosition) {
     return {'position': position, 'newPosition': newPosition};
 };
 
 CommandCheck.moveKnight = function (position, newPosition) {
+  //TODO : for move knight and chase away thief - knight must be activated during the last turn
+  //otherwise return false;
+  //TODO add displaceKnight feature
+  //TODO check if newPosition is a valid vertex [continuous road]
     var knight = DATA.getMatch().map.getVertexInfo(position);
     var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
-    /*TODO Yuan
-    1.if the newPosition has been occupied by one of player's knight, return false with msg.
-    2.check whether the newPosition lies on the same continuous road as position.
-    */
+    var validVertices = DATA.getMyPlayer().getEmptyAdjacentVertices(position,DATA.getMatch());
+
     if (knight.hasMovedThisTurn || !knight.active) {
-        // swalError2("Error, knight has been moved this turn or selected knight is not active");
+        swalError2("Error, knight has been moved this turn or selected knight is not active");
         return false;
     }
     else {
+      if(_.contains(validVertices, newPosition)){
         return true;
+      }
+      return false;
     }
 };
 
@@ -554,39 +587,57 @@ CommandCheck.displaceKnight = function (position, newPosition) {
 
 
 // TODO: Emol, also chase away theif cmd prompt not finished
-CommandsData.chaseAwayThief = function (knightPosition, thiefPosition, newPositionForThief) {
-    return {'knightPosition': knightPosition, 'thiefPosition': thiefPosition, 'newPositionForThief': newPositionForThief}
+// for move thief part, we use Command.moveThief
+/**
+ *
+ * @param knightPosition {int}
+ */
+CommandsData.chaseAwayThief = function (knightPosition) {
+    return {'knightPosition': knightPosition};
 };
 
 
 //pos, theifpos, new pos : hextile ID
-CommandCheck.chaseAwayThief = function (knightPosition, thiefPosition, newPositionForThief) {
+CommandCheck.chaseAwayThief = function (knightPosition) {
     var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
+    var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
+    /**
     var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
     if (!thiefHex.blockedByRobber) {
-        // swalError2("No robber on the hextile");
+        swalError2("No robber on the hextile");
         return false;
-    }
+    }**/
     if (!knight.active) {
-        // swalError2("This knight is not active!");
+        swalError2("This knight is not active!");
         return false;
     }
     return true;
 };
-//num : total number of cards to be discarded
-//cards: {Enum.Resourca.card : # of this type to be discarded}
-CommandsData.discardResourceCards = function (cards, num) {
-    return {'cards': cards, 'num': num}
+
+CommandReceived.chaseAwayThief = function () {
+    let knight = DATA.getMatch().knightInAction;
+    let thiefAround = VertexUnit.getThiefAround(knight);
+    notifyUserToMoveThief(thiefAround);
+
 };
 
-CommandCheck.discardResourceCards = function (cards, num) {
-    var player = player1
+
+//num : total number of cards to be discarded
+//cards: {Enum.Resourca.card : # of this type to be discarded} {Cost}
+CommandsData.discardResourceCards = function (cards) {
+    return {'cards': cards}
+};
+
+CommandCheck.discardResourceCards = function (cards) {
+    let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
+
+    var player = player1;
     var size = 0;
     for (var i in cards) {
         size += cards[i];
     }
     if (size != num) {
-        // swalError2("You need to discard " + num + " card(s)!");
+        swalError2("You need to discard " + num + " card(s)!");
         return false;
     }
     var counter = 0;
@@ -601,7 +652,7 @@ CommandCheck.discardResourceCards = function (cards, num) {
     if (counter) {
         return true;
     }
-    // swalError2("Not enough resource!");
+    swalError2("Not enough resource!");
     return false;
 };
 
@@ -661,7 +712,7 @@ CommandsData.rollDice = function () {
 //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
 CommandCheck.rollDice = function () {
     if (DATA.getMatch().diceRolled) {
-        // swalError2("Dice already rolled!");
+        swalError2("Dice already rolled!");
         return false;
     }
     return true;
@@ -688,12 +739,18 @@ CommandCheck.buildEstablishment = function (vertex, establishmentLV) {
     if (establishmentLV == 1) {
         if (player.getSettlements().length <= 5)
             return CommandCheck.buildSettlement(vertex);
+        else{
+          swalError2("You can only build 5 settlements");
+          return false;
+        }
     }
-    else if (player.getCityCnt() <= 4) {
+    else{
+      if(player.getCityCnt() <= 4)
         return CommandCheck.upgradeToCity(vertex);
-    }
-    else {
-        // swalError2("You can only place 5 settlements and 4 cities");
+      else{
+        swalError2("You can only place 5 settlements and 4 cities");
+        return false;
+      }
     }
 };
 
@@ -705,12 +762,12 @@ CommandCheck.buildEstablishment = function (vertex, establishmentLV) {
 CommandCheck.buildSettlement = function (vertex) {
     //set up phrase you can build one settlement for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().settlementCnt >= 1) {
-        // swalError2("You can only build one settlement in set up round one!");
+        swalError2("You can only build one settlement in set up round one!");
         return false;
     }
 
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getBuildingCnt() >= 2) {
-        // swalError2("You can only build one settlement in set up round two!");
+        swalError2("You can only build one settlement in set up round two!");
         return false;
     }
 
@@ -721,7 +778,7 @@ CommandCheck.buildSettlement = function (vertex) {
 
     //check if the vertex is not empty
     if (DATA.getMatch().map.getVertexInfo(vertex)) {
-        // swalError2("Invalid position!");
+        swalError2("Invalid position!");
         return false;
     }
 
@@ -754,12 +811,12 @@ CommandCheck.buildSettlement = function (vertex) {
 
 
     if (!connectedToOneRoad && (!DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne)) {
-        // swalError2("Settlement should be connected with at least one road.");
+        swalError2("Settlement should be connected with at least one road.");
         return false;
     }
 
     if (!distanceRuleSatisfied) {
-        // swalError2("Distance rule violated! All 3 of the adjacent intersections must be vacant to build a settlement!");
+        swalError2("Distance rule violated! All 3 of the adjacent intersections must be vacant to build a settlement!");
         return false;
     }
 
@@ -773,16 +830,9 @@ CommandCheck.buildSettlement = function (vertex) {
     }
 
     if (inSea) {
-        // swalError2("Cannot build settlement in sea!");
+        swalError2("Cannot build settlement in sea!");
         return false;
     }
-
-    //if you have more than 5 settlements, you have to upgrade one to a city before you build another one
-    if (DATA.getMyPlayer().settlementCnt == 5) {
-        // swalError2("You already have 5 settlements! Upgrade one to city before you build another one!");
-        return false;
-    }
-
 
     return true;
 };
@@ -806,13 +856,13 @@ CommandCheck.upgradeToCity = function (vertex) {
 
     //check if there is a settlement in the vertex
     if (!isSettlement(vertex)) {
-        // swalError2("You can only update a settlement!");
+        swalError2("You can only update a settlement!");
         return false;
     }
 
     //you can only update one city
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (DATA.getMyPlayer().getCities().length >= 1)) {
-        // swalError2("You can only update one settlement during set up round two!");
+        swalError2("You can only update one settlement during set up round two!");
         return false;
     }
 
@@ -841,24 +891,27 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().getRoadAndShipCnt() >= 1) {
-        // swalError2("You can only build one road or ship in set up round one!");
+        swalError2("You can only build one road or ship in set up round one!");
         return false;
     }
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getRoadAndShipCnt() >= 2) {
-        // swalError2("You can only build one road or ship in set up round two!");
+        swalError2("You can only build one road or ship in set up round two!");
         return false;
     }
 
-
-    if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildRoad)) {
-        return false;
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_ROAD")){
+        if(!checkEnoughResource(Cost.buildUseFish)){
+          return false;
+        }
     }
+
+
 
     //Only 1 road can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
-        // swalError2("Only 1 road can be built on any given path!");
+        swalError2("Only 1 road can be built on any given path!");
         return false;
     }
 
@@ -869,7 +922,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         if (DATA.getMatch().map.getHexTileById(hexID).type != Enum.HexType.Sea) adjacentToLandHex = true;
     }
     if (!adjacentToLandHex) {
-        // swalError2("You cannot build road in sea!");
+        swalError2("You cannot build road in sea!");
         return false;
     }
 
@@ -897,7 +950,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
     }
 
     if (!connected) {
-        // swalError2("A new road must always connect to 1 of your existing roads, settlements, or cities.");
+        swalError2("A new road must always connect to 1 of your existing roads, settlements, or cities.");
         return false;
     }
 
@@ -925,21 +978,22 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().getRoadAndShipCnt() >= 1) {
-        // swalError2("You can only build one road or ship in set up round one!");
+        swalError2("You can only build one road or ship in set up round one!");
         return false;
     }
 
     //set up phrase you can build one road for free
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && DATA.getMyPlayer().getRoadAndShipCnt() >= 2) {
-        // swalError2("You can only build one road or ship in set up round two!");
+        swalError2("You can only build one road or ship in set up round two!");
         return false;
     }
 
 
-    if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildShip)) {
-        return false;
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_SHIP")){
+        if(!checkEnoughResource(Cost.buildUseFish)){
+          return false;
+        }
     }
-
     return shipPostionTest(edge);
 
 
@@ -949,7 +1003,7 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
 function shipPostionTest(edge) {
     //Only 1 ship can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
-        // swalError2("Only 1 ship can be built on any given path!");
+        swalError2("Only 1 ship can be built on any given path!");
         return false;
     }
 
@@ -959,7 +1013,7 @@ function shipPostionTest(edge) {
         if (DATA.getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea) adjacentToSeaHex = true;
     }
     if (!adjacentToSeaHex) {
-        // swalError2("You cannot build road in inland area!");
+        swalError2("You cannot build road in inland area!");
         return false;
     }
 
@@ -987,7 +1041,7 @@ function shipPostionTest(edge) {
     }
 
     if (!connected) {
-        // swalError2("A new ship must always connect to 1 of your existing ships, settlements, or cities.");
+        swalError2("A new ship must always connect to 1 of your existing ships, settlements, or cities.");
         return false;
     }
 
@@ -1015,12 +1069,12 @@ CommandCheck.buildCityWall = function (vertex) {
 
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
     if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-        // swalError2("There is no city at this position!");
+        swalError2("There is no city at this position!");
         return false;
     }
 
     if (vertexUnit.cityWall) {
-        // swalError2("This city already has city wall!");
+        swalError2("This city already has city wall!");
         return false
     }
 
@@ -1042,7 +1096,7 @@ CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
 
     // 6 = 5 + 1
     if (level >= 6) {
-        // swalError2("Maximum level of city improvement in this category is already achieved!");
+        swalError2("Maximum level of city improvement in this category is already achieved!");
         return false;
     }
     return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]));
@@ -1076,22 +1130,22 @@ CommandCheck.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2
 
     //You may only move 1 ship per turn, and only during your building phase -> dice rolled
     if (!DATA.getMatch().diceRolled) {
-        // swalError2("You can only move ship during building phase!");
+        swalError2("You can only move ship during building phase!");
     }
 
     if (DATA.getMatch().shipMoved) {
-        // swalError2("You can only move 1 ship per turn!");
+        swalError2("You can only move 1 ship per turn!");
         return false;
     }
 
     let ship = DATA.getMatch().map.getEdgeInfo(oldPosition);
 
     if (!ship || ship.type == 'ship') {
-        // swalError2("No ship found!");
+        swalError2("No ship found!");
     }
     //You may not move a ship on the same turn you originally built it
     if (ship.builtTurnNum == DATA.getMatch().turnNum) {
-        // swalError2("You cannot move a ship on the same turn you originally built it!");
+        swalError2("You cannot move a ship on the same turn you originally built it!");
         return false;
     }
 
@@ -1101,7 +1155,7 @@ CommandCheck.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2
 
     ship.remove(DATA.getMatch().map, oldPosition);
     if (!shipPostionTest(newPosition)) {
-        // swalError2("You cannot move ship here!");
+        swalError2("You cannot move ship here!");
         return false;
     }
 
@@ -1165,7 +1219,7 @@ let checkEnoughResource = function (cost) {
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
-            // swalError2("Not enough " + cardName + "!");
+            swalError2("Not enough " + cardName + "!");
             return false
         }
     }
@@ -1175,7 +1229,7 @@ let checkEnoughResource = function (cost) {
 let checkInput = function (data) {
     for (let key in data) {
         if (typeof data[key] == 'undefined') {
-            // swalError2("Input not complete!");
+            swalError2("Input not complete!");
             return false;
         }
     }
@@ -1183,14 +1237,15 @@ let checkInput = function (data) {
 
 let checkEnoughFish = function (cost) {
     let fish = DATA.getMyPlayer().fishSum;
-    for (let fishAction in cost) {
-        if (fish < cost) {
-            // swalError2("Not enough fish !");
-            return false
-        }
+    if(cost > fish){
+    //  console.log( "cost" + cost + " >  fishsum " + fish);
+      swalError2("Not enough fish !");
+      return false
     }
+    //console.log( "cost" + cost + " <  fishsum" + fish);
     return true;
 };
+
 
 let update = function (room) {
     if (room.match) {
@@ -1243,17 +1298,21 @@ CommandReceived.moveKnight = function () {
     DATA.getMap().opponentKnight.name should relocate his knight
     swal(input:newVertex)
   */
-  if (_.contains(DATA.getMap().opponentKnight.name, DATA.getMyPlayer().name)) {
-      swal({
-          title: "Please relocate your knight",
-          text: "Your knight has been displaced by a stronger knight."
-          //TODO Emol
-          /*
-            activate command table & map, allow this player to select a new spot to relocate his knight
-            use Commands.moveKnight
-          */
-      });
-    }
+
+  if(DATA.getMap().opponentKnight.name){
+    if (_.contains(DATA.getMap().opponentKnight.name, DATA.getMyPlayer().name)) {
+        swal({
+            title: "Please relocate your knight",
+            text: "Your knight has been displaced by a stronger knight."
+            //TODO Emol
+            /*
+              activate command table & map, allow this player to select a new spot to relocate his knight
+              use Commands.moveKnight
+            */
+        });
+      };
+      return;
+  }
 
 };
 
@@ -1360,17 +1419,7 @@ CommandReceived.rollDice = function () {
         }
     }
 };
-/*
-  TODO Emol
-  add Commands.spendFishToken(action, data) to command table
-  5 possible actions:              data
-  "MOVE_ROBBER" : "MOVE_ROBBER",   nexHexID
-  "MOVE_PIRATE" : "MOVE_PIRATE",   newHexID
-  "STEAL_CARD" : "STEAL_CARD",     thiefUserName, victimUserName
-  "BUILD_ROAD" : "BUILD_ROAD",    [vertex, vertex ]
-  "BUILD_SHIP" : "BUILD_SHIP",    [vertex, vertex]
-  "DRAW_PROG" : "DRAW_PROG"       String, case sensitive "Trade" / "Politics" / "Science"
-*/
+
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
@@ -1429,19 +1478,21 @@ _.each(CommandName, function (cmd) {
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-/**
-        let phase = DATA.getMatch().phase;
-        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
+      let phase = DATA.getMatch().phase;
+/*       if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
-
+*/
         //comment out this part if you want to disable checks
         //checks
-        if (!CommandCheck[cmd].apply(this, arguments)) {
-            return;
-        }
+        //DATA.getMatch().phase = Enum.MatchPhase.TurnPhase; //for testing
+/*        if (!CommandCheck[cmd].apply(this, arguments)) {
+             return;
+         }
+*/
 
+/**
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;

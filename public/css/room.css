@@ -24,21 +24,21 @@ body{
     bottom: 15px;
     top: 15px;
     left: 15px;
+    overflow: hidden;
 }
 
 #waiting-page {
     position: absolute;
     bottom: 0;
-    /*top: 0;*/
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
     height: 100%;
     /*background-color: #3A79B8;*/
     overflow: hidden;
-    transition: 2.5s ease;
-    z-index: 11;
-
+    /*transition: 2.5s ease;*/
+    z-index: 12;
 }
 
 #waiting-page img{
@@ -74,7 +74,16 @@ body{
 
 #board .right {
     position: absolute;
-    right: 10px;
+    left: 10px;
+}
+
+#sideCmds {
+    background: rgba(237, 241, 241, 0.8);
+    position: absolute;
+    width: 160px;
+    right: 0;
+    height: 100%;
+    z-index: 11;
 }
 
 #board .dices{
@@ -82,7 +91,7 @@ body{
 }
 
 #board .dice, #board .cmd{
-    width: 110px;
+    width: 150px;
     overflow: hidden;
     margin-bottom: 7px;
 }
@@ -100,7 +109,7 @@ body{
     font-size: 12px;
 }
 #board .barbarian{
-    width: 110px;
+    width: 150px;
     top: 100px;
     overflow: hidden;
 }
@@ -112,11 +121,30 @@ body{
     background-image: url(/img/room/finalIcons/Barbarian.png);
 }
 
-#board .barbarian .text{
+#board .barbarian .text, #board .fish-token .text{
     float: left;
     margin-left: 6px;
     line-height: 16px;
     font-size: 12px;
+}
+
+
+#board .trade{
+    /*width: 150px;*/
+    top: 140px;
+    overflow: hidden;
+}
+
+#board .fish-token{
+    top: 500px;
+    overflow: hidden;
+}
+
+#board .fish-token .icon{
+    width: 16px;
+    height: 16px;
+    float: left;
+    background-image: url(/img/room/finalIcons/fishToken.jpg);
 }
 
 /** TODO: refactor this part, extract common class **/
@@ -129,11 +157,11 @@ body{
 }
 
 #board .progress-card{
-    top: 140px;
+    top: 240px;
 }
 
 #board .city-improvements{
-    top: 250px;
+    top: 350px;
 }
 
 #board .cmds .cmd{
@@ -364,6 +392,10 @@ body{
     transition: all 0.3s;
 }
 
+#users .user:hover{
+    background: linear-gradient(to right, rgb(159, 210, 163) 0%, rgba(255, 255, 255, 0.08) 100%);
+}
+
 #users .user[active]{
     background: linear-gradient(to right, rgb(235, 202, 46) 0%, rgba(252, 255, 82, 0.18) 100%);
 }
@@ -547,6 +579,22 @@ body{
 #cmd-prompt .button.selling.title{
     background: #ffe7bf
 }
+
+#cmd-prompt .trade-info{
+    height: 16px;
+    line-height: 16px;
+    width: 30%;
+    float: right;
+}
+
+#cmd-prompt .trade-info i{
+    float: left;
+}
+
+#cmd-prompt .trade-info .text{
+    position: relative;
+    left: 20px;
+}
 #cmd-prompt .button select{
     position: relative;
     left: 0;
@@ -566,6 +614,8 @@ body{
 #cmd-prompt .button[data-id=cancel]:hover{
     background: #6595c1;
 }
+
+
 
 #cmd-table {
     position: fixed;

@@ -49,7 +49,16 @@ let HexTile = (function () {
      * @param hexTileID {int}
      */
     function getCommands(hexTileID) {
-        return HexCommand;
+        let map = DATA.getMap();
+        let cmds = [];
+        if (app.ongoingCmd == "moveThief"){
+            if (_.contains(app.ongoingCmdData, "robber")) cmds.push('moveRobber');
+            if (_.contains(app.ongoingCmdData, "pirate")) cmds.push('movePirate');
+            return cmds;
+        }
+
+        return cmds;
+        // return HexCommand;
     }
 
     return {

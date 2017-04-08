@@ -32,13 +32,20 @@ Room.createRoom = function (RoomID, creatorName, gameScenario, roomName) {
 
     gameRoom.addUser = function(user){
         let gameRoomID = this.id;
-        this.users[user.username] = Player.createPlayer(user.username, user);
-        if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
-            this.state = enums.GameRoomState.Ready;
+        if (!this.match || !this.users[user.username]){
+            this.users[user.username] = Player.createPlayer(user.username, user);
+
+            if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
+                this.state = enums.GameRoomState.Ready;
+            }
+            if (Object.keys(this.users).length  == MAX_PLAYER_NUM ){
+                this.state = enums.GameRoomState.Full;
+            }
         }
-        if (Object.keys(this.users).length  == MAX_PLAYER_NUM ){
-            this.state = enums.GameRoomState.Full;
+        else {
+            this.users[user.username].user = user;
         }
+
     };
 
     gameRoom.isFull = function () {
@@ -62,11 +69,12 @@ Room.createRoom = function (RoomID, creatorName, gameScenario, roomName) {
 
 
     gameRoom.startGame = function () {
-
+        if (this.match) return gameRoom.match;
         if (!gameRoom.gameScenario){
             //ask user to select scenario.
             //test data
-            //gameRoom.gameScenario = 'Heading For New Shores';
+            // FIXME: change later
+            gameRoom.gameScenario = 'Heading For New Shores';
         }
 
         //init players data for game (either load or create)
