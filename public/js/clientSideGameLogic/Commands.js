@@ -699,6 +699,27 @@ CommandReceived.acceptTrade = function () {
 
     // send to server we confirm the trade
 };
+/**
+JSON.stringify(filters, function (key, value) {
+    if (typeof value === 'function') {
+        return value.toString();
+    }
+         return value;
+});
+
+JSON.parse(filtersString, function (key, value) {
+    if (value
+                 && typeof value === "string"
+             && value.substr(0,8) == "function") {
+                 var startBody = value.indexOf('{') + 1;
+                 var endBody = value.lastIndexOf('}');
+                 var startArgs = value.indexOf('(') + 1;
+                 var endArgs = value.indexOf(')');
+
+                 return new Function(value.substring(startArgs, endArgs), value.substring(startBody, endBody));
+             }
+         return value;
+});**/
 
 CommandsData.tradeWithPlayer = function (userNameA, userNameB, trade) {
     return {'userNameA': userNameA, 'userNameB': userNameB, 'trade': trade};
