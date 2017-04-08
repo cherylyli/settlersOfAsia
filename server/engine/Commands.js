@@ -486,11 +486,13 @@ Commands.cancelTrade = function(roomID){
   * @return {playerName1:tradeObject, playerName2: tradeObject}
   */
  Commands.acceptTrade = function (userName, roomID, data) {
+     console.log("TRADE WAS ACCEPTED:");
+     console.log("username:"+JSON.stringify(userName));
+     console.log("data:"+JSON.stringify(data));
      let trade = data;
      let match = DATA.getMatch(roomID);
      match.currentTrade[userName] = trade;
  };
-
 
  /**
   * This command is used after A and B both agree to trade with each other.
