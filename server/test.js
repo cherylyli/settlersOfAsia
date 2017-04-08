@@ -40,18 +40,18 @@ Commands.buildSettlement("Emol", "123", {'position': 1});
 Commands.upgradeToCity("Emol", "123", {'position': 1});
 Commands.buildSettlement("Yuan", "123", {'position': 3});
 Commands.buildSettlement("Emol", "123", {'position': 10});
-/*
 
-console.log("spend fish");
-data.getMatch("123").getPlayer("Emol").setFishSum(20);
-console.log(data.getMatch("123").getPlayer("Emol").fishSum);
-console.log(data.getMatch("123").getPlayer("Emol").progressCards);
+
+// console.log("spend fish");
+// data.getMatch("123").getPlayer("Emol").setFishSum(20);
+// console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+// console.log(data.getMatch("123").getPlayer("Emol").progressCards);
 Commands.drawOneProgressCard("Emol","123",{'kind':"Trade"});
 Commands.spendFishToken("Emol","123",{'action' : "MOVE_ROBBER"});
-console.log(data.getMatch("123").fish);
-console.log(data.getMatch("123").getPlayer("Emol").progressCards);
-console.log(data.getMatch("123").getPlayer("Emol").fishSum);
-*/
+// console.log(data.getMatch("123").fish);
+// console.log(data.getMatch("123").getPlayer("Emol").progressCards);
+// console.log(data.getMatch("123").getPlayer("Emol").fishSum);
+
 //Commands.drawOneProgressCard("Emol","123",{'kind': "Trade"});
 
 Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityImprovementCategory.Trade});
@@ -61,19 +61,19 @@ Commands.buyCityImprovement("Yuan","123",{'cityImprovementCategory' : Enum.cityI
 //console.log(data.getMatch("123").getMetropolisOwner(Enum.cityImprovementCategory.Science));
 //console.log(data.getMatch("123").Metropolis);
 Commands.drawOneProgressCard("Yuan","123",{'kind' : "Trade"});
-let player = data.getMatch("123").getPlayer("Yuan");
-console.log(player.progressCards);
+// let player = data.getMatch("123").getPlayer("Yuan");
+// console.log(?player.progressCards);
 Commands.rollDice("Emol","123","");
-console.log("red die " + data.getMatch("123").dice.redDie);
-console.log("event die" + data.getMatch("123").dice.eventDie);
-console.log(player.progressCards);
+// console.log("red die " + data.getMatch("123").dice.redDie);
+// console.log("event die" + data.getMatch("123").dice.eventDie);
+// console.log(player.progr?essCards);
 // Commands.hireKnight("Emol","123",7);
 // Commands.activateKnight("Emol","123",7);
 // Commands.hireKnight("Max","123",7);
 // Commands.moveRobber("Emol","123",7);
-// Commands.hireKnight("Emol","123",{'position': 7});
-// Commands.activateKnight("Emol","123",{'position': 7});
-// Commands.hireKnight("Max","123",{'position': 1});
+Commands.hireKnight("Emol","123",{'position': 7});
+Commands.activateKnight("Emol","123",{'position': 7});
+Commands.hireKnight("Max","123",{'position': 1});
 // Commands.moveRobber("Emol","123",7);
 Commands.buildRoad("Emol","123",[1, 2]);
 Commands.buildRoad("Emol", "123", [2, 3]);
@@ -82,9 +82,12 @@ Commands.buildRoad("Emol", "123", [2, 3]);
 
 // fakeRoom.room = data.getRoom("123");
 //TODO test barbarian applyResult + robber produce resource from bank
-/**
 //
 Commands.rollDice("Emol","123");
+// Commands.rollDice("Emol","123");
+// Commands.rollDice("Emol","123");
+// Commands.rollDice("Emol","123");
+// Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
@@ -93,11 +96,7 @@ Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
-Commands.rollDice("Emol","123");
-Commands.rollDice("Emol","123");
-Commands.rollDice("Emol","123");
-Commands.rollDice("Emol","123");
-Commands.rollDice("Emol","123");
+/**Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
@@ -108,21 +107,20 @@ Commands.rollDice("Emol","123");
 Commands.rollDice("Emol","123");
 
 Commands.rollDice("Emol","123");**/
-/**
 //barbarian
-console.log("dice result" + data.getMatch("123").dice.eventDie);
-data.getMatch("123").barbarian.canMove(data.getMatch("123").dice.eventDie);
-console.log(match.barbarian.getAttackResult(players));
-console.log("barbarian curPos " + match.barbarian.getCurrentPosition());
+// console.log("dice result" + data.getMatch("123").dice.eventDie);
+// data.getMatch("123").barbarian.canMove(data.getMatch("123").dice.eventDie);
+// console.log(match.barbarian.getAttackResult(players));
+// console.log("barbarian curPos " + match.barbarian.getCurrentPosition());
 ////console.log(match.barbarian.getAttackResult(my.players));
-console.log(match.barbarian.applyResult(my.players));
-console.log(match.barbarian.getPlayerContribution());
+// console.log(match.barbarian.applyResult(my.players));
+// console.log(match.barbarian.getPlayerContribution());
 
-console.log(player1.resourceCardTotalNum());
+// console.log(player1.resourceCardTotalNum());
 Commands.buildSettlement("Emol","123",{'position' : 4}); //hextile2
 Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
-console.log(myHex2.productionNum);
-**/
+// console.log(myHex2.productionNum);
+
 
 
 
@@ -165,28 +163,27 @@ console.log(player1.roads);
 
 //robber
 //move test - working
-/*
-console.log(match.map.getHexTileById(2).blockedByRobber);
+// console.log(match.map.getHexTileById(2).blockedByRobber);
 Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
-console.log(match.map.getHexTileById(2).blockedByRobber);
+// console.log(match.map.getHexTileById(2).blockedByRobber);
 Commands.moveRobber("Emol", "123", {'oldHexID' : 2, 'newHexID' : 1});
-console.log(match.map.getHexTileById(2).blockedByRobber);
-console.log(match.map.getHexTileById(1).blockedByRobber);
+// console.log(match.map.getHexTileById(2).blockedByRobber);
+// console.log(match.map.getHexTileById(1).blockedByRobber);
 
 //get stealFrom - working
 Commands.buildSettlement("Max", "123", 3);
 Commands.buildSettlement("Yuan", "123", 11);
-let p = myHex1.getPlayersAroundByBuildings(my);
-let steal = my.robber.stealFrom(myHex1, my);
-for(var i in steal){
-  console.log(steal[i].name);
-}
-
+// let p = myHex1.getPlayersAroundByBuildings(my);
+// let steal = my.robber.stealFrom(myHex1, my);
+// for(var i in steal){
+//   console.log(steal[i].name);
+// }
+//
 
 //steal card - working : Error -1 grain
-console.log(player1.resourceCardTotalNum());
-Commands.stealCard("Emol", "123", {'thief' : "Emol", 'victim' : "Yuan"});
-console.log(player1.resourceCardTotalNum());
+// console.log(player1.resourceCardTotalNum());
+// Commands.stealCard("Emol", "123", {'thief' : "Emol", 'victim' : "Yuan"});
+// console.log(player1.resourceCardTotalNum());
 
 //hasToDiscardCards - test player > 7
 
@@ -194,34 +191,34 @@ console.log(player1.resourceCardTotalNum());
 //Commands.moveRobber("Emol", "123", {'oldHexID' : 1, 'newHexID' : 2});
 Commands.buildSettlement("Yuan", "123", {'position': 4});
 Commands.moveRobber("Emol", "123", {'oldHexID' : 2, 'newHexID' : 1});
-console.log("myhex1 " + myHex1.productionNum);
-console.log("myhex2 " + myHex2.productionNum);
-console.log("myHex1 blocked " + myHex1.blockedByRobber);
-console.log("myHex2 blocked " + myHex2.blockedByRobber);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
-myHex2.produceResource(match);
+// console.log("myhex1 " + myHex1.productionNum);
+// console.log("myhex2 " + myHex2.productionNum);
+// console.log("myHex1 blocked " + myHex1.blockedByRobber);
+// console.log("myHex2 blocked " + myHex2.blockedByRobber);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
+// myHex2.produceResource(match);
 Commands.buildCityWall("Yuan", "123", {'position': 4});
 //player1
-console.log(match.map.getHexTileById(2).blockedByRobber);
-console.log("total cards player 2 : " + player2.resourceCardTotalNum());
-console.log("# to be discarded " + player2.discardedCardsCnt());
-console.log(my.robber.hasToDiscardCards(players));
-*/
+// console.log(match.map.getHexTileById(2).blockedByRobber);
+// console.log("total cards player 2 : " + player2.resourceCardTotalNum());
+// console.log("# to be discarded " + player2.discardedCardsCnt());
+// console.log(my.robber.hasToDiscardCards(players));
+// */
 
 
-/*drawOneProgressCard - woking
+// drawOneProgressCard - woking
 Commands.drawOneProgressCard("Emol","123",{'progCard' : "sdjiosjdojao"});
-console.log(player1.progressCards);
-*/
+// console.log(player1.progressCards);
+// */
 
 //produceResource
 //TODO MOVE SHIP IN COMMANDS !!!!!!!!!!! BARBARIAN IN DICE!!!!!!!!!!
@@ -232,26 +229,23 @@ let myHex3 = my.getHexTileById(10);
 let myHex4 = my.getHexTileById(17);
 */
 Commands.buildShip("Emol", "123", [53, 54]);
-/*
 Commands.movePirate("Emol", "123", {'oldHexID' : 10 , 'newHexID' : 17})
-console.log("pirate removed: blocked :" + myHex3.blockedByPirate);
-console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
+// console.log("pirate removed: blocked :" + myHex3.blockedByPirate);
+// console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
 
 
-//TODO check this:
-*/
+// TODO check this:
+// */
 Commands.buildShip("Yuan", "123", [52,53]);
-/*
-//Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
-//Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
-console.log(player2.ships);
+// Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
+// Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
+// console.log(player2.ships);
 
 //move away - assume hexid 0 = off the board
-//Commands.movePirate("Emol", "123", {'oldHexID' : 17 , 'newHexID' : null})
-//console.log("now move away : blocked :" + myHex4.blockedByRobber);
+// Commands.movePirate("Emol", "123", {'oldHexID' : 17 , 'newHexID' : null});
+// console.log("now move away : blocked :" + myHex4.blockedByRobber);
 
 //get stealable player list - working
-*/
 Commands.buildShip("Emol", "123", [21,22]);
 Commands.buildShip("Yuan", "123", [51,52]);
 /*

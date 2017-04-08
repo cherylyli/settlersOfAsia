@@ -9,7 +9,7 @@ let HexTile = require('./HexTile.js');
 let Player = require('./Player.js');
 let VP = require('./VP.js');
 let Enum = require('./Enum.js');
-
+let Harbor =  require('./Harbor.js');
 
 /**
  * Building class is responsible for all building related task (vertex unit: settlement, city; edge unit: road, ship)
@@ -17,7 +17,7 @@ let Enum = require('./Enum.js');
  * city: level 2 building
  */
 
-let Building = module.exports = {};
+let Building = {} = module.exports;
 
 /**
  *
@@ -30,66 +30,64 @@ Building.buildSettlement = function (player, vertex, map) {
     building.owner = player;
     building.position = vertex;
     building.level = Enum.Building.Settlement;
+    building.vertexUnitType = "building";
     //building.hasMetropolis = false;
     updateInfo(map, building);
-    player['longestRoad'] = player.calculateLongestRoad(map);
-
-
-    building.getVertexUnitType = function(){
-        return "building";
-    };
-
-
-    building.upgradeToCity = function () {
-        building.level = Enum.Building.City;
-        building.cityWall = false;
-        building.owner.updateVP(VP.upgradeTocity);
-        building.owner.settlementCnt--;    //because one of the settlement is upgraded to city
-    };
-
-    building.buildCityWall = function () {
-        /**
-        if (building.level != 2) throw  "You can only build city wall on city";
-        if (building.cityWall) throw "You may only build one city wall under each city";
-        if (building.owner.cityWallNum == 3) throw "You can build at most 3 city walls";
-        **/
-        building.owner.cityWallNum++;
-        building.owner.maxSafeCardNum += 2;
-        building.cityWall = true;
-    };
-
-    building.removeCityWall = function () {
-        building.owner.cityWallNum--;
-        building.owner.maxSafeCardNum -= 2;
-        building.cityWall = false;
-    };
-
-    /**
-     *
-     * @param metropolisType {String} check Enum.Building
-     */
-    building.upgradeToMetropolis = function(metropolisType){
-        building.level = metropolisType;
-        building.owner.updateVP(VP.metropolis);
-    };
-
-    building.removeMetropolis = function(){
-      building.level = Enum.Building.City;
-      building.owner.updateVP(-VP.metropolis);
-    };
-    //pillage a city, pre: building is a city
-    building.pillage = function () {
-        if (building.cityWall) building.removeCityWall();
-        else {
-            //city becomes a settlement
-            building.level = Enum.Building.Settlement;
-            building.owner.updateVP(-VP.upgradeTocity);
-            //TODO: if it is the last city, what will happen to city improvement??
-        }
-    };
+    player['longestRoad'] = Player.calculateLongestRoad(player, map);
 
     return building;
 
+};
+
+
+
+
+Building.upgradeToCity = function (building) {
+    building.level = Enum.Building.City;
+    building.cityWall = false;
+    Player.updateVP(building.owner, VP.upgradeTocity);
+    building.owner.settlementCnt--;    //because one of the settlement is upgraded to city
+};
+
+Building.buildCityWall = function (building) {
+    /**
+     if (building.level != 2) throw  "You can only build city wall on city";
+     if (building.cityWall) throw "You may only build one city wall under each city";
+     if (building.owner.cityWallNum == 3) throw "You can build at most 3 city walls";
+     **/
+    building.owner.cityWallNum++;
+    building.owner.maxSafeCardNum += 2;
+    building.cityWall = true;
+};
+
+Building.removeCityWall = function (building) {
+    building.owner.cityWallNum--;
+    building.owner.maxSafeCardNum -= 2;
+    building.cityWall = false;
+};
+
+/**
+ *
+ * @param metropolisType {String} check Enum.Building
+ */
+Building.upgradeToMetropolis = function(building, metropolisType){
+    building.level = metropolisType;
+    Player.updateVP(building.owner, VP.metropolis);
+};
+
+Building.removeMetropolis = function(building){
+    building.level = Enum.Building.City;
+    Player.updateVP(building.owner, -VP.metropolis);
+};
+//pillage a city, pre: building is a city
+Building.pillage = function (building) {
+    if (building.cityWall) Building.removeCityWall(building);
+    else {
+        //city becomes a settlement
+        building.level = Enum.Building.Settlement;
+        Player.updateVP(building.owner, -VP.upgradeTocity);
+        //TODO: if it is the last city, what will happen to city improvement??
+    }
 };
 
 
@@ -106,21 +104,21 @@ Building.buildRoad = function (player, edge, match, type) {
     road.canBuild = true;
     road.canMove = true;
     //update map info
-    if(match.map.getHexTileByEdge(edge)){
-        let hextile = match.map.getHexTileByEdge(edge);
+    if(Map.getHexTileByEdge(match.map, edge)){
+        let hextile = Map.getHexTileByEdge(match.map, edge);
         let blockedByPirate = false;
         for(let i of hextile){
-          let hexTile = match.map.getHexTileById(i[0]);
+          let hexTile = Map.getHexTileById(match.map, i[0]);
           if(hexTile.blockedByPirate == true){
               blockedByPirate = true;
           }
         }
         if(blockedByPirate == false){
           //console.log("blocked" + blockedByPirate);
-          match.map.setEdgeInfo(road, edge);
+          Map.setEdgeInfo(match.map, road, edge);
           //update player info
           player[type + 's'][Map.edgeKey(edge)] = edge;
-          player['longestRoad'] = player.calculateLongestRoad(match.map);
+          player['longestRoad'] = Player.calculateLongestRoad(player, match.map);
           
         //   console.log(player.getEmptyAdjacentVertices(26, match));
         }
@@ -151,12 +149,7 @@ Building.buildRoad = function (player, edge, match, type) {
 
         //can't build new ships along the pirate hex
         //cannot move a ship along the pirate hex
-        road.move = function (oldPosition, newPosition, match) {
-            var info = match.map.getHexTileByEdge(newPosition);
-            match.map.setEdgeInfo(undefined, oldPosition);
-            match.map.setEdgeInfo(this, newPosition);
-            delete player[type + 's'][Map.edgeKey(oldPosition)];
-            player[type + 's'][Map.edgeKey(newPosition)] = newPosition;
+
 
           // TO TEST IN SERVER SIDE
           /**
@@ -168,25 +161,47 @@ Building.buildRoad = function (player, edge, match, type) {
 
           // FIXME: Cheryl, there is a bug, so I comment it out for now :p
           // this.owner.calculateLongestRoad();
-        };
+
 
         road.builtTurnNum = match.turnNum;
 
 
-        /**
-         * TODO: implement this
-         * @return {Array<edge>}
-         */
-        road.getAvailbleEdgesToMoveTo = function () {
-            return [];
-        };
 
-        road.getPositionToPlaceAnShip = function () {
-            return [];
-        };
     }
     //-----------------------------------------------------
 }
+
+/**
+ *
+ * @param oldPosition {Edge}
+ * @param newPostion  {Edge}
+ * @param map {Map}
+ */
+
+//can't build new ships along the pirate hex
+//cannot move a ship along the pirate hex
+Building.move = function (ship, oldPosition, newPosition, match) {
+    var info = Map.getHexTileByEdge(match.map, newPosition);
+    Map.setEdgeInfo(match.map, undefined, oldPosition);
+    Map.setEdgeInfo(match.map, ship, newPosition);
+    delete ship.owner[ship.type + 's'][Map.edgeKey(oldPosition)];
+    ship.owner[ship.type + 's'][Map.edgeKey(newPosition)] = newPosition;
+
+
+};
+
+/**
+ * TODO: implement this
+ * @return {Array<edge>}
+ */
+Building.getAvailbleEdgesToMoveTo = function (ship) {
+    return [];
+};
+
+Building.getPositionToPlaceAnShip = function (ship) {
+    return [];
+};
+
 
 
 /**
@@ -197,7 +212,7 @@ Building.buildRoad = function (player, edge, match, type) {
  */
 function updateInfo(map, building) {
     //update hexTile info
-    map.setVertexInfo(building, building.position);
+    Map.setVertexInfo(map, building, building.position);
     /**
      let neighborHexTiles = map.getHexTileByVertex(building.position);
      for (let i = 0; i<neighborHexTiles.length; i++){
@@ -209,7 +224,7 @@ function updateInfo(map, building) {
 
     //update player info
     building.owner.buildings[building.position] = building;
-    building.owner.updateVP(VP.buildSettlement);
+    Player.updateVP(building.owner, VP.buildSettlement);
     building.owner.settlementCnt++;
 
 
@@ -218,7 +233,7 @@ function updateInfo(map, building) {
         if (map.harbors.hasOwnProperty(edgeKey)) {
             let harbor = map.harbors[edgeKey];
             if (((harbor.position[0] == building.position) || (harbor.position[1] == building.position)) && !harbor.owner) {
-                harbor.acquireBy(building.owner);
+                Harbor.acquireBy(harbor, building.owner);
             }
         }
     }

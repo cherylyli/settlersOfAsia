@@ -22,57 +22,61 @@ FishTile.createFishTile = function (id, position, productionNums = '1', visible 
     fishTile.type = 'FishTile';
     fishTile.productionNum = productionNums;
     fishTile.vertices = {'1': position[0], '2': position[1], '3': position[2]};
-    fishTile.getVertices = function () {
-        return fishTile.vertices;
-    };
-
-    /**
-     *
-     * @return {int} vertex
-     */
-    fishTile.getMiddleVertex = function () {
-        return this.vertices['2'];
-    };
-
-
-    /**
-     * @param map {Map}
-     * @param players List<Player>
-     * add resources to all players that has a building on its vertices
-     */
-    fishTile.produceResource = function (match) {
-        for (let vertex in fishTile.vertices) {
-            if (fishTile.vertices.hasOwnProperty(vertex)){
-            //there is a builidng on the vertex
-            let building = match.map.getVertexInfo(fishTile.vertices[vertex]);
-            if (building) {
-                let player = building.owner;
-                fishTile.produceResourceToSingleUser(match, player, building);
-            }
-            }
-        }
-    };
-
-    fishTile.produceResourceToSingleUser = function (match, player) {
-        var boot = 0;
-        var token;
-        for (var p in match.players) {
-            if (match.players[p].hasBoot == true) {
-                boot = 1;
-            }
-        }
-
-        if (boot) { //boot has been distributed previously
-            token = player.drawRandomFishNoBoot();
-        }
-        else {
-            token = player.drawRandomFish();
-        }
-        return token;
-    };
 
     return fishTile;
 };
+
+
+FishTile.getVertices = function (fishTile) {
+    return fishTile.vertices;
+};
+
+/**
+ *
+ * @return {int} vertex
+ */
+FishTile.getMiddleVertex = function (fishTile) {
+    return fishTile.vertices['2'];
+};
+
+
+/**
+ * @param map {Map}
+ * @param players List<Player>
+ * add resources to all players that has a building on its vertices
+ */
+FishTile.produceResource = function (fishTile, match) {
+    for (let vertex in fishTile.vertices) {
+        if (fishTile.vertices.hasOwnProperty(vertex)){
+            //there is a builidng on the vertex
+            let building = Map.getVertexInfo(match.map, fishTile.vertices[vertex]);
+
+            if (building) {
+                let player = building.owner;
+                FishTile.produceResourceToSingleUser(fishTile, match, player, building);
+            }
+        }
+    }
+};
+
+FishTile.produceResourceToSingleUser = function (fishTile, match, player) {
+    var boot = 0;
+    var token;
+    for (var p in match.players) {
+        if (match.players[p].hasBoot == true) {
+            boot = 1;
+        }
+    }
+
+    if (boot) { //boot has been distributed previously
+        token = Player.drawRandomFishNoBoot(player);
+    }
+    else {
+        token = Player.drawRandomFish(player);
+    }
+    return token;
+};
+
 /**
  * Created by emol on 3/20/17.
  */

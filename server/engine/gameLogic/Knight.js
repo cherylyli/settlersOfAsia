@@ -2,7 +2,7 @@
  * Created by emol on 2/19/17.
  */
 let Map = require('./Map.js');
-let Knight = module.exports = {};
+let Knight = {} = module.exports;
 let Player = require('./Player.js');
 
 /**
@@ -25,54 +25,6 @@ Knight.createKnight = function (player, map) {
 
 
 
-    knight.place = function (vertex, map) {
-        knight.position = vertex;
-        map.setVertexInfo(knight, vertex);
-        player['longestRoad'] = player.calculateLongestRoad(map);
-    };
-
-    knight.activate = function () {
-        this.active = true;
-    };
-
-    knight.deactivate = function(){
-        this.active = false;
-    };
-
-    knight.promote = function () {
-        this.level ++;
-    };
-
-    knight.move = function (vertex, map) {
-        this.active = false;
-        let opponentKnight = map.getVertexInfo(vertex);
-        map.setVertexInfo(undefined, knight.position);
-        knight.place(vertex, map);
-        player['longestRoad'] = player.calculateLongestRoad(map);
-
-        if (opponentKnight) {
-          map.opponentKnight = opponentKnight.owner;
-          return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
-        }
-    };
-
-    /**
-     *
-     * @param map {Map}
-     * @param thiefPosition {int}
-     * @param newPosition {int}
-     */
-    knight.chaseAwayThief = function (match) {
-        this.active = false;
-        // if(map.piratePositon == thiefPosition) map.piratePositon = newPosition;
-        // else map.robborPositon = newPosition
-        match.knightInAction = this;
-    };
-
-    knight.getVertexUnitType = function(){
-        return "knight";
-    };
-
 
 
 
@@ -80,7 +32,58 @@ Knight.createKnight = function (player, map) {
     return knight;
 };
 
+
+Knight.place = function (knight, vertex, map) {
+    knight.position = vertex;
+    Map.setVertexInfo(map, knight, vertex);
+    knight.owner['longestRoad'] = Player.calculateLongestRoad(knight.owner, map);
+};
+
+Knight.activate = function (knight) {
+    knight.active = true;
+};
+
+Knight.deactivate = function (knight){
+    knight.active = false;
+};
+
+Knight.promote = function (knight) {
+    knight.level ++;
+};
+
+Knight.move = function (knight, vertex, map) {
+    knight.active = false;
+    let opponentKnight = Map.getVertexInfo(map, vertex);
+    Map.setVertexInfo(map, undefined, knight.position);
+    Knight.place(knight, vertex, map);
+    knight.owner['longestRoad'] = Player.calculateLongestRoad(knight.owner, map);
+
+    if (opponentKnight) {
+        map.opponentKnight = opponentKnight.owner;
+        return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
+    }
+};
+
+/**
+ *
+ * @param map {Map}
+ * @param thiefPosition {int}
+ * @param newPosition {int}
+ */
+Knight.chaseAwayThief = function (knight, match) {
+    knight.active = false;
+    // if(map.piratePositon == thiefPosition) map.piratePositon = newPosition;
+    // else map.robborPositon = newPosition
+    match.knightInAction = this;
+};
+/**
+Knight.getVertexUnitType = function(knight){
+    return "knight";
+};**/
+
+
+
 Knight.hireKnight = function(player, map, position = null){
     let knight = Knight.createKnight(player, map);
-    if (position) knight.place(position, map);
+    if (position) Knight.place(knight, position, map);
 };

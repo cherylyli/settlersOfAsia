@@ -66,6 +66,8 @@ $(window).on('imready', function(im){
 
     // FIXME: change later, just for testing
     if (mapConfig) mapConfig.savedGameID = "HmN7a";
+
+
     sock.emit('MAP_CONFIG', mapConfig);
 
     // when sock disconnects and reconnects, join room again

@@ -14,7 +14,7 @@ let DATA = require('../Data.js');
 let fs = require("fs");
 let CircularJSON = require('circular-json');
 
-let Room = module.exports = {};
+let Room = {} = module.exports;
 
 
 
@@ -41,79 +41,81 @@ Room.createRoom = function (savedGameID, RoomID, creatorName, gameScenario, room
 
     }
 
-    gameRoom.addUser = function(user){
-        let gameRoomID = this.id;
+    DATA.addRoom(gameRoom);
+    return gameRoom;
+};
 
-        if (gameRoom.savedGame){
-            this.users[user.username].user = user;
-        }
 
-        else {
-            if (!this.match || !this.users[user.username]){
-                this.users[user.username] = Player.createPlayer(user.username, user);
 
-                if (Object.keys(this.users).length  == MIN_PLAYER_NUM ){
-                    this.state = enums.GameRoomState.Ready;
-                }
-                if (Object.keys(this.users).length  == MAX_PLAYER_NUM ){
-                    this.state = enums.GameRoomState.Full;
-                }
+Room.addUser = function(gameRoom, user){
+    let gameRoomID = gameRoom.id;
+
+    if (gameRoom.savedGame){
+        gameRoom.users[user.username].user = user;
+    }
+
+    else {
+        if (!gameRoom.match || !gameRoom.users[user.username]){
+            gameRoom.users[user.username] = Player.createPlayer(user.username, user);
+
+            if (Object.keys(gameRoom.users).length  == MIN_PLAYER_NUM ){
+                gameRoom.state = enums.GameRoomState.Ready;
+            }
+            if (Object.keys(gameRoom.users).length  == MAX_PLAYER_NUM ){
+                gameRoom.state = enums.GameRoomState.Full;
             }
         }
-    };
+    }
+};
 
 
-    gameRoom.isFull = function () {
-        return this.state == enums.GameRoomState.Full;
-    };
+Room.isFull = function (gameRoom) {
+    return gameRoom.state == enums.GameRoomState.Full;
+};
 
+/**
+ * whenever a new user joins the rooms, calls this function to check whether they can start game.
+ * Af first the start game button (in UI) is grey, when this function returns true, the start game button is clickable.
+ * @return {boolean}
+ */
+Room.ableToStartGame = function(gameRoom){
+    let state = gameRoom.state;
+    return (state == enums.GameRoomState.Ready || state == enums.GameRoomState.Full);
+};
+
+Room.setGameScenario = function (gameRoom, scenario) {
+    gameRoom.gameScenario = scenario;
+};
+
+
+
+Room.startGame = function (gameRoom) {
+    if (gameRoom.savedGame && gameRoom.match) return gameRoom.match;
+    if (!gameRoom.gameScenario){
+        //ask user to select scenario.
+        //test data
+        // FIXME: change later
+        gameRoom.gameScenario = 'Heading For New Shores';
+    }
+
+    //init players data for game (either load or create)
+    //let players = [];
     /**
-     * whenever a new user joins the rooms, calls this function to check whether they can start game.
-     * Af first the start game button (in UI) is grey, when this function returns true, the start game button is clickable.
-     * @return {boolean}
-     */
-    gameRoom.ableToStartGame = function(){
-        let state = this.state;
-        return (state == enums.GameRoomState.Ready || state == enums.GameRoomState.Full);
-    };
-
-    gameRoom.setGameScenario = function (scenario) {
-        gameRoom.gameScenario = scenario;
-    };
-
-
-
-    gameRoom.startGame = function () {
-        if (this.savedGame && this.match) return gameRoom.match;
-        if (!gameRoom.gameScenario){
-            //ask user to select scenario.
-            //test data
-            // FIXME: change later
-            gameRoom.gameScenario = 'Heading For New Shores';
-        }
-
-        //init players data for game (either load or create)
-        //let players = [];
-        /**
-        for (let user in gameRoom.users){
+     for (let user in gameRoom.users){
             if (gameRoom.users.hasOwnProperty(user)) {
                // gameRoom.users[user] = Player.createPlayer(user,);
           //      players.push(gameRoom.users[user]);
             }
         }**/
-        //now create the game/match based on the scenario.
-        gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, gameRoom.users, gameRoom.id);
-        DATA.addMatch(gameRoom.id, gameRoom.match);
+    //now create the game/match based on the scenario.
+    gameRoom.match = Match.createNewMatch(gameRoom.gameScenario, gameRoom.users, gameRoom.id);
+    DATA.addMatch(gameRoom.id, gameRoom.match);
 
-        for (let player in gameRoom.users){
-            if (gameRoom.users.hasOwnProperty(player)) {
-                gameRoom.users[player].match = gameRoom.match;
-            }
+    for (let player in gameRoom.users){
+        if (gameRoom.users.hasOwnProperty(player)) {
+            gameRoom.users[player].match = gameRoom.match;
         }
-        return gameRoom.match;
-    };
-
-
-    DATA.addRoom(gameRoom);
-    return gameRoom;
+    }
+    return gameRoom.match;
 };
+

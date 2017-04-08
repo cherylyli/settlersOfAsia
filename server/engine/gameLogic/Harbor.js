@@ -21,29 +21,30 @@ Harbor.createHarbor = function (position, type) {
     else harbor.ratio = Enum.HarborRatio.SpecialHarbor;
 
 
-    /**
-     *
-     * @param player {Player}
-     */
-    harbor.acquireBy = function(player){
-        this.owner = player;
-        player.harbors.push(this);
-
-        //change player trade ratio if it offers lower ratio
-        if (this.type == Enum.HarborType.General){
-            for (let resourceType in player.tradeRatio){
-                if (player.tradeRatio[resourceType] > harbor.ratio){
-                    player.tradeRatio[resourceType] = harbor.ratio;
-                }
-            }
-        }
-        else {
-            if (player.tradeRatio[harbor.type] > harbor.ratio){
-                player.tradeRatio[harbor.type] = harbor.ratio;
-            }
-        }
-    };
-
     return harbor;
+};
+
+
+/**
+ *
+ * @param player {Player}
+ */
+Harbor.acquireBy = function(harbor, player){
+    this.owner = player;
+    player.harbors.push(this);
+
+    //change player trade ratio if it offers lower ratio
+    if (this.type == Enum.HarborType.General){
+        for (let resourceType in player.tradeRatio){
+            if (player.tradeRatio[resourceType] > harbor.ratio){
+                player.tradeRatio[resourceType] = harbor.ratio;
+            }
+        }
+    }
+    else {
+        if (player.tradeRatio[harbor.type] > harbor.ratio){
+            player.tradeRatio[harbor.type] = harbor.ratio;
+        }
+    }
 };
 

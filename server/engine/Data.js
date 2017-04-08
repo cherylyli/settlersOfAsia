@@ -1,4 +1,5 @@
-let DATA = module.exports = {};
+let DATA = {} = module.exports;
+let Match = require('./gameLogic/Match.js');
 
 let rooms = {};
 let users = {};
@@ -61,5 +62,5 @@ DATA.addMatch = function (roomID, match) {
 
 DATA.getPlayer = function (userName, roomID) {
     let match = DATA.getMatch(roomID);
-    return match.getPlayer(userName);
+    return Match.getPlayer(match, userName);
 };
