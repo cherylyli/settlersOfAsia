@@ -519,6 +519,7 @@ Commands.moveRobber = function (userName, roomID, data) {
     }
 };
 
+
 Commands.movePirate = function (userName, roomID, data) {
     let match = DATA.getMatch(roomID);
     let pirate = match.map.pirate;
@@ -534,6 +535,7 @@ Commands.movePirate = function (userName, roomID, data) {
        match.bank.decreasePlayerFish(player,'moveUseFish');
     }
 };
+
 
 /**
  * @param theif {Player}

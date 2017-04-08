@@ -6,7 +6,6 @@ let CommandsData = {};
 let SpecialsCommands = {
     'moveKnight': 'moveKnight',
     'upgradeToMetropolis': 'upgradeToMetropolis',
-    'chaseAwayThief': 'chaseAwayThief',
     'moveShip': 'moveShip'
 };
 
@@ -313,6 +312,17 @@ CommandCheck.moveRobber = function (newHexID) {
 
 };
 
+
+
+CommandReceived.moveRobber = function () {
+    if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+};
+
+
+
+CommandReceived.movePirate = function () {
+    if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+};
 /**
  *
  * @param newHexID {int}
@@ -603,14 +613,15 @@ CommandCheck.chaseAwayThief = function (knightPosition) {
     }
     return true;
 };
-/**
+
 CommandReceived.chaseAwayThief = function () {
     let knight = DATA.getMatch().knightInAction;
     let thiefAround = VertexUnit.getThiefAround(knight);
+    notifyUserToMoveThief(thiefAround);
+
+};
 
 
-
-};**/
 //num : total number of cards to be discarded
 //cards: {Enum.Resourca.card : # of this type to be discarded} {Cost}
 CommandsData.discardResourceCards = function (cards) {

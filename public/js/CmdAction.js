@@ -21,6 +21,8 @@
 
     function showHexOperations($e) {
         let hexID = parseInt($e.attr('data-id'));
+        let cmds = HexTile.getCommands(hexID);
+        if (cmds.length == 0) return;
         populateCmdPromptCmds(HexTile.getCommands(hexID), [hexID]);
         showCmdPrompt();
     }
@@ -214,11 +216,11 @@
 
 
     function showDrawCardPrompt() {
-        CmdPrompt.generateDrawCardPrompt();
+        generateDrawCardPrompt();
     }
 
     function showDiscardCardPrompt() {
-        CmdPrompt.generateDiscardCardPrompt();
+        generateDiscardCardPrompt();
     }
 
 
@@ -231,5 +233,22 @@
             // $v.addClass('ctrl-clicked');
             highlightVertex($v);
         }
+    }
+
+
+    function notifyUserToMoveThief(thiefList) {
+        let thieves;
+        if (thiefList == 1) thieves = thiefList[0];
+        else thieves = "robber or pirate";
+        swal({
+                title: "Now you can move " + thieves,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Cool!",
+                closeOnConfirm: true,
+        });
+
+        app.ongoingCmd = "moveThief";
+        app.ongoingCmdData = thiefList;
+        clearHighlightedVertices();
     }
 

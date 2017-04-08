@@ -557,7 +557,7 @@ $(window).on('imready', function(im){
         else if (!isCtrlPressed(e)) {
             highlightVertex($(this));
             if (!app.ongoingCmd) showVertexOpeartions($(this));
-            else SpecialsCommandsFinalStep[app.ongoingCmd].apply(this, [$(this).attr('data-id')]);
+            else if (SpecialsCommandsFinalStep.hasOwnProperty(app.ongoingCmd)) SpecialsCommandsFinalStep[app.ongoingCmd].apply(this, [$(this).attr('data-id')]);
         }
     });
 
@@ -572,7 +572,7 @@ $(window).on('imready', function(im){
 
         highlightHexes($(this));
         console.log($(this).attr('data-id'));
-        if (!app.ongoingCmd) showHexOperations($(this));
+        if (app.ongoingCmd == "moveThief") showHexOperations($(this));
 
     });
 
