@@ -444,7 +444,7 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
   * create trade object, notifies all the other players about the trade offer.
   */
  Commands.requestTrade = function (userName, roomID, data) {
-     console.log("TRADE was requested: ");
+     console.log("TRADE was requested:");
      console.log(data);
      let trade = Trade.createTrade(data.selling, data.buying);
      DATA.getMatch(roomID).currentTrade = trade;
@@ -473,18 +473,23 @@ Commands.cancelTrade = function(roomID){
     match.currentTrade = null;
 };
 
- /**
-  * game keeps track of current trade. (There is only one current trade)
-  * @param player {Player} player who responded to the trade offer
-  * @return {playerName1:tradeObject, playerName2: tradeObject}
-  */
+/**
+ * We add user that accepted to the current trade.
+ * @param userName
+ * @param roomID
+ * @param acceptedTrade
+ */
  Commands.acceptTrade = function (userName, roomID, data) {
-     console.log("TRADE WAS ACCEPTED:");
-     console.log("username:"+JSON.stringify(userName));
-     console.log("data:"+JSON.stringify(data));
-     let trade = data;
-     let match = DATA.getMatch(roomID);
-     match.currentTrade[userName] = trade;
+    console.log(data);
+     if(data) {
+         console.log("TRADE WAS ACCEPTED:");
+         console.log("username:" + JSON.stringify(userName));
+         let match = DATA.getMatch(roomID);
+         match.currentTrade.accepted[userName] = userName;//we add list of players who accepted current trade
+         match.currentTrade.participated[userName] = userName; //we use this to make sure that every player has answered yes or no to trade
+     }else{
+         DATA.getMatch(roomID).currentTrade.participated[userName];
+     }
  };
 
  /**

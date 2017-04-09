@@ -215,12 +215,14 @@
 
 
 
-    function showDrawCardPrompt() {
-        generateDrawCardPrompt();
+    function showDrawCardPrompt(cmd) {
+        console.log(cmd);
+        generateDrawCardPrompt(cmd);
     }
 
-    function showDiscardCardPrompt() {
-        generateDiscardCardPrompt();
+    function showDiscardCardPrompt(cmd) {
+        console.log(cmd);
+        generateDiscardCardPrompt(cmd);
     }
 
 

@@ -235,7 +235,7 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
  */
 CommandsData.requestTrade = function (selling, buying) {
         return {'selling': selling, 'buying': buying};
-    };
+};
 
 CommandCheck.requestTrade = function (selling, buying) {
     // check if we have the cards we offer
@@ -247,32 +247,69 @@ CommandReceived.performTradeTransaction = function () {
     //DATA.getMatch().currentTrade
     //maybe set a flah so that we know with whom trade was performed
     //don't delete trade right away it is going to be overwritted later anyway
+    //don't delete trade right away it is going to be overwritted later anyway
     //just check who is left in the currentTrade
 };
 
+//we need to wait until all players accept or decline trade
+//we can do it by adding counter inside of current trade and check it after
+CommandReceived.acceptTrade = function () {
+    //if not everyone participated we are not showing anything
+    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1)){
+        console.log("skip");
+        return;
+    }
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
+        swal({
+                title: "Please choose a player to trade with",
+                text: "Players that accepted trade:" + JSON.stringify(DATA.getMatch().currentTrade.accepted),
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Write something"
+            },
+            function(inputValue){
+                if (inputValue === false) return false;
 
-CommandReceived.requestTrade = function (selling, buying) {
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+                swal("Nice!", "You wrote: " + inputValue, "success");
+            });
+    }
+};
+
+CommandReceived.requestTrade = function () {
+
+    // FIXME: commandReceived does not take any parameter
     if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
         //skip
     }else{
         let selling = DATA.getMatch().currentTrade.selling;
         let buying = DATA.getMatch().currentTrade.buying;
         console.log(selling);
-
         console.log(DATA.getMatch().currentTrade);
         swal({
-                title: "TRADE BRO?",
+                title: "TRADE ??? =)",
                 text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "TRADE RESOURCES!",
-                closeOnConfirm: false
+                cancelButtonText: "NOOO!!",
+                closeOnConfirm: false,
+                closeOnCancel: false
             },
-            function(){
-                swal("Trade started!", "Your trade response was sent", "success", function () {
-                    Commands.acceptTrade();
-                });
+            function(isConfirm){
+                if (isConfirm) {
+                    swal("Trade started!", "Your trade response was sent", "success");
+                    Commands.acceptTrade(true);
+                } else {
+                    swal("You declined trade!", "Trade has been stopped", "error");
+                    Commands.acceptTrade(false);
+                }
             });
     }
     // TODO: max
@@ -663,32 +700,17 @@ CommandCheck.discardResourceCards = function (cards) {
 
 /**
  *
- * @param selling {object}
- * @param buying {object}
+ * @param accept {boolean}
  */
-CommandsData.acceptTrade = function (selling, buying) {
+CommandsData.acceptTrade = function (accept) {
+    return {accept: accept};
+    // TODO: change this in server part corresponding
     //checkEnoughResource(buying);
 
 };
 
 CommandCheck.acceptTrade = function (selling, buying) {
     checkEnoughResource(buying);
-};
-
-// TODO: Max
-// commandReceived does not take any input
-// to get the most recent room object, app.room
-CommandReceived.acceptTrade = function () {
-    //
-    if (DATA.getMyPlayer().name == trade.offerer){
-        // show a list of players who accepted the trade
-    }
-
-    // if we play the progress card
-    // we dont need to choose
-
-
-    // send to server we confirm the trade
 };
 
 CommandsData.tradeWithPlayer = function (userNameA, userNameB, trade) {
