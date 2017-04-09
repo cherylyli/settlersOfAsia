@@ -28,13 +28,13 @@ Trade.performTrade = function(buyer, seller, trade){
     let seller_resources = seller.resourcesAndCommodities;
 
     //Seller gives resources to buyer
-    trade.buying.keys().forEach( resource_name => {
+    Object.keys(trade.buying).forEach( resource_name => {
         seller_resources[resource_name] -= trade.buying[resource_name];
         buyer_resources[resource_name] += trade.buying[resource_name];
     });
 
     //Buyer gives resources to seller
-    trade.selling.keys().forEach( resource_name => {
+    Object.keys(trade.selling).forEach( resource_name => {
         buyer_resources[resource_name] -= trade.selling[resource_name];
         seller_resources[resource_name] += trade.selling[resource_name];
     });
