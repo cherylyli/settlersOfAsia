@@ -63,6 +63,11 @@ $(window).on('imready', function(im){
     // to make it look cleaner
     let mapConfig = JSON.parse(decodeURIComponent($.urlParam('config')));
     window.history.replaceState({}, null, window.location.pathname);
+
+    // FIXME: change later, just for testing
+    // if (mapConfig) mapConfig.savedGameID = "HmN7a";
+
+
     sock.emit('MAP_CONFIG', mapConfig);
 
     // when sock disconnects and reconnects, join room again
@@ -223,6 +228,7 @@ $(window).on('imready', function(im){
 
             // save match
             save: function () {
+                Commands.saveGame();
                 Toast.show('Saved!');
             },
 

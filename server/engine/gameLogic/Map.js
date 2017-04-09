@@ -50,125 +50,131 @@ Map.createMap = function (scenarioData) {
 
 
 
-    /**
-     *
-     * @param vertex {int}
-     * @return {Building|Knight}
-     */
-    map.getVertexInfo = function(vertex){
-        return map.vertexInfo[vertex];
-    };
-
-
-    /**
-     *
-     * @param edge {edge}
-     * @return {Building}
-     */
-    map.getEdgeInfo = function (edge) {
-        return map.edgeInfo[Map.edgeKey(edge)];
-    };
-
-
-    /**
-     *
-     * @param vertexUnit {Building|Knight}
-     * @param vertex {int}
-     */
-    map.setVertexInfo = function (vertexUnit, vertex) {
-        map.vertexInfo[vertex] = vertexUnit;
-    };
-
-
-    /**
-     *
-     * @param edgeUnit {Building}
-     * @param edge {edge}
-     */
-    map.setEdgeInfo = function (edgeUnit, edge) {
-        map.edgeInfo[Map.edgeKey(edge)] = edgeUnit;
-    };
-
-
-    /**
-     *
-     * @param vertex
-     * @return {Array<edge>}
-     */
-    map.getEdgeByVertex = function (vertex) {
-        return _.values(map.verticesToEdges[vertex]);
-    };
-
-    /**
-     *
-     * @param hexTileId int
-     * @returns {*} hexTile
-     */
-    map.getHexTileById = function(hexTileId){
-        //if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
-        if (!_.isNumber(hexTileId)) return map.fishTiles[hexTileId];   // fish hex
-        return map.hexTiles[hexTileId - 1];
-    };
-
-    /**
-     *
-     * @param vertex vertex number
-     * @returns {*|number}
-     */
-    map.getHexTileByVertex = function(vertex){
-        // if (vertex < 1 || vertex >= 250 || !map.verticesToHex[vertex]) throw "Invalid vertex";
-        return map.verticesToHex[vertex];
-    };
-
-    /**
-     *
-     * @param vertex
-     * @return {Array<int>}
-     */
-    map.getHexTileArrayByVertex = function (vertex) {
-        return _.zip.apply(this, map.getHexTileByVertex(vertex))[0];
-    };
-
-
-    /**
-     *
-     * @param edge
-     * @return {Array} each item: [{int}hexTileID, {String}positionOfTheEdgeInThisHex]
-     */
-    map.getHexTileByEdge = function(edge){
-        let t1 = map.getHexTileByVertex(edge[0]);
-        let t2 = map.getHexTileByVertex(edge[1]);
-
-        //find common tiles commonV
-        let commonT = [];
-        for (let ta  = 0; ta < t1.length; ta++){
-            for (let tb = 0; tb< t2.length; tb++){
-                if (t1[ta][0] == t2[tb][0]) commonT.push(t1[ta][0]);
-            }
-        }
-
-        let result = [];
-        for (let t of commonT){
-            let tile = map.hexTiles[t - 1];
-            result.push([t, tile.getEdgePositionInHex(edge)]);
-        }
-        if (!result) throw "Invalid edge";
-        return result;
-    };
-
-    /**
-     * @return a list of hexTiles (not id, hexTile objec)
-     * @param numToken int
-     */
-    map.getHexTileByNumToken = function(numToken){
-        return this.numTokenToHexTiles[numToken];
-    };
-
-
-
 
     return map;
 };
+
+
+/**
+ *
+ * @param vertex {int}
+ * @return {Building|Knight}
+ */
+Map.getVertexInfo = function(map, vertex){
+    return map.vertexInfo[vertex];
+};
+
+
+/**
+ *
+ * @param edge {edge}
+ * @return {Building}
+ */
+Map.getEdgeInfo = function (map, edge) {
+    return map.edgeInfo[Map.edgeKey(edge)];
+};
+
+
+/**
+ *
+ * @param vertexUnit {Building|Knight}
+ * @param vertex {int}
+ */
+Map.setVertexInfo = function (map, vertexUnit, vertex) {
+    map.vertexInfo[vertex] = vertexUnit;
+};
+
+
+/**
+ *
+ * @param edgeUnit {Building}
+ * @param edge {edge}
+ */
+Map.setEdgeInfo = function (map, edgeUnit, edge) {
+    map.edgeInfo[Map.edgeKey(edge)] = edgeUnit;
+};
+
+
+/**
+ *
+ * @param vertex
+ * @return {Array<edge>}
+ */
+Map.getEdgeByVertex = function (map, vertex) {
+    return _.values(map.verticesToEdges[vertex]);
+};
+
+/**
+ *
+ * @param hexTileId int
+ * @returns {*} hexTile
+ */
+Map.getHexTileById = function(map, hexTileId){
+    //if (hexTileId <=0 || hexTileId > map.hexTileNum) throw "Invalid hexTileID";
+    if (!_.isNumber(hexTileId)) return map.fishTiles[hexTileId];   // fish hex
+    return map.hexTiles[hexTileId - 1];
+};
+
+/**
+ *
+ * @param vertex vertex number
+ * @returns {*|number}
+ */
+Map.getHexTileByVertex = function(map, vertex){
+    // if (vertex < 1 || vertex >= 250 || !map.verticesToHex[vertex]) throw "Invalid vertex";
+    return map.verticesToHex[vertex];
+};
+
+/**
+ *
+ * @param vertex
+ * @return {Array<int>}
+ */
+Map.getHexTileArrayByVertex = function (map, vertex) {
+    return _.zip.apply(this, Map.getHexTileByVertex(map, vertex))[0];
+};
+
+
+/**
+ *
+ * @param edge
+ * @return {Array} each item: [{int}hexTileID, {String}positionOfTheEdgeInThisHex]
+ */
+Map.getHexTileByEdge = function(map, edge){
+    let t1 = Map.getHexTileByVertex(map, edge[0]);
+    let t2 = Map.getHexTileByVertex(map, edge[1]);
+
+    //find common tiles commonV
+    let commonT = [];
+    for (let ta  = 0; ta < t1.length; ta++){
+        for (let tb = 0; tb< t2.length; tb++){
+            if (t1[ta][0] == t2[tb][0]) commonT.push(t1[ta][0]);
+        }
+    }
+
+    let result = [];
+    for (let t of commonT){
+        let tile = map.hexTiles[t - 1];
+        result.push([t, HexTile.getEdgePositionInHex(tile, edge)]);
+    }
+    if (!result) throw "Invalid edge";
+    return result;
+};
+
+/**
+ * @return a list of hexTiles (not id, hexTile objec)
+ * @param numToken int
+ */
+Map.getHexTileByNumToken = function(map, numToken){
+    return map.numTokenToHexTiles[numToken];
+};
+
+
+
+
+
+
+
 
 
 Map.setUpHarbors = function (map, harborPositions, harborTypesData) {
@@ -456,7 +462,7 @@ function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
 
         if (check) {
             //we do the check because we r assigning 6 & 8s
-            let neighbors = map.getHexTileById(hexId).getNeighbors(map);
+            let neighbors = HexTile.getNeighbors(Map.getHexTileById(map,hexId), map);
             for (let id in neighbors){
                 if (neighbors[id].productionNum == 8 || neighbors[id].productionNum == 6){
                     // we cannot put 8/6 here
@@ -484,7 +490,7 @@ function setHexTilesRandomNumToken(map, hexTiles, numTokens, check){
  */
 function putNumTokenOnHexTile(map, numToken, hexId){
 
-    let hexTile = map.getHexTileById(hexId);
+    let hexTile = Map.getHexTileById(map, hexId);
     hexTile.productionNum = numToken;
     map.numTokenToHexTiles[numToken].push(hexId);
 }

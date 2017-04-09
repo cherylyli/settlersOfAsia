@@ -10,63 +10,66 @@ Robber.createRobber = function(){
   robber.pos = 0;
   robber.move = false;
 
+  //check distribute resource, get player that is adjacent to vertex ?
+  return robber;
+}
 
-  robber.canMove = function(productionNum){
+
+
+
+Robber.canMove = function(robber, productionNum){
     if (productionNum == 7){
-      robber.move = true;
-      //player.rolledSeven = true;
+        robber.move = true;
+        //player.rolledSeven = true;
     }
     return robber.move;
-  };
+};
 
-  //from, to - 2 land hextiles
-  robber.moveTo = function(from,to,match){
+//from, to - 2 land hextiles
+Robber.moveTo = function(robber, from,to,match){
 
     if(from)
-      from.blockedByRobber = false;
+        from.blockedByRobber = false;
     if(to){
-      to.blockedByRobber = true;
-      robber.pos = to.id;  // pos: {int}
-      robber.move = false;
-      return {'curPos' : robber.pos, 'discardHalf' : robber.hasToDiscardCards(match.players), 'stealFrom' : robber.stealFrom(to,match.map)};
+        to.blockedByRobber = true;
+        robber.pos = to.id;  // pos: {int}
+        robber.move = false;
+        return {'curPos' : robber.pos, 'discardHalf' : Robber.hasToDiscardCards(robber, match.players), 'stealFrom' : Robber.stealFrom(robber, to,match.map)};
     }
 
     robber.pos = to.id;
     robber.move = false;
     //player.rolledSeven = false;
     return  {'curPos' : robber.pos,'discardHalf': null, 'stealFrom' : null};
-  };
+};
 
-  //@return {playerName {String} : number of cards that need to be discarded: {Int}}
-  robber.hasToDiscardCards = function(players){
+//@return {playerName {String} : number of cards that need to be discarded: {Int}}
+Robber.hasToDiscardCards = function(robber, players){
     // if players has more than 7 cards, discard half (round down)
     var discardCards = {};
     for(var player in players){
-      //console.log("name" + players[player].name );
-      //console.log("discard cards num " + players[player].discardedCardsCnt());
-      discardCards[players[player].name] = players[player].discardedCardsCnt();
+        //console.log("name" + players[player].name );
+        //console.log("discard cards num " + players[player].discardedCardsCnt());
+        discardCards[players[player].name] = Player.discardedCardsCnt(players[player]);
     }
     //console.log(discardCards);
     return discardCards;
-  }
+};
 
-  robber.stealFrom = function(hexTile, map){
-    var stealable = hexTile.getPlayersAroundByBuildings(map);
+Robber.stealFrom = function(robber, hexTile, map){
+    var stealable = HexTile.getPlayersAroundByBuildings(hexTile, map);
     return stealable;
-  }
+};
 
-  robber.stealCard = function(thief,victim){
-    victim.stolenBy(thief);
-  }
+Robber.stealCard = function(robber, thief,victim){
+    Player.stolenBy(victim, thief);
+};
 
-  //TODO knight&robber
+//TODO knight&robber
 
-  robber.moveAway = function(){
+Robber.moveAway = function(robber){
     //off the board
     //hexTile.blockedByRobber
     robber.pos.blockedByRobber = false;
     robber.pos = 0;
-  }
-  //check distribute resource, get player that is adjacent to vertex ?
-  return robber;
-}
+};

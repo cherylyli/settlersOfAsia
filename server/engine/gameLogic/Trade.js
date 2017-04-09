@@ -15,7 +15,7 @@ Trade.createTrade = function (offer, request) {
     trade.participated = {};
     trade.accepted = {};
     return trade;
-}
+};
 
 /**
  * Buyer and seller are two player objects
@@ -38,4 +38,4 @@ Trade.performTrade = function(buyer, seller, trade){
         buyer_resources[resource_name] -= trade.selling[resource_name];
         seller_resources[resource_name] += trade.selling[resource_name];
     });
-}
+};

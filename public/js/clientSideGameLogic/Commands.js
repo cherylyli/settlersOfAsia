@@ -87,6 +87,7 @@ let PlayerCommand = {
 
 
 let CommandName = {
+    'saveGame': 'saveGame',
     'rollDice': 'rollDice',
     'buildSettlement': 'buildSettlement',
     'upgradeToCity': 'upgradeToCity',
@@ -173,6 +174,14 @@ function testGame(gameID) {
 
 
 //============================REQUIRE TEST ==============================
+
+CommandsData.saveGame = function () {
+    return null;
+};
+
+CommandCheck.saveGame = function () {
+    return (app.room && app.room.match);
+};
 
 /**
  *
