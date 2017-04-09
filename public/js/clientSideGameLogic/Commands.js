@@ -237,6 +237,7 @@ CommandsData.requestTrade = function (selling, buying) {
         return {'selling': selling, 'buying': buying};
 };
 
+
 CommandCheck.requestTrade = function (selling, buying) {
     // check if we have the cards we offer
     checkEnoughResource(selling);
@@ -282,7 +283,6 @@ CommandReceived.acceptTrade = function () {
 };
 
 CommandReceived.requestTrade = function () {
-
     // FIXME: commandReceived does not take any parameter
     if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
         //skip

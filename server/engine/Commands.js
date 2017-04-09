@@ -475,20 +475,17 @@ Commands.cancelTrade = function(roomID){
 
 /**
  * We add user that accepted to the current trade.
+ * Unhandled cases: What is going to happen if player quits withoput answering to trade request?
  * @param userName
  * @param roomID
  * @param acceptedTrade
  */
  Commands.acceptTrade = function (userName, roomID, data) {
-    console.log(data);
-     if(data) {
+     DATA.getMatch(roomID).currentTrade.participated[userName] = userName;  //we use this to make sure that every player has answered yes or no to trade
+     if(data.accept) {
          console.log("TRADE WAS ACCEPTED:");
-         console.log("username:" + JSON.stringify(userName));
          let match = DATA.getMatch(roomID);
          match.currentTrade.accepted[userName] = userName;//we add list of players who accepted current trade
-         match.currentTrade.participated[userName] = userName; //we use this to make sure that every player has answered yes or no to trade
-     }else{
-         DATA.getMatch(roomID).currentTrade.participated[userName];
      }
  };
 
