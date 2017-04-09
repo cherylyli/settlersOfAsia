@@ -246,7 +246,11 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
  */
 CommandsData.requestTrade = function (selling, buying) {
         return {'selling': selling, 'buying': buying};
-    };
+};
+
+CommandsData.performTradeTransaction = function (tradeWith) {
+    return {'tradeWith': tradeWith};
+};
 
 CommandCheck.requestTrade = function (selling, buying) {
     // check if we have the cards we offer
@@ -258,32 +262,120 @@ CommandReceived.performTradeTransaction = function () {
     //DATA.getMatch().currentTrade
     //maybe set a flah so that we know with whom trade was performed
     //don't delete trade right away it is going to be overwritted later anyway
+    //don't delete trade right away it is going to be overwritted later anyway
     //just check who is left in the currentTrade
 };
 
-
-CommandReceived.requestTrade = function (selling, buying) {
+//we need to wait until all players accept or decline trade
+//we can do it by adding counter inside of current trade and check it after
+CommandReceived.acceptTrade = function () {
+    //if not everyone participated we are not showing anything
+    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1)){
+        console.log("skip");
+        return;
+    }
     if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
+        swal({
+                title: "Please choose a player to trade with",
+                text: "Players that accepted trade:" + JSON.stringify(DATA.getMatch().currentTrade.accepted),
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Write down name of the player with whom you want to trade :)"
+            },
+            function(inputValue){
+                if (inputValue === false){
+                    return false;
+                }
+
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something =|");
+                    return false
+                }
+                if( Object.keys(DATA.getMatch().players).indexOf(inputValue) !== -1){
+                    swal("Nice!", "You are going to trade with " + inputValue, "success");
+                    Commands.performTradeTransaction(inputValue);
+                }
+                else{
+                    swal.showInputError("You need to provide correct username!");
+                }
+            });
+    }
+};
+
+CommandReceived.requestTrade = function () {
+    let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name) {
         //skip
-    }else{
+    }
+    else if(Object.keys(active_cards).indexOf("CommercialHarbor") !== -1){
+        let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
+        let allowed_input={};
+        let commodities = ['Paper','Coin','Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
+        //we want to give from resources that we have
+        Object.keys(player_resources).forEach(res =>{
+             if(0 < player_resources[res] && commodities.indexOf(res) !== -1){
+                 allowed_input[res] = res;
+             }});
+        console.log("ALLOWED_INPUT");
+        console.log(allowed_input);
+
+        swal({
+                title: "Comercial Harbor is ACTIVE =O",
+                text: "Write name of commodity that you are going to give:",
+                type: "input",
+                showCancelButton: false,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Cloth, Coin, Paper"
+            },
+            //we need to do something in case player does not have any resources right now, player is bankrupt
+            function(inputValue){
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+                else if(Object.keys(allowed_input).indexOf(inputValue) !== -1){ //we can give this res
+                    //we need to modify current trade somehow
+                    //like currentTrade:{ playerA: {sells: b}}
+                    //Maybe add some flag inside of current trade to dimultiplex
+                    //we need to do these operations through acceptTrade we are just going to add extra arguments to it
+                    swal("Trade concluded", "You wrote: " + inputValue, "success");
+                    return true;
+                }
+                else{
+                    swal.showInputError("You need to provide resource that you have!");
+                }
+            });
+        //current player has ComercialHarbor active
+        //we are obliged to give him one of our resources
+        //by the end of the trade we need to delete this progress card
+     }
+    else{
         let selling = DATA.getMatch().currentTrade.selling;
         let buying = DATA.getMatch().currentTrade.buying;
         console.log(selling);
-
         console.log(DATA.getMatch().currentTrade);
         swal({
-                title: "TRADE BRO?",
+                title: "TRADE ??? =)",
                 text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "TRADE RESOURCES!",
-                closeOnConfirm: false
+                cancelButtonText: "NOOO!!",
+                closeOnConfirm: false,
+                closeOnCancel: false
             },
-            function(){
-                swal("Trade started!", "Your trade response was sent", "success", function () {
-                    Commands.acceptTrade();
-                });
+            function(isConfirm){
+                if (isConfirm) {
+                    swal("Trade started!", "Your trade response was sent", "success");
+                    Commands.acceptTrade(true);
+                } else {
+                    swal("You declined trade!", "Trade has been stopped", "error");
+                    Commands.acceptTrade(false);
+                }
             });
     }
     // TODO: max
@@ -674,10 +766,11 @@ CommandCheck.discardResourceCards = function (cards) {
 
 /**
  *
- * @param selling {object}
- * @param buying {object}
+ * @param accept {boolean}
  */
-CommandsData.acceptTrade = function (selling, buying) {
+CommandsData.acceptTrade = function (accept) {
+    return {accept: accept};
+    // TODO: change this in server part corresponding
     //checkEnoughResource(buying);
 
 };
@@ -685,43 +778,6 @@ CommandsData.acceptTrade = function (selling, buying) {
 CommandCheck.acceptTrade = function (selling, buying) {
     checkEnoughResource(buying);
 };
-
-// TODO: Max
-// commandReceived does not take any input
-// to get the most recent room object, app.room
-CommandReceived.acceptTrade = function () {
-    //
-    if (DATA.getMyPlayer().name == trade.offerer){
-        // show a list of players who accepted the trade
-    }
-
-    // if we play the progress card
-    // we dont need to choose
-
-
-    // send to server we confirm the trade
-};
-/**
-JSON.stringify(filters, function (key, value) {
-    if (typeof value === 'function') {
-        return value.toString();
-    }
-         return value;
-});
-
-JSON.parse(filtersString, function (key, value) {
-    if (value
-                 && typeof value === "string"
-             && value.substr(0,8) == "function") {
-                 var startBody = value.indexOf('{') + 1;
-                 var endBody = value.lastIndexOf('}');
-                 var startArgs = value.indexOf('(') + 1;
-                 var endArgs = value.indexOf(')');
-
-                 return new Function(value.substring(startArgs, endArgs), value.substring(startBody, endBody));
-             }
-         return value;
-});**/
 
 CommandsData.tradeWithPlayer = function (userNameA, userNameB, trade) {
     return {'userNameA': userNameA, 'userNameB': userNameB, 'trade': trade};
