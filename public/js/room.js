@@ -297,7 +297,7 @@ $(window).on('imready', function(im){
                 Commands.movePirate(newHexID);
             },
             drawResourceCard: function () {
-                showDrawCardPrompt("drawOneResourceCard");
+                generateDrawCardPrompt("drawOneResourceCard");
             },
             discardResourceCards: function () {
                 showDiscardCardPrompt();
@@ -309,7 +309,7 @@ $(window).on('imready', function(im){
                 showProgressCardCmd(card)
             },
             drawProgressCard: function () {
-                showDrawCardPrompt("drawOneProgressCard");
+                generateDrawCardPrompt("drawOneProgressCard");
             },
 
             fishTokenCommand: function (e) {

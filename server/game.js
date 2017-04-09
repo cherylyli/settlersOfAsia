@@ -59,7 +59,7 @@ io.on('connection', function (socket) {
         socket.leave(socket.room, function () {
             debug(`${username} left room ${socket.room}`);
             // FIXME: leave room
-            // Commands.leaveRoom(username, socket.room);
+            Commands.leaveRoom(username, socket.room);
             socket.room = null;
         });
     }
