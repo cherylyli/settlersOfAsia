@@ -65,7 +65,7 @@ $(window).on('imready', function(im){
     window.history.replaceState({}, null, window.location.pathname);
 
     // FIXME: change later, just for testing
-    if (mapConfig) mapConfig.savedGameID = "HmN7a";
+    // if (mapConfig) mapConfig.savedGameID = "HmN7a";
 
 
     sock.emit('MAP_CONFIG', mapConfig);
