@@ -453,19 +453,20 @@ CommandsCheck.chooseCityToBePillaged = function (vertex) {
 
 /**
  * It performs exchange between buyer and seller
+ * We need to assert that seller and buyer have enough of resources to engage in trade
+ * We need to send notification to the user when transaction is done
  * @param buyerName
  * @param sellerName
  * @param roomID
  */
-Commands.performTradeTransaction = function(buyerName, sellerName, roomID){
-    let buyingPlayer = DATA.getPlayer(buyerName);
-    let sellingPlayer = DATA.getPlayer(sellerName);
+Commands.performTradeTransaction = function(userName, roomID, data){
+    console.log("Performing transaction:"+userName+"<->"+data.tradeWith);
+    let initiator = DATA.getPlayer(userName, roomID);
+    let tradeWith = DATA.getPlayer(data.tradeWith, roomID);
     let match = DATA.getMatch(roomID);
-    let trades = match.currentTrade;
-    let trade = trades[sellerName];
-    Trade.performTrade(buyingPlayer,sellingPlayer,trade);
-    match.currentTrade = null;
-    notify(sellerName,'performTradeTransaction', DATA.getRoom(roomID));
+    let trade = match.currentTrade;
+    Trade.performTrade(initiator,tradeWith,trade);
+    match.currentTrade = null; //we are resetting trade object
 };
 
 Commands.cancelTrade = function(roomID){

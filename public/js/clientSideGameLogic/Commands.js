@@ -237,6 +237,9 @@ CommandsData.requestTrade = function (selling, buying) {
         return {'selling': selling, 'buying': buying};
 };
 
+CommandsData.performTradeTransaction = function (tradeWith) {
+    return {'tradeWith': tradeWith};
+};
 
 CommandCheck.requestTrade = function (selling, buying) {
     // check if we have the cards we offer
@@ -268,16 +271,24 @@ CommandReceived.acceptTrade = function () {
                 showCancelButton: true,
                 closeOnConfirm: false,
                 animation: "slide-from-top",
-                inputPlaceholder: "Write something"
+                inputPlaceholder: "Write down name of the player with whom you want to trade :)"
             },
             function(inputValue){
-                if (inputValue === false) return false;
+                if (inputValue === false){
+                    return false;
+                }
 
                 if (inputValue === "") {
-                    swal.showInputError("You need to write something!");
+                    swal.showInputError("You need to write something =|");
                     return false
                 }
-                swal("Nice!", "You wrote: " + inputValue, "success");
+                if( Object.keys(DATA.getMatch().players).indexOf(inputValue) !== -1){
+                    swal("Nice!", "You are going to trade with " + inputValue, "success");
+                    Commands.performTradeTransaction(inputValue);
+                }
+                else{
+                    swal.showInputError("You need to provide correct username!");
+                }
             });
     }
 };
