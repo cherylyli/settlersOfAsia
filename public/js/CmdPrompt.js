@@ -276,7 +276,7 @@ function addConfirmAndCancelButtonForPrompt() {
  *
  * @param cmd {String} command name
  */
-function generateTradePrompt(cmd) {
+function generateTradePrompt(cmd, targetPlayer = null) {
     if (isCmdPromptVisible()) hideCmdPrompt();
     let $prompt = $('#cmd-prompt');
     $prompt.append(generateTradeForm('buying', cmd));
@@ -302,7 +302,8 @@ function generateTradePrompt(cmd) {
 
         else {
             console.log("Trade is working!");
-            Commands.requestTrade(selling, buying);
+            console.log(selling, buying, targetPlayer);
+            Commands.requestTrade(selling, buying, targetPlayer);
         }
 
         hideCmdPrompt();

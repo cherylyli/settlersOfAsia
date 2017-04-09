@@ -6,7 +6,8 @@ let CommandsData = {};
 let SpecialsCommands = {
     'moveKnight': 'moveKnight',
     'upgradeToMetropolis': 'upgradeToMetropolis',
-    'moveShip': 'moveShip'
+    'moveShip': 'moveShip',
+    'requestTrade': 'requestTrade'
 };
 
 // this map to functions
@@ -82,7 +83,8 @@ let FishTokenCommand = {
 
 let PlayerCommand = {
     'stealCard': 'stealCard',
-    'giveAwayBoot': 'giveAwayBoot'
+    'giveAwayBoot': 'giveAwayBoot',
+    'requestTrade': 'requestTrade'
 };
 
 

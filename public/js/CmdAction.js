@@ -78,6 +78,12 @@
     };
 
 
+    SpecialsCommandsNextStep.requestTrade = function (targetPlayer) {
+        generateTradePrompt("tradeWithPlayer", targetPlayer);
+        showCmdPrompt();
+    };
+
+
 
 
     SpecialsCommandsNextStep.upgradeToMetropolis = function(position){
