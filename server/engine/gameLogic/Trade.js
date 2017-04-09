@@ -8,12 +8,13 @@ let Trade = module.exports = {};
  * @param offer     {object}
  * @param request {object}
  */
-Trade.createTrade = function (offer, request) {
+Trade.createTrade = function (offer, request, target) {
     let trade = {};
     trade.selling = offer;
     trade.buying = request;
     trade.participated = {};
     trade.accepted = {};
+    trade.targetPlayer = target;
     return trade;
 };
 

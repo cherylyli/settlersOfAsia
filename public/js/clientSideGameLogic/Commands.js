@@ -244,15 +244,15 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
  * @param offer   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
  * @param request   {Object} key : {String} card, val: {int} # of card,   --> the cards u request for, if we use the progress card, we leave req null
  */
-CommandsData.requestTrade = function (selling, buying) {
-        return {'selling': selling, 'buying': buying};
+CommandsData.requestTrade = function (selling, buying, targetPlayer) {
+        return {'selling': selling, 'buying': buying, 'targetPlayer':targetPlayer};
 };
 
 CommandsData.performTradeTransaction = function (tradeWith) {
     return {'tradeWith': tradeWith};
 };
 
-CommandCheck.requestTrade = function (selling, buying) {
+CommandCheck.requestTrade = function (selling, buying, targetPlayer) {
     // check if we have the cards we offer
     checkEnoughResource(selling);
 };
@@ -304,88 +304,84 @@ CommandReceived.acceptTrade = function () {
     }
 };
 
+// TODO: max
 CommandReceived.requestTrade = function () {
     let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
     if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name) {
-        //skip
+        //we are not trading with ourselves
     }
-    else if(Object.keys(active_cards).indexOf("CommercialHarbor") !== -1){
-        let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
-        let allowed_input={};
-        let commodities = ['Paper','Coin','Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
-        //we want to give from resources that we have
-        Object.keys(player_resources).forEach(res =>{
-             if(0 < player_resources[res] && commodities.indexOf(res) !== -1){
-                 allowed_input[res] = res;
-             }});
-        console.log("ALLOWED_INPUT");
-        console.log(allowed_input);
-
-        swal({
-                title: "Comercial Harbor is ACTIVE =O",
-                text: "Write name of commodity that you are going to give:",
-                type: "input",
-                showCancelButton: false,
-                closeOnConfirm: false,
-                animation: "slide-from-top",
-                inputPlaceholder: "Cloth, Coin, Paper"
-            },
-            //we need to do something in case player does not have any resources right now, player is bankrupt
-            function(inputValue){
-                if (inputValue === "") {
-                    swal.showInputError("You need to write something!");
-                    return false
-                }
-                else if(Object.keys(allowed_input).indexOf(inputValue) !== -1){ //we can give this res
-                    //we need to modify current trade somehow
-                    //like currentTrade:{ playerA: {sells: b}}
-                    //Maybe add some flag inside of current trade to dimultiplex
-                    //we need to do these operations through acceptTrade we are just going to add extra arguments to it
-                    swal("Trade concluded", "You wrote: " + inputValue, "success");
-                    return true;
-                }
-                else{
-                    swal.showInputError("You need to provide resource that you have!");
+    else if(DATA.getMyPlayer().name === DATA.getMatch().currentTrade.targetPlayer) {//if we are the player for whom this trade is intended
+        if (Object.keys(active_cards).indexOf("CommercialHarbor") !== -1) { //if we have commercialHarborActive
+            let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
+            let allowed_input = {};
+            let commodities = ['Paper', 'Coin', 'Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
+            //we want to give from resources that we have
+            Object.keys(player_resources).forEach(res => {
+                if (0 < player_resources[res] && commodities.indexOf(res) !== -1) {
+                    allowed_input[res] = res;
                 }
             });
-        //current player has ComercialHarbor active
-        //we are obliged to give him one of our resources
-        //by the end of the trade we need to delete this progress card
-     }
-    else{
-        let selling = DATA.getMatch().currentTrade.selling;
-        let buying = DATA.getMatch().currentTrade.buying;
-        console.log(selling);
-        console.log(DATA.getMatch().currentTrade);
-        swal({
-                title: "TRADE ??? =)",
-                text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "TRADE RESOURCES!",
-                cancelButtonText: "NOOO!!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    swal("Trade started!", "Your trade response was sent", "success");
-                    Commands.acceptTrade(true);
-                } else {
-                    swal("You declined trade!", "Trade has been stopped", "error");
-                    Commands.acceptTrade(false);
-                }
-            });
-    }
-    // TODO: max
-    // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
+            console.log("ALLOWED_INPUT");
+            console.log(allowed_input);
 
-    // else
-    // alert them that there is a trade offer.
-    // if we dont use card  -->
-    // if use card --> drop down to select resource
-    // accept option, trade resource select
+            swal({
+                    title: "Comercial Harbor is ACTIVE =O",
+                    text: "Write name of commodity that you are going to give:",
+                    type: "input",
+                    showCancelButton: false,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Cloth, Coin, Paper"
+                },
+                //we need to do something in case player does not have any resources right now, player is bankrupt
+                function (inputValue) {
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false
+                    }
+                    else if (Object.keys(allowed_input).indexOf(inputValue) !== -1) { //we can give this res
+                        //we need to modify current trade somehow
+                        //like currentTrade:{ playerA: {sells: b}}
+                        //Maybe add some flag inside of current trade to dimultiplex
+                        //we need to do these operations through acceptTrade we are just going to add extra arguments to it
+                        swal("Trade concluded", "You wrote: " + inputValue, "success");
+                        return true;
+                    }
+                    else {
+                        swal.showInputError("You need to provide resource that you have!");
+                    }
+                });
+            //current player has ComercialHarbor active
+            //we are obliged to give him one of our resources
+            //by the end of the trade we need to delete this progress card
+        }
+        else {
+            let selling = DATA.getMatch().currentTrade.selling;
+            let buying = DATA.getMatch().currentTrade.buying;
+            console.log(selling);
+            console.log(DATA.getMatch().currentTrade);
+            swal({
+                    title: "TRADE ??? =)",
+                    text: DATA.getMatch().currentPlayer + " wants to buy: " + JSON.stringify(buying) + " and wants to sell: " + JSON.stringify(selling),
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "TRADE RESOURCES!",
+                    cancelButtonText: "NOOO!!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        swal("Trade started!", "Your trade response was sent", "success");
+                        Commands.acceptTrade(true);
+                    } else {
+                        swal("You declined trade!", "Trade has been stopped", "error");
+                        Commands.acceptTrade(false);
+                    }
+                });
+        }
+    }
 };
 //ROBBER ==================================
     /**

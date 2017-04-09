@@ -453,7 +453,7 @@ Commands.saveGame = function (userName, roomID) {
  Commands.requestTrade = function (userName, roomID, data) {
      console.log("TRADE was requested:");
      console.log(data);
-     let trade = Trade.createTrade(data.selling, data.buying);
+     let trade = Trade.createTrade(data.selling, data.buying, data.targetPlayer);
      DATA.getMatch(roomID).currentTrade = trade;
  };
 
@@ -625,6 +625,7 @@ Commands.spendFishToken = function(userName, roomID, data){
  * @return {String} the name of the player to take next turn
  */
 Commands.endTurn = function (userName, roomID, data) {
+    DATA.getMatch(roomID).getPlayer(userName).active_cards = {}; //we need to delete all of the previously active cards
     let match = DATA.getMatch(roomID);
     Match.nextPlayerToTakeTurn(match);
     notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
