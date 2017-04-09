@@ -63,8 +63,6 @@ Match.createNewMatch = function (scenario, players, id) {
     Match.nextPlayerToTakeTurn(match);
 
 
-
-
     return match;
 
     //match.

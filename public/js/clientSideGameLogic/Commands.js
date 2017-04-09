@@ -353,19 +353,19 @@ CommandReceived.requestTrade = function () {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.moveRobber = function (newHexID) {
-    if(newHexID == 0){
-      return true;
-    }
-    var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-    if (newHex) { //
-          if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
-              return true;
-          }
-          else {
-              swalError2("Invalid Position. Please select a landTile to perform such action.");
-              return false;
-          }
-    }
+  if((DATA.getMatch().fish == "MOVE_ROBBER") && (DATA.getMap().robber.pos != 0)){
+    return true;
+  }
+  var newHex = DATA.getMatch().map.getHexTileById(newHexID);
+  if (newHex) { //
+        if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
+            return true;
+        }
+        else {
+            swalError2("Invalid Position. Please select a landTile to perform such action.");
+            return false;
+        }
+  }
 
 };
 
@@ -396,9 +396,10 @@ CommandsData.movePirate = function (newHexID) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.movePirate = function (newHexID) {
-  if(newHexID == 0){
+  if((DATA.getMatch().fish == "MOVE_PIRATE") && (DATA.getMap().pirate.pos != 0)){
     return true;
   }
+
   var newHex = DATA.getMatch().map.getHexTileById(newHexID);
   if (newHex) {
       if (newHex.blockedByPirate == false && newHex.type === Enum.HexType.Sea) {
@@ -1314,7 +1315,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
-  /*
+
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1322,7 +1323,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
-    */
+
     return true;
 };
 
