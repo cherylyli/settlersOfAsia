@@ -51,6 +51,7 @@ Match.createNewMatch = function (scenario, players, id) {
     match.barbarian = Barbarian.createBarbarian();
     match.barbarianResult = null;
     match.Metropolis = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: building object  {Building}
+    match.redistributeM = {[Enum.cityImprovementCategory.Politics]: null, [Enum.cityImprovementCategory.Trade] : null, [Enum.cityImprovementCategory.Science] : null}; //value: building object  {Building}
     match.currentTrade = null;
     match.discardList = {};
     match.fish = null;
@@ -152,6 +153,7 @@ Match.endGame = function(match){
  * @return {String} the name of the player to take turn
  */
 Match.nextPlayerToTakeTurn = function (match) {
+    match.phase = Enum.MatchPhase.TurnPhase; //testing checkers.
     if (match.playersToTakeTurn.length == 0){
         //all players have token turn, start from the first player again
         match.playersToTakeTurn = Object.keys(match.players);

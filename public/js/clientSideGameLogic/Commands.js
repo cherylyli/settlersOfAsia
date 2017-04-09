@@ -194,7 +194,7 @@ CommandsData.upgradeToMetropolis = function (vertex, metropolisType) {
 
 CommandCheck.upgradeToMetropolis = function (vertex, metropolisType) {
      //check if player has a metropolis to add on a city.
-    DATA.getMatch().Metropolis;
+    //if (DATA.getMatch().redistributeM[metropolisType] == DATA.getMyPlayer().name) {
     if (DATA.getMatch().Metropolis[metropolisType] == DATA.getMyPlayer().name) {
       let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
       if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
@@ -217,7 +217,7 @@ CommandsData.chooseCityToBePillaged = function (vertex) {
 };
 
 CommandCheck.chooseCityToBePillaged = function (vertex) {
-    let match = DATA.getMatch(roomID);
+    let match = DATA.getMatch();
     let player = DATA.getMyPlayer();
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
     if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
@@ -451,7 +451,7 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
-    if (found && DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
+    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
@@ -495,7 +495,7 @@ CommandCheck.giveAwayBoot = function (transferTo) {
         }
     }
     else {
-        swalError2("Transfer boot failed.");
+        swalError2("Error, you don't have a boot.");
     }
 }
 
@@ -535,13 +535,56 @@ CommandsData.hireKnight = function (position) {
 
 CommandCheck.hireKnight = function (position) {
     //copy the build settlement conditions here
+    //knight must be connected to one end o
+
+    //check if the vertex is not empty
+    if (DATA.getMatch().map.getVertexInfo(position)) {
+        swalError2("Invalid position!");
+        return false;
+    }
+
+        /**
+         *
+         * @type {Array.<edge>}
+         */
+        let connectedEdges = DATA.getMatch().map.getEdgeByVertex(position);
+        //flags
+        let connectedToOneRoad = false;
+
+        for (let e of connectedEdges) {
+            //check if connected to one road
+            let road = DATA.getMatch().map.getEdgeInfo(e);
+            if (road && road.owner.name == DATA.getMyPlayer().name) {
+                //we have a road connected with the settlement
+                connectedToOneRoad = true;
+            }
+        }
+
+
+        if (!connectedToOneRoad) {
+            swalError2("Knight should be connected with at least one of your road.");
+            return false;
+        }
+
+        //cannot build in sea
+        let inSea = true;
+        for (let hexID of DATA.getMatch().map.getHexTileArrayByVertex(position)) {
+            if (!(DATA.getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea)) {
+                inSea = false;
+            }
+        }
+
+        if (inSea) {
+            swalError2("Cannot place knights in sea!");
+            return false;
+        }
+
     if (!checkEnoughResource(Cost.hireKnight)) {
         swalError2("Not enough resource to purchase a knight");
         return false;
     }
-    else {
         return true;
-    }
+
 };
 
 CommandsData.activateKnight = function (position) {
@@ -580,7 +623,7 @@ CommandCheck.promoteKnight = function (position) {
     //if player has a fortress (i.e enters the 3rd level of politics,
     //they can promote a strong knight to a mighty knight
     //otherwise the highest level of knight they can promote to is level 2- strong knight
-    if (DATA.getPlayer().cityImprovement.Politcs >= 3) {
+    if (DATA.getMyPlayer().cityImprovement[Enum.cityImprovementCategory.Politics] >= 3) {
        if(knight.level == 3){
         swalError2("You've got the strongest knight already.");
         return false;
@@ -609,8 +652,9 @@ CommandCheck.moveKnight = function (position, newPosition) {
   //TODO check if newPosition is a valid vertex [continuous road]
     var knight = DATA.getMatch().map.getVertexInfo(position);
     var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
-    var validVertices = DATA.getMyPlayer().getEmptyAdjacentVertices(position,DATA.getMatch());
-
+    var player = DATA.getMyPlayer();
+    var validVertices = player.getEmptyAdjacentVertices(player,position,DATA.getMatch());
+    console.log("valid vertx are " + validVertices);
     if (knight.hasMovedThisTurn || !knight.active) {
         swalError2("Error, knight has been moved this turn or selected knight is not active");
         return false;
@@ -688,21 +732,25 @@ CommandsData.discardResourceCards = function (cards) {
 CommandCheck.discardResourceCards = function (cards) {
     let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
 
-    var player = player1;
+    var player = DATA.getMyPlayer();
     var size = 0;
     for (var i in cards) {
         size += cards[i];
     }
-    if (size != num) {
+/*    if (size != num) {
         swalError2("You need to discard " + num + " card(s)!");
         return false;
     }
+*/
     var counter = 0;
     for (var card in player.resourcesAndCommodities) {
         for (var discard in cards) {
+          console.log("player has" + card + " " + player.resourcesAndCommodities[card]);
+          console.log("need discard "  + discard + " " + cards[discard]);
             if (card === discard) {
-                if (player.resourcesAndCommodities[card] >= cards[discard])
-                    counter = 1;
+                if (player.resourcesAndCommodities[card] >= cards[discard]){
+                  counter = 1;
+                }
             }
         }
     }
@@ -813,6 +861,10 @@ CommandCheck.buildSettlement = function (vertex) {
         return false;
     }
 
+    if (DATA.getMyPlayer().getSettlements().length >= 5){
+      swalError2("You can only build 5 settlements");
+      return false;
+    }
 
     if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildSettlement)) {
         return false;
@@ -836,7 +888,7 @@ CommandCheck.buildSettlement = function (vertex) {
     for (let e of connectedEdges) {
         //check if connected to one road
         let road = DATA.getMatch().map.getEdgeInfo(e);
-        if (road && road.owner.name == myObj.userName) {
+        if (road && road.owner.name == DATA.getMyPlayer().name) {
             //we have a road connected with the settlement
             connectedToOneRoad = true;
         }
@@ -853,7 +905,7 @@ CommandCheck.buildSettlement = function (vertex) {
 
 
     if (!connectedToOneRoad && (!DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne)) {
-        swalError2("Settlement should be connected with at least one road.");
+        swalError2("Settlement should be connected with at least one of your road.");
         return false;
     }
 
@@ -895,17 +947,22 @@ CommandCheck.upgradeToCity = function (vertex) {
     if (!(DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && !checkEnoughResource(Cost.upgradeToCity)) {
         return false;
     }
-
+/*
     //check if there is a settlement in the vertex
     if (!isSettlement(vertex)) {
         swalError2("You can only update a settlement!");
         return false;
     }
-
+*/
     //you can only update one city
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (DATA.getMyPlayer().getCities().length >= 1)) {
         swalError2("You can only update one settlement during set up round two!");
         return false;
+    }
+
+    if(DATA.getMyPlayer().getCityCnt() >= 4){
+      swalError2("You can only build 4 cities");
+      return false;
     }
 
     return true;
@@ -949,8 +1006,6 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         }
     }
 
-
-
     //Only 1 road can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
         swalError2("Only 1 road can be built on any given path!");
@@ -977,7 +1032,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         //if the new road is connected with roads on this vertex
         for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)) {
             let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
-            if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == myObj.userName) {
+            if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == DATA.getMyPlayer().name) {
                 connected = true;
                 break;
             }
@@ -985,7 +1040,8 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
 
         //... connected with settlements, or cities.
         let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
-        if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == myObj.userName) {
+        if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == DATA.getMyPlayer().name) {
+          console.log("vertex unit is " + vertexUnit + " owner is " + vertexUnit.owner.name);
             connected = true;
             break;
         }
@@ -1068,7 +1124,7 @@ function shipPostionTest(edge) {
         //if the new ship is connected with roads on this vertex
         for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)) {
             let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
-            if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == myObj.userName) {
+            if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == DATA.getMyPlayer().name) {
                 connected = true;
                 break;
             }
@@ -1258,6 +1314,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
+  /*
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1265,6 +1322,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
+    */
     return true;
 };
 
@@ -1465,14 +1523,8 @@ CommandReceived.rollDice = function () {
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
-/**
-      if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled){
-        swalError2("Please roll dice first");
-        return;
-      }
-*/
       // if not my turn and barbarian result, operation is limited
-  /**
+
       if (app.barbarianResult){
           app.barbarianResult = false;
           //here
@@ -1497,8 +1549,6 @@ _.each(CommandName, function (cmd) {
           }
      }
 
-*/
-/*
         if(app.rolledSeven){
           if(cmd != "moveRobber" && cmd != "movePirate"){
             swalError2("You must move robber/pirate first");
@@ -1510,7 +1560,6 @@ _.each(CommandName, function (cmd) {
         }
       }
 
-*/
 
         //input complete check
         /**
@@ -1520,26 +1569,31 @@ _.each(CommandName, function (cmd) {
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-      let phase = DATA.getMatch().phase;
-/*       if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
+/*       let phase = DATA.getMatch().phase;
+       if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
 */
+        if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+          swalError2("Please roll dice first");
+          return;
+        }
+
         //comment out this part if you want to disable checks
-        //checks
-        //DATA.getMatch().phase = Enum.MatchPhase.TurnPhase; //for testing
-/*        if (!CommandCheck[cmd].apply(this, arguments)) {
+        //checkers
+        let phase = DATA.getMatch().phase;
+        if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
-*/
 
-/**
+
+
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
         }
-    **/
+
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };

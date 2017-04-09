@@ -332,7 +332,7 @@ Commands.saveGame = function (userName, roomID) {
      let match = DATA.getMatch(roomID);
      let cityImprovementCategory = data.cityImprovementCategory;
      let level = Player.buyCityImprovement(player, cityImprovementCategory);
-     //match.getMetropolisOwner(cityImprovementCategory);
+     //Match.getMetropolisList(match, cityImprovementCategory);
      Bank.decreasePlayerAsset(match.bank, player, 'cityImprove_' + cityImprovementCategory + '_' + level);
  };
 

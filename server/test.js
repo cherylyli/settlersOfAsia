@@ -28,8 +28,15 @@ Commands.joinRoom(userB, "123");
 Commands.joinRoom(userC, "123");
 
 Commands.startGame("123");
+var match = data.getMatch("123");
+var player = data.getMatch("123").players["Emol"];
+Commands.buildRoad("Emol","123",[1, 2]);
+Commands.buildRoad("Emol", "123", [2, 3]);
+player.getEmptyAdjacentVertices(player, 1, data.getMatch("123"));
 
+Commands.spendFishToken();
 
+/*
 // Commands.stealCard("Emol", "123", {'victim': "Yuan"});
 // DATA.getMatch().players[]
 Commands.giveAwayBoot("Emol", "123", {transferTo: "Yuan"});
@@ -117,8 +124,8 @@ Commands.rollDice("Emol","123");**/
 // console.log(match.barbarian.getPlayerContribution());
 
 // console.log(player1.resourceCardTotalNum());
-Commands.buildSettlement("Emol","123",{'position' : 4}); //hextile2
-Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
+//Commands.buildSettlement("Emol","123",{'position' : 4}); //hextile2
+//Commands.moveRobber("Emol", "123", {'oldHexID' : null, 'newHexID' : 2});
 // console.log(myHex2.productionNum);
 
 
@@ -228,15 +235,15 @@ Commands.drawOneProgressCard("Emol","123",{'progCard' : "sdjiosjdojao"});
 let myHex3 = my.getHexTileById(10);
 let myHex4 = my.getHexTileById(17);
 */
-Commands.buildShip("Emol", "123", [53, 54]);
-Commands.movePirate("Emol", "123", {'oldHexID' : 10 , 'newHexID' : 17})
+//Commands.buildShip("Emol", "123", [53, 54]);
+//Commands.movePirate("Emol", "123", {'oldHexID' : 10 , 'newHexID' : 17})
 // console.log("pirate removed: blocked :" + myHex3.blockedByPirate);
 // console.log("pirate placed :blocked:" + myHex4.blockedByPirate);
 
 
 // TODO check this:
 // */
-Commands.buildShip("Yuan", "123", [52,53]);
+//Commands.buildShip("Yuan", "123", [52,53]);
 // Commands.moveShip("Emol", "123", {'oldPosition': [21,22], 'newPosition' :[37,38]});
 // Commands.moveShip("Yuan", "123", {'oldPosition': [51,52], 'newPosition' :[36,51]});
 // console.log(player2.ships);
@@ -246,8 +253,8 @@ Commands.buildShip("Yuan", "123", [52,53]);
 // console.log("now move away : blocked :" + myHex4.blockedByRobber);
 
 //get stealable player list - working
-Commands.buildShip("Emol", "123", [21,22]);
-Commands.buildShip("Yuan", "123", [51,52]);
+//Commands.buildShip("Emol", "123", [21,22]);
+//Commands.buildShip("Yuan", "123", [51,52]);
 /*
 //let p = myHex1.getPlayersAroundByBuildings(my);
 //get stealable player list - working

@@ -48,10 +48,12 @@ Knight.deactivate = function (knight){
 };
 
 Knight.promote = function (knight) {
+    knight.hasBeenPromotedThisTurn = true;
     knight.level ++;
 };
 
 Knight.move = function (knight, vertex, map) {
+    knight.hasMovedThisTurn = true;
     knight.active = false;
     let opponentKnight = Map.getVertexInfo(map, vertex);
     Map.setVertexInfo(map, undefined, knight.position);
