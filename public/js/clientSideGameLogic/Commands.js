@@ -303,10 +303,54 @@ CommandReceived.acceptTrade = function () {
 };
 
 CommandReceived.requestTrade = function () {
-    // FIXME: commandReceived does not take any parameter
-    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
+    let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name) {
         //skip
-    }else{
+    }
+    else if(Object.keys(active_cards).indexOf("CommercialHarbor") !== -1){
+        let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
+        let allowed_input={};
+        let commodities = ['Paper','Coin','Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
+        //we want to give from resources that we have
+        Object.keys(player_resources).forEach(res =>{
+             if(0 < player_resources[res] && commodities.indexOf(res) !== -1){
+                 allowed_input[res] = res;
+             }});
+        console.log("ALLOWED_INPUT");
+        console.log(allowed_input);
+
+        swal({
+                title: "Comercial Harbor is ACTIVE =O",
+                text: "Write name of commodity that you are going to give:",
+                type: "input",
+                showCancelButton: false,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Cloth, Coin, Paper"
+            },
+            //we need to do something in case player does not have any resources right now, player is bankrupt
+            function(inputValue){
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+                else if(Object.keys(allowed_input).indexOf(inputValue) !== -1){ //we can give this res
+                    //we need to modify current trade somehow
+                    //like currentTrade:{ playerA: {sells: b}}
+                    //Maybe add some flag inside of current trade to dimultiplex
+                    //we need to do these operations through acceptTrade we are just going to add extra arguments to it
+                    swal("Trade concluded", "You wrote: " + inputValue, "success");
+                    return true;
+                }
+                else{
+                    swal.showInputError("You need to provide resource that you have!");
+                }
+            });
+        //current player has ComercialHarbor active
+        //we are obliged to give him one of our resources
+        //by the end of the trade we need to delete this progress card
+     }
+    else{
         let selling = DATA.getMatch().currentTrade.selling;
         let buying = DATA.getMatch().currentTrade.buying;
         console.log(selling);

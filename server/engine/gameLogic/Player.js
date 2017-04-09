@@ -851,8 +851,10 @@ Player.getDefenderOfCatan = function(player){
 };
 //we are moving card from progress_cards to active cards
 Player.useCard = function(player, card){
-    console.log("Using card"+card);
-    player.active_cards[player.progress_cards[card]] = player.progress_cards[card];
-    delete player.progress_cards[card];
+    console.log("Using card: "+card+" Player:"+player.name);
+    let card_indx = player.progressCards.indexOf(card);
+    player.active_cards[player.progressCards[card_indx]] = player.progressCards[card_indx];
+    delete player.progressCards[card_indx];
+    console.log(player.active_cards);
 };
 

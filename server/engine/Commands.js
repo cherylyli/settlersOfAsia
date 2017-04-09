@@ -633,6 +633,8 @@ Commands.endTurn = function (userName, roomID, data) {
 //progress cards =P
 //data is empty where does object that we return in CommandsData goes?
 Commands.executeProgressCard = function(userName, roomID, data){
+    console.log("PROGRESS CARDS EXECUTED");
+    console.log(data);
     let player = DATA.getPlayer(userName, roomID);
     Player.useCard(player, data.cardname);
 };
