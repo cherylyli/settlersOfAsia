@@ -854,7 +854,13 @@ Player.useCard = function(player, card){
     console.log("Using card: "+card+" Player:"+player.name);
     let card_indx = player.progressCards.indexOf(card);
     player.active_cards[player.progressCards[card_indx]] = player.progressCards[card_indx];
-    delete player.progressCards[card_indx];
+
+    for(var i=0; i < player.progressCardsCnt; i++) {
+        if (card == player.progressCards[i]) {
+            player.progressCards.splice(i, 1);
+            break;
+        }
+    }
     console.log(player.active_cards);
 };
 
