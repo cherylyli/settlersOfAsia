@@ -269,8 +269,9 @@ CommandReceived.performTradeTransaction = function () {
 //we need to wait until all players accept or decline trade
 //we can do it by adding counter inside of current trade and check it after
 CommandReceived.acceptTrade = function () {
-    //if not everyone participated we are not showing anything
-    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1)){
+    let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
+    //if not everyone participated we are not showing anything and commercialHarborIsNotActive
+    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1) && Object.keys(active_cards).indexOf("CommercialHarbor") === -1){
         console.log("skip");
         return;
     }
@@ -305,6 +306,7 @@ CommandReceived.acceptTrade = function () {
 };
 
 // TODO: max
+//In case of Comercial Harbor, if player is bankrupt then nothing is happening
 CommandReceived.requestTrade = function () {
     let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
     if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name) {
@@ -344,6 +346,7 @@ CommandReceived.requestTrade = function () {
                         //like currentTrade:{ playerA: {sells: b}}
                         //Maybe add some flag inside of current trade to dimultiplex
                         //we need to do these operations through acceptTrade we are just going to add extra arguments to it
+                        Commands.acceptTrade(true, inputValue);
                         swal("Trade concluded", "You wrote: " + inputValue, "success");
                         return true;
                     }
@@ -764,8 +767,8 @@ CommandCheck.discardResourceCards = function (cards) {
  *
  * @param accept {boolean}
  */
-CommandsData.acceptTrade = function (accept) {
-    return {accept: accept};
+CommandsData.acceptTrade = function (accept, commodity) {
+    return {accept: accept, commodity: commodity};
     // TODO: change this in server part corresponding
     //checkEnoughResource(buying);
 

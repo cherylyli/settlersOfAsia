@@ -490,10 +490,17 @@ Commands.cancelTrade = function(roomID){
  */
  Commands.acceptTrade = function (userName, roomID, data) {
      DATA.getMatch(roomID).currentTrade.participated[userName] = userName;  //we use this to make sure that every player has answered yes or no to trade
-     if(data.accept) {
+     let match = DATA.getMatch(roomID);
+     if(data.accept && !data.commodity) {
          console.log("TRADE WAS ACCEPTED:");
-         let match = DATA.getMatch(roomID);
          match.currentTrade.accepted[userName] = userName;//we add list of players who accepted current trade
+     }
+     else if(data.accept && data.commodity){
+         //we are adding commodity that the player has choosen
+         console.log("CommercialHarbor has been used");
+         let commodity_name = data.commodity;
+         match.currentTrade.buying[commodity_name] = 1;
+         match.currentTrade.accepted[userName] = userName;
      }
  };
 
