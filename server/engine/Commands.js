@@ -455,7 +455,7 @@ Commands.saveGame = function (userName, roomID) {
  Commands.requestTrade = function (userName, roomID, data) {
      console.log("TRADE was requested:");
      console.log(data);
-     let trade = Trade.createTrade(data.selling, data.buying);
+     let trade = Trade.createTrade(data.selling, data.buying, data.targetPlayer);
      DATA.getMatch(roomID).currentTrade = trade;
  };
 
@@ -492,10 +492,17 @@ Commands.cancelTrade = function(roomID){
  */
  Commands.acceptTrade = function (userName, roomID, data) {
      DATA.getMatch(roomID).currentTrade.participated[userName] = userName;  //we use this to make sure that every player has answered yes or no to trade
-     if(data.accept) {
+     let match = DATA.getMatch(roomID);
+     if(data.accept && !data.commodity) {
          console.log("TRADE WAS ACCEPTED:");
-         let match = DATA.getMatch(roomID);
          match.currentTrade.accepted[userName] = userName;//we add list of players who accepted current trade
+     }
+     else if(data.accept && data.commodity){
+         //we are adding commodity that the player has choosen
+         console.log("CommercialHarbor has been used");
+         let commodity_name = data.commodity;
+         match.currentTrade.buying[commodity_name] = 1;
+         match.currentTrade.accepted[userName] = userName;
      }
  };
 
@@ -645,6 +652,7 @@ Commands.spendFishToken = function(userName, roomID, data){
  * @return {String} the name of the player to take next turn
  */
 Commands.endTurn = function (userName, roomID, data) {
+    DATA.getMatch(roomID).getPlayer(userName).active_cards = {}; //we need to delete all of the previously active cards
     let match = DATA.getMatch(roomID);
     Match.nextPlayerToTakeTurn(match);
     notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
@@ -653,6 +661,8 @@ Commands.endTurn = function (userName, roomID, data) {
 //progress cards =P
 //data is empty where does object that we return in CommandsData goes?
 Commands.executeProgressCard = function(userName, roomID, data){
+    console.log("PROGRESS CARDS EXECUTED");
+    console.log(data);
     let player = DATA.getPlayer(userName, roomID);
     Player.useCard(player, data.cardname);
 };

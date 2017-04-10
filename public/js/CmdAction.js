@@ -78,6 +78,12 @@
     };
 
 
+    SpecialsCommandsNextStep.requestTrade = function (targetPlayer) {
+        generateTradePrompt("tradeWithPlayer", targetPlayer);
+        showCmdPrompt();
+    };
+
+
 
 
     SpecialsCommandsNextStep.upgradeToMetropolis = function(position){
@@ -253,4 +259,31 @@
         app.ongoingCmdData = thiefList;
         clearHighlightedVertices();
     }
+
+
+function notifyUserToDrawProgressCard(types) {
+    let cards = "";
+    cards += types[0];
+    if (types.length > 1) cards += ", ";
+    for (let i = 1; i < types.length; i++){
+        cards += types[i];    
+    }
+    
+    swal({
+        title: "You can draw " + cards +" progress card",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Cool!",
+        cancelButtonText: "No thanks",
+        closeOnConfirm: true,
+        closeOnCancel: true
+    }, function (isConfirm) {
+        if (isConfirm) {
+            _.forEach(types, function (progressCardtype) {
+                Commands.drawOneProgressCard(progressCardtype);
+            })
+        }
+    });
+
+}
 

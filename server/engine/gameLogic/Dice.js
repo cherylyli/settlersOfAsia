@@ -122,8 +122,7 @@ Dice.configureResult = function (dice, match) {
 
             }
 
-            // TODO: Max / Cheryl
-            // result = blablabla
+
             break;
         case "YellowCityGate" :
             if(player.cityImprovement.Trade == 1 && (dice.redDie == 1 || dice.redDie == 2)){

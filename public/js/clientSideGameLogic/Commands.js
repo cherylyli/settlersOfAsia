@@ -6,7 +6,8 @@ let CommandsData = {};
 let SpecialsCommands = {
     'moveKnight': 'moveKnight',
     'upgradeToMetropolis': 'upgradeToMetropolis',
-    'moveShip': 'moveShip'
+    'moveShip': 'moveShip',
+    'requestTrade': 'requestTrade'
 };
 
 // this map to functions
@@ -82,7 +83,8 @@ let FishTokenCommand = {
 
 let PlayerCommand = {
     'stealCard': 'stealCard',
-    'giveAwayBoot': 'giveAwayBoot'
+    'giveAwayBoot': 'giveAwayBoot',
+    'requestTrade': 'requestTrade'
 };
 
 
@@ -242,15 +244,15 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
  * @param offer   {Object} key : {String} card, val: {int} # of card,  --> the cards u offer
  * @param request   {Object} key : {String} card, val: {int} # of card,   --> the cards u request for, if we use the progress card, we leave req null
  */
-CommandsData.requestTrade = function (selling, buying) {
-        return {'selling': selling, 'buying': buying};
+CommandsData.requestTrade = function (selling, buying, targetPlayer) {
+        return {'selling': selling, 'buying': buying, 'targetPlayer':targetPlayer};
 };
 
 CommandsData.performTradeTransaction = function (tradeWith) {
     return {'tradeWith': tradeWith};
 };
 
-CommandCheck.requestTrade = function (selling, buying) {
+CommandCheck.requestTrade = function (selling, buying, targetPlayer) {
     // check if we have the cards we offer
     checkEnoughResource(selling);
 };
@@ -267,8 +269,9 @@ CommandReceived.performTradeTransaction = function () {
 //we need to wait until all players accept or decline trade
 //we can do it by adding counter inside of current trade and check it after
 CommandReceived.acceptTrade = function () {
-    //if not everyone participated we are not showing anything
-    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1)){
+    let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
+    //if not everyone participated we are not showing anything and commercialHarborIsNotActive
+    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1) && Object.keys(active_cards).indexOf("CommercialHarbor") === -1){
         console.log("skip");
         return;
     }
@@ -302,44 +305,86 @@ CommandReceived.acceptTrade = function () {
     }
 };
 
+// TODO: max
+//In case of Comercial Harbor, if player is bankrupt then nothing is happening
 CommandReceived.requestTrade = function () {
-    // FIXME: commandReceived does not take any parameter
-    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
-        //skip
-    }else{
-        let selling = DATA.getMatch().currentTrade.selling;
-        let buying = DATA.getMatch().currentTrade.buying;
-        console.log(selling);
-        console.log(DATA.getMatch().currentTrade);
-        swal({
-                title: "TRADE ??? =)",
-                text: DATA.getMatch().currentPlayer +" wants to buy: "+JSON.stringify(buying) +" and wants to sell: "+JSON.stringify(selling),
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "TRADE RESOURCES!",
-                cancelButtonText: "NOOO!!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    swal("Trade started!", "Your trade response was sent", "success");
-                    Commands.acceptTrade(true);
-                } else {
-                    swal("You declined trade!", "Trade has been stopped", "error");
-                    Commands.acceptTrade(false);
+    let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
+    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name) {
+        //we are not trading with ourselves
+    }
+    else if(DATA.getMyPlayer().name === DATA.getMatch().currentTrade.targetPlayer) {//if we are the player for whom this trade is intended
+        if (Object.keys(active_cards).indexOf("CommercialHarbor") !== -1) { //if we have commercialHarborActive
+            let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
+            let allowed_input = {};
+            let commodities = ['Paper', 'Coin', 'Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
+            //we want to give from resources that we have
+            Object.keys(player_resources).forEach(res => {
+                if (0 < player_resources[res] && commodities.indexOf(res) !== -1) {
+                    allowed_input[res] = res;
                 }
             });
-    }
-    // TODO: max
-    // check if we are the one that initialize this trade, if yes, alert with swal ("trade sent")
+            console.log("ALLOWED_INPUT");
+            console.log(allowed_input);
 
-    // else
-    // alert them that there is a trade offer.
-    // if we dont use card  -->
-    // if use card --> drop down to select resource
-    // accept option, trade resource select
+            swal({
+                    title: "Comercial Harbor is ACTIVE =O",
+                    text: "Write name of commodity that you are going to give:",
+                    type: "input",
+                    showCancelButton: false,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Cloth, Coin, Paper"
+                },
+                //we need to do something in case player does not have any resources right now, player is bankrupt
+                function (inputValue) {
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false
+                    }
+                    else if (Object.keys(allowed_input).indexOf(inputValue) !== -1) { //we can give this res
+                        //we need to modify current trade somehow
+                        //like currentTrade:{ playerA: {sells: b}}
+                        //Maybe add some flag inside of current trade to dimultiplex
+                        //we need to do these operations through acceptTrade we are just going to add extra arguments to it
+                        Commands.acceptTrade(true, inputValue);
+                        swal("Trade concluded", "You wrote: " + inputValue, "success");
+                        return true;
+                    }
+                    else {
+                        swal.showInputError("You need to provide resource that you have!");
+                    }
+                });
+            //current player has ComercialHarbor active
+            //we are obliged to give him one of our resources
+            //by the end of the trade we need to delete this progress card
+        }
+        else {
+            let selling = DATA.getMatch().currentTrade.selling;
+            let buying = DATA.getMatch().currentTrade.buying;
+            console.log(selling);
+            console.log(DATA.getMatch().currentTrade);
+            swal({
+                    title: "TRADE ??? =)",
+                    text: DATA.getMatch().currentPlayer + " wants to buy: " + JSON.stringify(buying) + " and wants to sell: " + JSON.stringify(selling),
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "TRADE RESOURCES!",
+                    cancelButtonText: "NOOO!!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        swal("Trade started!", "Your trade response was sent", "success");
+                        Commands.acceptTrade(true);
+                    } else {
+                        swal("You declined trade!", "Trade has been stopped", "error");
+                        Commands.acceptTrade(false);
+                    }
+                });
+        }
+    }
 };
 //ROBBER ==================================
     /**
@@ -788,8 +833,8 @@ CommandCheck.discardResourceCards = function (cards) {
  *
  * @param accept {boolean}
  */
-CommandsData.acceptTrade = function (accept) {
-    return {accept: accept};
+CommandsData.acceptTrade = function (accept, commodity) {
+    return {accept: accept, commodity: commodity};
     // TODO: change this in server part corresponding
     //checkEnoughResource(buying);
 
@@ -1457,9 +1502,13 @@ CommandReceived.moveKnight = function () {
 
 };
 
-var barRes = null;
-var move = null;
+
 CommandReceived.rollDice = function () {
+    let dice = DATA.getMatch().dice;
+    let barRes = null;
+    let move = null;
+    let player = DATA.getMyPlayer();
+
     // TODO: change time out
     // event die result
     // if barbarian attacks
@@ -1496,10 +1545,79 @@ CommandReceived.rollDice = function () {
             app.barbarianResult = true;
         }
 
-    // if progress card
-    else if (DATA.getMatch().dice.eventDie != Enum.DieResult.Ship){
 
-        // TODO: MAX / Cheryl
+
+    // if progress card
+
+    else if (dice.eventDie != Enum.DieResult.Ship){
+          let cards = [];
+          switch (dice.eventDie) {
+              case "BlueCityGate" :
+                  if (player.cityImprovement.Politics == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 5) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  break;
+
+              case "YellowCityGate" :
+                  if (player.cityImprovement.Trade == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  if (player.cityImprovement.Trade == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  if (player.cityImprovement.Trade == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  if (player.cityImprovement.Trade == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+                  }
+                  if (player.cityImprovement.Trade == 5) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  break;
+
+              case "GreenCityGate" :
+                  if (player.cityImprovement.Science == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+
+                  }
+                  if (player.cityImprovement.Science == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  if (player.cityImprovement.Science == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  if (player.cityImprovement.Science == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  if (player.cityImprovement.Science == 5) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  break;
+          }
+
+          if (cards.length > 0) notifyUserToDrawProgressCard(cards);
 
     }
 

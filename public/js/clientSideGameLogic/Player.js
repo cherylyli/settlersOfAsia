@@ -277,8 +277,8 @@ let Player = (function () {
         let cmds = [];
         if (player.hasBoot) cmds.push('giveAwayBoot');
 
-        // TODO: check if steal card is allowed
-        cmds.push('stealCard');
+        // TODO: check if steal card is allowed, allow check trade is alloed --> progress card commercail harbor
+        cmds.push('stealCard', 'requestTrade');
         return cmds;
     }
 
