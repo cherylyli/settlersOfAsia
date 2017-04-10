@@ -417,12 +417,28 @@ CommandCheck.moveRobber = function (newHexID) {
 
 
 CommandReceived.moveRobber = function () {
+  /*
+   TODO Emol
+   1. a list contains the name {String} of players who have at least one building around the newHex
+      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
+      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
+   2. select a player to steal from
+  */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
 };
 
 
 
 CommandReceived.movePirate = function () {
+  /*
+   TODO Emol
+   1. a list contains the name {String} of players who have at least one building around the newHex
+      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
+      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
+   2. select a player to steal from
+  */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
 };
 /**
@@ -1453,29 +1469,6 @@ function isSettlement(vertex) {
     return (vertexUnit.level == 1);
 }
 
-CommandReceived.moveRobber = function(){
-  /*
-   TODO Emol
-   1. a list contains the name {String} of players who have at least one building around the newHex
-      call var newHex = DATA.getMap()getHexTileById(newHexID);
-      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
-      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
-   2. select a player to steal from
-  */
-
-}
-
-CommandReceived.moveKnight = function(){
-  /*
-   TODO Emol
-   1. a list contains the name {String} of players who have at least one building around the newHex
-      call var newHex = DATA.getMap()getHexTileById(newHexID);
-      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
-      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
-   2. select a player to steal from
-  */
-
-}
 
 CommandReceived.moveKnight = function () {
   //TODO
