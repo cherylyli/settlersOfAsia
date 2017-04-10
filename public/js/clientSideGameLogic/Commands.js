@@ -1403,9 +1403,13 @@ CommandReceived.moveKnight = function () {
 
 };
 
-var barRes = null;
-var move = null;
+
 CommandReceived.rollDice = function () {
+    let dice = DATA.getMatch().dice;
+    let barRes = null;
+    let move = null;
+    let player = DATA.getMyPlayer();
+
     // TODO: change time out
     // event die result
     // if barbarian attacks
@@ -1442,10 +1446,79 @@ CommandReceived.rollDice = function () {
             app.barbarianResult = true;
         }
 
-    // if progress card
-    else if (DATA.getMatch().dice.eventDie != Enum.DieResult.Ship){
 
-        // TODO: MAX / Cheryl
+
+    // if progress card
+
+    else if (dice.eventDie != Enum.DieResult.Ship){
+          let cards = [];
+          switch (dice.eventDie) {
+              case "BlueCityGate" :
+                  if (player.cityImprovement.Politics == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  if (player.cityImprovement.Politics == 5) {
+                      cards.push(Enum.cityImprovementCategory.Politics);
+
+                  }
+                  break;
+
+              case "YellowCityGate" :
+                  if (player.cityImprovement.Trade == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  if (player.cityImprovement.Trade == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  if (player.cityImprovement.Trade == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  if (player.cityImprovement.Trade == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+                  }
+                  if (player.cityImprovement.Trade == 5) {
+                      cards.push(Enum.cityImprovementCategory.Trade);
+
+                  }
+                  break;
+
+              case "GreenCityGate" :
+                  if (player.cityImprovement.Science == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+
+                  }
+                  if (player.cityImprovement.Science == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  if (player.cityImprovement.Science == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  if (player.cityImprovement.Science == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  if (player.cityImprovement.Science == 5) {
+                      cards.push(Enum.cityImprovementCategory.Science);
+                  }
+                  break;
+          }
+
+          if (cards.length > 0) notifyUserToDrawProgressCard(cards);
 
     }
 
