@@ -219,6 +219,10 @@ CommandsData.chooseCityToBePillaged = function (vertex) {
 };
 
 CommandCheck.chooseCityToBePillaged = function (vertex) {
+    if(!app.pillageCity){
+      swalError2("You don't need to downgrade your city");
+      return false;
+    }
     let match = DATA.getMatch();
     let player = DATA.getMyPlayer();
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
@@ -231,6 +235,7 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
         return false;
     }
     else {
+        app.pillageCity = false;
         return true;
     }
 };
@@ -420,12 +425,13 @@ CommandReceived.moveRobber = function () {
   /*
    TODO Emol
    1. a list contains the name {String} of players who have at least one building around the newHex
-      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      call var newHex = DATA.getMap().getHexTileById(newHexID); stealList (stealable players)
       if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
       if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
    2. select a player to steal from
   */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+    //ongoingCmd -> STEAL CARDS
 };
 
 
@@ -440,6 +446,7 @@ CommandReceived.movePirate = function () {
    2. select a player to steal from
   */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+    //ongoingCmd -> STEAL CARDS
 };
 /**
  *
@@ -518,13 +525,15 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
-    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
+  //  TODO: resume this!!!!!!!!!!
+/*    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
         swalError2("Player can only use the fish token to draw one resource card");
         return false;
     }
+*/
 }
 
 
@@ -836,6 +845,7 @@ CommandCheck.discardResourceCards = function (cards) {
             }
         }
     }
+    app.discardCards = false;
     return true;
     /*
     if (counter) {
@@ -1687,13 +1697,15 @@ _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
       // if not my turn and barbarian result, operation is limited
+      if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+        swalError2("Please roll dice first");
+        return;
+      }
 
       if (app.barbarianResult){
-          app.barbarianResult = false;
           //here
          DATA.getMatch().barbarianResult = null;
           var res = barRes;
-
           if(res == "CATAN_WIN_TIE"){
             app.canDraw = true;
             if (cmd != "drawOneProgressCard") {
@@ -1702,6 +1714,7 @@ _.each(CommandName, function (cmd) {
             }
           }
           else if (res == "CATAN_LOSE"){
+            app.pillageCity = true;
             if (cmd != "chooseCityToBePillaged") {
               swalError2("Please choose one city to be pillaged");
               return;
@@ -1712,13 +1725,26 @@ _.each(CommandName, function (cmd) {
             swal("You are the defender of Catan.");
           }
      }
+
+     if(app.barbarianResult){
+       app.barbarianResult = false;
+     }
+
      //player has more than 7 cards & dice result = 7
      if(app.discardCards){
        if(cmd != "discardResourceCards"){
          swalError2("You need to discard "  + num + " cards");
          return;
        }
-       app.discardCards = false;
+       //app.discardCards = false;
+     }
+
+     if(app.canDraw){
+       if(cmd != "drawOneProgressCard"){
+         swalError2("You need to draw one progress card.");
+         return false;
+       }
+       //app.canDraw = false;
      }
 
 
@@ -1729,7 +1755,7 @@ _.each(CommandName, function (cmd) {
           }
           else{
             swal("Succ");
-            app.rolledSeven = false;
+          //  app.rolledSeven = false;
         }
       }
 

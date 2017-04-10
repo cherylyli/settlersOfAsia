@@ -29,9 +29,10 @@ Pirate.createPirate = function(){
          to.blockedByPirate = true;
          pirate.pos = to.id;
          pirate.move = false;
+         
       }
        else{
-         pirate.pos = 0;//move off board 
+         pirate.pos = 0;//move off board
          pirate.move = false;
       }
  };
