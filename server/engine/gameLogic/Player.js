@@ -92,7 +92,7 @@ Player.getBuildingCnt = function (player) {
  * @return {Number}
  */
 Player.getCityCnt = function (player) {
-    return player.getCities().length;
+    return Player.getCities(player).length;
 };
 /**
  *

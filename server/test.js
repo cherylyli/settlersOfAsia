@@ -32,9 +32,37 @@ var match = data.getMatch("123");
 var player = data.getMatch("123").players["Emol"];
 Commands.buildRoad("Emol","123",[1, 2]);
 Commands.buildRoad("Emol", "123", [2, 3]);
-player.getEmptyAdjacentVertices(player, 1, data.getMatch("123"));
+Commands.buildSettlement("Yuan", "123", {'position': 14});
+Commands.buildSettlement("Yuan", "123", {'position': 26});
+Commands.buildSettlement("Yuan", "123", {'position': 27});
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
+Commands.rollDice("Yuan","123");
 
-Commands.spendFishToken();
+// player.getEmptyAdjacentVertices(player, 1, data.getMatch("123"));
+
+
 
 /*
 // Commands.stealCard("Emol", "123", {'victim': "Yuan"});

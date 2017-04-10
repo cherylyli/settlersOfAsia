@@ -880,10 +880,11 @@ CommandsData.rollDice = function () {
 
 //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
 CommandCheck.rollDice = function () {
+    /**
     if (DATA.getMatch().diceRolled) {
         swalError2("Dice already rolled!");
         return false;
-    }
+    }**/
     return true;
 };
 
@@ -1623,7 +1624,6 @@ CommandReceived.rollDice = function () {
         - allow all players to discardResourceCards(cards)
         */
           app.rolledSeven = true;
-          var player = DATA.getMyPlayer();
           let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
           if(num > 0){
             app.discardCards = true;
@@ -1684,7 +1684,7 @@ _.each(CommandName, function (cmd) {
           app.barbarianResult = false;
           //here
          DATA.getMatch().barbarianResult = null;
-          var res = barRes;
+          var res = DATA.getMatch().barbarianResult.result;;
 
           if(res == "CATAN_WIN_TIE"){
             if (cmd != "drawOneProgressCard") {

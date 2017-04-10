@@ -14,7 +14,6 @@ let Scenario = require('./Scenario.js');
 let Harbor = require('./Harbor.js');
 let Robber = require('./Robber.js');
 let Pirate = require('./Pirate.js');
-let FishTile = require('./FishTile.js');
 let Map = {} = module.exports;
 
 
@@ -192,7 +191,7 @@ Map.setUpFishTiles = function (map, fishTilePositions, fishTileNumTokens) {
     // create fishTiles
     for (let i = 1; i < fishTilePositions.length; i++){
         //  id : f1, f2, etc...
-        let fishTile = FishTile.createFishTile( 'f' + i, fishTilePositions[i]);
+        let fishTile = HexTile.createFishTile( 'f' + i, fishTilePositions[i]);
         map.fishTiles[fishTile.id] =  fishTile;
         fishTiles.push(fishTile.id);
     }
@@ -412,9 +411,15 @@ function setHexTilesRandomType(map, hexTiles, types){
 
         //console.log(HexType[type]);
         if (Enum.HexType[type]){
+
             if (type == Enum.HexType['Lake']){
                 HexTile.setLakeTile(hexTile);
+                map.lakePos = hexTile.id;
+                for (let numToken of hexTile.productionNum){
+                    map.numTokenToHexTiles[numToken].push(hexTile.id);
+                }
             }
+
             else hexTile.type = Enum.HexType[type];
             //if land tile, add to landTiles (because number token can only be placed on land
             if (hexTile.type !== Enum.HexType.Sea) landTiles.push(hexTile.id);

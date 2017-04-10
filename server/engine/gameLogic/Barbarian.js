@@ -85,7 +85,7 @@ Barbarian.getAttackResult = function(barbarian, players){
         Player.setDefenderOfCatan(players[i], false);
         catanStrength += Player.getKnightsSum(players[i]);
         var playerName = players[i].name;
-        barbarian.playerContribution[playerName] = Players.getKnightsSum(players[i]);
+        barbarian.playerContribution[playerName] = Player.getKnightsSum(players[i]);
     }
     //return the result
     if(catanStrength < Barbarian.getStrength(barbarian, players)){

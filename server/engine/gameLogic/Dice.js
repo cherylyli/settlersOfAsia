@@ -6,6 +6,7 @@ let Commands = require('../Commands.js');
 let Match = require('./Match.js');
 let Player = require('./Player.js');
 let Map = require('./Map.js');
+let Bank = require('./Bank.js');
 
 
 Dice.createDice = function () {
@@ -110,12 +111,14 @@ Dice.configureResult = function (dice, match) {
 
     // configure number dice result
     if(match.map){
+        Bank.allocateResources(match.bank, dice.yellowDie, dice.redDie);
+        /**
         let hexTileIDs = Map.getHexTileByNumToken(match.map, productionNum);
         for (let id of hexTileIDs){
             if(!Map.getHexTileById(match.map, id).blockedByRobber){
                 HexTile.produceResource(Map.getHexTileById(match.map, id), match);
             }
-        }
+        }**/
     }
 
 };

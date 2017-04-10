@@ -24,36 +24,21 @@ HexTile.setLakeTile = function (hexTile) {
 
 
 
+/**
+ *
+ * @param position an array of 3 integers
+ * @param productionNums
+ * @param visible
+ * @return {{}}
+ */
+HexTile.createFishTile = function (id, position, productionNums = '1', visible = true) {
+    let fishTile = {};
+    fishTile.id = id;
+    fishTile.type = 'FishTile';
+    fishTile.productionNum = productionNums;
+    fishTile.vertices = {'1': position[0], '2': position[1], '3': position[2]};
 
-HexTile.produceResource = function (hexTile, match) {
-    for (let vertex in fishTile.vertices) {
-        if (fishTile.vertices.hasOwnProperty(vertex)){
-            //there is a builidng on the vertex
-            let building = Map.getVertexInfo(match.map, fishTile.vertices[vertex]);
-            if (building) {
-                let player = building.owner;
-                FishTile.produceResourceToSingleUser(fishTile, match, player, building);
-            }
-        }
-    }
-};
-
-HexTile.produceResourceToSingleUser = function (hexTile, match, player) {
-    let boot = 0;
-    let token;
-    for (let p in match.players) {
-        if (match.players.hasOwnProperty(p) && match.players[p].hasBoot == true) {
-            boot = 1;
-        }
-    }
-
-    if (boot) { //boot has been distributed previously
-        token = Player.drawRandomFishNoBoot(player);
-    }
-    else {
-        token = Player.drawRandomFish(player);
-    }
-    return token;
+    return fishTile;
 };
 
 
@@ -205,22 +190,59 @@ HexTile.produceResource = function(hexTile, match) {
 };
 
 HexTile.produceResourceToSingleUser = function (hexTile, match, player, building) {
-    let resource = Enum.SettlementResources[this.type];
-    if (resource == Enum.SettlementResources.GoldField) {
-        if (building.level == Enum.Building.Settlement) {
-            player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
+    if (hexTile.type == 'FishTile' || hexTile.type == Enum.HexType.Lake){
+
+        var boot = 0;
+        var token;
+        for (var p in match.players) {
+            if (match.players[p].hasBoot == true) {
+                boot = 1;
+            }
+        }
+
+        if (boot) { //boot has been distributed previously
+            token = Player.drawRandomFishNoBoot(player);
         }
         else {
-            player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForCity;
+            token = Player.drawRandomFish(player);
         }
     }
+
+
     else {
-        player.resourcesAndCommodities[resource]++;
-        if (building.level == Enum.Building.City) {
-            resource = Enum.AdditionalCityResources[hexTile.type];
-            player.resourcesAndCommodities[resource]++;
+        let resource = Enum.SettlementResources[this.type];
+        if (resource == Enum.SettlementResources.GoldField) {
+            if (building.level == Enum.Building.Settlement) {
+                player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
+            }
+            else {
+                player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForCity;
+            }
         }
+        else {
+            player.resourcesAndCommodities[resource]++;
+            if (building.level == Enum.Building.City) {
+                resource = Enum.AdditionalCityResources[hexTile.type];
+                player.resourcesAndCommodities[resource]++;
+            }
+        }
+        player.resourceCardNum = Player.resourceCardTotalNum(player);
     }
-    player.resourceCardNum = Player.resourceCardTotalNum(player);
+
+
+};
+
+
+
+
+
+
+
+/**
+ *
+ * @return {int} vertex
+ */
+HexTile.getMiddleVertex = function (fishTile) {
+    if (fishTile.type == 'FishTile') return fishTile.vertices['2'];
 };
 
