@@ -264,7 +264,11 @@ Commands.saveGame = function (userName, roomID) {
             match.fish = null;
        }
        else {
-         Bank.decreasePlayerAsset(match.bank, player,'buildRoad');
+        if (Player.freeRoadsOrShips>0){
+            Player.freeRoadsOrShips--;
+        } else{
+            Bank.decreasePlayerAsset(match.bank, player,'buildRoad');
+        }
        }
      }
  };
@@ -287,7 +291,11 @@ Commands.saveGame = function (userName, roomID) {
             match.fish = null;
        }
        else {
-         Bank.decreasePlayerAsset(match.bank, player,'buildShip');
+        if (Player.freeRoadsOrShips>0){
+            Player.freeRoadsOrShips--;
+        } else{
+            Bank.decreasePlayerAsset(match.bank, player,'buildShip');
+        }
        }
      }
      //if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'buildShip');
@@ -388,7 +396,12 @@ Commands.saveGame = function (userName, roomID) {
      let knight = Map.getVertexInfo(match.map, data.position);
      Knight.promote(knight);
 
-     Bank.decreasePlayerAsset(match.bank, knight.owner, 'promoteKnight');
+     // if Player.freeUpgradeKnights > 0, don't decrease Player Assest
+     if (Player.freeUpgradeKnights>0){
+         Player.freeUpgradeKnights--;
+     } else{
+        Bank.decreasePlayerAsset(match.bank, knight.owner, 'promoteKnight');
+     }
  };
 
  /**
@@ -654,6 +667,8 @@ Commands.spendFishToken = function(userName, roomID, data){
 Commands.endTurn = function (userName, roomID, data) {
     let player = DATA.getPlayer(userName, roomID);
     player.active_cards = {}; //we need to delete all of the previously active cards
+    Player.freeRoadsOrShips = 0; // delete free roads
+    Player.freeUpgradeKnights = 0; // delete free knight upgrades
     let match = DATA.getMatch(roomID);
     Match.nextPlayerToTakeTurn(match);
     notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
@@ -663,7 +678,7 @@ Commands.endTurn = function (userName, roomID, data) {
 //data is empty where does object that we return in CommandsData goes?
 Commands.executeProgressCard = function(userName, roomID, data){
     console.log("PROGRESS CARDS EXECUTED");
-    console.log(data);
+    // console.log(data);
     let player = DATA.getPlayer(userName, roomID);
     Player.useCard(player, data.cardname);
 };

@@ -1080,6 +1080,16 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
     }
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_ROAD")){
+        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeRoadsOrShips>0){
+            // if player has a freeRoadsOrShips, don't need to check for resources
+        }
+        else if(!checkEnoughResource(Cost.buildRoad)){
+          return false;
+        }
+    }
+
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish == "BUILD_ROAD")){
+        
         if(!checkEnoughResource(Cost.buildUseFish)){
           return false;
         }
@@ -1167,10 +1177,22 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
 
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_SHIP")){
-        if(!checkEnoughResource(Cost.buildUseFish)){
+        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeRoadsOrShips>0){
+            // if player has a freeRoadsOrShips, don't need to check for resources
+        }
+        else if(!checkEnoughResource(Cost.buildShip)){
           return false;
         }
     }
+
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish == "BUILD_SHIP")){
+    
+        if (!checkEnoughResource(Cost.buildUseFish)){
+            return false;
+        }
+    }
+
+    // if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && ()))
     return shipPostionTest(edge);
 
 
@@ -1393,7 +1415,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
-/*
+
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1401,7 +1423,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
-*/
+
     return true;
 };
 
