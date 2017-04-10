@@ -47,6 +47,7 @@ let VertexUnit = (function () {
     function getThiefAround(knight) {
         let map = DATA.getMap();
         let theif = [];
+        console.log("knight", knight.position);
         let neighborHexs = map.getHexTileByVertex(knight.position);
         _.forEach(neighborHexs, function ([hexID, positionInHex]) {
             if (map.robber.pos == hexID) theif.push("robber");

@@ -78,7 +78,7 @@ Knight.chaseAwayThief = function (knight, match) {
     knight.active = false;
     // if(map.piratePositon == thiefPosition) map.piratePositon = newPosition;
     // else map.robborPositon = newPosition
-    match.knightInAction = this;
+    match.knightInAction = knight;
 };
 /**
 Knight.getVertexUnitType = function(knight){

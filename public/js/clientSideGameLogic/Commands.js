@@ -106,8 +106,8 @@ let CommandName = {
     'drawOneResourceCard': 'drawOneResourceCard',
     'giveAwayBoot': 'giveAwayBoot',
     'drawOneProgressCard': 'drawOneProgressCard',
-    'discardResourceCards': 'discardResourceCards', //TODO
-    'chaseAwayThief': 'chaseAwayThief', //TODO
+    'discardResourceCards': 'discardResourceCards',
+    'chaseAwayThief': 'chaseAwayThief',
     'hireKnight': 'hireKnight',
     'activateKnight': 'activateKnight',
     'promoteKnight': 'promoteKnight',
@@ -118,18 +118,17 @@ let CommandName = {
     'movePirate': 'movePirate',
     'spendFishToken': 'spendFishToken',
 
-    'requestTrade': 'requestTrade', // TODO: Max
-    'acceptTrade': 'acceptTrade',// TODO: Max
-    'performTradeTransaction':'performTradeTransaction',// TODO: Max
+    'requestTrade': 'requestTrade',
+    'acceptTrade': 'acceptTrade',
+    'performTradeTransaction':'performTradeTransaction',
       //INPROGRESS:
-    'executeProgressCard': 'executeProgressCard'// TODO: Max
+    'executeProgressCard': 'executeProgressCard'
 
 
 };
 
 let CommandReceived = {};
 
-    //TODO: some one good at English plz help me change this.... It's embarrassing...
     let CommandSuccMsg = {
         'rollDice': "Hummmmm...",
         'buildEstablishment': 'Settlement is only the first step of our great journey.',
@@ -146,7 +145,7 @@ let CommandReceived = {};
     };
 
 
-//TODO: include check input & make the object not global
+
 let CommandCheck = {};
 
 let room = {users: {}};
@@ -323,7 +322,7 @@ CommandReceived.acceptTrade = function () {
     }
 };
 
-// TODO: max
+
 //In case of Comercial Harbor, if player is bankrupt then nothing is happening
 CommandReceived.requestTrade = function () {
     let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
@@ -548,13 +547,14 @@ CommandsData.drawOneResourceCard = function (resCard) {
 };
 
 CommandCheck.drawOneResourceCard = function (resCard) {
+    /**
     var res = ['Grain', 'Lumber', 'Wool', 'Brick', 'Ore'];
     var found = 0;
     for (var i in res) {
         if (res[i] == resCard) {
             found = 1;
         }
-    }
+    }**/
     return true;
   //  TODO: resume this!!!!!!!!!!
 /*    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
@@ -565,7 +565,7 @@ CommandCheck.drawOneResourceCard = function (resCard) {
         return false;
     }
 */
-}
+};
 
 
 CommandsData.discardOneProgressCard = function (progCard) {
@@ -633,7 +633,7 @@ CommandCheck.spendFishToken = function (action) {
     }
     swalError2("Not enough fish tokens");
     return false;
-}
+};
 
 //TODO Yuan deactive knights
 CommandsData.hireKnight = function (position) {
@@ -844,6 +844,7 @@ CommandCheck.chaseAwayThief = function (knightPosition) {
 
 CommandReceived.chaseAwayThief = function () {
     let knight = DATA.getMatch().knightInAction;
+    console.log(Raw(knight));
     let thiefAround = VertexUnit.getThiefAround(knight);
     notifyUserToMoveThief(thiefAround);
 

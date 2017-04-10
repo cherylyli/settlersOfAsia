@@ -76,7 +76,10 @@ let Map = (function () {
          * @returns {*|number}
          */
         map.getHexTileByVertex = function(vertex){
-            if (vertex < 1 || vertex >= 250 || !map.verticesToHex[vertex]) throw "Invalid vertex";
+            if (vertex < 1 || vertex >= 250 || !map.verticesToHex[vertex]) {
+                console.log("invalid ", vertex);
+            }
+
             return map.verticesToHex[vertex];
         };
 
