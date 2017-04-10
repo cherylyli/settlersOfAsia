@@ -271,37 +271,50 @@ CommandReceived.performTradeTransaction = function () {
 CommandReceived.acceptTrade = function () {
     let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
     //if not everyone participated we are not showing anything and commercialHarborIsNotActive
-    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1) && Object.keys(active_cards).indexOf("CommercialHarbor") === -1){
+    if (!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1) && Object.keys(active_cards).indexOf("CommercialHarbor") === -1) {
         console.log("skip");
         return;
     }
-    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
-        swal({
-                title: "Please choose a player to trade with",
-                text: "Players that accepted trade:" + JSON.stringify(DATA.getMatch().currentTrade.accepted),
-                type: "input",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                animation: "slide-from-top",
-                inputPlaceholder: "Write down name of the player with whom you want to trade :)"
-            },
-            function(inputValue){
-                if (inputValue === false){
-                    return false;
-                }
+    if (DATA.getMatch().currentPlayer === DATA.getMyPlayer().name) {
+        if (Object.keys(DATA.getMatch().currentTrade.accepted).length > 0) {
+            swal({
+                    title: "Please choose a player to trade with",
+                    text: "Players that accepted trade:" + JSON.stringify(DATA.getMatch().currentTrade.accepted),
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Write down name of the player with whom you want to trade :)"
+                },
+                function (inputValue) {
+                    if (inputValue === false) {
+                        return false;
+                    }
 
-                if (inputValue === "") {
-                    swal.showInputError("You need to write something =|");
-                    return false
-                }
-                if( Object.keys(DATA.getMatch().players).indexOf(inputValue) !== -1){
-                    swal("Nice!", "You are going to trade with " + inputValue, "success");
-                    Commands.performTradeTransaction(inputValue);
-                }
-                else{
-                    swal.showInputError("You need to provide correct username!");
-                }
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something =|");
+                        return false
+                    }
+                    if (Object.keys(DATA.getMatch().players).indexOf(inputValue) !== -1) {
+                        swal("Nice!", "You are going to trade with " + inputValue, "success");
+                        Commands.performTradeTransaction(inputValue);
+                    }
+                    else {
+                        swal.showInputError("You need to provide correct username!");
+                    }
+                });
+        }
+        else {
+            swal({
+                title: "Everyone Declined Trade",
+                text: "Unfortunately everyone declined trade",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "ok =(",
+                closeOnConfirm: false
             });
+        }
     }
 };
 
@@ -313,8 +326,8 @@ CommandReceived.requestTrade = function () {
         //we are not trading with ourselves
     }
     else if(DATA.getMyPlayer().name === DATA.getMatch().currentTrade.targetPlayer) {//if we are the player for whom this trade is intended
+        let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
         if (Object.keys(active_cards).indexOf("CommercialHarbor") !== -1) { //if we have commercialHarborActive
-            let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
             let allowed_input = {};
             let commodities = ['Paper', 'Coin', 'Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
             //we want to give from resources that we have
@@ -376,15 +389,32 @@ CommandReceived.requestTrade = function () {
                 },
                 function (isConfirm) {
                     if (isConfirm) {
-                        swal("Trade started!", "Your trade response was sent", "success");
-                        Commands.acceptTrade(true);
+                        console.log(hasEnougOfResources(buying));
+                        if(hasEnougOfResources(buying)) {
+                            swal("Trade started!", "Your trade response was sent", "success");
+                            Commands.acceptTrade(true);
+                        }
+                        else{
+                            swal.showInputError("You dont have enough of resources to trade!");
+                            return false;
+                        }
                     } else {
-                        swal("You declined trade!", "Trade has been stopped", "error");
                         Commands.acceptTrade(false);
                     }
                 });
         }
     }
+};
+
+let hasEnougOfResources = function(resources){
+    let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
+    let enough = true;
+    Object.keys(resources).forEach(res => {
+        if(!(player_resources[res] >= resources[res])){
+            enough = false;
+        }
+    });
+    return enough;
 };
 //ROBBER ==================================
     /**
