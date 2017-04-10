@@ -100,77 +100,7 @@ Dice.configureResult = function (dice, match) {
 
             //active barbarian
             break;
-        case "BlueCityGate" :
-            if(player.cityImprovement.Politics == 1 && (dice.redDie == 1 || dice.redDie == 2)){
-                Player.drawOneProgressCard(player, match, "Politics");
 
-            }
-            if(player.cityImprovement.Politics == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)){
-                Player.drawOneProgressCard(player, match, "Politics");
-
-            }
-            if(player.cityImprovement.Politics == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)){
-                Player.drawOneProgressCard(player, match, "Politics");
-
-            }
-            if(player.cityImprovement.Politics == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)){
-                Player.drawOneProgressCard(player, match, "Politics");
-
-            }
-            if(player.cityImprovement.Politics == 5){
-                Player.drawOneProgressCard(player, match, "Politics");
-
-            }
-
-
-            break;
-        case "YellowCityGate" :
-            if(player.cityImprovement.Trade == 1 && (dice.redDie == 1 || dice.redDie == 2)){
-                Player.drawOneProgressCard(player, match, "Trade");
-
-            }
-            if(player.cityImprovement.Trade == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)){
-                Player.drawOneProgressCard(player, match, "Trade");
-
-            }
-            if(player.cityImprovement.Trade == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)){
-                Player.drawOneProgressCard(player, match, "Trade");
-
-            }
-            if(player.cityImprovement.Trade == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)){
-                Player.drawOneProgressCard(player, match, "Trade");
-
-            }
-            if(player.cityImprovement.Trade == 5){
-                Player.drawOneProgressCard(player, match, "Trade");
-
-            }
-
-            break;
-        case "GreenCityGate" :
-            if(player.cityImprovement.Science == 1 && (dice.redDie == 1 || dice.redDie == 2)){
-                Player.drawOneProgressCard(player, match, "Science");
-
-            }
-            if(player.cityImprovement.Science == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)){
-                Player.drawOneProgressCard(player, match, "Science");
-
-            }
-            if(player.cityImprovement.Science == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)){
-                Player.drawOneProgressCard(player, match, "Science");
-
-            }
-            if(player.cityImprovement.Science == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)){
-                Player.drawOneProgressCard(player, match, "Science");
-
-            }
-            if(player.cityImprovement.Science == 5){
-                Player.drawOneProgressCard(player, match, "Science");
-
-            }
-            break;
-        default:
-            console.log("Error");
     }
 
     dice.eventDieResult = result;
