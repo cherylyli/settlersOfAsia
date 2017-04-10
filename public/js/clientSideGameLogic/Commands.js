@@ -1738,11 +1738,11 @@ _.each(CommandName, function (cmd) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
-*/
+*//**
         if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
           swalError2("Please roll dice first");
           return;
-        }
+        }**/
 
         //comment out this part if you want to disable checks
         //checkers
