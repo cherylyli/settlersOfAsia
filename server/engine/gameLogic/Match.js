@@ -19,6 +19,7 @@ let DATA = require('../Data.js');
 let Dice = require('./Dice.js');
 let Bank = require('./Bank.js');
 let Player = require('./Player.js');
+let Building = require('./Building.js');
 let notify  = require('../../api/notify.js');
 let Barbarian = require('./Barbarian.js');
 let CircularJSON = require('circular-json');
