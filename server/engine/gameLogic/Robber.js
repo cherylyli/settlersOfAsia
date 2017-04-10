@@ -37,7 +37,7 @@ Robber.moveTo = function(robber,from,to,match){
       //  return {'curPos' : robber.pos, 'discardHalf' : Robber.hasToDiscardCards(robber, match.players), 'stealFrom' : Robber.stealFrom(robber, to,match.map)};
     }
     else{
-      robber.pos = to; //to = 0; 
+      robber.pos = to; //to = 0;
       robber.move = false;
     }
 };

@@ -852,9 +852,25 @@ Player.getDefenderOfCatan = function(player){
 //we are moving card from progress_cards to active cards
 Player.useCard = function(player, card){
     console.log("Using card: "+card+" Player:"+player.name);
-    let card_indx = player.progressCards.indexOf(card);
-    player.active_cards[player.progressCards[card_indx]] = player.progressCards[card_indx];
+    let addVP = ['Printer', 'Constitution'];
+    
+    // if it's a addVP card, then add 1 to the player's VP
+    if (addVP.indexOf(card) > -1){
+      Player.updateVP(player, 1);
+      return;
+    } else if (card == 'RoadBuilding'){
+      Player.freeRoadsOrShips = 2;
 
+    } else if (card == 'Smith'){
+      Player.freeUpgradeKnights= 2;
+
+    } else {
+
+    
+      let card_indx = player.progressCards.indexOf(card);
+      player.active_cards[player.progressCards[card_indx]] = player.progressCards[card_indx];
+
+    }
     for(var i=0; i < player.progressCardsCnt; i++) {
         if (card == player.progressCards[i]) {
             player.progressCards.splice(i, 1);

@@ -82,8 +82,8 @@ Dice.configureResult = function (dice, match) {
         case "Ship" :
             if(match.barbarian){
                 //  if(match.barbarian.toAttack()){
-                //if(match.barbarian.curPos === 3){ //for testing
-                if(match.barbarian.curPos == 6){
+                if(match.barbarian.curPos === 3){ //for testing
+              //  if(match.barbarian.curPos == 6){
                     result.event = "Barbarian Attack";
                     match.barbarianResult = Barbarian.applyResult(match.barbarian, match.players);
                     Barbarian.restart(match.barbarian);

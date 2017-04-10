@@ -264,7 +264,11 @@ Commands.saveGame = function (userName, roomID) {
             match.fish = null;
        }
        else {
-         Bank.decreasePlayerAsset(match.bank, player,'buildRoad');
+        if (Player.freeRoadsOrShips>0){
+            Player.freeRoadsOrShips--;
+        } else{
+            Bank.decreasePlayerAsset(match.bank, player,'buildRoad');
+        }
        }
      }
  };
@@ -287,7 +291,11 @@ Commands.saveGame = function (userName, roomID) {
             match.fish = null;
        }
        else {
-         Bank.decreasePlayerAsset(match.bank, player,'buildShip');
+        if (Player.freeRoadsOrShips>0){
+            Player.freeRoadsOrShips--;
+        } else{
+            Bank.decreasePlayerAsset(match.bank, player,'buildShip');
+        }
        }
      }
      //if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerAsset(player,'buildShip');
@@ -388,7 +396,12 @@ Commands.saveGame = function (userName, roomID) {
      let knight = Map.getVertexInfo(match.map, data.position);
      Knight.promote(knight);
 
-     Bank.decreasePlayerAsset(match.bank, knight.owner, 'promoteKnight');
+     // if Player.freeUpgradeKnights > 0, don't decrease Player Assest
+     if (Player.freeUpgradeKnights>0){
+         Player.freeUpgradeKnights--;
+     } else{
+        Bank.decreasePlayerAsset(match.bank, knight.owner, 'promoteKnight');
+     }
  };
 
  /**
@@ -499,10 +512,14 @@ Commands.cancelTrade = function(roomID){
      }
      else if(data.accept && data.commodity){
          //we are adding commodity that the player has choosen
+         //we are only targeting one player at a time when we use commercialHarbor card
          console.log("CommercialHarbor has been used");
          let commodity_name = data.commodity;
          match.currentTrade.buying[commodity_name] = 1;
          match.currentTrade.accepted[userName] = userName;
+         Object.keys(DATA.getMatch(roomID).players).forEach( player =>{
+             DATA.getMatch(roomID).currentTrade.participated[player] = player;
+         });
      }
  };
 
@@ -654,6 +671,8 @@ Commands.spendFishToken = function(userName, roomID, data){
 Commands.endTurn = function (userName, roomID, data) {
     let player = DATA.getPlayer(userName, roomID);
     player.active_cards = {}; //we need to delete all of the previously active cards
+    Player.freeRoadsOrShips = 0; // delete free roads
+    Player.freeUpgradeKnights = 0; // delete free knight upgrades
     let match = DATA.getMatch(roomID);
     Match.nextPlayerToTakeTurn(match);
     notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
@@ -663,7 +682,7 @@ Commands.endTurn = function (userName, roomID, data) {
 //data is empty where does object that we return in CommandsData goes?
 Commands.executeProgressCard = function(userName, roomID, data){
     console.log("PROGRESS CARDS EXECUTED");
-    console.log(data);
+    // console.log(data);
     let player = DATA.getPlayer(userName, roomID);
     Player.useCard(player, data.cardname);
 };

@@ -219,6 +219,10 @@ CommandsData.chooseCityToBePillaged = function (vertex) {
 };
 
 CommandCheck.chooseCityToBePillaged = function (vertex) {
+    if(!app.pillageCity){
+      swalError2("You don't need to downgrade your city");
+      return false;
+    }
     let match = DATA.getMatch();
     let player = DATA.getMyPlayer();
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
@@ -231,6 +235,7 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
         return false;
     }
     else {
+        app.pillageCity = false;
         return true;
     }
 };
@@ -252,10 +257,10 @@ CommandsData.performTradeTransaction = function (tradeWith) {
     return {'tradeWith': tradeWith};
 };
 
-CommandCheck.requestTrade = function (selling, buying, targetPlayer) {
-    // check if we have the cards we offer
-    checkEnoughResource(selling);
-};
+// CommandCheck.requestTrade = function (selling, buying, targetPlayer) {
+//     // check if we have the cards we offer
+//     checkEnoughResource(selling);
+// };
 
 CommandReceived.performTradeTransaction = function () {
     swal('Trade ended :D');
@@ -271,37 +276,50 @@ CommandReceived.performTradeTransaction = function () {
 CommandReceived.acceptTrade = function () {
     let active_cards = DATA.getPlayer(DATA.getMatch().currentPlayer).active_cards;
     //if not everyone participated we are not showing anything and commercialHarborIsNotActive
-    if(!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1) && Object.keys(active_cards).indexOf("CommercialHarbor") === -1){
+    if (!(Object.keys(DATA.getMatch().currentTrade.participated).length === Object.keys(DATA.getMatch().players).length - 1) && Object.keys(active_cards).indexOf("CommercialHarbor") === -1) {
         console.log("skip");
         return;
     }
-    if(DATA.getMatch().currentPlayer === DATA.getMyPlayer().name){
-        swal({
-                title: "Please choose a player to trade with",
-                text: "Players that accepted trade:" + JSON.stringify(DATA.getMatch().currentTrade.accepted),
-                type: "input",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                animation: "slide-from-top",
-                inputPlaceholder: "Write down name of the player with whom you want to trade :)"
-            },
-            function(inputValue){
-                if (inputValue === false){
-                    return false;
-                }
+    if (DATA.getMatch().currentPlayer === DATA.getMyPlayer().name) {
+        if (Object.keys(DATA.getMatch().currentTrade.accepted).length > 0) {
+            swal({
+                    title: "Please choose a player to trade with",
+                    text: "Players that accepted trade:" + JSON.stringify(DATA.getMatch().currentTrade.accepted),
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Write down name of the player with whom you want to trade :)"
+                },
+                function (inputValue) {
+                    if (inputValue === false) {
+                        return false;
+                    }
 
-                if (inputValue === "") {
-                    swal.showInputError("You need to write something =|");
-                    return false
-                }
-                if( Object.keys(DATA.getMatch().players).indexOf(inputValue) !== -1){
-                    swal("Nice!", "You are going to trade with " + inputValue, "success");
-                    Commands.performTradeTransaction(inputValue);
-                }
-                else{
-                    swal.showInputError("You need to provide correct username!");
-                }
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something =|");
+                        return false
+                    }
+                    if (Object.keys(DATA.getMatch().players).indexOf(inputValue) !== -1) {
+                        swal("Nice!", "You are going to trade with " + inputValue, "success");
+                        Commands.performTradeTransaction(inputValue);
+                    }
+                    else {
+                        swal.showInputError("You need to provide correct username!");
+                    }
+                });
+        }
+        else {
+            swal({
+                title: "Everyone Declined Trade",
+                text: "Unfortunately everyone declined trade",
+                type: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "ok =(",
+                closeOnConfirm: false
             });
+        }
     }
 };
 
@@ -313,8 +331,8 @@ CommandReceived.requestTrade = function () {
         //we are not trading with ourselves
     }
     else if(DATA.getMyPlayer().name === DATA.getMatch().currentTrade.targetPlayer) {//if we are the player for whom this trade is intended
+        let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
         if (Object.keys(active_cards).indexOf("CommercialHarbor") !== -1) { //if we have commercialHarborActive
-            let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
             let allowed_input = {};
             let commodities = ['Paper', 'Coin', 'Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
             //we want to give from resources that we have
@@ -358,33 +376,49 @@ CommandReceived.requestTrade = function () {
             //we are obliged to give him one of our resources
             //by the end of the trade we need to delete this progress card
         }
-        else {
-            let selling = DATA.getMatch().currentTrade.selling;
-            let buying = DATA.getMatch().currentTrade.buying;
-            console.log(selling);
-            console.log(DATA.getMatch().currentTrade);
-            swal({
-                    title: "TRADE ??? =)",
-                    text: DATA.getMatch().currentPlayer + " wants to buy: " + JSON.stringify(buying) + " and wants to sell: " + JSON.stringify(selling),
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "TRADE RESOURCES!",
-                    cancelButtonText: "NOOO!!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function (isConfirm) {
-                    if (isConfirm) {
+    }else if(_.keys(active_cards).indexOf("CommercialHarbor") === -1){
+        let selling = DATA.getMatch().currentTrade.selling;
+        let buying = DATA.getMatch().currentTrade.buying;
+        console.log(selling);
+        console.log(DATA.getMatch().currentTrade);
+        swal({
+                title: "TRADE ??? =)",
+                text: DATA.getMatch().currentPlayer + " wants to buy: " + JSON.stringify(buying) + " and wants to sell: " + JSON.stringify(selling),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "TRADE RESOURCES!",
+                cancelButtonText: "NOOO!!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    console.log(hasEnougOfResources(buying));
+                    if(hasEnougOfResources(buying)) {
                         swal("Trade started!", "Your trade response was sent", "success");
                         Commands.acceptTrade(true);
-                    } else {
-                        swal("You declined trade!", "Trade has been stopped", "error");
-                        Commands.acceptTrade(false);
                     }
-                });
-        }
+                    else{
+                        swal.showInputError("You dont have enough of resources to trade!");
+                        return false;
+                    }
+                } else {
+                    Commands.acceptTrade(false);
+                }
+            });
     }
+};
+
+let hasEnougOfResources = function(resources){
+    let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
+    let enough = true;
+    Object.keys(resources).forEach(res => {
+        if(!(player_resources[res] >= resources[res])){
+            enough = false;
+        }
+    });
+    return enough;
 };
 //ROBBER ==================================
     /**
@@ -420,12 +454,13 @@ CommandReceived.moveRobber = function () {
   /*
    TODO Emol
    1. a list contains the name {String} of players who have at least one building around the newHex
-      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      call var newHex = DATA.getMap().getHexTileById(newHexID); stealList (stealable players)
       if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
       if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
    2. select a player to steal from
   */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+    //ongoingCmd -> STEAL CARDS
 };
 
 
@@ -440,6 +475,7 @@ CommandReceived.movePirate = function () {
    2. select a player to steal from
   */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
+    //ongoingCmd -> STEAL CARDS
 };
 /**
  *
@@ -497,7 +533,12 @@ CommandsData.drawOneProgressCard = function (kind) {
 };
 
 CommandCheck.drawOneProgressCard = function (kind) {
+  if(app.canDraw){
+    app.canDraw = false;
     return true;
+  }
+  swalError2("You cannot draw a progress card.");
+    return false;
 };
 
 //input string
@@ -513,13 +554,15 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
-    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
+  //  TODO: resume this!!!!!!!!!!
+/*    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
         swalError2("Player can only use the fish token to draw one resource card");
         return false;
     }
+*/
 }
 
 
@@ -583,6 +626,7 @@ CommandCheck.spendFishToken = function (action) {
       return true;
     }
     if(action == "DRAW_PROG" && checkEnoughFish(Cost.drawProgUseFish)){
+      app.canDraw = true;
       return true;
     }
     swalError2("Not enough fish tokens");
@@ -679,8 +723,15 @@ CommandCheck.promoteKnight = function (position) {
         return false;
     }
     if (!checkEnoughResource(Cost.promoteKnight)) {
-        swalError2("Not enough resource to promote a knight");
-        return false;
+        // if player has freeKnightUpgrades
+        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeUpgradeKnights>0){
+            // if player has free knight upgrades, can upgrade even if there's enough resources
+
+        }else{
+            swalError2("Not enough resource to promote a knight");
+            return false;
+        }
+
     }
     //if player has a fortress (i.e enters the 3rd level of politics,
     //they can promote a strong knight to a mighty knight
@@ -830,6 +881,7 @@ CommandCheck.discardResourceCards = function (cards) {
             }
         }
     }
+    app.discardCards = false;
     return true;
     /*
     if (counter) {
@@ -1081,6 +1133,16 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
     }
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_ROAD")){
+        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeRoadsOrShips>0){
+            // if player has a freeRoadsOrShips, don't need to check for resources
+        }
+        else if(!checkEnoughResource(Cost.buildRoad)){
+          return false;
+        }
+    }
+
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish == "BUILD_ROAD")){
+
         if(!checkEnoughResource(Cost.buildUseFish)){
           return false;
         }
@@ -1168,10 +1230,22 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
 
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_SHIP")){
-        if(!checkEnoughResource(Cost.buildUseFish)){
+        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeRoadsOrShips>0){
+            // if player has a freeRoadsOrShips, don't need to check for resources
+        }
+        else if(!checkEnoughResource(Cost.buildShip)){
           return false;
         }
     }
+
+    if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish == "BUILD_SHIP")){
+
+        if (!checkEnoughResource(Cost.buildUseFish)){
+            return false;
+        }
+    }
+
+    // if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && ()))
     return shipPostionTest(edge);
 
 
@@ -1394,7 +1468,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
-/*
+
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1402,7 +1476,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
-*/
+
     return true;
 };
 
@@ -1611,8 +1685,10 @@ CommandReceived.rollDice = function () {
                   break;
           }
 
-          if (cards.length > 0) notifyUserToDrawProgressCard(cards);
-
+          if (cards.length > 0) {
+            app.canDraw = true;
+            notifyUserToDrawProgressCard(cards);
+          }
     }
 
     if (DATA.getMatch().dice.numberDiceResult == 7){
@@ -1624,6 +1700,7 @@ CommandReceived.rollDice = function () {
         - allow all players to discardResourceCards(cards)
         */
           app.rolledSeven = true;
+          //var player = DATA.getMyPlayer();
           let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
           if(num > 0){
             app.discardCards = true;
@@ -1679,20 +1756,25 @@ _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
       // if not my turn and barbarian result, operation is limited
+      if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+        swalError2("Please roll dice first");
+        return;
+      }
 
       if (app.barbarianResult){
-          app.barbarianResult = false;
           //here
          DATA.getMatch().barbarianResult = null;
           var res = DATA.getMatch().barbarianResult.result;;
 
           if(res == "CATAN_WIN_TIE"){
+            app.canDraw = true;
             if (cmd != "drawOneProgressCard") {
                 swalError2("You can get one progress card for free");
                 return;
             }
           }
           else if (res == "CATAN_LOSE"){
+            app.pillageCity = true;
             if (cmd != "chooseCityToBePillaged") {
               swalError2("Please choose one city to be pillaged");
               return;
@@ -1703,13 +1785,26 @@ _.each(CommandName, function (cmd) {
             swal("You are the defender of Catan.");
           }
      }
+
+     if(app.barbarianResult){
+       app.barbarianResult = false;
+     }
+
      //player has more than 7 cards & dice result = 7
      if(app.discardCards){
        if(cmd != "discardResourceCards"){
          swalError2("You need to discard "  + num + " cards");
          return;
        }
-       app.discardCards = false;
+       //app.discardCards = false;
+     }
+
+     if(app.canDraw){
+       if(cmd != "drawOneProgressCard"){
+         swalError2("You need to draw one progress card.");
+         return false;
+       }
+       //app.canDraw = false;
      }
 
 
@@ -1720,7 +1815,7 @@ _.each(CommandName, function (cmd) {
           }
           else{
             swal("Succ");
-            app.rolledSeven = false;
+          //  app.rolledSeven = false;
         }
       }
 
@@ -1746,6 +1841,7 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
+
         let phase = DATA.getMatch().phase;
         if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
