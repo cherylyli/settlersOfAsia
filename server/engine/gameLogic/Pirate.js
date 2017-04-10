@@ -29,13 +29,11 @@ Pirate.createPirate = function(){
          to.blockedByPirate = true;
          pirate.pos = to.id;
          pirate.move = false;
-         return {'curPos' : pirate.pos, 'discardHalf': null, 'stealFrom' : Pirate.stealFrom(pirate, to, match.map)};
-     }
-
-     pirate.pos = to.id;
-     pirate.move = false;
-     //player.rolledSeven = false;
-     return {'curPos' : pirate.pos,  'discardHalf': null, 'stealFrom' : null };
+      }
+       else{
+         pirate.pos = 0;//move off board 
+         pirate.move = false;
+      }
  };
 
  Pirate.stealFrom = function(pirate, hexTile, map){

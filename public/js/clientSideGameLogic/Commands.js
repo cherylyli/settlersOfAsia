@@ -196,7 +196,7 @@ CommandsData.upgradeToMetropolis = function (vertex, metropolisType) {
 
 CommandCheck.upgradeToMetropolis = function (vertex, metropolisType) {
      //check if player has a metropolis to add on a city.
-    DATA.getMatch().Metropolis;
+    //if (DATA.getMatch().redistributeM[metropolisType] == DATA.getMyPlayer().name) {
     if (DATA.getMatch().Metropolis[metropolisType] == DATA.getMyPlayer().name) {
       let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
       if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
@@ -219,7 +219,7 @@ CommandsData.chooseCityToBePillaged = function (vertex) {
 };
 
 CommandCheck.chooseCityToBePillaged = function (vertex) {
-    let match = DATA.getMatch(roomID);
+    let match = DATA.getMatch();
     let player = DATA.getMyPlayer();
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
     if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
@@ -398,31 +398,47 @@ CommandReceived.requestTrade = function () {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.moveRobber = function (newHexID) {
-    if(newHexID == 0){
-      return true;
-    }
-    var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-    if (newHex) { //
-          if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
-              return true;
-          }
-          else {
-              swalError2("Invalid Position. Please select a landTile to perform such action.");
-              return false;
-          }
-    }
+  if((DATA.getMatch().fish == "MOVE_ROBBER") && (DATA.getMap().robber.pos != 0)){
+    return true;
+  }
+  var newHex = DATA.getMatch().map.getHexTileById(newHexID);
+  if (newHex) { //
+        if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
+            return true;
+        }
+        else {
+            swalError2("Invalid Position. Please select a landTile to perform such action.");
+            return false;
+        }
+  }
 
 };
 
 
 
 CommandReceived.moveRobber = function () {
+  /*
+   TODO Emol
+   1. a list contains the name {String} of players who have at least one building around the newHex
+      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
+      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
+   2. select a player to steal from
+  */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
 };
 
 
 
 CommandReceived.movePirate = function () {
+  /*
+   TODO Emol
+   1. a list contains the name {String} of players who have at least one building around the newHex
+      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
+      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
+   2. select a player to steal from
+  */
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
 };
 /**
@@ -441,9 +457,10 @@ CommandsData.movePirate = function (newHexID) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.movePirate = function (newHexID) {
-  if(newHexID == 0){
+  if((DATA.getMatch().fish == "MOVE_PIRATE") && (DATA.getMap().pirate.pos != 0)){
     return true;
   }
+
   var newHex = DATA.getMatch().map.getHexTileById(newHexID);
   if (newHex) {
       if (newHex.blockedByPirate == false && newHex.type === Enum.HexType.Sea) {
@@ -496,7 +513,7 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
-    if (found && DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
+    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
@@ -540,7 +557,7 @@ CommandCheck.giveAwayBoot = function (transferTo) {
         }
     }
     else {
-        swalError2("Transfer boot failed.");
+        swalError2("Error, you don't have a boot.");
     }
 }
 
@@ -580,13 +597,56 @@ CommandsData.hireKnight = function (position) {
 
 CommandCheck.hireKnight = function (position) {
     //copy the build settlement conditions here
+    //knight must be connected to one end o
+
+    //check if the vertex is not empty
+    if (DATA.getMatch().map.getVertexInfo(position)) {
+        swalError2("Invalid position!");
+        return false;
+    }
+
+        /**
+         *
+         * @type {Array.<edge>}
+         */
+        let connectedEdges = DATA.getMatch().map.getEdgeByVertex(position);
+        //flags
+        let connectedToOneRoad = false;
+
+        for (let e of connectedEdges) {
+            //check if connected to one road
+            let road = DATA.getMatch().map.getEdgeInfo(e);
+            if (road && road.owner.name == DATA.getMyPlayer().name) {
+                //we have a road connected with the settlement
+                connectedToOneRoad = true;
+            }
+        }
+
+
+        if (!connectedToOneRoad) {
+            swalError2("Knight should be connected with at least one of your road.");
+            return false;
+        }
+
+        //cannot build in sea
+        let inSea = true;
+        for (let hexID of DATA.getMatch().map.getHexTileArrayByVertex(position)) {
+            if (!(DATA.getMatch().map.getHexTileById(hexID).type == Enum.HexType.Sea)) {
+                inSea = false;
+            }
+        }
+
+        if (inSea) {
+            swalError2("Cannot place knights in sea!");
+            return false;
+        }
+
     if (!checkEnoughResource(Cost.hireKnight)) {
         swalError2("Not enough resource to purchase a knight");
         return false;
     }
-    else {
         return true;
-    }
+
 };
 
 CommandsData.activateKnight = function (position) {
@@ -625,7 +685,7 @@ CommandCheck.promoteKnight = function (position) {
     //if player has a fortress (i.e enters the 3rd level of politics,
     //they can promote a strong knight to a mighty knight
     //otherwise the highest level of knight they can promote to is level 2- strong knight
-    if (DATA.getPlayer().cityImprovement.Politcs >= 3) {
+    if (DATA.getMyPlayer().cityImprovement[Enum.cityImprovementCategory.Politics] >= 3) {
        if(knight.level == 3){
         swalError2("You've got the strongest knight already.");
         return false;
@@ -648,24 +708,27 @@ CommandsData.moveKnight = function (position, newPosition) {
 };
 
 CommandCheck.moveKnight = function (position, newPosition) {
-  //TODO : for move knight and chase away thief - knight must be activated during the last turn
+  //for move knight and chase away thief - knight must be activated during the last turn
   //otherwise return false;
-  //TODO add displaceKnight feature
-  //TODO check if newPosition is a valid vertex [continuous road]
     var knight = DATA.getMatch().map.getVertexInfo(position);
-    var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
-    var validVertices = DATA.getMyPlayer().getEmptyAdjacentVertices(position,DATA.getMatch());
-
-    if (knight.hasMovedThisTurn || !knight.active) {
-        swalError2("Error, knight has been moved this turn or selected knight is not active");
+    if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
+      swalError2("Error, knight must be activated in previous turn to perform such action.");
+      return false;
+    }
+    if (knight.hasMovedThisTurn) {
+        swalError2("Error, knight has been moved this turn");
         return false;
     }
-    else {
+    var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
+    var player = DATA.getMyPlayer();
+    //TODO add displaceKnight feature
+    //TODO check if newPosition is a valid vertex [continuous road]
+    var validVertices = player.getEmptyAdjacentVertices(player,position,DATA.getMatch());
+    console.log("valid vertx are " + validVertices);
       if(_.contains(validVertices, newPosition)){
         return true;
       }
       return false;
-    }
 };
 
 /*
@@ -689,7 +752,6 @@ CommandCheck.displaceKnight = function (position, newPosition) {
 
 
 // TODO: Emol, also chase away theif cmd prompt not finished
-// for move thief part, we use Command.moveThief
 /**
  *
  * @param knightPosition {int}
@@ -700,20 +762,31 @@ CommandsData.chaseAwayThief = function (knightPosition) {
 
 
 //pos, theifpos, new pos : hextile ID
+
 CommandCheck.chaseAwayThief = function (knightPosition) {
-    var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
-    var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
-    /**
-    var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
-    if (!thiefHex.blockedByRobber) {
-        swalError2("No robber on the hextile");
-        return false;
-    }**/
-    if (!knight.active) {
-        swalError2("This knight is not active!");
-        return false;
-    }
-    return true;
+  var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
+  if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
+    swalError2("Error, knight must be activated in previous turn to perform such action.");
+    return false;
+  }
+  return true;
+  //  var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
+  //  var robber = DATA.getMatch().map.getHexTileById(DATA.getMap().robber.pos);
+  //  var pirate = DATA.getMatch.map.getHexTileById(DATA.getMap().pirate.pos);
+/*   var found = 0;
+   for(var hextile in adjacentHex){
+     if(adjacentHex[hextile].blockedByRobber || adjacentHex[hextile].blockedByPirate){
+       found = 1;
+     }
+   }
+   if(found){
+     return true;
+   }
+   else{
+     swalError2("No robber/pirate on the adjacent hextiles");
+     return false;
+   }
+   */
 };
 
 CommandReceived.chaseAwayThief = function () {
@@ -731,31 +804,40 @@ CommandsData.discardResourceCards = function (cards) {
 };
 
 CommandCheck.discardResourceCards = function (cards) {
+    if(!app.discardCards){
+      swalError2("You don't need to discard cards.");
+      return false;
+    }
     let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
-
-    var player = player1;
+    var player = DATA.getMyPlayer();
     var size = 0;
     for (var i in cards) {
         size += cards[i];
     }
-    if (size != num) {
-        swalError2("You need to discard " + num + " card(s)!");
-        return false;
+
+    if(size != num){
+      swalError2("You need to discard " + num + " cards");
+      return false;
     }
+
     var counter = 0;
     for (var card in player.resourcesAndCommodities) {
         for (var discard in cards) {
             if (card === discard) {
-                if (player.resourcesAndCommodities[card] >= cards[discard])
-                    counter = 1;
+                if (player.resourcesAndCommodities[card] >= cards[discard]){
+                  counter = 1;
+                }
             }
         }
     }
+    return true;
+    /*
     if (counter) {
         return true;
     }
     swalError2("Not enough resource!");
     return false;
+    */
 };
 
 
@@ -858,6 +940,10 @@ CommandCheck.buildSettlement = function (vertex) {
         return false;
     }
 
+    if (DATA.getMyPlayer().getSettlements().length >= 5){
+      swalError2("You can only build 5 settlements");
+      return false;
+    }
 
     if ((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && !checkEnoughResource(Cost.buildSettlement)) {
         return false;
@@ -881,7 +967,7 @@ CommandCheck.buildSettlement = function (vertex) {
     for (let e of connectedEdges) {
         //check if connected to one road
         let road = DATA.getMatch().map.getEdgeInfo(e);
-        if (road && road.owner.name == myObj.userName) {
+        if (road && road.owner.name == DATA.getMyPlayer().name) {
             //we have a road connected with the settlement
             connectedToOneRoad = true;
         }
@@ -898,7 +984,7 @@ CommandCheck.buildSettlement = function (vertex) {
 
 
     if (!connectedToOneRoad && (!DATA.getMatch().phase == Enum.MatchPhase.SetupRoundOne)) {
-        swalError2("Settlement should be connected with at least one road.");
+        swalError2("Settlement should be connected with at least one of your road.");
         return false;
     }
 
@@ -940,17 +1026,22 @@ CommandCheck.upgradeToCity = function (vertex) {
     if (!(DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && !checkEnoughResource(Cost.upgradeToCity)) {
         return false;
     }
-
+/*
     //check if there is a settlement in the vertex
     if (!isSettlement(vertex)) {
         swalError2("You can only update a settlement!");
         return false;
     }
-
+*/
     //you can only update one city
     if ((DATA.getMatch().phase == Enum.MatchPhase.SetupRoundTwo) && (DATA.getMyPlayer().getCities().length >= 1)) {
         swalError2("You can only update one settlement during set up round two!");
         return false;
+    }
+
+    if(DATA.getMyPlayer().getCityCnt() >= 4){
+      swalError2("You can only build 4 cities");
+      return false;
     }
 
     return true;
@@ -994,8 +1085,6 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         }
     }
 
-
-
     //Only 1 road can be built on any given path
     if (DATA.getMatch().map.getEdgeInfo(edge)) {
         swalError2("Only 1 road can be built on any given path!");
@@ -1022,7 +1111,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
         //if the new road is connected with roads on this vertex
         for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)) {
             let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
-            if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == myObj.userName) {
+            if (edgeUnit && edgeUnit.type == 'road' && edgeUnit.owner.name == DATA.getMyPlayer().name) {
                 connected = true;
                 break;
             }
@@ -1030,7 +1119,8 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
 
         //... connected with settlements, or cities.
         let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
-        if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == myObj.userName) {
+        if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == DATA.getMyPlayer().name) {
+          console.log("vertex unit is " + vertexUnit + " owner is " + vertexUnit.owner.name);
             connected = true;
             break;
         }
@@ -1113,7 +1203,7 @@ function shipPostionTest(edge) {
         //if the new ship is connected with roads on this vertex
         for (let e of DATA.getMatch().map.getEdgeByVertex(vertex)) {
             let edgeUnit = DATA.getMatch().map.getEdgeInfo(e);
-            if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == myObj.userName) {
+            if (edgeUnit && edgeUnit.type == 'ship' && edgeUnit.owner.name == DATA.getMyPlayer().name) {
                 connected = true;
                 break;
             }
@@ -1303,6 +1393,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
+/*
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1310,6 +1401,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
+*/
     return true;
 };
 
@@ -1522,19 +1614,30 @@ CommandReceived.rollDice = function () {
 
     }
 
-    if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch().diceRolled){
+    if (DATA.getMatch().dice.numberDiceResult == 7){
+        //TODO Emol
+        /*
+        for all players:
+        if (app.discardCards):
+        - all players (even if not during his turn) must discardCards
+        - allow all players to discardResourceCards(cards)
+        */
           app.rolledSeven = true;
-          //TODO Emol
-          /*
-          for all players:
-          if (app.rolledSeven): - allow all players to discardResourceCards(cards, num)
-             for each player, num = DATA.getMatch().discardList[players[player].name]
-             num cannot be changed by players.
-          1. discardResourceCards, add panel for selecting resource cards & commodities to be deleted
-             use Commmands.discardResourceCards(cards,num);
-          */
+          var player = DATA.getMyPlayer();
+          let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
+          if(num > 0){
+            app.discardCards = true;
+            swal({
+              title: "Discard cards",
+              type: "info",
+              text: "You have more than seven cards and need to discard " + num + " cards"
+
+            });
+          }
+
+
           //player who rolled seven needs to select from robber / pirate
-          if(DATA.getMatch().diceRolled && app.isMyTurn){
+          if(DATA.getMatch().diceRolled && app.isMyTurn && DATA.getMatch().diceRolled){
           //radio box : select from robber/pirate
           /*
           var inputOption = new Object(function(choice){
@@ -1551,17 +1654,9 @@ CommandReceived.rollDice = function () {
               },
               function () {
                   /*
-                   TODO Emol
-                   1. player needs to choose from moving robber or pirate
-                   2. allow player moveRobber/Pirate by clicking a newHexID
-                   3. a list contains the name {String} of players who have at least one building around the newHex
-                      call var newHex = DATA.getMap()getHexTileById(newHexID);
-                      if robber :  var stealList = newHex.getPlayersAroundByBuildings(DATA.getmap());
-                      if pirate:   var stealList = newHex.getPlayersAroundByShips(DATA.getMap());
-                   4. select a player to steal from
-                  */
-
-                  /*
+                  TODO Emol
+                  1. player needs to choose from moving robber or pirate
+                  2. allow player moveRobber/Pirate by clicking a newHexID
                   swal({
 
                     title: "Your choice",
@@ -1583,14 +1678,8 @@ CommandReceived.rollDice = function () {
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
-/**
-      if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled){
-        swalError2("Please roll dice first");
-        return;
-      }
-*/
       // if not my turn and barbarian result, operation is limited
-  /**
+
       if (app.barbarianResult){
           app.barbarianResult = false;
           //here
@@ -1614,10 +1703,17 @@ _.each(CommandName, function (cmd) {
             swal("You are the defender of Catan.");
           }
      }
+     //player has more than 7 cards & dice result = 7
+     if(app.discardCards){
+       if(cmd != "discardResourceCards"){
+         swalError2("You need to discard "  + num + " cards");
+         return;
+       }
+       app.discardCards = false;
+     }
 
-*/
-/*
-        if(app.rolledSeven){
+
+     if(app.rolledSeven){
           if(cmd != "moveRobber" && cmd != "movePirate"){
             swalError2("You must move robber/pirate first");
             return;
@@ -1628,7 +1724,6 @@ _.each(CommandName, function (cmd) {
         }
       }
 
-*/
 
         //input complete check
         /**
@@ -1638,26 +1733,31 @@ _.each(CommandName, function (cmd) {
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-      let phase = DATA.getMatch().phase;
-/*       if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
+/*       let phase = DATA.getMatch().phase;
+       if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
 */
+        if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+          swalError2("Please roll dice first");
+          return;
+        }
+
         //comment out this part if you want to disable checks
-        //checks
-        //DATA.getMatch().phase = Enum.MatchPhase.TurnPhase; //for testing
-/*        if (!CommandCheck[cmd].apply(this, arguments)) {
+        //checkers
+        let phase = DATA.getMatch().phase;
+        if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
-*/
 
-/**
+
+
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
         }
-    **/
+
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };

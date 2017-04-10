@@ -258,7 +258,7 @@ Player.drawOneProgressCard = function(player, match, kind){
 
     player.progressCards.push(progCard[0]);
     player.progressCardsCnt++;
-    return player.progressCards;
+    //return player.progressCards;
 };
 
 Player.drawOneResourceCard = function(player, resCard){
@@ -863,4 +863,3 @@ Player.useCard = function(player, card){
     }
     console.log(player.active_cards);
 };
-

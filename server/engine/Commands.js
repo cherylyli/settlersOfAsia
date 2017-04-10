@@ -196,7 +196,7 @@ Commands.saveGame = function (userName, roomID) {
      //FIXME: WHY WE HAVE THIS HERE????
      if (!building) building = Building.buildSettlement(player, position, map);
      Building.upgradeToCity(building);
-     if (match.phase == Enum.MatchPhase.TurnPhase) Bank.decreasePlayerAsset(bank, player, 'upgradeToCity');
+     if (match.phase == Enum.MatchPhase.TurnPhase) Bank.decreasePlayerAsset(match.bank, player, 'upgradeToCity');
 
  };
 
@@ -261,6 +261,7 @@ Commands.saveGame = function (userName, roomID) {
      if (match.phase == Enum.MatchPhase.TurnPhase) {
        if(match.fish == "BUILD_ROAD"){
             Bank.decreasePlayerFish(match.bank, player,'buildUseFish');
+            match.fish = null;
        }
        else {
          Bank.decreasePlayerAsset(match.bank, player,'buildRoad');
@@ -283,6 +284,7 @@ Commands.saveGame = function (userName, roomID) {
      if (match.phase == Enum.MatchPhase.TurnPhase) {
        if(match.fish == "BUILD_SHIP"){
             Bank.decreasePlayerFish(match.bank, player,'buildUseFish');
+            match.fish = null;
        }
        else {
          Bank.decreasePlayerAsset(match.bank, player,'buildShip');
@@ -332,7 +334,7 @@ Commands.saveGame = function (userName, roomID) {
      let match = DATA.getMatch(roomID);
      let cityImprovementCategory = data.cityImprovementCategory;
      let level = Player.buyCityImprovement(player, cityImprovementCategory);
-     //match.getMetropolisOwner(cityImprovementCategory);
+     //Match.getMetropolisList(match, cityImprovementCategory);
      Bank.decreasePlayerAsset(match.bank, player, 'cityImprove_' + cityImprovementCategory + '_' + level);
  };
 
@@ -372,7 +374,7 @@ Commands.saveGame = function (userName, roomID) {
  Commands.activateKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
      let knight = Map.getVertexInfo(match.map, data.position);
-     Knight.activate(knight);
+     Knight.activate(knight, match);
 
      Bank.decreasePlayerAsset(match.bank, knight.owner, 'activateKnight');
  };
@@ -520,39 +522,50 @@ Commands.cancelTrade = function(roomID){
 
 //spend fish tokens  + add checkers
 Commands.moveRobber = function (userName, roomID, data) {
-    // TODO: Yuan, remove all the checks to client side
-    let match = DATA.getMatch(roomID);
-    let robber = match.map.robber;
-    let hextile1 = Map.getHexTileById(match.map, robber.curPos);
-    if(hextile1){
-      hextile1.blockedByRobber = false;
-    }
-    let hextile2 = null;
+  let match = DATA.getMatch(roomID);
+  let robber = match.map.robber;
+  let player = DATA.getPlayer(userName,roomID);
+  let hextile1 = Map.getHexTileById(match.map, robber.pos);
+  if(hextile1){
+    hextile1.blockedByRobber = false;
+  }
+  let hextile2 = null;
 
-    if(data.newHexID)
-      hextile2 = Map.getHexTileById(match.map, data.newHexID);
-      //robber.hasToDiscardCards(match.players);
+  if(data.newHexID)
+    hextile2 = Map.getHexTileById(match.map, data.newHexID);
+    //robber.hasToDiscardCards(match.players);
+  if(match.fish == "MOVE_ROBBER"){
+     Robber.moveTo(robber, hextile1,0,match);
+     Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
+     match.fish = null;
+  }
+  else{
     Robber.moveTo(robber, hextile1,hextile2,match);
-    if(match.fish = "MOVE_ROBBER" && match.phase == Enum.MatchPhase.TurnPhase){
-       Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
-    }
+  }
 };
 
 
 Commands.movePirate = function (userName, roomID, data) {
-    let match = DATA.getMatch(roomID);
-    let pirate = match.map.pirate;
-    let hextile1 = Map.getHexTileById(match.map, pirate.curPos);
-    if(hextile1){
-      hextile1.blockedByRobber = false;
-    }
-    let hextile2 = null;
-    if(data.newHexID)
-      hextile2 = Map.getHexTileById(match.map, data.newHexID);
-    Pirate.moveTo(pirate, hextile1,hextile2,match);
-    if(match.fish = "MOVE_PIRATE" && match.phase == Enum.MatchPhase.TurnPhase){
-       Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
-    }
+  let match = DATA.getMatch(roomID);
+  let pirate = match.map.pirate;
+  let player = DATA.getPlayer(userName,roomID);
+  let hextile1 = Map.getHexTileById(match.map, pirate.pos);
+  if(hextile1){
+    hextile1.blockedByPirate = false;
+  }
+  let hextile2 = null;
+
+  if(data.newHexID)
+    hextile2 = Map.getHexTileById(match.map, data.newHexID);
+    //robber.hasToDiscardCards(match.players);
+  if(match.fish == "MOVE_PIRATE"){
+     Robber.moveTo(pirate, hextile1,0,match);
+     Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
+     match.fish = null;
+  }
+  else{
+    Robber.moveTo(pirate, hextile1,hextile2,match);
+  }
 };
 
 
@@ -566,8 +579,10 @@ Commands.stealCard = function (userName, roomID, data) {
     let playerB = DATA.getPlayer(data.victim, roomID);
     let card = Player.stolenBy(playerB, playerA);
     if(match.phase == Enum.MatchPhase.TurnPhase){
-      if(match.fish = "STEAL_CARD")
-         Bank.decreasePlayerFish(match.bank, player,'stealUseFish');
+      if(match.fish == "STEAL_CARD"){
+        Bank.decreasePlayerFish(match.bank, playerA,'stealUseFish');
+        match.fish = null;
+      }
     }
 
     notify.user(playerB.name, 'StolenBy', {theif: playerA.name, card: card});
@@ -581,8 +596,11 @@ Commands.drawOneProgressCard = function(userName,roomID,data){
     Player.drawOneProgressCard(player, match,kind);
 
     if (match.phase == Enum.MatchPhase.TurnPhase){
-      if(match.fish = "DRAW_PROG")
+      if(match.fish == "DRAW_PROG"){
          Bank.decreasePlayerFish(match.bank, player,'drawProgUseFish');
+         match.fish = null;
+      }
+
     }
 }
 
@@ -598,8 +616,10 @@ Commands.drawOneResourceCard = function (userName, roomID, data){
   let player = DATA.getPlayer(userName, roomID);
   Player.drawOneResourceCard(player, data.resCard);
   if (match.phase == Enum.MatchPhase.TurnPhase){
-    if(match.fish = "DRAW_RES_FROM_BANK")
+    if(match.fish == "DRAW_RES_FROM_BANK"){
        Bank.decreasePlayerFish(match.bank, player,'drawResUseFish');
+       match.fish = null;
+     }
   }
 };
 /**
