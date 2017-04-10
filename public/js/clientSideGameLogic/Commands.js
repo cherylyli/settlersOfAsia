@@ -252,10 +252,10 @@ CommandsData.performTradeTransaction = function (tradeWith) {
     return {'tradeWith': tradeWith};
 };
 
-CommandCheck.requestTrade = function (selling, buying, targetPlayer) {
-    // check if we have the cards we offer
-    checkEnoughResource(selling);
-};
+// CommandCheck.requestTrade = function (selling, buying, targetPlayer) {
+//     // check if we have the cards we offer
+//     checkEnoughResource(selling);
+// };
 
 CommandReceived.performTradeTransaction = function () {
     swal('Trade ended :D');
