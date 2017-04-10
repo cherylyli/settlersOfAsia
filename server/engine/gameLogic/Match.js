@@ -163,11 +163,11 @@ Match.nextPlayerToTakeTurn = function (match) {
                 DATA.getRoom(match.id).state = Enum.MatchPhase.SetupRoundOne;
                 break;
             case Enum.MatchPhase.SetupRoundOne:
-                this.phase = Enum.MatchPhase.SetupRoundTwo;
+                match.phase = Enum.MatchPhase.SetupRoundTwo;
                 DATA.getRoom(match.id).state = Enum.MatchPhase.SetupRoundTwo;
                 break;
             case Enum.MatchPhase.SetupRoundTwo:
-                this.phase = Enum.MatchPhase.TurnPhase;
+                match.phase = Enum.MatchPhase.TurnPhase;
                 DATA.getRoom(match.id).state = Enum.MatchPhase.TurnPhase;
         }
 
@@ -202,7 +202,7 @@ Match.nextPlayerToTakeTurn = function (match) {
 
 
 Match.endThisTurn = function (match) {
-    if (this.phase == Enum.MatchPhase.SetupRoundTwo){
+    if (match.phase == Enum.MatchPhase.SetupRoundTwo){
         //collect 1 resource per hexTile aournd city
         let city = Player.getCities(match.players[match.currentPlayer])[0];
         let hexTile = Map.getHexTileByVertex(match.map, city.position);

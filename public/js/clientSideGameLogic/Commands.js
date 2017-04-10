@@ -1755,8 +1755,9 @@ CommandReceived.rollDice = function () {
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
-      // if not my turn and barbarian result, operation is limited
-      if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+        /**
+        // if not my turn and barbarian result, operation is limited
+        if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
         swalError2("Please roll dice first");
         return;
       }
@@ -1818,7 +1819,7 @@ _.each(CommandName, function (cmd) {
           //  app.rolledSeven = false;
         }
       }
-
+**/
 
         //input complete check
         /**
@@ -1841,6 +1842,7 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
+            /**
 
         let phase = DATA.getMatch().phase;
         if (!CommandCheck[cmd].apply(this, arguments)) {
@@ -1852,7 +1854,7 @@ _.each(CommandName, function (cmd) {
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
-        }
+        }**/
 
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));

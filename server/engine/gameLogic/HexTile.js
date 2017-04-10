@@ -82,7 +82,7 @@ HexTile.getNeighbors = function (hexTile, map) {
     }
 
     //delete ourselves
-    delete neighbors[this.id];
+    delete neighbors[hexTile.id];
     return neighbors;
 };
 
@@ -210,7 +210,7 @@ HexTile.produceResourceToSingleUser = function (hexTile, match, player, building
 
 
     else {
-        let resource = Enum.SettlementResources[this.type];
+        let resource = Enum.SettlementResources[hexTile.type];
         if (resource == Enum.SettlementResources.GoldField) {
             if (building.level == Enum.Building.Settlement) {
                 player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;
