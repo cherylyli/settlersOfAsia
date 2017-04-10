@@ -652,7 +652,8 @@ Commands.spendFishToken = function(userName, roomID, data){
  * @return {String} the name of the player to take next turn
  */
 Commands.endTurn = function (userName, roomID, data) {
-    DATA.getMatch(roomID).getPlayer(userName).active_cards = {}; //we need to delete all of the previously active cards
+    let player = DATA.getPlayer(userName, roomID);
+    player.active_cards = {}; //we need to delete all of the previously active cards
     let match = DATA.getMatch(roomID);
     Match.nextPlayerToTakeTurn(match);
     notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
