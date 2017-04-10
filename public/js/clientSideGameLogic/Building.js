@@ -29,13 +29,13 @@ let Building = (function () {
     }
 
     function buildSettlementCheck(vertex) {
-        /**
+
          function phaseCheck() {
         if((getMatch().phase == Enum.MatchPhase.SetupRoundOne) && DATA.getMyPlayer().settlementCnt >= 1){
             swalError2("You can only build one settlement in set up round one!");
             return false;
         }
-    }  **/
+    } 
     }
 
     return {

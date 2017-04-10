@@ -673,7 +673,7 @@ Player.getEmptyAdjacentVertices = function(player, vertex, match){
      * 2. Knight or building at a vertex removes it from empty vertex list -- checked
      */
 
-    if (!vertex || !match) return [];
+    if (!vertex || !match) return "error no vertex or not vertex";
     var mappedData = storeVerticesToMap(player.roads, {});
     var mappedData = storeVerticesToMap(player.ships, mappedData);
 
@@ -684,12 +684,12 @@ Player.getEmptyAdjacentVertices = function(player, vertex, match){
 
     // if player doesn't own the vertex, return empty list
     if (vertexData && vertexData[vertex] && vertexData[vertex].name != player.name){
-        return [];
+        return "player doesn't own vertex";
     }
 
     // if no road adjacent to vertex, return empty list
     if (!mappedData[vertex]){
-        return [];
+        return "no road adjacent to vertex";
     }
 
     // get root where the road begins
