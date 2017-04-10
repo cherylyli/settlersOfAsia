@@ -309,7 +309,7 @@ CommandReceived.acceptTrade = function () {
                 title: "Everyone Declined Trade",
                 text: "Unfortunately everyone declined trade",
                 type: "warning",
-                showCancelButton: true,
+                showCancelButton: false,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "ok =(",
                 closeOnConfirm: false
@@ -371,38 +371,37 @@ CommandReceived.requestTrade = function () {
             //we are obliged to give him one of our resources
             //by the end of the trade we need to delete this progress card
         }
-        else {
-            let selling = DATA.getMatch().currentTrade.selling;
-            let buying = DATA.getMatch().currentTrade.buying;
-            console.log(selling);
-            console.log(DATA.getMatch().currentTrade);
-            swal({
-                    title: "TRADE ??? =)",
-                    text: DATA.getMatch().currentPlayer + " wants to buy: " + JSON.stringify(buying) + " and wants to sell: " + JSON.stringify(selling),
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "TRADE RESOURCES!",
-                    cancelButtonText: "NOOO!!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        console.log(hasEnougOfResources(buying));
-                        if(hasEnougOfResources(buying)) {
-                            swal("Trade started!", "Your trade response was sent", "success");
-                            Commands.acceptTrade(true);
-                        }
-                        else{
-                            swal.showInputError("You dont have enough of resources to trade!");
-                            return false;
-                        }
-                    } else {
-                        Commands.acceptTrade(false);
+    }else if(Object.keys(active_cards).indexOf("CommercialHarbor") === -1){
+        let selling = DATA.getMatch().currentTrade.selling;
+        let buying = DATA.getMatch().currentTrade.buying;
+        console.log(selling);
+        console.log(DATA.getMatch().currentTrade);
+        swal({
+                title: "TRADE ??? =)",
+                text: DATA.getMatch().currentPlayer + " wants to buy: " + JSON.stringify(buying) + " and wants to sell: " + JSON.stringify(selling),
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "TRADE RESOURCES!",
+                cancelButtonText: "NOOO!!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    console.log(hasEnougOfResources(buying));
+                    if(hasEnougOfResources(buying)) {
+                        swal("Trade started!", "Your trade response was sent", "success");
+                        Commands.acceptTrade(true);
                     }
-                });
-        }
+                    else{
+                        swal.showInputError("You dont have enough of resources to trade!");
+                        return false;
+                    }
+                } else {
+                    Commands.acceptTrade(false);
+                }
+            });
     }
 };
 
@@ -1814,6 +1813,7 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
+
         let phase = DATA.getMatch().phase;
         if (!CommandCheck[cmd].apply(this, arguments)) {
              return;

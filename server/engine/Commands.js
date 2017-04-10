@@ -512,10 +512,14 @@ Commands.cancelTrade = function(roomID){
      }
      else if(data.accept && data.commodity){
          //we are adding commodity that the player has choosen
+         //we are only targeting one player at a time when we use commercialHarbor card
          console.log("CommercialHarbor has been used");
          let commodity_name = data.commodity;
          match.currentTrade.buying[commodity_name] = 1;
          match.currentTrade.accepted[userName] = userName;
+         Object.keys(DATA.getMatch(roomID).players).forEach( player =>{
+             DATA.getMatch(roomID).currentTrade.participated[player] = player;
+         });
      }
  };
 
