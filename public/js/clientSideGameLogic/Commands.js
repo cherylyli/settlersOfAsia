@@ -456,33 +456,25 @@ CommandCheck.moveRobber = function (newHexID) {
 
 
 CommandReceived.moveRobber = function () {
-  /*
-   TODO Emol
-   1. a list contains the name {String} of players who have at least one building around the newHex
-      call var newHex = DATA.getMap().getHexTileById(newHexID); stealList (stealable players)
-      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
-      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
-   2. select a player to steal from
-  */
     if (app.rolledSeven) app.rolledSeven = null;
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
-    //ongoingCmd -> STEAL CARDS
+
+    if (DATA.getMyPlayer().name != DATA.getMatch().currentPlayer) return;
+    let newHex = DATA.getMap().getHexTileById(DATA.getMap().robber.pos);
+    let stealList = HexTile.getPlayersAroundByBuildings(newHex, DATA.getMap());
+    notifyUserToStealCard(stealList);
 };
 
 
 
 CommandReceived.movePirate = function () {
-  /*
-   TODO Emol
-   1. a list contains the name {String} of players who have at least one building around the newHex
-      call var newHex = DATA.getMap()getHexTileById(newHexID);
-      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
-      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
-   2. select a player to steal from
-  */
     if (app.rolledSeven) app.rolledSeven = null;
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
-    //ongoingCmd -> STEAL CARDS
+
+    if (DATA.getMyPlayer().name != DATA.getMatch().currentPlayer) return;
+    let newHex = DATA.getMap().getHexTileById(DATA.getMap().pirate.pos);
+    let stealList = HexTile.getPlayersAroundByBuildings(newHex, DATA.getMap());
+    notifyUserToStealCard(stealList);
 };
 /**
  *
@@ -523,6 +515,7 @@ CommandsData.stealCard = function (victimUserName) {
 };
 
 CommandCheck.stealCard = function (victimUserName) {
+    if (!_.contains(app.ongoingCmdData, victimUserName)) swalError2("You can not steal from this person!");
     let victim = DATA.getPlayer(victimUserName);
 //    if(DATA.getMatch().fish == "STEAL_CARD" || app.rolledSeven){
       if (victim.resourceCardTotalNum(victim) < 1) {
@@ -1772,6 +1765,7 @@ CommandReceived.rollDice = function () {
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
+        app.ongoingCmd = null;
         /**
         // if not my turn and barbarian result, operation is limited
         if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
@@ -1845,7 +1839,8 @@ _.each(CommandName, function (cmd) {
         }**/
 
             //allowed operations
-            //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
+            //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operation
+            /**
        let phase = DATA.getMatch().phase;
        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
@@ -1855,7 +1850,7 @@ _.each(CommandName, function (cmd) {
         if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
           swalError2("Please roll dice first");
           return;
-        }
+        }**/
 
         //comment out this part if you want to disable checks
         //checkers

@@ -264,8 +264,8 @@
 function notifyUserToDrawProgressCard(types) {
     let cards = "";
     cards += types[0];
-    if (types.length > 1) cards += ", ";
     for (let i = 1; i < types.length; i++){
+        cards += ", ";
         cards += types[i];    
     }
     
@@ -282,6 +282,37 @@ function notifyUserToDrawProgressCard(types) {
             _.forEach(types, function (progressCardtype) {
                 Commands.drawOneProgressCard(progressCardtype);
             })
+        }
+    });
+
+}
+
+
+
+function notifyUserToStealCard(playersToStealFrom) {
+    if (playersToStealFrom.length == 0) return;
+    
+    let playersToSteal = "";
+    playersToSteal += playersToStealFrom[0].name;
+
+    for (let i = 1; i < playersToStealFrom.length; i++){
+        playersToSteal += " or ";
+        playersToSteal += playersToStealFrom[i].name;
+    }
+
+    swal({
+        title: "Steal Card",
+        text: "You can steal a resource card from " + playersToSteal +". Click the player you want to steal from!",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "XD",
+        cancelButtonText: "I am a nice guy.",
+        closeOnConfirm: true,
+        closeOnCancel: true
+    }, function (isConfirm) {
+        if (isConfirm) {
+            app.ongoingCmd = "stealCard";
+            app.ongoingCmdData = playersToStealFrom;
         }
     });
 

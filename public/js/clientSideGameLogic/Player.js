@@ -275,6 +275,7 @@ let Player = (function () {
 
     function getCommands(player){
         let cmds = [];
+        if (app.ongoingCmd == 'stealCard') return ['stealCard'];
         if (player.hasBoot) cmds.push('giveAwayBoot');
 
         // TODO: check if steal card is allowed, allow check trade is alloed --> progress card commercail harbor

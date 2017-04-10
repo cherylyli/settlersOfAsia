@@ -546,7 +546,7 @@ $(window).on('imready', function(im){
 
     // click on vertex
     $('body').on('click', '.vertex', function (e) {
-        if (isCmdPromptVisible()){
+        if (isCmdPromptVisible() || _.contains(PlayerCommand, app.ongoingCmd) || _.contains(HexCommand, app.ongoingCmd)){
             return false;
         }
         // if (isCmdTableVisible()) return false;
@@ -602,9 +602,10 @@ $(window).on('imready', function(im){
         if (highlightedVertices() >= 1) clearHighlightedVertices();
 
         let selectedPlayerName = $(this).attr('data-username');
+        if (selectedPlayerName == (DATA.getMyPlayer().name)) return;
         // populateCmdPromptCmds(Player.getCommands(DATA.getMyPlayer()), [selectedPlayerName]);
         // TODO: for testing
-        populateCmdPromptCmds(Object.values(PlayerCommand), [selectedPlayerName]);
+        populateCmdPromptCmds(Player.getCommands(DATA.getMyPlayer()), [selectedPlayerName]);
         showCmdPrompt();
     });
 

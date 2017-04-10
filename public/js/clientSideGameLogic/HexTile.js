@@ -44,6 +44,44 @@ let HexTile = (function () {
     }
 
 
+
+    getPlayersAroundByBuildings = function(hexTile, map){
+        let stealable = [];
+        //get players who have one or more settlements/cities on the vertice of that hextile.
+        for (let vertex in hexTile.vertices) {
+            if (hexTile.vertices.hasOwnProperty(vertex)) {
+                //there is a builidng on the vertex
+                let building = map.getVertexInfo(hexTile.vertices[vertex]);
+                if (building){
+                    let player = building.owner;
+                    if (player.name != DATA.getMyPlayer().name) stealable.push(player);
+                }
+            }
+        }
+        return stealable;
+    };
+
+
+
+
+    getPlayersAroundByShips = function(hexTile, map){
+        let stealable = [];
+        //get players who have one or more settlements/cities on the vertice of that hextile.
+        for (let e in hexTile.edge) {
+            if (hexTile.edge.hasOwnProperty(e)) {
+                //there is a builidng on the vertex
+                let ship = map.getEdgeInfo(hexTile.edge[e]);
+                if (ship){
+                    let player = ship.owner;
+                    if (player.name != DATA.getMyPlayer().name) stealable.push(player);
+                }
+            }
+        }
+        return stealable;
+    };
+
+
+
     /**
      * get valid commands at edge
      * @param hexTileID {int}
@@ -63,6 +101,8 @@ let HexTile = (function () {
 
     return {
         addHelperFunctions,
-        getCommands
+        getCommands,
+        getPlayersAroundByBuildings,
+        getPlayersAroundByShips
     }
 })();
