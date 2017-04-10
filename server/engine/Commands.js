@@ -551,13 +551,10 @@ Commands.moveRobber = function (userName, roomID, data) {
   if(data.newHexID)
     hextile2 = Map.getHexTileById(match.map, data.newHexID);
     //robber.hasToDiscardCards(match.players);
+  Robber.moveTo(robber, hextile1,hextile2,match);
   if(match.fish == "MOVE_ROBBER"){
-     Robber.moveTo(robber, hextile1,0,match);
      Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
      match.fish = null;
-  }
-  else{
-    Robber.moveTo(robber, hextile1,hextile2,match);
   }
 };
 
@@ -658,6 +655,12 @@ Commands.giveAwayBoot = function(userName, roomID, data){
 Commands.spendFishToken = function(userName, roomID, data){
   let player = DATA.getPlayer(userName, roomID);
   let match = DATA.getMatch(roomID);
+  if(match.fish == "MOVE_ROBBER"){
+    Commands.moveRobber(userName, roomID, {'newHexID' : 0});
+  }
+  if(match.fish == "MOVE_PIRATE"){
+    Commands.movePirate(userName, roomID, {'newHexID' : 0});
+  }
   Player.spendFishToken(player, data.action, match);
   //if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerFish(player,'buildUseFish');
 

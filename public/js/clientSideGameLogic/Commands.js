@@ -427,17 +427,22 @@ let hasEnougOfResources = function(resources){
      */
 
     CommandsData.moveRobber = function (newHexID){
+      if(DATA.getMatch().fish == "MOVE_ROBBER"){
+        newHexID = 0;
+      }
       return {'newHexID' : newHexID};
     };
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.moveRobber = function (newHexID) {
-  if((DATA.getMatch().fish == "MOVE_ROBBER") && (DATA.getMap().robber.pos != 0)){
+  if(DATA.getMatch().fish == "MOVE_ROBBER"){
+    //newHexID = 0;
     return true;
   }
   var newHex = DATA.getMatch().map.getHexTileById(newHexID);
   if (newHex) { //
         if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
+            app.rolledSeven = false;
             return true;
         }
         else {
@@ -459,6 +464,7 @@ CommandReceived.moveRobber = function () {
       if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
    2. select a player to steal from
   */
+    if (app.rolledSeven) app.rolledSeven = null;
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
     //ongoingCmd -> STEAL CARDS
 };
@@ -474,6 +480,7 @@ CommandReceived.movePirate = function () {
       if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
    2. select a player to steal from
   */
+    if (app.rolledSeven) app.rolledSeven = null;
     if (app.ongoingCmd == "moveThief") app.ongoingCmd = null;
     //ongoingCmd -> STEAL CARDS
 };
@@ -500,6 +507,7 @@ CommandCheck.movePirate = function (newHexID) {
   var newHex = DATA.getMatch().map.getHexTileById(newHexID);
   if (newHex) {
       if (newHex.blockedByPirate == false && newHex.type === Enum.HexType.Sea) {
+          app.rolledSeven = false;
           return true;
       }
       else {
@@ -554,6 +562,7 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
+    return true;
   //  TODO: resume this!!!!!!!!!!
 /*    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
@@ -731,7 +740,7 @@ CommandCheck.promoteKnight = function (position) {
             swalError2("Not enough resource to promote a knight");
             return false;
         }
-       
+
     }
     //if player has a fortress (i.e enters the 3rd level of politics,
     //they can promote a strong knight to a mighty knight
@@ -1132,7 +1141,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
     }
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_ROAD")){
-        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeRoadsOrShips>0){
+        if (DATA.getMatch().players[DATA.getMatch().currentPlayer].freeRoadsOrShips>0){
             // if player has a freeRoadsOrShips, don't need to check for resources
         }
         else if(!checkEnoughResource(Cost.buildRoad)){
@@ -1141,7 +1150,7 @@ CommandCheck.buildRoad = function (vertex1, vertex2) {
     }
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish == "BUILD_ROAD")){
-        
+
         if(!checkEnoughResource(Cost.buildUseFish)){
           return false;
         }
@@ -1238,7 +1247,7 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
     }
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish == "BUILD_SHIP")){
-    
+
         if (!checkEnoughResource(Cost.buildUseFish)){
             return false;
         }
@@ -1467,7 +1476,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
-
+/*
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1475,7 +1484,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
-
+*/
     return true;
 };
 
@@ -1572,7 +1581,6 @@ CommandReceived.moveKnight = function () {
 
 CommandReceived.rollDice = function () {
     let dice = DATA.getMatch().dice;
-    let barRes = null;
     let move = null;
     let player = DATA.getMyPlayer();
 
@@ -1580,13 +1588,13 @@ CommandReceived.rollDice = function () {
     // event die result
     // if barbarian attacks
       if(DATA.getMatch().barbarianResult){
-        barRes = DATA.getMatch().barbarianResult.result;
         swal({
             title: "Barbarian Attack",
             text: "Everybody fights!!!"
         });
 
         if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
+            app.barbarianResult = true;
             swal({
                 title: DATA.getMatch().barbarianResult.result,
                 text: Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]
@@ -1604,12 +1612,21 @@ CommandReceived.rollDice = function () {
                 */
             });
           } else {
+                app.barbarianResult = false;
                 swal({
                     title: DATA.getMatch().barbarianResult.result,
                     text : "Barbarian left"
                 });
             }
-            app.barbarianResult = true;
+            //deactive all knights
+              //  var player = DATA.getMyPlayer();
+                if(Player.getKnightsSum(player) > 0){
+                    //deactive knights
+                    for(var knight in player.knight){
+                    console.log("deactive knights");
+                        knight.deactivate(knight);
+                    }
+                }
         }
 
 
@@ -1755,15 +1772,15 @@ _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
       // if not my turn and barbarian result, operation is limited
-      if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+     if(!app.barbarianResult && !app.discardCards && (cmd != "rollDice") && !DATA.getMatch().diceRolled && (DATA.getMatch().phase == Enum.MatchPhase.TurnPhase)){
         swalError2("Please roll dice first");
         return;
       }
 
       if (app.barbarianResult){
           //here
-         DATA.getMatch().barbarianResult = null;
-          var res = barRes;
+        // DATA.getMatch().barbarianResult = null;
+          var res = DATA.getMatch().barbarianResult.result;
           if(res == "CATAN_WIN_TIE"){
             app.canDraw = true;
             if (cmd != "drawOneProgressCard") {
@@ -1794,7 +1811,7 @@ _.each(CommandName, function (cmd) {
          swalError2("You need to discard "  + num + " cards");
          return;
        }
-       //app.discardCards = false;
+       app.discardCards = false;
      }
 
      if(app.canDraw){
@@ -1802,7 +1819,7 @@ _.each(CommandName, function (cmd) {
          swalError2("You need to draw one progress card.");
          return false;
        }
-       //app.canDraw = false;
+       app.canDraw = false;
      }
 
 
@@ -1812,8 +1829,8 @@ _.each(CommandName, function (cmd) {
             return;
           }
           else{
-            swal("Succ");
-          //  app.rolledSeven = false;
+            //swal("Succ");
+            app.rolledSeven = false;
         }
       }
 
@@ -1826,21 +1843,21 @@ _.each(CommandName, function (cmd) {
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operations
-/*       let phase = DATA.getMatch().phase;
+       let phase = DATA.getMatch().phase;
        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
-*//**
+
         if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
           swalError2("Please roll dice first");
           return;
-        }**/
+        }
 
         //comment out this part if you want to disable checks
         //checkers
 
-        let phase = DATA.getMatch().phase;
+      //  let phase = DATA.getMatch().phase;
         if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }

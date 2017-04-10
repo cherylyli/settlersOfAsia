@@ -23,13 +23,17 @@ Pirate.createPirate = function(){
  };
  //from, to - 2 water hex tiles
  Pirate.moveTo = function(pirate, from,to,match){
+   if(match.fish == "MOVE_PIRATE"){
+     pirate.pos = 0;
+     pirate.move = false;
+   }
      if(from)
          from.blockedByPirate = false;
      if(to){
          to.blockedByPirate = true;
          pirate.pos = to.id;
          pirate.move = false;
-         
+
       }
        else{
          pirate.pos = 0;//move off board

@@ -77,7 +77,7 @@ Bank.tradeWithBank = function (bank, player, src, tradeFor) {
     player.resourcesAndCommodities[src] -= ratio;
     player.resourcesAndCommodities[tradeFor] += 1;
 
-    player.resourceCardNum = player.resourceCardTotalNum();
+    player.resourceCardNum = Player.resourceCardTotalNum(player);
 };
 
 /**
@@ -112,5 +112,3 @@ Bank.decreasePlayerFish = function (bank, player, costName = null, cost) {
     }
     player.fishSum -= cost;
 };
-
-

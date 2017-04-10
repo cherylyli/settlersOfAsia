@@ -151,7 +151,7 @@ Match.endGame = function(match){
  * @return {String} the name of the player to take turn
  */
 Match.nextPlayerToTakeTurn = function (match) {
-    match.phase = Enum.MatchPhase.TurnPhase; //testing checkers.
+  //  match.phase = Enum.MatchPhase.TurnPhase; //testing checkers.
     if (match.playersToTakeTurn.length == 0){
         //all players have token turn, start from the first player again
         match.playersToTakeTurn = Object.keys(match.players);

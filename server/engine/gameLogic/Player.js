@@ -92,7 +92,7 @@ Player.getBuildingCnt = function (player) {
  * @return {Number}
  */
 Player.getCityCnt = function (player) {
-    return player.getCities().length;
+    return Player.getCities(player).length;
 };
 /**
  *
@@ -853,7 +853,7 @@ Player.getDefenderOfCatan = function(player){
 Player.useCard = function(player, card){
     console.log("Using card: "+card+" Player:"+player.name);
     let addVP = ['Printer', 'Constitution'];
-    
+
     // if it's a addVP card, then add 1 to the player's VP
     if (addVP.indexOf(card) > -1){
       Player.updateVP(player, 1);
@@ -866,7 +866,7 @@ Player.useCard = function(player, card){
 
     } else {
 
-    
+
       let card_indx = player.progressCards.indexOf(card);
       player.active_cards[player.progressCards[card_indx]] = player.progressCards[card_indx];
 

@@ -71,9 +71,10 @@ Dice.configureResult = function (dice, match) {
 
     //number dice produce resource
     let productionNum = dice.yellowDie + dice.redDie;
-    dice.numberDiceResult = productionNum;
+    dice.numberDiceResult = null;
     //let productionNum = dice.yellowDie + dice.redDie;
-    if(dice.numberDiceResult == 7){
+    if(productionNum == 7){
+        dice.numberDiceResult = productionNum;
         result.event = "Choose Between Robber Pirate";
     }
     match.barbarianResult = null;
@@ -81,8 +82,8 @@ Dice.configureResult = function (dice, match) {
         case "Ship" :
             if(match.barbarian){
                 //  if(match.barbarian.toAttack()){
-                if(match.barbarian.curPos === 3){ //for testing
-              //  if(match.barbarian.curPos == 6){
+                if(match.barbarian.curPos === 2){ //for testing
+          //      if(match.barbarian.curPos == 6){
                     result.event = "Barbarian Attack";
                     match.barbarianResult = Barbarian.applyResult(match.barbarian, match.players);
                     Barbarian.restart(match.barbarian);
