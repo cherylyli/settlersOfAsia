@@ -497,7 +497,12 @@ CommandsData.drawOneProgressCard = function (kind) {
 };
 
 CommandCheck.drawOneProgressCard = function (kind) {
+  if(app.canDraw){
+    app.canDraw = false;
     return true;
+  }
+  swalError2("You cannot draw a progress card.");
+    return false;
 };
 
 //input string
@@ -583,6 +588,7 @@ CommandCheck.spendFishToken = function (action) {
       return true;
     }
     if(action == "DRAW_PROG" && checkEnoughFish(Cost.drawProgUseFish)){
+      app.canDraw = true;
       return true;
     }
     swalError2("Not enough fish tokens");
@@ -1610,8 +1616,10 @@ CommandReceived.rollDice = function () {
                   break;
           }
 
-          if (cards.length > 0) notifyUserToDrawProgressCard(cards);
-
+          if (cards.length > 0) {
+            app.canDraw = true;
+            notifyUserToDrawProgressCard(cards);
+          }
     }
 
     if (DATA.getMatch().dice.numberDiceResult == 7){
@@ -1623,7 +1631,7 @@ CommandReceived.rollDice = function () {
         - allow all players to discardResourceCards(cards)
         */
           app.rolledSeven = true;
-          var player = DATA.getMyPlayer();
+          //var player = DATA.getMyPlayer();
           let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
           if(num > 0){
             app.discardCards = true;
@@ -1687,6 +1695,7 @@ _.each(CommandName, function (cmd) {
           var res = barRes;
 
           if(res == "CATAN_WIN_TIE"){
+            app.canDraw = true;
             if (cmd != "drawOneProgressCard") {
                 swalError2("You can get one progress card for free");
                 return;
