@@ -99,7 +99,7 @@ Player.getCityCnt = function (player) {
  * @return {number}
  */
 Player.getRoadAndShipCnt = function (player) {
-    return Object.keys(this.ships).length + Object.keys(this.roads).length;
+    return Object.keys(player.ships).length + Object.keys(player.roads).length;
 };
 
 Player.setFishSum = function(player, newSum){

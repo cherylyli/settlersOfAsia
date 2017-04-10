@@ -376,7 +376,7 @@ CommandReceived.requestTrade = function () {
             //we are obliged to give him one of our resources
             //by the end of the trade we need to delete this progress card
         }
-    }else if(Object.keys(active_cards).indexOf("CommercialHarbor") === -1){
+    }else if(_.keys(active_cards).indexOf("CommercialHarbor") === -1){
         let selling = DATA.getMatch().currentTrade.selling;
         let buying = DATA.getMatch().currentTrade.buying;
         console.log(selling);
@@ -941,10 +941,11 @@ CommandsData.rollDice = function () {
 
 //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
 CommandCheck.rollDice = function () {
+    /**
     if (DATA.getMatch().diceRolled) {
         swalError2("Dice already rolled!");
         return false;
-    }
+    }**/
     return true;
 };
 
@@ -1771,8 +1772,9 @@ CommandReceived.rollDice = function () {
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
-      // if not my turn and barbarian result, operation is limited
-     if(!app.barbarianResult && !app.discardCards && (cmd != "rollDice") && !DATA.getMatch().diceRolled && (DATA.getMatch().phase == Enum.MatchPhase.TurnPhase)){
+        /**
+        // if not my turn and barbarian result, operation is limited
+        if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
         swalError2("Please roll dice first");
         return;
       }
@@ -1781,6 +1783,7 @@ _.each(CommandName, function (cmd) {
           //here
         // DATA.getMatch().barbarianResult = null;
           var res = DATA.getMatch().barbarianResult.result;
+
           if(res == "CATAN_WIN_TIE"){
             app.canDraw = true;
             if (cmd != "drawOneProgressCard") {
@@ -1833,7 +1836,7 @@ _.each(CommandName, function (cmd) {
             app.rolledSeven = false;
         }
       }
-
+**/
 
         //input complete check
         /**
@@ -1856,6 +1859,7 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
+            /**
 
       //  let phase = DATA.getMatch().phase;
         if (!CommandCheck[cmd].apply(this, arguments)) {
@@ -1867,7 +1871,7 @@ _.each(CommandName, function (cmd) {
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
-        }
+        }**/
 
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));

@@ -17,59 +17,9 @@ User.createUser = function (user) {
     user.player = null;
 
 
-
-    user.joinGameRoom = function (room) {
-        /**
-        if (!user.checkJoinGameRoom(room)){
-            alert("Unable to join room!");
-            return;
-        }**/
-
-        room.addUser(user);
-        user.roomID = room.id;
-        user.state = enums.PlayerState.GAME_ROOM;
-
-    };
-
-    /**
-     *
-     */
-    user.leaveRoom = function () {
-        let room = DATA.getRoom(this.roomID);
-        this.player = null;
-        this.roomID = null;
-        this.state = enums.PlayerState.LOBBY;
-        let roomID = this.roomID;
-
-        if (!room) return;
-
-
-        delete room.users[this.name];
-        if (Object.keys(room.users) == 0){
-            //delete the room if there is only one player in the room -> last player left
-            DATA.rooms[roomID] = undefined;
-            return;
-        }
-
-        //there r still other users in the room
-        if (room.owner == user.name){
-            if (!room || !room.users) return;
-            room.owner = Object.keys(room.users)[0];
-            //maybe notify the owner that he is the new owner of the room
-        }
-    };
-
-    /**
-    user.checkJoinGameRoom = function (room) {
-        //not full && user in lobby
-        if ((user.state == enums.PlayerState.LOBBY) && !room.isFull()) return true;
-        return false;
-    }**/
-
-
     DATA.addUser(user);
     return user;
-}
+};
 
 User.joinGameRoom = function (user, room) {
     /**

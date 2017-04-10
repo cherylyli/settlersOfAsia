@@ -35,7 +35,7 @@ Bank.allocateResources = function(bank, yellowDie, redDie){
         let hextile = Map.getHexTileById(bank.match.map, id);
 
         // TODO: include lake and fishTiles
-        if (hextile.hasOwnProperty('blockedByRobber') && !hextile.blockedByRobber){
+        if (!hextile.blockedByRobber){
             Hextile.produceResource(hextile, bank.match);
         }
     }
