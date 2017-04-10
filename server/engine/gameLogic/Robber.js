@@ -26,7 +26,7 @@ Robber.canMove = function(robber, productionNum){
 };
 
 //from, to - 2 land hextiles
-Robber.moveTo = function(robber, from,to,match){
+Robber.moveTo = function(robber,from,to,match){
 
     if(from)
         from.blockedByRobber = false;
@@ -34,13 +34,12 @@ Robber.moveTo = function(robber, from,to,match){
         to.blockedByRobber = true;
         robber.pos = to.id;  // pos: {int}
         robber.move = false;
-        return {'curPos' : robber.pos, 'discardHalf' : Robber.hasToDiscardCards(robber, match.players), 'stealFrom' : Robber.stealFrom(robber, to,match.map)};
+      //  return {'curPos' : robber.pos, 'discardHalf' : Robber.hasToDiscardCards(robber, match.players), 'stealFrom' : Robber.stealFrom(robber, to,match.map)};
     }
-
-    robber.pos = to.id;
-    robber.move = false;
-    //player.rolledSeven = false;
-    return  {'curPos' : robber.pos,'discardHalf': null, 'stealFrom' : null};
+    else{
+      robber.pos = to; //to = 0; 
+      robber.move = false;
+    }
 };
 
 //@return {playerName {String} : number of cards that need to be discarded: {Int}}
