@@ -685,8 +685,15 @@ CommandCheck.promoteKnight = function (position) {
         return false;
     }
     if (!checkEnoughResource(Cost.promoteKnight)) {
-        swalError2("Not enough resource to promote a knight");
-        return false;
+        // if player has freeKnightUpgrades
+        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeUpgradeKnights>0){
+            // if player has free knight upgrades, can upgrade even if there's enough resources
+
+        }else{
+            swalError2("Not enough resource to promote a knight");
+            return false;
+        }
+       
     }
     //if player has a fortress (i.e enters the 3rd level of politics,
     //they can promote a strong knight to a mighty knight
