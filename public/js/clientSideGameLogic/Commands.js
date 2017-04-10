@@ -647,29 +647,27 @@ CommandsData.moveKnight = function (position, newPosition) {
 };
 
 CommandCheck.moveKnight = function (position, newPosition) {
-  //TODO : for move knight and chase away thief - knight must be activated during the last turn
+  //for move knight and chase away thief - knight must be activated during the last turn
   //otherwise return false;
-  //TODO add displaceKnight feature
-  //TODO check if newPosition is a valid vertex [continuous road]
+    var knight = DATA.getMatch().map.getVertexInfo(position);
     if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
       swalError2("Error, knight must be activated in previous turn to perform such action.");
       return false;
     }
-    var knight = DATA.getMatch().map.getVertexInfo(position);
-    var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
-    var player = DATA.getMyPlayer();
-    var validVertices = player.getEmptyAdjacentVertices(player,position,DATA.getMatch());
-    console.log("valid vertx are " + validVertices);
     if (knight.hasMovedThisTurn) {
         swalError2("Error, knight has been moved this turn");
         return false;
     }
-    else {
+    var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
+    var player = DATA.getMyPlayer();
+    //TODO add displaceKnight feature
+    //TODO check if newPosition is a valid vertex [continuous road]
+    var validVertices = player.getEmptyAdjacentVertices(player,position,DATA.getMatch());
+    console.log("valid vertx are " + validVertices);
       if(_.contains(validVertices, newPosition)){
         return true;
       }
       return false;
-    }
 };
 
 /*
@@ -693,7 +691,6 @@ CommandCheck.displaceKnight = function (position, newPosition) {
 
 
 // TODO: Emol, also chase away theif cmd prompt not finished
-// for move thief part, we use Command.moveThief
 /**
  *
  * @param knightPosition {int}
@@ -704,29 +701,31 @@ CommandsData.chaseAwayThief = function (knightPosition) {
 
 
 //pos, theifpos, new pos : hextile ID
+
 CommandCheck.chaseAwayThief = function (knightPosition) {
-    if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
-      swalError2("Error, knight must be activated in previous turn to perform such action.");
-      return false;
-    }
-    var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
-    var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
+  var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
+  if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
+    swalError2("Error, knight must be activated in previous turn to perform such action.");
+    return false;
+  }
+  return true;
+  //  var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
   //  var robber = DATA.getMatch().map.getHexTileById(DATA.getMap().robber.pos);
   //  var pirate = DATA.getMatch.map.getHexTileById(DATA.getMap().pirate.pos);
+/*   var found = 0;
    for(var hextile in adjacentHex){
      if(adjacentHex[hextile].blockedByRobber || adjacentHex[hextile].blockedByPirate){
-       return true;
+       found = 1;
      }
+   }
+   if(found){
+     return true;
+   }
+   else{
      swalError2("No robber/pirate on the adjacent hextiles");
      return false;
    }
-    /**
-    var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
-    if (!thiefHex.blockedByRobber) {
-        swalError2("No robber on the hextile");
-        return false;
-    }**/
-    return true;
+   */
 };
 
 CommandReceived.chaseAwayThief = function () {
@@ -754,7 +753,7 @@ CommandCheck.discardResourceCards = function (cards) {
     for (var i in cards) {
         size += cards[i];
     }
-    
+
     if(size != num){
       swalError2("You need to discard " + num + " cards");
       return false;
@@ -1333,7 +1332,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
-
+/*
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1341,7 +1340,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
-
+*/
     return true;
 };
 
