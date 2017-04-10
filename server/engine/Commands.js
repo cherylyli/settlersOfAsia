@@ -374,7 +374,7 @@ Commands.saveGame = function (userName, roomID) {
  Commands.activateKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
      let knight = Map.getVertexInfo(match.map, data.position);
-     Knight.activate(knight);
+     Knight.activate(knight, match);
 
      Bank.decreasePlayerAsset(match.bank, knight.owner, 'activateKnight');
  };

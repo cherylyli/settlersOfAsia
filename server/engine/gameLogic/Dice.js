@@ -77,7 +77,7 @@ Dice.configureResult = function (dice, match) {
         result.event = "Choose Between Robber Pirate";
     }
     match.barbarianResult = null;
-    switch ("YellowCityGate"){
+    switch (event){
         case "Ship" :
             if(match.barbarian){
                 //  if(match.barbarian.toAttack()){

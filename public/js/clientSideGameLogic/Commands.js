@@ -651,13 +651,17 @@ CommandCheck.moveKnight = function (position, newPosition) {
   //otherwise return false;
   //TODO add displaceKnight feature
   //TODO check if newPosition is a valid vertex [continuous road]
+    if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
+      swalError2("Error, knight must be activated in previous turn to perform such action.");
+      return false;
+    }
     var knight = DATA.getMatch().map.getVertexInfo(position);
     var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
     var player = DATA.getMyPlayer();
     var validVertices = player.getEmptyAdjacentVertices(player,position,DATA.getMatch());
     console.log("valid vertx are " + validVertices);
-    if (knight.hasMovedThisTurn || !knight.active) {
-        swalError2("Error, knight has been moved this turn or selected knight is not active");
+    if (knight.hasMovedThisTurn) {
+        swalError2("Error, knight has been moved this turn");
         return false;
     }
     else {
@@ -701,18 +705,27 @@ CommandsData.chaseAwayThief = function (knightPosition) {
 
 //pos, theifpos, new pos : hextile ID
 CommandCheck.chaseAwayThief = function (knightPosition) {
+    if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
+      swalError2("Error, knight must be activated in previous turn to perform such action.");
+      return false;
+    }
     var knight = DATA.getMatch().map.getVertexInfo(knightPosition);
     var adjacentHex = DATA.getMatch().map.getHexTileByVertex(knightPosition);
+  //  var robber = DATA.getMatch().map.getHexTileById(DATA.getMap().robber.pos);
+  //  var pirate = DATA.getMatch.map.getHexTileById(DATA.getMap().pirate.pos);
+   for(var hextile in adjacentHex){
+     if(adjacentHex[hextile].blockedByRobber || adjacentHex[hextile].blockedByPirate){
+       return true;
+     }
+     swalError2("No robber/pirate on the adjacent hextiles");
+     return false;
+   }
     /**
     var thiefHex = DATA.getMatch().map.getHexTileById(thiefPosition);
     if (!thiefHex.blockedByRobber) {
         swalError2("No robber on the hextile");
         return false;
     }**/
-    if (!knight.active) {
-        swalError2("This knight is not active!");
-        return false;
-    }
     return true;
 };
 
@@ -731,23 +744,25 @@ CommandsData.discardResourceCards = function (cards) {
 };
 
 CommandCheck.discardResourceCards = function (cards) {
+    if(!app.discardCards){
+      swalError2("You don't need to discard cards.");
+      return false;
+    }
     let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
-
     var player = DATA.getMyPlayer();
     var size = 0;
     for (var i in cards) {
         size += cards[i];
     }
-/*    if (size != num) {
-        swalError2("You need to discard " + num + " card(s)!");
-        return false;
+    
+    if(size != num){
+      swalError2("You need to discard " + num + " cards");
+      return false;
     }
-*/
+
     var counter = 0;
     for (var card in player.resourcesAndCommodities) {
         for (var discard in cards) {
-          console.log("player has" + card + " " + player.resourcesAndCommodities[card]);
-          console.log("need discard "  + discard + " " + cards[discard]);
             if (card === discard) {
                 if (player.resourcesAndCommodities[card] >= cards[discard]){
                   counter = 1;
@@ -755,11 +770,14 @@ CommandCheck.discardResourceCards = function (cards) {
             }
         }
     }
+    return true;
+    /*
     if (counter) {
         return true;
     }
     swalError2("Not enough resource!");
     return false;
+    */
 };
 
 
@@ -1391,6 +1409,29 @@ function isSettlement(vertex) {
     return (vertexUnit.level == 1);
 }
 
+CommandReceived.moveRobber = function(){
+  /*
+   TODO Emol
+   1. a list contains the name {String} of players who have at least one building around the newHex
+      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
+      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
+   2. select a player to steal from
+  */
+
+}
+
+CommandReceived.moveKnight = function(){
+  /*
+   TODO Emol
+   1. a list contains the name {String} of players who have at least one building around the newHex
+      call var newHex = DATA.getMap()getHexTileById(newHexID);
+      if robber :  var stealList = newHex.getPlayersAroundByBuildings(arguments);
+      if pirate:   var stealList = newHex.getPlayersAroundByShips(arguments);
+   2. select a player to steal from
+  */
+
+}
 
 CommandReceived.moveKnight = function () {
   //TODO
@@ -1463,19 +1504,30 @@ CommandReceived.rollDice = function () {
 
     }
 
-    if (DATA.getMatch().dice.numberDiceResult == 7 && DATA.getMatch().diceRolled){
+    if (DATA.getMatch().dice.numberDiceResult == 7){
+        //TODO Emol
+        /*
+        for all players:
+        if (app.discardCards):
+        - all players (even if not during his turn) must discardCards
+        - allow all players to discardResourceCards(cards)
+        */
           app.rolledSeven = true;
-          //TODO Emol
-          /*
-          for all players:
-          if (app.rolledSeven): - allow all players to discardResourceCards(cards, num)
-             for each player, num = DATA.getMatch().discardList[players[player].name]
-             num cannot be changed by players.
-          1. discardResourceCards, add panel for selecting resource cards & commodities to be deleted
-             use Commmands.discardResourceCards(cards,num);
-          */
+          var player = DATA.getMyPlayer();
+          let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
+          if(num > 0){
+            app.discardCards = true;
+            swal({
+              title: "Discard cards",
+              type: "info",
+              text: "You have more than seven cards and need to discard " + num + " cards"
+
+            });
+          }
+
+
           //player who rolled seven needs to select from robber / pirate
-          if(DATA.getMatch().diceRolled && app.isMyTurn){
+          if(DATA.getMatch().diceRolled && app.isMyTurn && DATA.getMatch().diceRolled){
           //radio box : select from robber/pirate
           /*
           var inputOption = new Object(function(choice){
@@ -1492,17 +1544,9 @@ CommandReceived.rollDice = function () {
               },
               function () {
                   /*
-                   TODO Emol
-                   1. player needs to choose from moving robber or pirate
-                   2. allow player moveRobber/Pirate by clicking a newHexID
-                   3. a list contains the name {String} of players who have at least one building around the newHex
-                      call var newHex = DATA.getMap()getHexTileById(newHexID);
-                      if robber :  var stealList = newHex.getPlayersAroundByBuildings(DATA.getmap());
-                      if pirate:   var stealList = newHex.getPlayersAroundByShips(DATA.getMap());
-                   4. select a player to steal from
-                  */
-
-                  /*
+                  TODO Emol
+                  1. player needs to choose from moving robber or pirate
+                  2. allow player moveRobber/Pirate by clicking a newHexID
                   swal({
 
                     title: "Your choice",
@@ -1549,8 +1593,17 @@ _.each(CommandName, function (cmd) {
             swal("You are the defender of Catan.");
           }
      }
+     //player has more than 7 cards & dice result = 7
+     if(app.discardCards){
+       if(cmd != "discardResourceCards"){
+         swalError2("You need to discard "  + num + " cards");
+         return;
+       }
+       app.discardCards = false;
+     }
 
-        if(app.rolledSeven){
+
+     if(app.rolledSeven){
           if(cmd != "moveRobber" && cmd != "movePirate"){
             swalError2("You must move robber/pirate first");
             return;

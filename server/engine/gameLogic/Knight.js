@@ -15,6 +15,7 @@ Knight.createKnight = function (player, map) {
         'id': player.knights.length,
         'owner': null,
         'active': false,
+        'activatedInRound' : null,
         'hasMovedThisTurn': false,
         'level': 1,
         'hasBeenPromotedThisTurn': false,
@@ -39,7 +40,8 @@ Knight.place = function (knight, vertex, map) {
     knight.owner['longestRoad'] = Player.calculateLongestRoad(knight.owner, map);
 };
 
-Knight.activate = function (knight) {
+Knight.activate = function (knight, match) {
+    knight.activatedInRound = match.turnNum;
     knight.active = true;
 };
 
