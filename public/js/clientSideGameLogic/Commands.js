@@ -14,7 +14,21 @@ let SpecialsCommands = {
 let SpecialsCommandsNextStep = {};
 
 let SpecialsCommandsFinalStep = {};
-
+let vCommand = {
+    'buildSettlement': 'buildSettlement',
+    'hireKnight' : 'hireKnight',
+    'upgradeToCity': 'upgradeToCity',
+    'buildCityWall': 'buildCityWall',
+    "upgradeToMetropolis": 'upgradeToMetropolis',
+    'chooseCityToBePillaged': 'chooseCityToBePillaged',
+    'chaseAwayThief': 'chaseAwayThief',
+    'activateKnight': 'activateKnight',
+    'promoteKnight': 'promoteKnight',
+    'moveKnight': 'moveKnight',
+    'buildRoad': 'buildRoad',
+    'buildShip': 'buildShip',
+    'moveShip': 'moveShip'
+};
 // commands triggered by clicking a vertex
 let VertexCommand = {
     "UnoccupiedVertex": {
@@ -66,17 +80,6 @@ let ProgressCardCommand = {
     'discardOneProgressCard': 'discardOneProgressCard',
     'executeProgressCard': 'executeProgressCard'
 };
-
-/**
-let FishTokenCommand = {
-    "Fish": {
-        'spendFishToken': 'spendFishToken'
-    },
-    "Boot": {
-        'giveAwayBoot': 'giveAwayBoot'
-    }
-};
-**/
 
 
 // Command whose input is another player
@@ -538,13 +541,20 @@ CommandsData.drawOneProgressCard = function (kind) {
 };
 
 CommandCheck.drawOneProgressCard = function (kind) {
-  if(app.canDraw){
+  /**if(app.canDraw){
     //swalError2("Please draw one " + kind + "progCard");
     app.canDraw = false;
     return true;
+  }**/
+  //swalError2("You cannot draw a progress card.");
+    //return false;
+    return true;
+};
+
+CommandReceived.drawOneProgressCard = function () {
+  if (DATA.getMyPlayer().progressCardsCnt >= 5){
+      notifyUserToDiscardProgressCard();
   }
-  swalError2("You cannot draw a progress card.");
-    return false;
 };
 
 //input string

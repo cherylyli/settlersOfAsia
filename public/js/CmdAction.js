@@ -318,3 +318,16 @@ function notifyUserToStealCard(playersToStealFrom) {
 
 }
 
+function notifyUserToDiscardProgressCard() {
+    swal({
+            title: "Discard Progress Card" ,
+            text: "You can have at most 4 progress cards, click one card to discard",
+            type: "info",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes!",
+            closeOnConfirm: true,
+        });
+    app.ongoingCmd = "discardOneProgressCard";
+
+}
+

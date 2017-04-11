@@ -546,7 +546,7 @@ $(window).on('imready', function(im){
 
     // click on vertex
     $('body').on('click', '.vertex', function (e) {
-        if (isCmdPromptVisible() || _.contains(PlayerCommand, app.ongoingCmd) || _.contains(HexCommand, app.ongoingCmd)){
+        if (isCmdPromptVisible() || (app.ongoingCmd && !_.contains(vCommand, app.ongoingCmd))){
             return false;
         }
         // if (isCmdTableVisible()) return false;
