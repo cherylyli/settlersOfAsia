@@ -409,14 +409,45 @@ Commands.saveGame = function (userName, roomID) {
   */
  Commands.moveKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
-     let knight = Map.getVertexInfo(match.map, data.position);
-     Knight.move(knight, data.newPosition, match.map);
+     let player = DATA.getPlayer(userName, roomID);
+
+     let knight =  (player.displacedKnight) ? player.displacedKnight : Map.getVertexInfo(match.map, data.position);
+     /**
+     if (player.displacedKnight){
+        // he moves the knight because his knight is displaced
+        knight = player.displacedKnight;
+     }
+
+     else {
+         knight = Map.getVertexInfo(match.map, data.position);
+         // there may be opponent knight at the new position -> displace knight
+         let opponentKnight = Map.getVertexInfo(match.map, data.newPosition);
+         if (opponentKnight && opponentKnight.vertexUnitType == "knight") {
+             // the opponent knight is displaced
+             Knight.place(opponentKnight, 0, match.map);
+             // check if the knight has to be move off board
+             let offboard;
+             let possibleSpots = Player.getEmptyAdjacentVertices(opponentKnight, data.newPosition, match);
+             offboard = (possibleSpots.length() == 0);
+             opponentKnight.possibleSpots = possibleSpots;
+             // TODO: check here
+             // notify the opponent to move his knight
+             notify.user(opponentKnight.owner.name, "KnightDisplaced", {opponent: player.name, offBoard: offboard});
+         }
+     }
+**/
+     let result = Knight.move(knight, data.newPosition, match.map);
+     let dataToSend = result ? {opponent: player.name, displacedKnight: result.displacedKnight} : null;
+
+     // player.displacedKnight = null;
+     if (result) notify.user(result.victim, "KnightDisplaced", CircularJSON.stringify(dataToSend));
  };
 
 
  /**
   *
   */
+ /**
  Commands.displaceKnight = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
      let knight = Map.getVertexInfo(match.map, data.position);
@@ -424,7 +455,7 @@ Commands.saveGame = function (userName, roomID) {
      /**
       * TODO: notify the other player
       */
- };
+// };
 
  /**
   *

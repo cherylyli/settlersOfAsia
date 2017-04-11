@@ -51,7 +51,8 @@ Player.createPlayer = function (name, user) {
     player.fishSum = 0;
     player.harbors = [];
     player.knights = [];
-    //player.metropolitans = [];  //a list of integer -> position of the metropolitan ????????
+    player.displacedKnight = null;
+
     player.winningVP = 10;
     player.cityImprovement = {[Enum.cityImprovementCategory.Politics]: 0, [Enum.cityImprovementCategory.Trade]: 0, [Enum.cityImprovementCategory.Science]: 0};
     // player.Metropolis = [];   //Building object
@@ -666,21 +667,21 @@ function storeVerticesToMap(items, mappedData){
  * @param vertex {Int}
  * @return Int list - all vertices on that road.
  */
-Player.getEmptyAdjacentVertices = function(player, vertex, match){
+Player.getEmptyAdjacentVertices = function(player, vertex, map){
     /**
      * Tests:
      * 1. Separate road / ships unless connected with player's city/settlement
      * 2. Knight or building at a vertex removes it from empty vertex list -- checked
      */
 
-    if (!vertex || !match) return [];
+    if (!vertex || !map) return [];
     var mappedData = storeVerticesToMap(player.roads, {});
     var mappedData = storeVerticesToMap(player.ships, mappedData);
 
     var strRoads = JSON.stringify(player.roads);
     var strShips = JSON.stringify(player.ships);
 
-    var vertexData = storeVertexElements(match.map['vertexInfo'], {});
+    var vertexData = storeVertexElements(map['vertexInfo'], {});
 
     // if player doesn't own the vertex, return empty list
     if (vertexData && vertexData[vertex] && vertexData[vertex].name != player.name){

@@ -761,27 +761,27 @@ CommandsData.moveKnight = function (position, newPosition) {
 };
 
 CommandCheck.moveKnight = function (position, newPosition) {
+
   //for move knight and chase away thief - knight must be activated during the last turn
   //otherwise return false;
-    var knight = DATA.getMatch().map.getVertexInfo(position);
-    if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
-      swalError2("Error, knight must be activated in previous turn to perform such action.");
-      return false;
+    if (DATA.getMyPlayer().name == DATA.getMatch().currentPlayer){
+
+        var knight = DATA.getMatch().map.getVertexInfo(position);
+        if(DATA.getMatch().turnNum == knight.activatedInRound || !knight.active){
+            swalError2("Error, knight must be activated in previous turn to perform such action.");
+            return false;
+        }
+        if (knight.hasMovedThisTurn) {
+            swalError2("Error, knight has been moved this turn");
+            return false;
+        }
     }
-    if (knight.hasMovedThisTurn) {
-        swalError2("Error, knight has been moved this turn");
-        return false;
-    }
-    var moveTo = DATA.getMatch().map.getVertexInfo(newPosition);
+
     var player = DATA.getMyPlayer();
+    if (player.displacedKnight && position == 0) knight = player.displacedKnight;
     //TODO add displaceKnight feature
     //TODO check if newPosition is a valid vertex [continuous road]
-    var validVertices = player.getEmptyAdjacentVertices(player,position,DATA.getMatch());
-    console.log("valid vertx are " + validVertices);
-      if(_.contains(validVertices, newPosition)){
-        return true;
-      }
-      return false;
+    return (_.contains(knight.possibleSpots, newPosition))
 };
 
 /*
@@ -804,7 +804,6 @@ CommandCheck.displaceKnight = function (position, newPosition) {
 
 
 
-// TODO: Emol, also chase away theif cmd prompt not finished
 /**
  *
  * @param knightPosition {int}
@@ -906,9 +905,6 @@ CommandCheck.discardResourceCards = function (cards) {
  */
 CommandsData.acceptTrade = function (accept, commodity) {
     return {accept: accept, commodity: commodity};
-    // TODO: change this in server part corresponding
-    //checkEnoughResource(buying);
-
 };
 
 CommandCheck.acceptTrade = function (selling, buying) {
@@ -980,7 +976,6 @@ CommandCheck.buildEstablishment = function (vertex, establishmentLV) {
 };
 
 /**
- * TODO: test
  * @param cmdData    {CommandsData.buildSettlement}
  * @return {boolean}
  */
@@ -1404,7 +1399,6 @@ CommandCheck.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2
         return false;
     }
 
-    // TODO: YUAN hEHHRERE
     // check if pirate is in the old position or the new position
 
 
@@ -1451,20 +1445,10 @@ CommandsData.endTurn = function () {
 };
 
 CommandCheck.endTurn = function () {
-    //TODO: do I must roll dice?
     return true;
-}
-
-
-/**
- let edge = function (vertex1, vertex2) {
-    //TODO: check if vertex 1 and vertex2 is a edge
-
-    //check if vertex is less then vertex 2
-    if (vertex1 < vertex2) return [vertex1, vertex2];
-    return [vertex2, vertex1];
 };
- **/
+
+
 
 /**
  *
@@ -1520,11 +1504,9 @@ let update = function (room) {
 };
 
 
-//TODO: may move the duck-typing check to another file.
 // duck-typing check if object is knight
 // vertexUnit may be knight/ settlement/ city
 /**
- * TODO: refactor later. the name isBuilding may be inappropriate. As edgeUnit road and ship belongs to Building. Maybe this is a bad design. Change the name or Building class.
  * @param vertexUnit {vertexUnit}
  * @return {boolean}
  */
@@ -1547,7 +1529,10 @@ function isSettlement(vertex) {
     return (vertexUnit.level == 1);
 }
 
-
+/**
+ * move knight and displace knight are combined into one command
+ * only current player can displace knight
+ */
 CommandReceived.moveKnight = function () {
   //TODO
   /*current player use command moveKnight(oldpos,newpos) {Int} vertex
@@ -1555,7 +1540,7 @@ CommandReceived.moveKnight = function () {
     DATA.getMap().opponentKnight.name should relocate his knight
     swal(input:newVertex)
   */
-
+/**
   if(DATA.getMap().opponentKnight.name){
     if (_.contains(DATA.getMap().opponentKnight.name, DATA.getMyPlayer().name)) {
         swal({
@@ -1566,10 +1551,10 @@ CommandReceived.moveKnight = function () {
               activate command table & map, allow this player to select a new spot to relocate his knight
               use Commands.moveKnight
             */
-        });
+   /**     });
       };
       return;
-  }
+  }**/
 
 };
 
@@ -1890,3 +1875,5 @@ _.each(CommandName, function (cmd) {
     });
 
 });
+
+

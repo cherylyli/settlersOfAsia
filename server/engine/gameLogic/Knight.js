@@ -12,6 +12,7 @@ let Player = require('./Player.js');
 Knight.createKnight = function (player, map) {
 
     let knight = {
+        'vertexUnitType': 'knight',
         'id': player.knights.length,
         'owner': null,
         'active': false,
@@ -20,6 +21,7 @@ Knight.createKnight = function (player, map) {
         'level': 1,
         'hasBeenPromotedThisTurn': false,
         'position': -1,           //vertex index, -1 if not on board
+        'possibleSpots': null
     };
     knight.owner = player;
     player.knights.push(knight);
@@ -38,6 +40,7 @@ Knight.place = function (knight, vertex, map) {
     knight.position = vertex;
     Map.setVertexInfo(map, knight, vertex);
     knight.owner['longestRoad'] = Player.calculateLongestRoad(knight.owner, map);
+    knight.possibleSpots = Player.getEmptyAdjacentVertices(knight, vertex, map);
 };
 
 Knight.activate = function (knight, match) {
@@ -55,17 +58,30 @@ Knight.promote = function (knight) {
 };
 
 Knight.move = function (knight, vertex, map) {
-    knight.hasMovedThisTurn = true;
-    knight.active = false;
-    let opponentKnight = Map.getVertexInfo(map, vertex);
-    Map.setVertexInfo(map, undefined, knight.position);
-    Knight.place(knight, vertex, map);
-    knight.owner['longestRoad'] = Player.calculateLongestRoad(knight.owner, map);
+    let result = null;
 
-    if (opponentKnight) {
-        map.opponentKnight = opponentKnight.owner;
-        return {owner: opponentKnight.owner.name, knightID: opponentKnight.id};
+    if (!knight.owner.displacedKnight){
+        knight.hasMovedThisTurn = true;
+        knight.active = false;
+        let opponentKnight = Map.getVertexInfo(map, vertex);
+
+        if (opponentKnight&& opponentKnight.vertexUnitType == "knight") {
+            opponentKnight.owner.displacedKnight = opponentKnight;
+            Knight.place(opponentKnight, 0, map);
+            result = {victim: opponentKnight.owner.name, player: knight.owner.name, displacedKnight: opponentKnight};
+        }
     }
+
+    // if we are being chased
+    else{
+        knight.owner.displacedKnight = null;
+    }
+
+    Map.setVertexInfo(map, null, knight.position);
+    Knight.place(knight, vertex, map);
+
+    return result;
+
 };
 
 /**

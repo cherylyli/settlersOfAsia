@@ -637,5 +637,37 @@ $(window).on('imready', function(im){
     });
 
 
+    sock.on('KnightDisplaced', function (data) {
+        console.log(data);
+        let opponent = data.opponent;
+        let knight = data.displacedKnight;
+        if (knight.possibleSpots.length == 0){
+            swal({
+                title: "Knight Displaced!",
+                text: opponent + " displaced your knight. There is no other valid site to replace the knight, the knight is moved off baord.",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "What?!",
+                closeOnConfirm: true,
+            });
+            Commands.moveKnight(0, 0);
+            return;
+        }
+
+        swal({
+            title: "Knight Displaced!",
+            text: opponent + " displaced your knight. Click on the map to move the knight!",
+            type: "warning",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Alright",
+            closeOnConfirm: true,
+        });
+
+        app.ongoingCmd = "moveKnight";
+        app.ongoingCmdData = [0];
+
+    });
+
+
 });
 
