@@ -573,20 +573,19 @@ Commands.moveRobber = function (userName, roomID, data) {
   let match = DATA.getMatch(roomID);
   let robber = match.map.robber;
   let player = DATA.getPlayer(userName,roomID);
-  let hextile1 = Map.getHexTileById(match.map, robber.pos);
-  if(hextile1){
-    hextile1.blockedByRobber = false;
+  let hextile1 = 0;
+  let hextile2 = 0;
+  if(robber.pos != 0){
+    hextile1 = Map.getHexTileById(match.map, robber.pos);
   }
-  let hextile2 = null;
-
-  if(data.newHexID)
+  if(data.newHexID != 0){
     hextile2 = Map.getHexTileById(match.map, data.newHexID);
-    //robber.hasToDiscardCards(match.players);
-  Robber.moveTo(robber, hextile1,hextile2,match);
-  if(match.fish == "MOVE_ROBBER"){
-     Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
-     match.fish = null;
   }
+  if(match.fish == "MOVE_ROBBER"){
+    match.fish = null;
+  }
+  //robber.hasToDiscardCards(match.players);
+  Robber.moveTo(robber, hextile1,hextile2,match);
 };
 
 
@@ -594,23 +593,18 @@ Commands.movePirate = function (userName, roomID, data) {
   let match = DATA.getMatch(roomID);
   let pirate = match.map.pirate;
   let player = DATA.getPlayer(userName,roomID);
-  let hextile1 = Map.getHexTileById(match.map, pirate.pos);
-  if(hextile1){
-    hextile1.blockedByPirate = false;
+  let hextile1 = 0;
+  let hextile2 = 0;
+  if(pirate.pos != 0){
+    hextile1 = Map.getHexTileById(match.map, pirate.pos);
   }
-  let hextile2 = null;
-
-  if(data.newHexID)
+  if(data.newHexID != 0){
     hextile2 = Map.getHexTileById(match.map, data.newHexID);
-    //robber.hasToDiscardCards(match.players);
+  }
   if(match.fish == "MOVE_PIRATE"){
-     Robber.moveTo(pirate, hextile1,0,match);
-     Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
-     match.fish = null;
+    match.fish = null;
   }
-  else{
-    Robber.moveTo(pirate, hextile1,hextile2,match);
-  }
+  Pirate.moveTo(pirate, hextile1, hextile2, match);
 };
 
 
@@ -686,11 +680,15 @@ Commands.giveAwayBoot = function(userName, roomID, data){
 Commands.spendFishToken = function(userName, roomID, data){
   let player = DATA.getPlayer(userName, roomID);
   let match = DATA.getMatch(roomID);
-  if(match.fish == "MOVE_ROBBER"){
+  if(data.action == "MOVE_ROBBER"){
     Commands.moveRobber(userName, roomID, {'newHexID' : 0});
+    Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
+    match.fish = null;
   }
-  if(match.fish == "MOVE_PIRATE"){
+  if(data.action == "MOVE_PIRATE"){
     Commands.movePirate(userName, roomID, {'newHexID' : 0});
+    Bank.decreasePlayerFish(match.bank, player,'moveUseFish');
+    match.fish = null;
   }
   Player.spendFishToken(player, data.action, match);
   //if (match.phase == Enum.MatchPhase.TurnPhase) match.bank.decreasePlayerFish(player,'buildUseFish');

@@ -27,13 +27,12 @@ Robber.canMove = function(robber, productionNum){
 
 //from, to - 2 land hextiles
 Robber.moveTo = function(robber,from,to,match){
-    if(match.fish == "MOVE_ROBBER"){
-      robber.pos = 0;
-      robber.move = false;
-    }
-    if(from)
+  if(match.fish == "MOVE_ROBBER"){
+    match.fish = null;
+  }
+    if(from != 0)
         from.blockedByRobber = false;
-    if(to){
+    if(to != 0){
         to.blockedByRobber = true;
         robber.pos = to.id;  // pos: {int}
         robber.move = false;
