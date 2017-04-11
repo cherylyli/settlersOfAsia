@@ -1756,10 +1756,10 @@ _.each(CommandName, function (cmd) {
         //checkers
 
 
-      //  let phase = DATA.getMatch().phase;
-        /**if (!CommandCheck[cmd].apply(this, arguments)) {
+         let phase = DATA.getMatch().phase;
+         if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
-         }**/
+         }
 
 
 /*
