@@ -18,6 +18,7 @@ Dice.createDice = function () {
     dice.productionDiceSet = false;
     dice.eventDieResult = null;
     dice.numberDiceResult = 0;
+    dice.moveThiefResultConfiged = false;
 
 
     return dice;
@@ -49,6 +50,10 @@ Dice.rollProductionDice = function (dice){
     dice.yellowDie = random;
     random = Math.floor(Math.random() * 6 + 1);
     dice.redDie = random;
+
+    // test
+    dice.redDie = 3;
+    dice.yellowDie = 4;
 };
 
 Dice.setProductionDice = function(dice, yellowDie, redDie){

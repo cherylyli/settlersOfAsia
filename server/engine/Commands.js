@@ -586,6 +586,10 @@ Commands.moveRobber = function (userName, roomID, data) {
   }
   //robber.hasToDiscardCards(match.players);
   Robber.moveTo(robber, hextile1,hextile2,match);
+
+  if (!match.dice.moveThiefResultConfiged && match.dice.numberDiceResult == 7){
+        match.dice.moveThiefResultConfiged = true;
+  }
 };
 
 
@@ -605,6 +609,10 @@ Commands.movePirate = function (userName, roomID, data) {
     match.fish = null;
   }
   Pirate.moveTo(pirate, hextile1, hextile2, match);
+
+  if (!match.dice.moveThiefResultConfiged && match.dice.numberDiceResult == 7){
+      match.dice.moveThiefResultConfiged = true;
+  }
 };
 
 

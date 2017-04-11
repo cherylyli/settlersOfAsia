@@ -287,6 +287,24 @@ function notifyUserToDrawProgressCard(types) {
 
 }
 
+function notifyUserToDrawProgressCardSelect() {
+
+    swalService.swal({
+        title: "You can draw a progress card",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Cool!",
+        cancelButtonText: "No thanks",
+        closeOnConfirm: true,
+        closeOnCancel: true
+    }, function (isConfirm) {
+        if (isConfirm) {
+            generateDrawCardPrompt("drawOneProgressCard");
+        }
+    })
+}
+
+
 
 
 function notifyUserToStealCard(playersToStealFrom) {
@@ -356,6 +374,38 @@ function notifyUserBarbarianAction() {
         case Enum.BarbarianResult.CATAN_LOSE:
             //choose one city to be pillaged
             app.ongoingCmd = "chooseCityToBePillaged";
+            // TODO: enable map
+
+            break;
+        case Enum.BarbarianResult.CATAN_WIN_TIE:
+            notifyUserToDrawProgressCardSelect();
+            break;
     }
+}
+
+
+function discardCardBecauseOf7() {
+    //TODO Emol
+    /*
+     for all players:
+     if (app.discardCards):
+     - all players (even if not during his turn) must discardCards
+     - allow all players to discardResourceCards(cards)
+     */
+    app.rolledSeven = true;
+    let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
+    if(num > 0){
+        app.discardCards = true;
+        swal({
+            title: "Discard cards",
+            type: "info",
+            text: "You have more than seven cards and need to discard " + num + " cards",
+            confirmButtonText: "Alright",
+            closeOnConfirm: true,
+        }, function () {
+            showDiscardCardPrompt();
+        });
+    }
+
 }
 

@@ -1557,34 +1557,18 @@ CommandReceived.rollDice = function () {
     // event die result
     // if barbarian attacks
       if(DATA.getMatch().barbarianResult){
-        swal({
+        swalService.swal({
             title: "Barbarian Attack",
             text: "Everybody fights!!!"
         });
         if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
-            app.barbarianResult = true;
-            swal({
-                title: DATA.getMatch().barbarianResult.result,
-                text: Enum.BarbarianAction[DATA.getMatch().barbarianResult.result]
-                //TODO Emol
-                /*
-                for players not in their turn limit them to the following commands only - app.barbarianResult == true; (line 1238)
-                2 cases:
-                  1. if DATA.getMatch().barbarianResult.result = "CATAN_WIN_TIE" ->  drawOneProgressCard;
-                  2. if DATA.getMatch().barbarianResult.result = "CATAN_LOSE" ->  chooseCityToBePillaged
-                then automatically ends their turn.
-                Note: if current player receives these 2 result, he need to following the instruction and do the corresponding action first.
-                Fix:
-                1. DATA.getMatch().barbarianResult should be null after barbarian restart. In Dice.js(server) line 79
-
-                */
-            });
+            notifyUserBarbarianAction();
           } else {
-                app.barbarianResult = false;
-                swal({
-                    title: DATA.getMatch().barbarianResult.result,
-                    text : "Barbarian left"
-                });
+                    app.barbarianResult = false;
+                    swalService.swal({
+                        title: DATA.getMatch().barbarianResult.result,
+                        text : "Barbarian left"
+                    });
             }
             //deactive all knights
         }
@@ -1668,62 +1652,13 @@ CommandReceived.rollDice = function () {
     }
 
     if (DATA.getMatch().dice.numberDiceResult == 7){
-        //TODO Emol
-        /*
-        for all players:
-        if (app.discardCards):
-        - all players (even if not during his turn) must discardCards
-        - allow all players to discardResourceCards(cards)
-        */
-          app.rolledSeven = true;
-          //var player = DATA.getMyPlayer();
-          let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
-          if(num > 0){
-            app.discardCards = true;
-            swal({
-              title: "Discard cards",
-              type: "info",
-              text: "You have more than seven cards and need to discard " + num + " cards"
-
-            });
-          }
-
-
+        discardCardBecauseOf7();
           //player who rolled seven needs to select from robber / pirate
           if(DATA.getMatch().diceRolled && app.isMyTurn && DATA.getMatch().diceRolled){
-          //radio box : select from robber/pirate
-          /*
-          var inputOption = new Object(function(choice){
-            choice({
-              'Robber' : 'Robber',
-              'Pirate' : 'Pirate'
-            })
-          });
-          */
-          setTimeout(function () {
-              swal({
+              swalService.swal({
                   title: "Move Robber or Pirate",
                   text: "You rolled 7."
-              },
-              function () {
-                  /*
-                  TODO Emol
-                  1. player needs to choose from moving robber or pirate
-                  2. allow player moveRobber/Pirate by clicking a newHexID
-                  swal({
-
-                    title: "Your choice",
-                    input: "radio",
-                  }).then(function(move){
-                    swal({
-                      type: 'success',
-                      html: 'You chose to move ' + move
-                    })
-                  })
-                  */
-
               })
-          }, 2000);
         }
     }
 };

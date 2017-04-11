@@ -188,6 +188,7 @@ Match.nextPlayerToTakeTurn = function (match) {
             match.diceRolled = false;
             match.dice.productionDiceSet = false;
             match.shipMoved = false;
+            match.dice.moveThiefResultConfiged = false;
 
         }
     }

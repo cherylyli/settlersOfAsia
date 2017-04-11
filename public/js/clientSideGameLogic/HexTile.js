@@ -96,6 +96,8 @@ let HexTile = (function () {
             if (_.contains(app.ongoingCmdData, "pirate")) cmds.push('movePirate');
             return cmds;
         }
+        let match =  DATA.getMatch();
+        if (DATA.getMyPlayer().name == match.currentPlayer && match.dice.numberDiceResult == 7 && !match.dice.moveThiefResultConfiged) cmds = ['moveRobber', 'movePirate'];
 
         return cmds;
         // return HexCommand;

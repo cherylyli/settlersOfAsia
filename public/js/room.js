@@ -578,7 +578,7 @@ $(window).on('imready', function(im){
 
         highlightHexes($(this));
         console.log($(this).attr('data-id'));
-        if (app.ongoingCmd == "moveThief") showHexOperations($(this));
+        showHexOperations($(this));
 
     });
 
