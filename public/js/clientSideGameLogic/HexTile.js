@@ -48,6 +48,7 @@ let HexTile = (function () {
     getPlayersAroundByBuildings = function(hexTile, map){
         let stealable = [];
         //get players who have one or more settlements/cities on the vertice of that hextile.
+        if(hexTile){
         for (let vertex in hexTile.vertices) {
             if (hexTile.vertices.hasOwnProperty(vertex)) {
                 //there is a builidng on the vertex
@@ -58,6 +59,7 @@ let HexTile = (function () {
                 }
             }
         }
+      }
         return stealable;
     };
 

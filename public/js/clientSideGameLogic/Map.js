@@ -181,4 +181,3 @@ let Map = (function () {
     }
 
 })();
-

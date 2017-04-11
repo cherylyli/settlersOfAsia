@@ -438,8 +438,9 @@ CommandCheck.moveRobber = function (newHexID) {
     //newHexID = 0;
     return true;
   }
-  var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-  if (newHex) { //
+
+  if (newHexID != 0) { //
+        var newHex = DATA.getMatch().map.getHexTileById(newHexID);
         if (newHex.blockedByRobber == false && newHex.type != Enum.HexType.Sea && newHex.type != Enum.HexType.Lake) {
             app.rolledSeven = false;
             return true;
@@ -449,6 +450,8 @@ CommandCheck.moveRobber = function (newHexID) {
             return false;
         }
   }
+  swalError2("You cannot move robber off board");
+  return false;
 
 };
 
@@ -491,12 +494,12 @@ CommandsData.movePirate = function (newHexID) {
 
 //consider different cases: move off board, move from a to b, move from null to b
 CommandCheck.movePirate = function (newHexID) {
-  if((DATA.getMatch().fish == "MOVE_PIRATE") && (DATA.getMap().pirate.pos != 0)){
+  if(DATA.getMatch().fish == "MOVE_PIRATE") {
     return true;
   }
 
-  var newHex = DATA.getMatch().map.getHexTileById(newHexID);
-  if (newHex) {
+  if (newHexID != 0) { //
+      var newHex = DATA.getMatch().map.getHexTileById(newHexID);
       if (newHex.blockedByPirate == false && newHex.type === Enum.HexType.Sea) {
           app.rolledSeven = false;
           return true;
@@ -506,6 +509,8 @@ CommandCheck.movePirate = function (newHexID) {
           return false;
       }
     }
+    swalError2("You cannot move robber off board");
+    return false;
 };
 
 CommandsData.stealCard = function (victimUserName) {
