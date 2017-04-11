@@ -24,7 +24,7 @@
 <div id='page'>
     <div id='left-screen'>
 
-        <div id='waiting-page' v-bind:inGame='room.match'>
+        <div id='waiting-page' v-bind:inGame='room.match && room.match.phase!="Completed"'>
            <img src="../img/room/theme/w1.jpg">
         </div>
 

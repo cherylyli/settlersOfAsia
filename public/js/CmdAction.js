@@ -36,7 +36,7 @@
      * @param position {int} old position
      */
     SpecialsCommandsNextStep.moveKnight = function (position) {
-        swal({
+        swalService.swal({
                 title: "Move Knight",
                 text: "Click on the map where you want to move the knight!",
                 type: "info",
@@ -56,7 +56,7 @@
     };
 
     SpecialsCommandsFinalStep.moveKnight = function (newPosition) {
-        swal({
+        swalService.swal({
                 title: "Move knight here?",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -120,7 +120,7 @@
 
 
     SpecialsCommandsNextStep.moveShip = function (oldV1, oldV2) {
-        swal({
+        swalService.swal({
                 title: "Move Ship",
                 text: "Where do you want to move the ship to? (Click two points with CTRL pressed)",
                 type: "info",
@@ -147,7 +147,7 @@
         var $v2 = $map.find('.ctrl-clicked').eq(1);
         let newPosition = Map.edge($v1.attr('data-id'), $v2.attr('data-id'));
 
-        swal({
+        swalService.swal({
                 title: "Move Ship here?",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -191,7 +191,7 @@
         //hideCmdPrompt();
         console.log(tokenType);
         if (tokenType == Enum.fishToken.BOOT){
-            swal({
+            swalService.swal({
                 title: "Boot Token",
                 text: "Click other player to give away the boot!",
                 type: "info",
@@ -248,7 +248,7 @@
         let thieves;
         if (thiefList == 1) thieves = thiefList[0];
         else thieves = "robber or pirate";
-        swal({
+        swalService.swal({
                 title: "Now you can move " + thieves,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Cool!",
@@ -269,7 +269,7 @@ function notifyUserToDrawProgressCard(types) {
         cards += types[i];    
     }
     
-    swal({
+    swalService.swal({
         title: "You can draw " + cards +" progress card",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
@@ -300,7 +300,7 @@ function notifyUserToStealCard(playersToStealFrom) {
         playersToSteal += playersToStealFrom[i].name;
     }
 
-    swal({
+    swalService.swal({
         title: "Steal Card",
         text: "You can steal a resource card from " + playersToSteal +". Click the player you want to steal from!",
         showCancelButton: true,
@@ -319,7 +319,7 @@ function notifyUserToStealCard(playersToStealFrom) {
 }
 
 function notifyUserToDiscardProgressCard() {
-    swal({
+    swalService.swal({
             title: "Discard Progress Card" ,
             text: "You can have at most 4 progress cards, click one card to discard",
             type: "info",
@@ -335,7 +335,7 @@ function notifyUserBarbarianAction() {
     app.barbarianResult = true;
     let result = DATA.getMatch().barbarianResult.result;
     let action = Enum.BarbarianAction[result];
-    swal({
+    swalService.swal({
         title: result,
         text: action
         //TODO Emol

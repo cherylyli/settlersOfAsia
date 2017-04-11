@@ -346,7 +346,7 @@ CommandReceived.requestTrade = function () {
             console.log("ALLOWED_INPUT");
             console.log(allowed_input);
 
-            swal({
+            swalService.swal({
                     title: "Comercial Harbor is ACTIVE =O",
                     text: "Write name of commodity that you are going to give:",
                     type: "input",
@@ -383,7 +383,7 @@ CommandReceived.requestTrade = function () {
         let buying = DATA.getMatch().currentTrade.buying;
         console.log(selling);
         console.log(DATA.getMatch().currentTrade);
-        swal({
+        swalService.swal({
                 title: "TRADE ??? =)",
                 text: DATA.getMatch().currentPlayer + " wants to buy: " + JSON.stringify(buying) + " and wants to sell: " + JSON.stringify(selling),
                 type: "warning",
@@ -392,7 +392,7 @@ CommandReceived.requestTrade = function () {
                 confirmButtonText: "TRADE RESOURCES!",
                 cancelButtonText: "NOOO!!",
                 closeOnConfirm: false,
-                closeOnCancel: false
+                closeOnCancel: true
             },
             function (isConfirm) {
                 if (isConfirm) {
@@ -1822,9 +1822,9 @@ _.each(CommandName, function (cmd) {
 
 
       //  let phase = DATA.getMatch().phase;
-        if (!CommandCheck[cmd].apply(this, arguments)) {
+        /**if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
-         }
+         }**/
 
 
 /*

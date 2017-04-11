@@ -108,7 +108,7 @@ $(window).on('imready', function(im){
     });
 
     sock.on('GAME_ENDS', function (msg) {
-         swal("BYE! Game ended!");
+         swalService.swal("Game Ended", "Winner: " + DATA.getMatch().winner);
     });
 
 

@@ -94,7 +94,7 @@ Match.hasToDiscardCards = function(match, players){
 
 Match.checkPlayerVP = function(match, player){
     if (player.VP >= player.winningVP) {
-        player.winner = player.name;
+        match.winner = player.name;
         Match.endGame(match);
     }
 };
@@ -144,6 +144,7 @@ Match.distributeMetropolis = function(match, cityImprovementCategory, player, ci
 };
 
 Match.endGame = function(match){
+    match.phase = Enum.MatchPhase.Completed;
     notify.room(match.id, "GAME_ENDS", CircularJSON.stringify(DATA.getRoom(match.id)));
 };
 
@@ -223,60 +224,3 @@ function assignColors(match) {
         players[i].color = colors[i];
     }
 }
-/**
- function initPlayers(userNames) {
-    let players = {};
-    return players;
-}**/
-
-
-/**
- export class Game{
-    /**
-     *
- * @param mapType should just a String, "like heading to new shore"
- * @param players
- * @param winningVP
- constructor(mapType, players, winningVP = 12){
-        this.map = this.initializeMap(mapType);
-        this.bank = new Bank(this.map);
-        this.winningVP = winningVP;
-        this.players = players;
-        this.updatePlayerInfo();
-        // this.progressCardDeck = new ProgressCardDeck();
-        this.currentPlayer = players[0];
-        this.currentPlayerIndex = 0;
-        this.dice = null;
-        this.diceRolled = false;
-    }
- initializeMap(mapType){
-        let map = new Map(37);
-        map.setUpMap(1);
-        //bank should have a copy of the numToken to hexTile mapping
-        //this.bank.numTokenToHexTiles = map.numTokenToHexTiles;
-        return map;
-    }
- updatePlayerInfo(){
-        for (let i = 0; i<this.players.length; i++){
-            let colorKey = (Object.keys(Color))[i];
-            this.players[i].color = Color[colorKey];
-            this.players[i].game = this;
-        }
-    }
- newTurn(){
-        //set up
-        this.diceRolled = false;
-        this.dice.productionDiceSet = false;
-        this.currentPlayerIndex = (this.currentPlayerIndex+1) % this.players.length;
-        this.currentPlayer = this.players[this.currentPlayerIndex];
-        //getPlayerAction (Command)
-
-        //for next player check if he has left room
-    }
- checkPlayerVP(player){
-        if (player.VP >= this.winningVP) this.endGame();
-    }
- endGame(){
-        console.log("Game ends!");
-    }
- }**/

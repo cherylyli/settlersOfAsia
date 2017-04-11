@@ -107,9 +107,8 @@ module.exports = function(socket, user, roomId) {
             sendRoom('GAME_START', result);
             // sendRoom('GAME_START', CircularJSON.stringify(fakeRoom.room));
 
-            setTimeout(function(){
-                notify.user(currentPlayer, 'TAKE_TURN');
-            }, 2000);
+
+            notify.user(currentPlayer, 'TAKE_TURN');
 
         }
     }
