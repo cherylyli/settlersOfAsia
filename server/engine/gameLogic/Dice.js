@@ -52,8 +52,8 @@ Dice.rollProductionDice = function (dice){
     dice.redDie = random;
 
     // test
-    dice.redDie = 3;
-    dice.yellowDie = 4;
+    // dice.redDie = 3;
+    // dice.yellowDie = 4;
 };
 
 Dice.setProductionDice = function(dice, yellowDie, redDie){
