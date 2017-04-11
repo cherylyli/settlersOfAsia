@@ -534,6 +534,7 @@ CommandsData.drawOneProgressCard = function (kind) {
 
 CommandCheck.drawOneProgressCard = function (kind) {
   if(app.canDraw){
+    //swalError2("Please draw one " + kind + "progCard");
     app.canDraw = false;
     return true;
   }
@@ -547,24 +548,20 @@ CommandsData.drawOneResourceCard = function (resCard) {
 };
 
 CommandCheck.drawOneResourceCard = function (resCard) {
-    /**
     var res = ['Grain', 'Lumber', 'Wool', 'Brick', 'Ore'];
     var found = 0;
     for (var i in res) {
         if (res[i] == resCard) {
             found = 1;
         }
-    }**/
-    return true;
-  //  TODO: resume this!!!!!!!!!!
-/*    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
+    }
+    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
         swalError2("Player can only use the fish token to draw one resource card");
         return false;
     }
-*/
 };
 
 
@@ -1587,7 +1584,6 @@ CommandReceived.rollDice = function () {
             title: "Barbarian Attack",
             text: "Everybody fights!!!"
         });
-
         if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
             app.barbarianResult = true;
             swal({
@@ -1614,14 +1610,6 @@ CommandReceived.rollDice = function () {
                 });
             }
             //deactive all knights
-              //  var player = DATA.getMyPlayer();
-                if(Player.getKnightsSum(player) > 0){
-                    //deactive knights
-                    for(var knight in player.knight){
-                    console.log("deactive knights");
-                        knight.deactivate(knight);
-                    }
-                }
         }
 
 
@@ -1817,7 +1805,6 @@ _.each(CommandName, function (cmd) {
          swalError2("You need to draw one progress card.");
          return false;
        }
-       app.canDraw = false;
      }
 
 
@@ -1855,7 +1842,7 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
-            /**
+
 
       //  let phase = DATA.getMatch().phase;
         if (!CommandCheck[cmd].apply(this, arguments)) {
@@ -1863,12 +1850,12 @@ _.each(CommandName, function (cmd) {
          }
 
 
-
+/*
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
-        }**/
-
+        }
+*/
         //exec
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };
