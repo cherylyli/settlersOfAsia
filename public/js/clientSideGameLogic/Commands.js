@@ -116,7 +116,7 @@ let CommandName = {
     'promoteKnight': 'promoteKnight',
     'moveKnight': 'moveKnight',
     "upgradeToMetropolis": 'upgradeToMetropolis',
-    'chooseCityToBePillaged': 'chooseCityToBePillaged', //TODO
+    'chooseCityToBePillaged': 'chooseCityToBePillaged',
     'moveRobber': 'moveRobber',
     'movePirate': 'movePirate',
     'spendFishToken': 'spendFishToken',
@@ -791,8 +791,6 @@ CommandCheck.moveKnight = function (position, newPosition) {
 
     var player = DATA.getMyPlayer();
     if (player.displacedKnight && position == 0) knight = player.displacedKnight;
-    //TODO add displaceKnight feature
-    //TODO check if newPosition is a valid vertex [continuous road]
     return (_.contains(knight.possibleSpots, newPosition))
 };
 
@@ -1219,7 +1217,6 @@ CommandsData.buildShip = function (vertex1, vertex2) {
 
 
 /**
- * TODO: modularize. reduce duplication
  * @param data {CommandsData.buildShip}
  * @return {boolean}
  */
@@ -1363,13 +1360,26 @@ CommandCheck.buyCityImprovement = function (cityImprovementCategory) {
     }
     return (checkEnoughResource(Cost['cityImprove_' + cityImprovementCategory + '_' + level]));
 
+};
+
+CommandReceived.buyCityImprovement = function () {
+    let metroTypes = Player.ableToUpgradeToMetropolis();
+    if (metroTypes.length > 0) {
+        swalService.swal(
+            "Metropolis",
+            "You can upgrade your city to metropolis!",
+            "info"
+        );
     }
+};
+
+
 /**
  * @param card {string}
  */
 CommandsData.executeProgressCard = function (card) {
         return {'cardname':card};
-}
+};
 
 /**
  *
@@ -1421,11 +1431,8 @@ CommandCheck.moveShip = function (oldVertex1, oldVertex2, newVertex1, newVertex2
     }
 
     return true;
-}
-//TODO:
-getAvailbleEdgesToMoveTo = function () {
+};
 
-}
 /**
  *
  * @param src   {String} the name of the card
@@ -1541,42 +1548,12 @@ function isSettlement(vertex) {
     return (vertexUnit.level == 1);
 }
 
-/**
- * move knight and displace knight are combined into one command
- * only current player can displace knight
- */
-CommandReceived.moveKnight = function () {
-  //TODO
-  /*current player use command moveKnight(oldpos,newpos) {Int} vertex
-    if there is a knight that has been placed on the newPos THEN :
-    DATA.getMap().opponentKnight.name should relocate his knight
-    swal(input:newVertex)
-  */
-/**
-  if(DATA.getMap().opponentKnight.name){
-    if (_.contains(DATA.getMap().opponentKnight.name, DATA.getMyPlayer().name)) {
-        swal({
-            title: "Please relocate your knight",
-            text: "Your knight has been displaced by a stronger knight."
-            //TODO Emol
-            /*
-              activate command table & map, allow this player to select a new spot to relocate his knight
-              use Commands.moveKnight
-            */
-   /**     });
-      };
-      return;
-  }**/
-
-};
-
 
 CommandReceived.rollDice = function () {
     let dice = DATA.getMatch().dice;
     let move = null;
     let player = DATA.getMyPlayer();
 
-    // TODO: change time out
     // event die result
     // if barbarian attacks
       if(DATA.getMatch().barbarianResult){
@@ -1871,10 +1848,10 @@ _.each(CommandName, function (cmd) {
             console.log(cmd);
         }
     });
-
+/**
     sock.on(cmd + 'Ack' + 'Owner', function (msg) {
         swalSucc(CommandSuccMsg[cmd]);
-    });
+    });**/
 
 });
 

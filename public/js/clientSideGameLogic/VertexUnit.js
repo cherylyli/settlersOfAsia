@@ -24,20 +24,74 @@ let VertexUnit = (function () {
      * get valid commands at this vertex
      *
      */
+
+        // commands triggered by clicking a vertex
+    let VertexCommand = {
+            "UnoccupiedVertex": {
+                'buildSettlement': 'buildSettlement',
+                'hireKnight' : 'hireKnight'
+            },
+
+            "Settlement": {
+                'upgradeToCity': 'upgradeToCity',
+
+            },
+
+            "City": {
+                'buildCityWall': 'buildCityWall',
+                // "upgradeToMetropolis": 'upgradeToMetropolis',
+                // 'chooseCityToBePillaged': 'chooseCityToBePillaged'
+            },
+
+            "Knight": {
+                'active': {
+                    'chaseAwayThief': 'chaseAwayThief',
+                    'promoteKnight': 'promoteKnight',
+                    'moveKnight': 'moveKnight'
+                },
+                'inactive':{
+                    'activateKnight': 'activateKnight',
+                    'promoteKnight': 'promoteKnight',
+                }
+            }
+
+        };
+
     function getCommands(vertexId) {
         let vertexUnit = DATA.getMap().getVertexInfo(vertexId);
+        if (!app.ongoingCmd) {
+            // if the vertex is unoccupied
+            if (!vertexUnit) return VertexCommand.UnoccupiedVertex;
 
-        // if the vertex is unoccupied
-        if (!vertexUnit) return VertexCommand.UnoccupiedVertex;
+            if (isKnight(vertexUnit)) {
+                return (vertexUnit.active) ? VertexCommand.Knight.active : VertexCommand.Knight.inactive;
+            }
 
-        if (isKnight(vertexUnit)) return VertexCommand.Knight;
+            else {
+                // building
+                if (vertexUnit.level == Enum.Building.Settlement) return VertexCommand.Settlement;
+                else {
+                    // city
+                    let cmds = {};
+                    if (!vertexUnit.cityWall) cmds.buildCityWall = 'buildCityWall';
+                    if (Player.ableToUpgradeToMetropolis().length > 0 ) cmds.upgradeToMetropolis = "upgradeToMetropolis";
+                    return cmds;
+                }
+            }
+        }
 
         else {
-            // building
-            if (vertexUnit.level == Enum.Building.Settlement) return VertexCommand.Settlement;
-            return VertexCommand.City;
+            // "upgradeToMetropolis": 'upgradeToMetropolis',
+            // 'chooseCityToBePillaged': 'chooseCityToBePillaged'
+            if (vertexUnit.vertexUnitType == "building" && vertexUnit.level != Enum.Building.Settlement){
+                let cmd = {};
+                cmd[app.ongoingCmd] = app.ongoingCmd;
+                return cmd;
+            }
         }
     }
+
+
 
     /**
      *
@@ -52,7 +106,7 @@ let VertexUnit = (function () {
         _.forEach(neighborHexs, function ([hexID, positionInHex]) {
             if (map.robber.pos == hexID) theif.push("robber");
             if (map.pirate.pos == hexID) theif.push("pirate");
-        })
+        });
         return theif;
     }
 

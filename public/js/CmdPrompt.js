@@ -1,6 +1,7 @@
 /**
  * Created by emol on 4/7/17.
  */
+let swalService = new SwalService();
 // display command prompt
 function showCmdPrompt() {
     $('#cmd-prompt').show();

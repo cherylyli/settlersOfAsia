@@ -338,7 +338,7 @@ $(window).on('imready', function(im){
                     if (cost.hasOwnProperty(item)) costSentence += item + " × " + cost[item] + "  ";
                 }
 
-                swal({
+                swalService.swal({
                         title: "Improve to " + cityImprovementCategory + ": Level " + nextLevel ,
                         text: "Cost: " + costSentence,
                         type: "info",
@@ -562,7 +562,7 @@ $(window).on('imready', function(im){
         // if click on single vertex -> vertex operation
         else if (!isCtrlPressed(e)) {
             highlightVertex($(this));
-            if (!app.ongoingCmd) showVertexOpeartions($(this));
+            if (!app.ongoingCmd || !SpecialsCommandsNextStep.hasOwnProperty(app.ongoingCmd)) showVertexOpeartions($(this));
             else if (SpecialsCommandsFinalStep.hasOwnProperty(app.ongoingCmd)) SpecialsCommandsFinalStep[app.ongoingCmd].apply(this, [$(this).attr('data-id')]);
         }
     });

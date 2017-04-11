@@ -486,6 +486,16 @@ window.swalSucc = function (msg) {
 };
 
 
+window.swalInfo = function (title,msg) {
+    swal(
+        title,
+        msg,
+        'info'
+    )
+
+};
+
+
 // a swal that only has title, use this if u want to only display
 // one sentence. The default swal has a gap that's awkward
 window.swal2 = function(options, cb){

@@ -284,9 +284,26 @@ let Player = (function () {
     }
 
 
+    function ableToUpgradeToMetropolis() {
+        let cityCategories = [];
+        let match = DATA.getMatch();
+        let player = DATA.getMyPlayer();
+        _.forEach(Enum.cityImprovementCategory, function (type) {
+
+            if ((!match.Metropolis[type] && player.cityImprovement[type] >=4) ||
+                (match.Metropolis[type] && match.Metropolis[type].owner.cityImprovement[type] < player.cityImprovement[type])){
+                        console.log("132");
+                cityCategories.push(type);
+            }
+        })
+        return cityCategories;
+    }
+
+
     return {
         addHelperFunctions,
-        getCommands
+        getCommands,
+        ableToUpgradeToMetropolis
     }
 
 })();

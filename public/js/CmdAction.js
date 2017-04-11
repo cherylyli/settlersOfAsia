@@ -90,8 +90,8 @@
         let $prompt = $('#cmd-prompt');
 
         $prompt.prepend($('<div class="button" data-id="cancel">Cancel</div>'));
-
-        _.forEach(Enum.cityImprovementCategory, function (type) {
+        let a = Player.ableToUpgradeToMetropolis();
+        _.forEach(Player.ableToUpgradeToMetropolis(), function (type) {
             let $opt = $('<div class="button">' + type + '</div>');
             $opt.attr('type', type);
             $prompt.prepend($opt);
@@ -329,5 +329,33 @@ function notifyUserToDiscardProgressCard() {
         });
     app.ongoingCmd = "discardOneProgressCard";
 
+}
+
+function notifyUserBarbarianAction() {
+    app.barbarianResult = true;
+    let result = DATA.getMatch().barbarianResult.result;
+    let action = Enum.BarbarianAction[result];
+    swal({
+        title: result,
+        text: action
+        //TODO Emol
+        /*
+         for players not in their turn limit them to the following commands only - app.barbarianResult == true; (line 1238)
+         2 cases:
+         1. if DATA.getMatch().barbarianResult.result = "CATAN_WIN_TIE" ->  drawOneProgressCard;
+         2. if DATA.getMatch().barbarianResult.result = "CATAN_LOSE" ->  chooseCityToBePillaged
+         then automatically ends their turn.
+         Note: if current player receives these 2 result, he need to following the instruction and do the corresponding action first.
+         Fix:
+         1. DATA.getMatch().barbarianResult should be null after barbarian restart. In Dice.js(server) line 79
+
+         */
+    });
+
+    switch (result){
+        case Enum.BarbarianResult.CATAN_LOSE:
+            //choose one city to be pillaged
+            app.ongoingCmd = "chooseCityToBePillaged";
+    }
 }
 
