@@ -114,6 +114,7 @@ Knight.resetInNewTurn = function (match) {
     _.forEach(match.players, function (player) {
         _.forEach(player.knights, function (knight) {
             knight.hasBeenPromotedThisTurn = false;
+            knight.hasMovedThisTurn = false;
         })
     })
 };

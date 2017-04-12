@@ -190,21 +190,12 @@ CommandsData.upgradeToMetropolis = function (vertex, metropolisType) {
 CommandCheck.upgradeToMetropolis = function (vertex, metropolisType) {
      //check if player has a metropolis to add on a city.
     //if (DATA.getMatch().redistributeM[metropolisType] == DATA.getMyPlayer().name) {
-    if (DATA.getMatch().Metropolis[metropolisType] == DATA.getMyPlayer().name) {
       let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
-      if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-          swalError2("There is no city at this position!");
-          return false;
-      }
       if (vertexUnit.level == metropolisType) {
           swalError2("This city already has metropolis!");
           return false;
       }
       return true;
-    }
-    //player doesn't have a metropolis at all.
-    swalError2("You don't have " + metropolisType + "!");
-    return false;
 };
 
 CommandsData.chooseCityToBePillaged = function (vertex) {
