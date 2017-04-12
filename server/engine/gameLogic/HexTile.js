@@ -211,6 +211,7 @@ HexTile.produceResourceToSingleUser = function (hexTile, match, player, building
 
     else {
         let resource = Enum.SettlementResources[hexTile.type];
+        if (!resource) return;
         if (resource == Enum.SettlementResources.GoldField) {
             if (building.level == Enum.Building.Settlement) {
                 player.resourcesAndCommodities[Enum.SettlementResources.GoldField] += goldNumForSettlement;

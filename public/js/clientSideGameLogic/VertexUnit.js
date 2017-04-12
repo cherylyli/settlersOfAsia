@@ -62,7 +62,7 @@ let VertexUnit = (function () {
         if (!app.ongoingCmd) {
             // if the vertex is unoccupied
             if (!vertexUnit) return VertexCommand.UnoccupiedVertex;
-
+            if (vertexUnit.owner.name != DATA.getMyPlayer().name) return;
             if (isKnight(vertexUnit)) {
                 return (vertexUnit.active) ? VertexCommand.Knight.active : VertexCommand.Knight.inactive;
             }
