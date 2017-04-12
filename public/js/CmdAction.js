@@ -349,6 +349,20 @@ function notifyUserToDiscardProgressCard() {
 
 }
 
+function notifyUserToDrawResourceCard() {
+    swalService.swal({
+        title: "Benefit of Aqueduct" ,
+        text: "You didn't get any resource cards this turn, how about take one resource card from the bank?",
+        type: "info",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes!",
+        closeOnConfirm: true,
+    });
+    app.ongoingCmd = "discardOneProgressCard";
+
+}
+
+
 function notifyUserBarbarianAction() {
     app.barbarianResult = true;
     let result = DATA.getMatch().barbarianResult.result;
@@ -396,7 +410,7 @@ function discardCardBecauseOf7() {
     let num = DATA.getMyPlayer().resourceCardNum - DATA.getMyPlayer().maxSafeCardNum;
     if(num > 0){
         app.discardCards = true;
-        swal({
+        swalService.swal({
             title: "Discard cards",
             type: "info",
             text: "You have more than seven cards and need to discard " + num + " cards",

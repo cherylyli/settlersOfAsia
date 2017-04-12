@@ -767,6 +767,16 @@ Player.getEmptyAdjacentVertices = function(player, vertex, map){
  */
 Player.buyCityImprovement = function(player, cityImprovementCategory){
     player.cityImprovement[cityImprovementCategory] ++;
+
+    // trading house benefit
+    if (player.cityImprovement[Enum.cityImprovementCategory.Trade] >= 3){
+        _.forEach(Enum.Commodity, function (commodity) {
+            player.tradeRatio[commodity] = 2;
+        })
+    }
+
+
+
     return player.cityImprovement[cityImprovementCategory];
 };
 

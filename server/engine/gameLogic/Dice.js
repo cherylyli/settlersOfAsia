@@ -50,10 +50,6 @@ Dice.rollProductionDice = function (dice){
     dice.yellowDie = random;
     random = Math.floor(Math.random() * 6 + 1);
     dice.redDie = random;
-
-    // test
-    dice.redDie = 3;
-    dice.yellowDie = 4;
 };
 
 Dice.setProductionDice = function(dice, yellowDie, redDie){
@@ -116,15 +112,9 @@ Dice.configureResult = function (dice, match) {
 
 
     // configure number dice result
-    if(match.map){
+    if(match.map && ((dice.yellowDie + dice.redDie) != 7)){
         Bank.allocateResources(match.bank, dice.yellowDie, dice.redDie);
-        /**
-        let hexTileIDs = Map.getHexTileByNumToken(match.map, productionNum);
-        for (let id of hexTileIDs){
-            if(!Map.getHexTileById(match.map, id).blockedByRobber){
-                HexTile.produceResource(Map.getHexTileById(match.map, id), match);
-            }
-        }**/
+
     }
 
 };
