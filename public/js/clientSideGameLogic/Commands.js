@@ -146,7 +146,8 @@ let CommandReceived = {};
         'tradeWithBank': 'Deal!',
         'endTurn': 'Hummmm... I think I am done.',
         'executeProgressCard':'Progress Card was applied',
-        'discardOneProgressCard': 'Discarded.'
+        'discardOneProgressCard': 'Discarded.',
+        'saveGame': 'saved'
     };
 
 
@@ -1640,7 +1641,7 @@ _.each(CommandName, function (cmd) {
             return;
         }
         // if not my turn and barbarian result, operation is limited
-        if(cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+        if(!(cmd == "rollDice" || cmd == "saveGame") && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
             swalError2("Please roll dice first");
             return;
         }
