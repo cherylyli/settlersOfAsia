@@ -4,8 +4,10 @@ var async = require('async');
 var _h = require('./api/helper_functions.js');
 var Uuid  = require('uuid');
 var User = require('../models/user.js');
+var Game = require('../models/game.js');
 var notify  = require('./api/notify.js');
 var Data  = require('./engine/Data.js');
+var Room  = require('./engine/gameLogic/Room.js');
 let CircularJSON = require('circular-json');
 
 
@@ -123,6 +125,11 @@ module.exports = function(app) {
             // send result
             res.json(users);
         });
+    });
+
+    // fetch all saved game
+    app.get('/saved', function(req, res){
+        res.json(Room.fetchAllSaved());
     });
 
 
