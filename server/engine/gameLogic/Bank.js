@@ -69,14 +69,20 @@ Bank.tradeWithPlayer = function (bank, playerA, playerB, trade) {
  * @param src {String} resource name
  * @param tradeFor {String} resource name
  */
+function removeActiveCard(card, carToREmove){
+    return card === cardToRE
+}
 Bank.tradeWithBank = function (bank, player, src, tradeFor) {
     let ratio;
     if (src == Enums.Resource.Gold) ratio = Cost.goldTradeRatio;
     else ratio = player.tradeRatio[tradeFor];
 
+    if(Object.keys(player.active_cards).indexOf("MerchantFleet") !== -1){
+        ratio = 2;
+        delete player.active_cards["MerchantFleet"]; //merchant fleet can be used only once
+    }
     player.resourcesAndCommodities[src] -= ratio;
     player.resourcesAndCommodities[tradeFor] += 1;
-
     player.resourceCardNum = Player.resourceCardTotalNum(player);
 };
 

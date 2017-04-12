@@ -198,6 +198,10 @@ function generateTradeForm(type, cmd) {
     else if (type == "buying") {
         // default
         let ratio = DATA.getMyPlayer().tradeRatio["Lumber"];
+        let merchant_used = Object.keys(DATA.getMyPlayer().active_cards).indexOf("MerchantFleet") !== -1;
+        if(merchant_used){
+            ratio = 2;
+        }
         // trade with bank
         let $ratioInfo = $('<div class="trade-info"><i class="fa fa-info-circle" aria-hidden="true">  trade ratio</i><div class="text">' + ratio + '</div><div></div>');
 

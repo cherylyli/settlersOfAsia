@@ -7,12 +7,17 @@ let Commands = require("./engine/Commands.js");
 let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
 let Enum = require("./engine/gameLogic/Enum.js");
+let Player = require("./engine/gameLogic/Player.js");
+let Match = require("./engine/gameLogic/Match");
+
 var _ = require('underscore');
 /**
 let rooms = data.rooms;
 let users = data.users;
 let match = data.matches;
 **/
+
+console.log("Test is being run");
 let user_A = {username :  "Emol", profile_pic : '/img/default_profile_pic.png'};
 let user_B = {username :  "Max", profile_pic : '/img/default_profile_pic.png'};
 let user_C = {username :  "Cheryl", profile_pic : '/img/default_profile_pic.png'};
@@ -20,13 +25,15 @@ let user_D = {username :  "Yuan", profile_pic : '/img/default_profile_pic.png'};
 let userA = User.createUser(user_A);
 let userB = User.createUser(user_B);
 let userC = User.createUser(user_C);
-
 let userD = User.createUser(user_D);
 Commands.makeNewRoom(user_D, "123");
 Commands.joinRoom(userA, "123");
 Commands.joinRoom(userB, "123");
 Commands.joinRoom(userC, "123");
 
+//Test cases start here
+
+/*
 Commands.startGame("123");
 var match = data.getMatch("123");
 var player = data.getMatch("123").players["Emol"];
@@ -59,8 +66,35 @@ Commands.rollDice("Yuan","123");
 Commands.rollDice("Yuan","123");Commands.rollDice("Yuan","123");
 Commands.rollDice("Yuan","123");
 Commands.rollDice("Yuan","123");
-
+console.log("Test is being run");
 // player.getEmptyAdjacentVertices(player, 1, data.getMatch("123"));
+*/
+
+var addInfiniteResources = function(resources){
+    Object.kes(resources).forEach(res => {
+        resources[res] = 99;
+    });
+}
+
+
+/*
+ - You cannot trade when you don't have resources
+ */
+
+var progressCardsTest = function(){
+    Match.createNewMatch();
+    console.log("Testing: Progress Cards");
+    let roomID = '123';
+    console.log(data.getMatch(roomID));
+   //addInfiniteResources(data.getPlayer('Max').resourcesAndCommodities);
+
+
+    Commands.drawOneProgressCard('Max', roomID, {'kind': 'Trade'});
+    Commands.executeProgressCard('Max', roomID, {'cardname': 'CommercialHarbor'});
+    Commands.requestTrade('Max', roomID, {'selling': {'Lumber': 1}, 'buying': null, 'targetPlayer':'Emol'});
+};
+
+progressCardsTest();
 
 
 

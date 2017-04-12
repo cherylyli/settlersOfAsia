@@ -124,6 +124,7 @@ let CommandName = {
     'requestTrade': 'requestTrade',
     'acceptTrade': 'acceptTrade',
     'performTradeTransaction':'performTradeTransaction',
+    'placeMerchant': 'Merchant',
       //INPROGRESS:
     'executeProgressCard': 'executeProgressCard'
 
@@ -1754,14 +1755,14 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
-
+/*
 
          let phase = DATA.getMatch().phase;
          if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
 
-
+*/
 /*
         // if barbarian result commands
         if (app.barbarianResult) {
