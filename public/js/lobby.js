@@ -241,7 +241,11 @@ $(window).on('imready', function(im){
             rooms = CircularJSON.parse(rooms);
             if (_.isEmpty(rooms)) return;
             rooms.forEach(function(room){
-                room.displayName = `${room.name} (${_.keys(room.users).join(', ')})`;
+                room.displayName = `${room.name} (${
+                    _.map(_.keys(room.users), function(user){ 
+                        return room.owner == user ? `${user}*` : user
+                    }).join(', ')
+                })`;
             });
             openSavedPop.rooms = rooms;
 
