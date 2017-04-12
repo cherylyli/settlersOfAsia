@@ -21,11 +21,12 @@ let Room = {} = module.exports;
 var savedPath = './data/saveGame';
 
 Room.fetchAllSaved = function(){
+    /**
     fs.readdirSync(testFolder, (err, files) => {
         files.forEach(file => {
             console.log(file);
         });
-    })
+    })**/
 };
 
 Room.fetchAllSaved ()

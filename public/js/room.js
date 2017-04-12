@@ -65,7 +65,7 @@ $(window).on('imready', function(im){
     window.history.replaceState({}, null, window.location.pathname);
 
     // FIXME: change later, just for testing
-    // if (mapConfig) mapConfig.savedGameID = "A19Qs";
+    // if (mapConfig) mapConfig.savedGameID = "piaKP";
 
 
     sock.emit('MAP_CONFIG', mapConfig);
@@ -229,17 +229,17 @@ $(window).on('imready', function(im){
             // save match
             save: function () {
                 Commands.saveGame();
-                Toast.show('Saved!');
+                // Toast.show('Saved!');
             },
 
             // continue previously saved match
             open: function () {
-                Toast.show('Open');
+                // Toast.show('Open');
             },
 
             // quit match
             quit: function () {
-                Toast.show('Match ended!');
+                // Toast.show('Match ended!');
             },
 
             // append to log

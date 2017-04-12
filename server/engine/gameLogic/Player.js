@@ -228,7 +228,8 @@ Player.spendFishToken = function(player, action, match){
 Player.resourceCardTotalNum = function(player){
     let sum = 0;
     for (let card in player.resourcesAndCommodities){
-        sum += player.resourcesAndCommodities[card];
+        if (player.resourcesAndCommodities.hasOwnProperty(card))
+            sum += player.resourcesAndCommodities[card];
     }
     player.resourceCardNum = sum;
     return sum;
