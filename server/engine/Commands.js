@@ -24,10 +24,7 @@ let ProgressCard = require('./gameLogic/ProgressCards.js');
 let HexTile = require('./gameLogic/HexTile.js');
 let _ = require('underscore');
 let fs = require("fs");
-<<<<<<< HEAD
-=======
 
->>>>>>> 7371c799ed558116b076b35285360f5ff829118e
 
 let Commands = {} = module.exports;
 let CommandsCheck = {};
