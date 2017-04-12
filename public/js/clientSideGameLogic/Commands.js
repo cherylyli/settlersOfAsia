@@ -126,6 +126,7 @@ let CommandName = {
     'performTradeTransaction':'performTradeTransaction',
     'placeMerchant': 'placeMerchant',//NOT IMPLEMENTED =A
     'resourceMonopoly': 'resourceMonopoly',
+    'tradeMonopoly':'tradeMonopoly',
     'executeProgressCard': 'executeProgressCard'
 
 
@@ -235,8 +236,18 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
 CommandsData.resourceMonopoly = function (resource) {
     return {'resource': resource};
 };
+CommandsData.tradeMonopoly = function (resource) {
+    return {'resource': resource};
+};
 
-CommandReceived.resourceMonopoly = function(resource){
+CommandReceived.tradeMonopoly = function(){
+    if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
+        return;
+    }
+    swal("OMG! "+DATA.getMatch().currentPlayer+" used Trade Monopoly card =O");
+}
+
+CommandReceived.resourceMonopoly = function(){
     if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
         return;
     }
@@ -265,11 +276,6 @@ CommandsData.performTradeTransaction = function (tradeWith) {
 
 CommandReceived.performTradeTransaction = function () {
     swal('Trade ended :D');
-    //DATA.getMatch().currentTrade
-    //maybe set a flah so that we know with whom trade was performed
-    //don't delete trade right away it is going to be overwritted later anyway
-    //don't delete trade right away it is going to be overwritted later anyway
-    //just check who is left in the currentTrade
 };
 
 //we need to wait until all players accept or decline trade
@@ -1379,6 +1385,7 @@ CommandReceived.buyCityImprovement = function () {
  */
 CommandsData.executeProgressCard = function (card) {
     let resources = ["Brick", "Grain","Ore", "Lumber", "Wool"];
+    let commodities = ["Cloth", "Coin","Paper"];
         if(card === "ResourceMonopoly"){
             swal({
                     title: "Resource Monopoly",
@@ -1402,6 +1409,32 @@ CommandsData.executeProgressCard = function (card) {
                         return false
                     }
                     Commands.resourceMonopoly(inputValue);
+                    swal("Nice!", "We'll take 2 of " + inputValue+" from each player =)", "success");
+                });
+        }
+        else if(card === "TradeMonopoly"){
+            swal({
+                    title: "Trade Monopoly",
+                    text: "Write down what commodities you want to ask for =)",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Cloth, Coin, or Paper"
+                },
+                function(inputValue){
+                    if (inputValue === false) return false;
+
+                    if (inputValue === "") {
+                        swal.showInputError("Write resource name plz >=|");
+                        return false
+                    }
+
+                    if(commodities.indexOf(inputValue) === -1){
+                        swal.showInputError("Please specify a RESOURCE!!11 >=|");
+                        return false
+                    }
+                    Commands.tradeMonopoly(inputValue);
                     swal("Nice!", "We'll take 2 of " + inputValue+" from each player =)", "success");
                 });
         }
