@@ -124,8 +124,8 @@ let CommandName = {
     'requestTrade': 'requestTrade',
     'acceptTrade': 'acceptTrade',
     'performTradeTransaction':'performTradeTransaction',
-    'placeMerchant': 'Merchant',
-      //INPROGRESS:
+    'placeMerchant': 'placeMerchant',//NOT IMPLEMENTED =A
+    'resourceMonopoly': 'resourceMonopoly',
     'executeProgressCard': 'executeProgressCard'
 
 
@@ -243,7 +243,17 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
     }
 };
 
+//TRADE PROGRESS CARDS ==================================
+CommandsData.resourceMonopoly = function (resource) {
+    return {'resource': resource};
+};
 
+CommandReceived.resourceMonopoly = function(resource){
+    if(DATA.getMyPlayer().name === DATA.getMatch().currentPlayer){
+        return;
+    }
+    swal("OMG! "+DATA.getMatch().currentPlayer+" used Resource Monopoly card =O");
+}
 
 //TRADE WITH PLAYER ==================================
 
@@ -1379,6 +1389,33 @@ CommandReceived.buyCityImprovement = function () {
  * @param card {string}
  */
 CommandsData.executeProgressCard = function (card) {
+    let resources = ["Brick", "Grain","Ore", "Lumber", "Wool"];
+        if(card === "ResourceMonopoly"){
+            swal({
+                    title: "Resource Monopoly",
+                    text: "Write down what resource you want to ask for =)",
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Brick, Grain, Ore, Lumber, Wool"
+                },
+                function(inputValue){
+                    if (inputValue === false) return false;
+
+                    if (inputValue === "") {
+                        swal.showInputError("Write resource name plz >=|");
+                        return false
+                    }
+
+                    if(resources.indexOf(inputValue) === -1){
+                        swal.showInputError("Please specify a RESOURCE!!11 >=|");
+                        return false
+                    }
+                    Commands.resourceMonopoly(inputValue);
+                    swal("Nice!", "We'll take 2 of " + inputValue+" from each player =)", "success");
+                });
+        }
         return {'cardname':card};
 };
 
@@ -1755,14 +1792,14 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
-
+/*
 
          let phase = DATA.getMatch().phase;
          if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
 
-
+*/
 /*
         // if barbarian result commands
         if (app.barbarianResult) {
