@@ -37,7 +37,7 @@ Player.createPlayer = function (name, user) {
     player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.resourceCardNum = initialGoldNum;
     // TODO: testing, change later
-    player.progressCards = ["Printer","Smith","TradeMonopoly"];
+    player.progressCards = [];
     player.progress_cards_vp = [];
     //[Enum.ProgressCardType.Science.Alchemist, Enum.ProgressCardType.Trade.Merchant, Enum.ProgressCardType.Politics.Bishop];
     player.progressCardsCnt = player.progressCards.length;
@@ -72,7 +72,7 @@ Player.createPlayer = function (name, user) {
     player.maxSafeCardNum = 7;
 
     //Fields used for progress cards
-    player.progress_cards = {'CommercialHarbor':'CommercialHarbor'}; //we place new progress cards into this dictionary
+    player.progress_cards = {}; //we place new progress cards into this dictionary
     player.active_cards = {}; //after processing progress card we add here permmissions to build roads or take stuff from others
 
 
