@@ -8,7 +8,8 @@ let User = require("./engine/gameLogic/User.js");
 let data = require("./engine/Data.js");
 let Enum = require("./engine/gameLogic/Enum.js");
 let Player = require("./engine/gameLogic/Player.js");
-let Match = require("./engine/gameLogic/Match");
+let Match = require("./engine/gameLogic/Match.js");
+let Room = require("./engine/gameLogic/Room.js");
 
 var _ = require('underscore');
 /**
@@ -22,29 +23,116 @@ let user_A = {username :  "Emol", profile_pic : '/img/default_profile_pic.png'};
 let user_B = {username :  "Max", profile_pic : '/img/default_profile_pic.png'};
 let user_C = {username :  "Cheryl", profile_pic : '/img/default_profile_pic.png'};
 let user_D = {username :  "Yuan", profile_pic : '/img/default_profile_pic.png'};
-let userA = User.createUser(user_A);
-let userB = User.createUser(user_B);
-let userC = User.createUser(user_C);
-let userD = User.createUser(user_D);
-Commands.makeNewRoom(user_D, "123");
-Commands.joinRoom(userA, "123");
-Commands.joinRoom(userB, "123");
+// let userA = User.createUser(user_A);
+// let userB = User.createUser(user_B);
+// let userC = User.createUser(user_C);
+// let userD = User.createUser(user_D);
+// Commands.makeNewRoom(user_D, "123");
+// Commands.joinRoom(userA, "123");
+// Commands.joinRoom(userB, "123");
 // Commands.joinRoom(userC, "123");
+
+// Commands.makeNewRoom(user_A, "barba", "barba");
 
 //Test cases start here
 
 
-Commands.startGame("123");
-var match = data.getMatch("123");
+// Commands.startGame("123");
+var match = data.getMatch("barba");
 let currentPlayer = match.currentPlayer;
-var player = data.getMatch("123").players["Emol"];
+Commands.rollDice(match.currentPlayer,"123");
+Commands.rollDice(match.currentPlayer,"123");
+Commands.rollDice(match.currentPlayer,"123");
+Commands.rollDice(match.currentPlayer,"123");
+Commands.rollDice(match.currentPlayer,"123");
+Commands.rollDice(match.currentPlayer,"123");
+Commands.rollDice(match.currentPlayer,"123");
+
+
+function endTurn (userName, roomID) {
+    let player = data.getPlayer(userName, roomID);
+    player.active_cards = {}; //we need to delete all of the previously active cards
+    Player.freeRoadsOrShips = 0; // delete free roads
+    Player.freeUpgradeKnights = 0; // delete free knight upgrades
+    let match = data.getMatch(roomID);
+    Match.nextPlayerToTakeTurn(match);
+    // notify.user(match.currentPlayer, 'TAKE_TURN', CircularJSON.stringify(DATA.getRoom(roomID)));
+};
+
 // Commands.buildRoad("Emol","123",[1, 2]);
 // Commands.buildRoad("Emol", "123", [2, 3]);
-Commands.buildSettlement(currentPlayer, "123", {'position': 14});
-Commands.endTurn(currentPlayer, "123");
-Commands.buildSettlement("Yuan", "123", {'position': 26});
-Commands.upgradeToCity("Yuan", "123", {'position': 26});
-Commands.endTurn(currentPlayer, "123");
+Commands.buildSettlement( match.currentPlayer, "123", {'position': 14});
+endTurn( match.currentPlayer, "123");
+
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("1");
+    }
+});
+
+Commands.buildSettlement(match.currentPlayer, "123", {'position': 26});
+Commands.upgradeToCity( match.currentPlayer, "123", {'position': 26});
+endTurn( match.currentPlayer, "123");
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("2");
+    }
+});
+
+Commands.buildSettlement( match.currentPlayer, "123", {'position': 16});
+endTurn( match.currentPlayer, "123");
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("3");
+    }
+});
+
+Commands.buildSettlement(match.currentPlayer, "123", {'position': 37});
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("4.2");
+    }
+});
+Commands.upgradeToCity( match.currentPlayer, "123", {'position': 37});
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("4.1");
+    }
+});
+endTurn( match.currentPlayer, "123");
+Commands.buildSettlement( match.currentPlayer, "123", {'position': 1});
+endTurn( match.currentPlayer, "123");
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("4");
+    }
+});
+Commands.buildSettlement(match.currentPlayer, "123", {'position': 2});
+Commands.upgradeToCity( match.currentPlayer, "123", {'position': 2});
+endTurn( match.currentPlayer, "123");
+
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("5");
+    }
+});
+Commands.buildSettlement( match.currentPlayer, "123", {'position': 4});
+endTurn( match.currentPlayer, "123");
+
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("6");
+    }
+});
+Commands.buildSettlement(match.currentPlayer, "123", {'position': 7});
+Commands.upgradeToCity( match.currentPlayer, "123", {'position': 7});
+endTurn( match.currentPlayer, "123");
+_.forEach(match.players, function (player) {
+    if (player.resourcesAndCommodities.hasOwnProperty('undefined')){
+        console.log("yii");
+    }
+});
+
 /*
 Commands.buildSettlement("Yuan", "123", {'position': 27});
 Commands.rollDice("Yuan","123");

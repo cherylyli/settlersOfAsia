@@ -4,6 +4,7 @@
 let Map = require('./Map.js');
 let Knight = {} = module.exports;
 let Player = require('./Player.js');
+let _ = require('underscore');
 
 /**
  *
@@ -40,7 +41,7 @@ Knight.place = function (knight, vertex, map) {
     knight.position = vertex;
     Map.setVertexInfo(map, knight, vertex);
     knight.owner['longestRoad'] = Player.calculateLongestRoad(knight.owner, map);
-    knight.possibleSpots = Player.getEmptyAdjacentVertices(knight, vertex, map);
+    knight.possibleSpots = Player.getEmptyAdjacentVertices(knight.owner, vertex, map);
 };
 
 Knight.activate = function (knight, match) {
@@ -106,4 +107,13 @@ Knight.getVertexUnitType = function(knight){
 Knight.hireKnight = function(player, map, position = null){
     let knight = Knight.createKnight(player, map);
     if (position) Knight.place(knight, position, map);
+};
+
+
+Knight.resetInNewTurn = function (match) {
+    _.forEach(match.players, function (player) {
+        _.forEach(player.knights, function (knight) {
+            knight.hasBeenPromotedThisTurn = false;
+        })
+    })
 };

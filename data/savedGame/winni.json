@@ -17,17 +17,17 @@
       "color": "RED",
       "VP": 9,
       "resourcesAndCommodities": {
-        "Lumber": 6,
-        "Brick": 6,
-        "Grain": 1,
-        "Ore": 1,
-        "Wool": 6,
-        "Gold": 2,
-        "Cloth": 10,
-        "Coin": 10,
-        "Paper": 10
+        "Lumber": 0,
+        "Brick": 0,
+        "Grain": 3,
+        "Ore": 3,
+        "Wool": 0,
+        "Gold": 0,
+        "Cloth": 0,
+        "Coin": 0,
+        "Paper": 0
       },
-      "resourceCardNum": 52,
+      "resourceCardNum": 6,
       "progressCards": [],
       "progressCardsCnt": 0,
       "buildings": {

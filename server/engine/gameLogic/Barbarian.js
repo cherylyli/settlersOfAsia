@@ -112,6 +112,18 @@ Barbarian.applyResult = function(barbarian, players){
     var most;
     var affectedPlayers = [];
     var state = Barbarian.getAttackResult(barbarian, players);
+
+    //deactive all knights
+    for(var i in players){
+        if(Player.getKnightsSum(players[i]) > 0){
+            //deactive knights
+            console.log("deactive knights");
+            for(var knight in players[i].knights){
+                Knight.deactivate(players[i].knights[knight]);
+            }
+        }
+    }
+
   /*
    if(barbarian.toAttack() == false){
    return -1;
@@ -181,16 +193,6 @@ Barbarian.applyResult = function(barbarian, players){
         else {
             console.log("Error. ")
             //error
-        }
-    }
-    //deactive all knights
-    for(var i in players){
-        if(Player.getKnightsSum(players[i]) > 0){
-            //deactive knights
-            console.log("deactive knights");
-            for(var knight in players[i].knights){
-                Knight.deactivate(players[i].knights[knight]);
-            }
         }
     }
     //done

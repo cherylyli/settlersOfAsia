@@ -5,7 +5,6 @@
 /**
  * Created by emol on 1/10/17.
  */
-let _ = require('underscore');
 let Enum = require('./Enum.js');
 //import {ProgressCardDeck} from './ProgressCard.js';
 //import {Dice} from './Dice.js';
@@ -23,6 +22,8 @@ let Building = require('./Building.js');
 let notify  = require('../../api/notify.js');
 let Barbarian = require('./Barbarian.js');
 let CircularJSON = require('circular-json');
+let Knight = require('./Knight.js');
+let _ = require('underscore');
 
 
 // users is a list of String, names of the user in the room
@@ -189,6 +190,9 @@ Match.nextPlayerToTakeTurn = function (match) {
             match.dice.productionDiceSet = false;
             match.shipMoved = false;
             match.dice.moveThiefResultConfiged = false;
+
+            // reset knight
+            Knight.resetInNewTurn(match);
 
         }
     }

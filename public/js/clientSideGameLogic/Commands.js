@@ -731,7 +731,7 @@ CommandCheck.promoteKnight = function (position) {
     }
     if (!checkEnoughResource(Cost.promoteKnight)) {
         // if player has freeKnightUpgrades
-        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeUpgradeKnights>0){
+        if (DATA.getMyPlayer().freeUpgradeKnights>0){
             // if player has free knight upgrades, can upgrade even if there's enough resources
 
         }else{
@@ -1231,7 +1231,7 @@ CommandCheck.buildShip = function (vertex1, vertex2) {
 
 
     if((DATA.getMatch().phase == Enum.MatchPhase.TurnPhase) && (DATA.getMatch().fish != "BUILD_SHIP")){
-        if (DATA.getMatch().player[DATA.getMatch().currentPlayer].freeRoadsOrShips>0){
+        if (DATA.getMyPlayer().freeRoadsOrShips>0){
             // if player has a freeRoadsOrShips, don't need to check for resources
         }
         else if(!checkEnoughResource(Cost.buildShip)){
@@ -1287,7 +1287,7 @@ function shipPostionTest(edge) {
 
         //... connected with settlements, or cities.
         let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
-        if (vertexUnit && !isKnight(vertexUnit)) {
+        if (vertexUnit && !isKnight(vertexUnit) && vertexUnit.owner.name == DATA.getMyPlayer().name) {
             connected = true;
             break;
         }
@@ -1663,7 +1663,6 @@ _.each(CommandName, function (cmd) {
          if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
-
 
 
         // if barbarian result commands
