@@ -244,13 +244,38 @@ Commands.saveGame = function (userName, roomID) {
          //update assest
      }
  };**/
+ Commands.tradeMonopoly = function (userName, roomID, data) {
+     let players = Object.keys(DATA.getMatch(roomID).players).filter( name => {
+         return name !== userName;
+     });
+     let myPlayer = DATA.getPlayer(userName, roomID);
+     players.forEach(name =>{
+         let player = DATA.getPlayer(name, roomID);
+         if(player.resourcesAndCommodities[data.resource] >= 1){
+             myPlayer.resourcesAndCommodities[data.resource] += 1;
+             player.resourcesAndCommodities[data.resource] -= 1;
+         }
+     });
+ };
 
-
+Commands.resourceMonopoly = function (userName, roomID, data) {
+    let players = Object.keys(DATA.getMatch(roomID).players).filter( name => {
+        return name !== userName;
+    });
+    let myPlayer = DATA.getPlayer(userName, roomID);
+    players.forEach(name =>{
+        let player = DATA.getPlayer(name, roomID);
+        if(player.resourcesAndCommodities[data.resource] >= 2){
+            myPlayer.resourcesAndCommodities[data.resource] += 2;
+            player.resourcesAndCommodities[data.resource] -= 2;
+        }
+    });
+};
 
 
 
  /**
-  * build a road
+  * build
   * @param userName {String}
   * @param roomID {String}
   * @param data  {[int, int]} the edge where user wants to place the road

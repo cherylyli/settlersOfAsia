@@ -172,7 +172,7 @@ $(window).on('imready', function(im){
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for( var i=0; i < 5; i++ ) text += possible.charAt(Math.floor(Math.random() * possible.length));
         // FIXME : change later
-        // return "HmN7a";
+        // return "A19Qs";
         return text;
     }
 
