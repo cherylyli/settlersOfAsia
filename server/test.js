@@ -29,18 +29,23 @@ let userD = User.createUser(user_D);
 Commands.makeNewRoom(user_D, "123");
 Commands.joinRoom(userA, "123");
 Commands.joinRoom(userB, "123");
-Commands.joinRoom(userC, "123");
+// Commands.joinRoom(userC, "123");
 
 //Test cases start here
 
-/*
+
 Commands.startGame("123");
 var match = data.getMatch("123");
+let currentPlayer = match.currentPlayer;
 var player = data.getMatch("123").players["Emol"];
-Commands.buildRoad("Emol","123",[1, 2]);
-Commands.buildRoad("Emol", "123", [2, 3]);
-Commands.buildSettlement("Yuan", "123", {'position': 14});
+// Commands.buildRoad("Emol","123",[1, 2]);
+// Commands.buildRoad("Emol", "123", [2, 3]);
+Commands.buildSettlement(currentPlayer, "123", {'position': 14});
+Commands.endTurn(currentPlayer, "123");
 Commands.buildSettlement("Yuan", "123", {'position': 26});
+Commands.upgradeToCity("Yuan", "123", {'position': 26});
+Commands.endTurn(currentPlayer, "123");
+/*
 Commands.buildSettlement("Yuan", "123", {'position': 27});
 Commands.rollDice("Yuan","123");
 Commands.rollDice("Yuan","123");

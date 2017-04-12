@@ -146,7 +146,8 @@ let CommandReceived = {};
         'tradeWithBank': 'Deal!',
         'endTurn': 'Hummmm... I think I am done.',
         'executeProgressCard':'Progress Card was applied',
-        'discardOneProgressCard': 'Discarded.'
+        'discardOneProgressCard': 'Discarded.',
+        'saveGame': 'saved'
     };
 
 
@@ -154,18 +155,6 @@ let CommandReceived = {};
 let CommandCheck = {};
 
 let room = {users: {}};
-/**
- *
- * @param cmds
- * @return {Object} } key: String, commandName,  val: boolean, if valid. This object is used to generate command prompt windows
- */
-/**
-let generateCommandPomptObject = function (cmds) {
-  let result = {};
-  _.forEach(cmds, function (cmd, data) {
-      result[cmd] = CommandCheck[cmd].apply(this, data);
-  })
-};**/
 
 /**
  *
@@ -958,6 +947,7 @@ CommandsData.rollDice = function () {
 
 //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
 CommandCheck.rollDice = function () {
+
     /**
     if (DATA.getMatch().diceRolled) {
         swalError2("Dice already rolled!");
@@ -1621,225 +1611,60 @@ function isSettlement(vertex) {
 
 
 CommandReceived.rollDice = function () {
-    let dice = DATA.getMatch().dice;
-    let move = null;
-    let player = DATA.getMyPlayer();
 
-    // event die result
-    // if barbarian attacks
-      if(DATA.getMatch().barbarianResult){
-        swalService.swal({
-            title: "Barbarian Attack",
-            text: "Everybody fights!!!"
-        });
-        if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
-            notifyUserBarbarianAction();
-          } else {
-                    app.barbarianResult = false;
-                    swalService.swal({
-                        title: DATA.getMatch().barbarianResult.result,
-                        text : "Barbarian left"
-                    });
-            }
-            //deactive all knights
+    if (app.barbarianResult) {
+        if (DATA.getMatch().barbarianResult.result[0] == Enum.BarbarianResult.CATAN_WIN){
+            swalService.swal("You are the defender of Catan.");
         }
-
-
-
-    // if progress card
-
-    else if (dice.eventDie != Enum.DieResult.Ship){
-          let cards = [];
-          switch (dice.eventDie) {
-              case "BlueCityGate" :
-                  if (player.cityImprovement.Politics == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 5) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  break;
-
-              case "YellowCityGate" :
-                  if (player.cityImprovement.Trade == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  if (player.cityImprovement.Trade == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  if (player.cityImprovement.Trade == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  if (player.cityImprovement.Trade == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-                  }
-                  if (player.cityImprovement.Trade == 5) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  break;
-
-              case "GreenCityGate" :
-                  if (player.cityImprovement.Science == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-
-                  }
-                  if (player.cityImprovement.Science == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  if (player.cityImprovement.Science == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  if (player.cityImprovement.Science == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  if (player.cityImprovement.Science == 5) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  break;
-          }
-
-          if (cards.length > 0) {
-            app.canDraw = true;
-            notifyUserToDrawProgressCard(cards);
-          }
     }
 
-    if (DATA.getMatch().dice.numberDiceResult == 7){
-        discardCardBecauseOf7();
-          //player who rolled seven needs to select from robber / pirate
-          if(DATA.getMatch().diceRolled && app.isMyTurn && DATA.getMatch().diceRolled){
-              swalService.swal({
-                  title: "Move Robber or Pirate",
-                  text: "You rolled 7."
-              })
-        }
+    if (DATA.getMyPlayer().diceConfigResult.length > 0){
+        _.forEach(DATA.getMyPlayer().diceConfigResult, function (action) {
+            if (action.cmd == "drawOneProgressCard" && action.data){
+                notifyUserToDrawProgressCard([action.data]);
+            }
+            else swalService.swal("Dice Result", action.msg);
+        })
     }
 };
 
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
-        app.ongoingCmd = null;
-        /**
-        // if not my turn and barbarian result, operation is limited
-        if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
-        swalError2("Please roll dice first");
-        return;
-      }
-
-      if (app.barbarianResult){
-          //here
-        // DATA.getMatch().barbarianResult = null;
-          var res = DATA.getMatch().barbarianResult.result;
-
-          if(res == "CATAN_WIN_TIE"){
-            app.canDraw = true;
-            if (cmd != "drawOneProgressCard") {
-                swalError2("You can get one progress card for free");
-                return;
-            }
-          }
-          else if (res == "CATAN_LOSE"){
-            app.pillageCity = true;
-            if (cmd != "chooseCityToBePillaged") {
-              swalError2("Please choose one city to be pillaged");
-              return;
-            }
-          }
-          else{
-            DATA.getMyPlayer().defenderOfCatan = true; //cant assign to null
-            swal("You are the defender of Catan.");
-          }
-     }
-
-     if(app.barbarianResult){
-       app.barbarianResult = false;
-     }
-
-     //player has more than 7 cards & dice result = 7
-     if(app.discardCards){
-       if(cmd != "discardResourceCards"){
-         swalError2("You need to discard "  + num + " cards");
-         return;
-       }
-       app.discardCards = false;
-     }
-
-     if(app.canDraw){
-       if(cmd != "drawOneProgressCard"){
-         swalError2("You need to draw one progress card.");
-         return false;
-       }
-     }
-
-
-     if(app.rolledSeven){
-          if(cmd != "moveRobber" && cmd != "movePirate"){
-            swalError2("You must move robber/pirate first");
-            return;
-          }
-          else{
-            //swal("Succ");
-            app.rolledSeven = false;
-        }
-      }
-**/
-
-        //input complete check
-        /**
-         if (!checkInput(CommandsData[cmd].apply(this, arguments))){
-            return;
-        }**/
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operation
-            /**
+
        let phase = DATA.getMatch().phase;
        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
+        // if not my turn and barbarian result, operation is limited
+        if(!(cmd == "rollDice" || cmd == "saveGame") && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+            swalError2("Please roll dice first");
+            return;
+        }
 
-        if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
-          swalError2("Please roll dice first");
-          return;
-        }**/
 
         //comment out this part if you want to disable checks
         //checkers
-/*
 
-         let phase = DATA.getMatch().phase;
+
+
          if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
 
-*/
-/*
+
+
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
         }
-*/
+
         //exec
+        app.ongoingCmd = null;
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };
 
@@ -1854,10 +1679,10 @@ _.each(CommandName, function (cmd) {
             console.log(cmd);
         }
     });
-/**
+
     sock.on(cmd + 'Ack' + 'Owner', function (msg) {
         swalSucc(CommandSuccMsg[cmd]);
-    });**/
+    });
 
 });
 

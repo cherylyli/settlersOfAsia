@@ -65,7 +65,7 @@ $(window).on('imready', function(im){
     window.history.replaceState({}, null, window.location.pathname);
 
     // FIXME: change later, just for testing
-    // if (mapConfig) mapConfig.savedGameID = "A19Qs";
+    // if (mapConfig) mapConfig.savedGameID = "piaKP";
 
 
     sock.emit('MAP_CONFIG', mapConfig);
@@ -229,17 +229,17 @@ $(window).on('imready', function(im){
             // save match
             save: function () {
                 Commands.saveGame();
-                Toast.show('Saved!');
+                // Toast.show('Saved!');
             },
 
             // continue previously saved match
             open: function () {
-                Toast.show('Open');
+                // Toast.show('Open');
             },
 
             // quit match
             quit: function () {
-                Toast.show('Match ended!');
+                // Toast.show('Match ended!');
             },
 
             // append to log
@@ -452,52 +452,6 @@ $(window).on('imready', function(im){
             app.sendSysMessage(words);
         });
     });
-
-
-
-
-
-
-
-    // ----------------------------------------- Command Table ----------------------------------------- //
-
-    // $('#cmd-table').draggable();
-
-    // display command table
-    // function showCmdTable() {
-    //     $('#cmd-table').show();
-    //     if (!$('#cmd-table .cmd.chosen').length) $('#cmd-table .cmd').first().click();
-    // }
-
-
-
-    // $(document).on('click', '#trigger-cmd-table', showCmdTable);
-
-    // hide command table by clicking on 'X' or press 'ESC' key
-    // function hideCmdTable() {
-    //     var $p = $('#cmd-table');
-    //     clearHighlightedCommands();
-    //     clearHighlightedVertices();
-    //     $p.find('input').val('');
-    //     $p.hide();
-    // }
-
-
-
-
-    // $('#cmd-table .pop_close').click(hideCmdTable);
-    // $(document).keyup(function (e) {
-    //     if (e.keyCode == 27) hideCmdTable()
-    // });
-
-    // check if cmd table is visible
-    // function isCmdTableVisible() {
-    //     return $('#cmd-table').is(':visible');
-    // }
-
-    // function isCmdPromptVisible() {
-    //     return $('#cmd-prompt').is(':visible');
-    // }
 
 
 

@@ -29,8 +29,7 @@
         </div>
 
         <!-- TODO: change here-->
-            <!--div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'-->
-            <div id='board' class='box-shadow-light'>
+            <div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'>
                 <div class='map'></div>
                 <div id="sideCmds">
                 <div class='dices right'>
@@ -161,7 +160,7 @@
     </div>
     <div id='right-screen' class='box-shadow-light'>
         <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
-        <div id='users'>
+        <div id='users' v-bind:disabled='!isMyTurn'>
             <div v-for='player in room.users'>
                 <div class='user' v-bind:active='room.match && room.match.currentPlayer==player.name'
                      v-bind:data-username='player.name'>

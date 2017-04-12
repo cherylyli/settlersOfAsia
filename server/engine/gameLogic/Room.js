@@ -33,6 +33,7 @@ Room.fetchSaved = function(roomId){
     return CircularJSON.parse(fs.readFileSync(`${savedPath}/${roomId}.json`, 'utf8'));
 };
 
+
 // Room.savedGame('a', {a:1})
 // Room.savedGame('b', {b:1})
 // Room.savedGame('c', {c:1})

@@ -4,15 +4,581 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="aebf488c-f492-48ae-b51b-65ea59aca7de" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dump.rdb" afterPath="$PROJECT_DIR$/dump.rdb" />
+    <list default="true" id="aebf488c-f492-48ae-b51b-65ea59aca7de" name="Default" comment="~">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable.tar.gz" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/config.stamp.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/cover.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/logo.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/lua.ico" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/life.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/assets/encodings.rdb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/assets/hash-zipmap.rdb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/saveGame/A19Qs.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/00-RELEASENOTES" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/BUGS" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/CONTRIBUTING" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/COPYING" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/INSTALL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/MANIFESTO" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/geohash-int/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/geohash-int/geohash.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/geohash-int/geohash.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/geohash-int/geohash_helper.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/geohash-int/geohash_helper.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/CHANGELOG.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/COPYING" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/adapters/ae.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/adapters/libev.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/adapters/libevent.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/adapters/libuv.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/async.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/async.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/dict.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/dict.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/examples/example-ae.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/examples/example-libev.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/examples/example-libevent.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/examples/example-libuv.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/examples/example.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/fmacros.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/hiredis.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/hiredis.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/net.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/net.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/sds.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/sds.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/sdsalloc.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/test.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/hiredis/zmalloc.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/.autom4te.cfg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/.gitattributes" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/COPYING" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/ChangeLog" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/INSTALL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/Makefile.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/autogen.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/bin/jemalloc-config.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/bin/jemalloc.sh.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/bin/jeprof.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/config.guess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/config.sub" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/configure.ac" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/coverage.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/doc/html.xsl.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/doc/jemalloc.xml.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/doc/manpages.xsl.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/doc/stylesheet.xsl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/arena.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/atomic.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/base.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/bitmap.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/chunk.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/chunk_dss.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/chunk_mmap.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/ckh.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/ctl.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/extent.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/hash.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/huge.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/jemalloc_internal.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/jemalloc_internal_decls.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/jemalloc_internal_defs.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/jemalloc_internal_macros.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/mb.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/mutex.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/pages.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/private_namespace.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/private_symbols.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/private_unnamespace.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/prng.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/prof.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/public_namespace.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/public_unnamespace.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/ql.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/qr.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/quarantine.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/rb.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/rtree.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/size_classes.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/stats.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/tcache.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/tsd.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/util.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/internal/valgrind.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/jemalloc.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/jemalloc_defs.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/jemalloc_macros.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/jemalloc_mangle.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/jemalloc_protos.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/jemalloc_rename.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/jemalloc/jemalloc_typedefs.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/msvc_compat/C99/stdbool.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/msvc_compat/C99/stdint.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/msvc_compat/strings.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/include/msvc_compat/windows_extra.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/install-sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/jemalloc.pc.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/arena.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/atomic.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/base.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/bitmap.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/chunk.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/chunk_dss.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/chunk_mmap.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/ckh.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/ctl.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/extent.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/hash.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/huge.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/jemalloc.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/mb.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/mutex.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/pages.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/prof.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/quarantine.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/rtree.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/stats.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/tcache.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/tsd.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/util.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/valgrind.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/src/zone.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-alti.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params11213.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params1279.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params132049.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params19937.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params216091.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params2281.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params4253.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params44497.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params607.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-params86243.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT-sse2.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/SFMT.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/btalloc.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/jemalloc_test.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/jemalloc_test_defs.h.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/math.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/mq.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/mtx.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/test.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/thd.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/include/test/timer.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/MALLOCX_ARENA.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/aligned_alloc.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/allocated.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/chunk.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/mallocx.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/overflow.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/posix_memalign.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/rallocx.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/sdallocx.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/thread_arena.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/thread_tcache_enabled.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/integration/xallocx.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/SFMT.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/btalloc.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/btalloc_0.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/btalloc_1.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/math.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/mq.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/mtx.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/test.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/thd.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/src/timer.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/stress/microbench.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/test.sh.in" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/SFMT.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/atomic.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/bitmap.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/ckh.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/hash.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/junk.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/junk_alloc.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/junk_free.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/lg_chunk.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/mallctl.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/math.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/mq.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/mtx.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/prof_accum.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/prof_active.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/prof_gdump.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/prof_idump.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/prof_reset.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/prof_thread_name.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/ql.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/qr.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/quarantine.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/rb.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/rtree.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/size_classes.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/stats.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/tsd.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/util.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/jemalloc/test/unit/zero.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/linenoise/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/linenoise/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/linenoise/README.markdown" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/linenoise/example.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/linenoise/linenoise.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/linenoise/linenoise.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/COPYRIGHT" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/HISTORY" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/INSTALL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/contents.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/lua.1" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/lua.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/lua.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/luac.1" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/luac.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/manual.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/manual.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/doc/readme.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/all.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/lua.hpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/lua.pc" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/luavs.bat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/min.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/noparser.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/etc/strict.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/fpconv.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/fpconv.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lapi.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lapi.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lauxlib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lauxlib.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lbaselib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lcode.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lcode.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ldblib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ldebug.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ldebug.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ldo.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ldo.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ldump.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lfunc.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lfunc.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lgc.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lgc.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/linit.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/liolib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/llex.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/llex.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/llimits.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lmathlib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lmem.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lmem.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/loadlib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lobject.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lobject.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lopcodes.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lopcodes.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/loslib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lparser.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lparser.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lstate.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lstate.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lstring.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lstring.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lstrlib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ltable.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ltable.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ltablib.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ltm.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/ltm.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lua.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lua.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lua_bit.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lua_cjson.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lua_cmsgpack.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lua_struct.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/luac.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/luaconf.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lualib.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lundump.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lundump.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lvm.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lvm.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lzio.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/lzio.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/print.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/strbuf.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/src/strbuf.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/bisect.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/cf.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/echo.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/env.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/factorial.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/fib.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/fibfor.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/globals.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/hello.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/luac.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/printf.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/readonly.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/sieve.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/sort.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/table.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/trace-calls.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/trace-globals.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/lua/test/xd.lua" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/deps/update-jemalloc.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/redis.conf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/runtest" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/runtest-cluster" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/runtest-sentinel" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/sentinel.conf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/Makefile.dep" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/adlist.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/adlist.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ae.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ae.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ae_epoll.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ae_evport.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ae_kqueue.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ae_select.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/anet.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/anet.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/aof.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/asciilogo.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/bio.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/bio.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/bitops.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/blocked.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/cluster.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/cluster.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/config.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/config.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/crc16.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/crc64.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/crc64.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/db.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/debug.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/debugmacro.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/dict.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/dict.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/endianconv.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/endianconv.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/fmacros.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/geo.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/geo.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/help.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/hyperloglog.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/intset.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/intset.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/latency.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/latency.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/lzf.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/lzfP.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/lzf_c.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/lzf_d.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/memtest.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/mkreleasehdr.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/multi.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/networking.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/notify.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/object.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/pqsort.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/pqsort.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/pubsub.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/quicklist.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/quicklist.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/rand.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/rand.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/rdb.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/rdb.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/redis-benchmark.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/redis-check-aof.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/redis-check-rdb.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/redis-cli.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/redis-trib.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/redisassert.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/release.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/replication.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/rio.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/rio.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/scripting.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sds.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sds.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sdsalloc.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sentinel.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/server.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/server.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/setproctitle.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sha1.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sha1.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/slowlog.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/slowlog.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/solarisfixes.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sort.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sparkline.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/sparkline.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/syncio.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/t_hash.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/t_list.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/t_set.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/t_string.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/t_zset.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/testhelp.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/util.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/util.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/valgrind.sup" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/version.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ziplist.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/ziplist.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/zipmap.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/zipmap.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/zmalloc.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/src/zmalloc.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/assets/default.conf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/cluster.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/run.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/00-base.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/01-faildet.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/02-failover.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/03-failover-loop.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/04-resharding.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/05-slave-selection.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/06-slave-stop-cond.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/07-replica-migration.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/08-update-msg.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/09-pubsub.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/10-manual-failover.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/11-manual-takeover.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/12-replica-migration-2.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/helpers/onlydots.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tests/includes/init-tests.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/cluster/tmp/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/helpers/bg_complex_data.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/helpers/gen_write_load.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/instances.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/aof-race.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/aof.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/convert-zipmap-hash-on-load.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/logging.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/rdb.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/redis-cli.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/replication-2.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/replication-3.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/replication-4.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/replication-psync.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/integration/replication.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/run.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/00-base.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/01-conf-update.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/02-slaves-reconf.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/03-runtime-reconf.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/04-slave-selection.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/05-manual.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/06-ckquorum.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/07-down-conditions.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tests/includes/init-tests.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/sentinel/tmp/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/support/cluster.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/support/redis.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/support/server.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/support/test.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/support/tmpfile.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/support/util.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/test_helper.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/aofrw.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/auth.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/bitfield.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/bitops.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/dump.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/expire.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/geo.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/hyperloglog.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/introspection-2.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/introspection.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/keyspace.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/latency-monitor.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/limits.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/maxmemory.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/memefficiency.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/multi.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/obuf-limits.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/other.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/printver.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/protocol.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/pubsub.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/quit.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/scan.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/scripting.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/slowlog.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/sort.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/hash.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/incr.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/list-2.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/list-3.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/list-common.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/list.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/set.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/string.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/tests/unit/type/zset.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/build-static-symbols.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/cluster_fail_time.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/corrupt_rdb.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/create-cluster/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/create-cluster/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/create-cluster/create-cluster" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/generate-command-help.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/hashtable/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/hashtable/rehashing.c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/hyperloglog/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/hyperloglog/hll-err.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/hyperloglog/hll-gnuplot-graph.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/install_server.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/lru/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/lru/test-lru.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/redis-copy.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/redis-sha1.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/redis_init_script" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/redis_init_script.tpl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/releasetools/01_create_tarball.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/releasetools/02_upload_tarball.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/releasetools/03_test_release.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/releasetools/04_release_hash.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/speed-regression.tcl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/redis-stable/utils/whatisdoing.sh" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/npm-debug.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/server/npm-debug.log" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/room.css" afterPath="$PROJECT_DIR$/public/css/room.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/CmdPrompt.js" afterPath="$PROJECT_DIR$/public/js/CmdPrompt.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js" afterPath="$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/lobby.js" afterPath="$PROJECT_DIR$/public/js/lobby.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/room.js" afterPath="$PROJECT_DIR$/public/js/room.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/standard.js" afterPath="$PROJECT_DIR$/public/js/standard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/room.html" afterPath="$PROJECT_DIR$/public/room.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/engine/Commands.js" afterPath="$PROJECT_DIR$/server/engine/Commands.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/engine/gameLogic/Dice.js" afterPath="$PROJECT_DIR$/server/engine/gameLogic/Dice.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/engine/gameLogic/Pirate.js" afterPath="$PROJECT_DIR$/server/engine/gameLogic/Pirate.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/engine/engine.js" afterPath="$PROJECT_DIR$/server/engine/engine.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/engine/gameLogic/Bank.js" afterPath="$PROJECT_DIR$/server/engine/gameLogic/Bank.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/engine/gameLogic/Player.js" afterPath="$PROJECT_DIR$/server/engine/gameLogic/Player.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/engine/gameLogic/Robber.js" afterPath="$PROJECT_DIR$/server/engine/gameLogic/Robber.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/test.js" afterPath="$PROJECT_DIR$/server/test.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,85 +596,63 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Bank.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Bank.js">
+      <file leaf-file-name="Commands.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="37" column="8" lean-forward="false" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+            <state relative-caret-position="195">
+              <caret line="1620" column="29" lean-forward="false" selection-start-line="1620" selection-start-column="29" selection-end-line="1620" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HexTile.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/HexTile.js">
+      <file leaf-file-name="room.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/room.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="196" column="38" lean-forward="true" selection-start-line="196" selection-start-column="38" selection-end-line="196" selection-end-column="38" />
+            <state relative-caret-position="240">
+              <caret line="163" column="45" lean-forward="false" selection-start-line="163" selection-start-column="45" selection-end-line="163" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="room.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/css/room.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="386" column="0" lean-forward="false" selection-start-line="386" selection-start-column="0" selection-end-line="386" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="standard.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/standard.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="490" column="3" lean-forward="false" selection-start-line="490" selection-start-column="3" selection-end-line="490" selection-end-column="3" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <marker date="1491973564144" expanded="true" signature="23440:23456" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Scenario.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Scenario.js">
+      <file leaf-file-name="Room.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Room.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="47" column="76" lean-forward="false" selection-start-line="47" selection-start-column="76" selection-end-line="47" selection-end-column="76" />
+            <state relative-caret-position="600">
+              <caret line="57" column="58" lean-forward="false" selection-start-line="57" selection-start-column="58" selection-end-line="57" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Map.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Map.js">
+      <file leaf-file-name="room.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/room.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="428" column="5" lean-forward="true" selection-start-line="428" selection-start-column="5" selection-end-line="428" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/test.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="60" column="32" lean-forward="false" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Barbarian.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Barbarian.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="87" column="57" lean-forward="false" selection-start-line="87" selection-start-column="57" selection-end-line="87" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Match.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Match.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="75" column="4" lean-forward="false" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="4" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Data.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/engine/Data.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+            <state relative-caret-position="9120">
+              <caret line="608" column="9" lean-forward="true" selection-start-line="608" selection-start-column="9" selection-end-line="608" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -117,11 +661,10 @@
       <file leaf-file-name="Player.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Player.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="155" column="43" lean-forward="false" selection-start-line="155" selection-start-column="43" selection-end-line="155" selection-end-column="43" />
+            <state relative-caret-position="435">
+              <caret line="392" column="41" lean-forward="false" selection-start-line="392" selection-start-column="41" selection-end-line="392" selection-end-column="41" />
               <folding>
-                <marker date="1491856671184" expanded="true" signature="27566:27696" ph="{...}" />
-                <marker date="1491856671184" expanded="true" signature="27613:27690" ph="{...}" />
+                <marker date="1491970772388" expanded="true" signature="27510:27669" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -130,37 +673,87 @@
       <file leaf-file-name="Dice.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Dice.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="102" column="18" lean-forward="false" selection-start-line="102" selection-start-column="18" selection-end-line="102" selection-end-column="18" />
+            <state relative-caret-position="141">
+              <caret line="265" column="53" lean-forward="false" selection-start-line="265" selection-start-column="53" selection-end-line="265" selection-end-column="53" />
               <folding>
-                <marker date="1491856671188" expanded="true" signature="2538:2817" ph="{...}" />
+                <element signature="n#!!block;n#configPlayerEventCityDie#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Commands.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/engine/Commands.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-726">
+              <caret line="674" column="1" lean-forward="false" selection-start-line="674" selection-start-column="1" selection-end-line="674" selection-end-column="1" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="game.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/game.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="235">
+              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getInput</find>
-      <find>stealCard</find>
-      <find>barRes</find>
-      <find>turnNum</find>
-      <find>drawPro</find>
-      <find>trade</find>
-      <find>updateVP</find>
-      <find>progress</find>
-      <find>FishTile.createFishTile</find>
-      <find>createFishTile</find>
-      <find>getVertices</find>
-      <find>getCities</find>
-      <find>produceResource</find>
-      <find>FishTile</find>
-      <find>numTokenToHexTiles</find>
-      <find>FishTi</find>
-      <find>Hextile</find>
+      <find>drawProgress</find>
+      <find>Progress</find>
+      <find>numberDiceResult</find>
+      <find>configNumberDice</find>
+      <find>barbarianResult</find>
+      <find>moveRi</find>
+      <find>drawOneR</find>
+      <find>d</find>
+      <find>discardR</find>
+      <find>drawOn</find>
+      <find>notify</find>
+      <find>moveRobb</find>
+      <find>notifyUserToDiscardProgressCard</find>
+      <find>drawOneProgressCard</find>
+      <find>chooseC</find>
+      <find>Enum</find>
+      <find>action</find>
+      <find>toPla</find>
+      <find>Bar</find>
+      <find>rolld</find>
+      <find>save</find>
+      <find>makeI</find>
+      <find>makeNewRoom</find>
+      <find>start</find>
+      <find>discard</find>
+      <find>assignPlayerBarbarianAction</find>
+      <find>Hex</find>
+      <find>drawOne</find>
+      <find>upgradeToM</find>
+      <find>disable</find>
     </findStrings>
+    <replaceStrings>
+      <replace>swalService</replace>
+      <replace>swalService.swal</replace>
+      <replace>card =</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/server/engine/gameLogic</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -168,22 +761,35 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/public/js/clientSideGameLogic/Enum.js" />
-        <option value="$PROJECT_DIR$/public/room.html" />
-        <option value="$PROJECT_DIR$/public/js/room.js" />
         <option value="$PROJECT_DIR$/server/engine/gameLogic/Room.js" />
-        <option value="$PROJECT_DIR$/public/js/CmdAction.js" />
-        <option value="$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js" />
-        <option value="$PROJECT_DIR$/server/engine/Commands.js" />
         <option value="$PROJECT_DIR$/server/test.js" />
         <option value="$PROJECT_DIR$/server/engine/gameLogic/Barbarian.js" />
-        <option value="$PROJECT_DIR$/server/engine/gameLogic/Player.js" />
-        <option value="$PROJECT_DIR$/server/engine/gameLogic/Dice.js" />
         <option value="$PROJECT_DIR$/server/engine/gameLogic/Bank.js" />
         <option value="$PROJECT_DIR$/server/engine/gameLogic/FishTile.js" />
         <option value="$PROJECT_DIR$/server/engine/gameLogic/Scenario.js" />
         <option value="$PROJECT_DIR$/server/engine/gameLogic/Map.js" />
+        <option value="$PROJECT_DIR$/server/engine/gameLogic/Harbor.js" />
         <option value="$PROJECT_DIR$/server/engine/gameLogic/HexTile.js" />
+        <option value="$PROJECT_DIR$/server/engine/gameLogic/User.js" />
+        <option value="$PROJECT_DIR$/server/engine/gameLogic/Knight.js" />
+        <option value="$PROJECT_DIR$/public/js/clientSideGameLogic/Enum.js" />
+        <option value="$PROJECT_DIR$/public/js/clientSideGameLogic/VertexUnit.js" />
+        <option value="$PROJECT_DIR$/public/js/plugins/SwalService.js" />
+        <option value="$PROJECT_DIR$/public/js/CmdPrompt.js" />
+        <option value="$PROJECT_DIR$/server/engine/gameLogic/Match.js" />
+        <option value="$PROJECT_DIR$/public/js/clientSideGameLogic/HexTile.js" />
+        <option value="$PROJECT_DIR$/public/js/clientSideGameLogic/Player.js" />
+        <option value="$PROJECT_DIR$/public/js/CmdAction.js" />
+        <option value="$PROJECT_DIR$/server/engine/gameLogic/Player.js" />
+        <option value="$PROJECT_DIR$/server/engine/Commands.js" />
+        <option value="$PROJECT_DIR$/server/engine/gameLogic/Enum.js" />
+        <option value="$PROJECT_DIR$/server/engine/engine.js" />
+        <option value="$PROJECT_DIR$/server/engine/gameLogic/Dice.js" />
+        <option value="$PROJECT_DIR$/public/js/room.js" />
+        <option value="$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js" />
+        <option value="$PROJECT_DIR$/public/js/standard.js" />
+        <option value="$PROJECT_DIR$/public/room.html" />
+        <option value="$PROJECT_DIR$/public/css/room.css" />
       </list>
     </option>
   </component>
@@ -200,8 +806,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="24" />
-    <option name="width" value="1680" />
-    <option name="height" value="961" />
+    <option name="width" value="1920" />
+    <option name="height" value="991" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -218,7 +824,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -361,9 +966,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soa" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="saveGame" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -373,6 +1015,7 @@
     <property name="settings.editor.selected.configurable" value="settings.nodejs" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/engine/gameLogic" />
   </component>
   <component name="RunManager" selected="Node.js.app.js">
     <configuration default="false" name="app.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="project" path-to-js-file="app.js" working-dir="$PROJECT_DIR$">
@@ -471,7 +1114,8 @@
       <workItem from="1491196370560" duration="237000" />
       <workItem from="1491214027488" duration="151000" />
       <workItem from="1491777589179" duration="599000" />
-      <workItem from="1491827504479" duration="13539000" />
+      <workItem from="1491827504479" duration="47782000" />
+      <workItem from="1491956930604" duration="16938000" />
     </task>
     <task id="LOCAL-00001" summary="fix bug in execute progress card getInpu">
       <created>1490471942330</created>
@@ -522,13 +1166,118 @@
       <option name="project" value="LOCAL" />
       <updated>1491856664733</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="merge&#10;enable lake and fish tile">
+      <created>1491856971095</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1491856971095</updated>
+    </task>
+    <task id="LOCAL-00009" summary="bank trade rate bug fixed">
+      <created>1491857686412</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1491857686412</updated>
+    </task>
+    <task id="LOCAL-00010" summary="bug">
+      <created>1491858809186</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1491858809186</updated>
+    </task>
+    <task id="LOCAL-00011" summary="move robber and move pirate after rolled 7">
+      <created>1491865558472</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1491865558472</updated>
+    </task>
+    <task id="LOCAL-00012" summary="chase away thief fixed">
+      <created>1491866672030</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1491866672030</updated>
+    </task>
+    <task id="LOCAL-00013" summary="displace knight - more testing required">
+      <created>1491881913514</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1491881913514</updated>
+    </task>
+    <task id="LOCAL-00014" summary="notify user to discard progress cards when max card num exceed">
+      <created>1491885409963</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1491885409963</updated>
+    </task>
+    <task id="LOCAL-00015" summary="support pending swal now. Use swalService instead of swal. &#10;prompt user to build metropolis&#10;vertexUnit cmd refined">
+      <created>1491891750940</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1491891750940</updated>
+    </task>
+    <task id="LOCAL-00016" summary="~">
+      <created>1491891772169</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1491891772169</updated>
+    </task>
+    <task id="LOCAL-00017" summary="end game">
+      <created>1491893627263</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1491893627263</updated>
+    </task>
+    <task id="LOCAL-00018" summary="draw progress card, move robber connected with dice result config">
+      <created>1491898368107</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1491898368107</updated>
+    </task>
+    <task id="LOCAL-00019" summary="~">
+      <created>1491957348631</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1491957348631</updated>
+    </task>
+    <task id="LOCAL-00020" summary="~">
+      <created>1491957559613</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1491957559614</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fixing rollDice --&gt; need to enforce some cmd">
+      <created>1491970703122</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1491970703122</updated>
+    </task>
+    <task id="LOCAL-00022" summary="rolldice">
+      <created>1491970727418</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1491970727418</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17883000" />
+    <option name="totallyTimeSpent" value="69064000" />
   </component>
-  <component name="TodoView" selected-index="2">
+  <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -538,21 +1287,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1680" height="961" extended-state="6" />
+    <frame x="0" y="24" width="1920" height="991" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24803862" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32790697" sideWeight="0.49748427" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.50251573" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295838" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295838" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.61642295" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18186611" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1912261" sideWeight="0.49748427" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29053319" sideWeight="0.5081708" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32861805" sideWeight="0.49815497" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28182808" sideWeight="0.49815497" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29053319" sideWeight="0.49182922" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3160855" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30359086" sideWeight="0.47601476" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32845894" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.53543305" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3743199" sideWeight="0.49657354" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -595,60 +1344,70 @@
     <MESSAGE value="disable rolldice check" />
     <MESSAGE value="end turn bug fixed" />
     <MESSAGE value="fish tile and lake can produce resource now" />
-    <option name="LAST_COMMIT_MESSAGE" value="fish tile and lake can produce resource now" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/cherylyli/settlersOfAsia&#10;&#10;# Conflicts:&#10;#&#9;public/js/clientSideGameLogic/Commands.js&#10;" />
+    <MESSAGE value="merge&#10;enable lake and fish tile" />
+    <MESSAGE value="bank trade rate bug fixed" />
+    <MESSAGE value="bug" />
+    <MESSAGE value="move robber and move pirate after rolled 7" />
+    <MESSAGE value="chase away thief fixed" />
+    <MESSAGE value="displace knight - more testing required" />
+    <MESSAGE value="notify user to discard progress cards when max card num exceed" />
+    <MESSAGE value="support pending swal now. Use swalService instead of swal. &#10;prompt user to build metropolis&#10;vertexUnit cmd refined" />
+    <MESSAGE value="end game" />
+    <MESSAGE value="draw progress card, move robber connected with dice result config" />
+    <MESSAGE value="~" />
+    <MESSAGE value="fixing rollDice --&gt; need to enforce some cmd" />
+    <MESSAGE value="rolldice" />
+    <option name="LAST_COMMIT_MESSAGE" value="rolldice" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
+        <line-breakpoint type="javascript">
           <url>file://$PROJECT_DIR$/server/engine/gameLogic/HexTile.js</url>
           <line>208</line>
-          <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
+        <line-breakpoint type="javascript">
           <url>file://$PROJECT_DIR$/server/engine/gameLogic/HexTile.js</url>
           <line>207</line>
-          <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
+        <line-breakpoint type="javascript">
           <url>file://$PROJECT_DIR$/server/engine/gameLogic/HexTile.js</url>
           <line>204</line>
-          <properties />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
+        <line-breakpoint type="javascript">
           <url>file://$PROJECT_DIR$/server/engine/gameLogic/Bank.js</url>
           <line>37</line>
-          <properties />
           <option name="timeStamp" value="18" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/engine/gameLogic/Harbor.js</url>
+          <line>32</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/engine/gameLogic/Building.js</url>
+          <line>235</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/server/engine/Commands.js</url>
+          <line>656</line>
+          <properties />
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="20" />
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="32" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="2" lean-forward="false" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="37" column="6" lean-forward="false" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="6" />
-          <folding>
-            <marker date="1491856671184" expanded="true" signature="27566:27696" ph="{...}" />
-            <marker date="1491856671184" expanded="true" signature="27613:27690" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Robber.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="915">
@@ -661,125 +1420,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/room.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4035">
-          <caret line="269" column="0" lean-forward="false" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Enum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="84" column="2" lean-forward="false" selection-start-line="84" selection-start-column="2" selection-end-line="84" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/room.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="37" column="6" lean-forward="false" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="6" />
-          <folding>
-            <marker date="1491856671184" expanded="true" signature="27566:27696" ph="{...}" />
-            <marker date="1491856671184" expanded="true" signature="27613:27690" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Robber.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="61" column="4" lean-forward="false" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/room.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4035">
-          <caret line="269" column="0" lean-forward="true" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Enum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="84" column="2" lean-forward="false" selection-start-line="84" selection-start-column="2" selection-end-line="84" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/room.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="37" column="6" lean-forward="false" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="6" />
-          <folding>
-            <marker date="1491856671184" expanded="true" signature="27566:27696" ph="{...}" />
-            <marker date="1491856671184" expanded="true" signature="27613:27690" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Robber.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="61" column="4" lean-forward="false" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -811,7 +1451,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -831,27 +1470,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Enum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1260">
-          <caret line="84" column="2" lean-forward="false" selection-start-line="84" selection-start-column="2" selection-end-line="84" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Robber.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="61" column="2" lean-forward="false" selection-start-line="61" selection-start-column="2" selection-end-line="61" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -862,113 +1484,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/room.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9600">
-          <caret line="640" column="0" lean-forward="false" selection-start-line="640" selection-start-column="0" selection-end-line="640" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Room.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/CmdPrompt.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4485">
-          <caret line="299" column="90" lean-forward="true" selection-start-line="299" selection-start-column="90" selection-end-line="299" selection-end-column="90" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/CmdAction.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="252" column="46" lean-forward="true" selection-start-line="252" selection-start-column="46" selection-end-line="252" selection-end-column="46" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Building.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/VertexUnit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/engine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="64" column="0" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/room.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="177" column="25" lean-forward="true" selection-start-line="177" selection-start-column="25" selection-end-line="177" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/ProgressCards.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/engine/document/map-37.png">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="266" column="2" lean-forward="true" selection-start-line="266" selection-start-column="2" selection-end-line="266" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/Commands.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="641" column="20" lean-forward="false" selection-start-line="641" selection-start-column="20" selection-end-line="641" selection-end-column="20" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/Data.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/test.js">
@@ -979,26 +1504,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Barbarian.js">
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/FishTile.js" />
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Scenario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="87" column="57" lean-forward="false" selection-start-line="87" selection-start-column="57" selection-end-line="87" selection-end-column="57" />
+        <state relative-caret-position="371">
+          <caret line="47" column="76" lean-forward="false" selection-start-line="47" selection-start-column="76" selection-end-line="47" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Harbor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="33" column="30" lean-forward="false" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Player.js">
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/User.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="155" column="43" lean-forward="false" selection-start-line="155" selection-start-column="43" selection-end-line="155" selection-end-column="43" />
+        <state relative-caret-position="360">
+          <caret line="26" column="42" lean-forward="true" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="37" column="12" lean-forward="false" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Robber.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="30" column="17" lean-forward="false" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/has-binary/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="27" column="67" lean-forward="false" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Building.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="46" column="21" lean-forward="false" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="21" />
           <folding>
-            <marker date="1491856671184" expanded="true" signature="27566:27696" ph="{...}" />
-            <marker date="1491856671184" expanded="true" signature="27613:27690" ph="{...}" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/FishTile.js">
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/VertexUnit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="76" column="119" lean-forward="false" selection-start-line="76" selection-start-column="100" selection-end-line="76" selection-end-column="119" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Knight.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="80" column="38" lean-forward="true" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/plugins/SwalService.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="9" lean-forward="true" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/DATA.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1006,57 +1598,216 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Dice.js">
+    <entry file="file://$PROJECT_DIR$/server/engine/Data.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="102" column="18" lean-forward="false" selection-start-line="102" selection-start-column="18" selection-end-line="102" selection-end-column="18" />
-          <folding>
-            <marker date="1491856671188" expanded="true" signature="2538:2817" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Match.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="75" column="4" lean-forward="false" selection-start-line="75" selection-start-column="4" selection-end-line="75" selection-end-column="4" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Scenario.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="47" column="76" lean-forward="false" selection-start-line="47" selection-start-column="76" selection-end-line="47" selection-end-column="76" />
+        <state relative-caret-position="562">
+          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Map.js">
+    <entry file="file://$PROJECT_DIR$/public/js/CmdPrompt.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="428" column="5" lean-forward="true" selection-start-line="428" selection-start-column="5" selection-end-line="428" selection-end-column="5" />
+        <state relative-caret-position="168">
+          <caret line="245" column="8" lean-forward="false" selection-start-line="245" selection-start-column="8" selection-end-line="245" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Building.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="34" column="12" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Bank.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="37" column="8" lean-forward="false" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+        <state relative-caret-position="15">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/HexTile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="58" lean-forward="true" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/HexTile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="196" column="38" lean-forward="true" selection-start-line="196" selection-start-column="38" selection-end-line="196" selection-end-column="38" />
+        <state relative-caret-position="15">
+          <caret line="120" column="2" lean-forward="false" selection-start-line="120" selection-start-column="2" selection-end-line="120" selection-end-column="2" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="105" column="18" lean-forward="false" selection-start-line="105" selection-start-column="17" selection-end-line="105" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/CmdAction.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="338" column="40" lean-forward="false" selection-start-line="338" selection-start-column="9" selection-end-line="338" selection-end-column="40" />
+          <folding>
+            <marker date="1491901392449" expanded="true" signature="9811:9818" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Match.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="40" column="28" lean-forward="true" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Enum.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="616">
+          <caret line="212" column="2" lean-forward="false" selection-start-line="212" selection-start-column="2" selection-end-line="212" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Enum.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="151" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Cost.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/lobby.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="173" column="28" lean-forward="false" selection-start-line="173" selection-start-column="28" selection-end-line="173" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/engine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="88" column="51" lean-forward="false" selection-start-line="88" selection-start-column="51" selection-end-line="88" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Barbarian.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="171" column="70" lean-forward="false" selection-start-line="171" selection-start-column="69" selection-end-line="171" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="392" column="41" lean-forward="false" selection-start-line="392" selection-start-column="41" selection-end-line="392" selection-end-column="41" />
+          <folding>
+            <marker date="1491970772388" expanded="true" signature="27510:27669" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Dice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="265" column="53" lean-forward="false" selection-start-line="265" selection-start-column="53" selection-end-line="265" selection-end-column="53" />
+          <folding>
+            <element signature="n#!!block;n#configPlayerEventCityDie#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/gameLogic/Room.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="57" column="58" lean-forward="false" selection-start-line="57" selection-start-column="58" selection-end-line="57" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/room.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9120">
+          <caret line="608" column="9" lean-forward="true" selection-start-line="608" selection-start-column="9" selection-end-line="608" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/engine/Commands.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-726">
+          <caret line="674" column="1" lean-forward="false" selection-start-line="674" selection-start-column="1" selection-end-line="674" selection-end-column="1" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/standard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="490" column="3" lean-forward="false" selection-start-line="490" selection-start-column="3" selection-end-line="490" selection-end-column="3" />
+          <folding>
+            <marker date="1491973564144" expanded="true" signature="23440:23456" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/clientSideGameLogic/Commands.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="1620" column="29" lean-forward="false" selection-start-line="1620" selection-start-column="29" selection-end-line="1620" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/room.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="163" column="45" lean-forward="false" selection-start-line="163" selection-start-column="45" selection-end-line="163" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/room.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="386" column="0" lean-forward="false" selection-start-line="386" selection-start-column="0" selection-end-line="386" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

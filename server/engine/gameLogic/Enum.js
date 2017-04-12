@@ -204,3 +204,10 @@ Enum.HarborRatio = {
     'SpecialHarbor': 2,
     'GeneralHarbor': 3
 };
+
+
+Enum.BarbarianAction = {
+    "CATAN_WIN" : "You are the defender of Catan.",
+    "CATAN_LOSE" : "Please choose one city to be pillaged",
+    "CATAN_WIN_TIE" : "You can get one progress card for free"
+};

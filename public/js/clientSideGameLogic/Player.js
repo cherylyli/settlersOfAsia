@@ -295,7 +295,7 @@ let Player = (function () {
                         console.log("132");
                 cityCategories.push(type);
             }
-        })
+        });
         return cityCategories;
     }
 

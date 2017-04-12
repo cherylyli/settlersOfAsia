@@ -75,6 +75,9 @@ Player.createPlayer = function (name, user) {
     player.active_cards = {}; //after processing progress card we add here permmissions to build roads or take stuff from others
 
 
+    player.diceConfigResult = [];
+
+
     return player;
 };
 
@@ -225,7 +228,8 @@ Player.spendFishToken = function(player, action, match){
 Player.resourceCardTotalNum = function(player){
     let sum = 0;
     for (let card in player.resourcesAndCommodities){
-        sum += player.resourcesAndCommodities[card];
+        if (player.resourcesAndCommodities.hasOwnProperty(card))
+            sum += player.resourcesAndCommodities[card];
     }
     player.resourceCardNum = sum;
     return sum;
@@ -767,6 +771,16 @@ Player.getEmptyAdjacentVertices = function(player, vertex, map){
  */
 Player.buyCityImprovement = function(player, cityImprovementCategory){
     player.cityImprovement[cityImprovementCategory] ++;
+
+    // trading house benefit
+    if (player.cityImprovement[Enum.cityImprovementCategory.Trade] >= 3){
+        _.forEach(Enum.Commodity, function (commodity) {
+            player.tradeRatio[commodity] = 2;
+        })
+    }
+
+
+
     return player.cityImprovement[cityImprovementCategory];
 };
 
