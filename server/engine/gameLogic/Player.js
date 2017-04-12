@@ -34,7 +34,7 @@ Player.createPlayer = function (name, user) {
     player.name = name;
     player.color = null;
     player.VP = 0;
-    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 1, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 10, [Enum.Resource.Brick] : 10, [Enum.Resource.Grain]: 10, [Enum.Resource.Ore]: 10, [Enum.Resource.Wool]:10, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 10, [Enum.Commodity.Coin]: 10, [Enum.Commodity.Paper]: 10};
     player.resourceCardNum = initialGoldNum;
     // TODO: testing, change later
     player.progressCards = ["Printer","Smith","TradeMonopoly"];
