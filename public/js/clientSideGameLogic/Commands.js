@@ -554,11 +554,18 @@ CommandCheck.drawOneResourceCard = function (resCard) {
             found = 1;
         }
     }
-    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
+
+    for (let action of DATA.getMyPlayer().diceConfigResult){
+        if (action.cmd == "drawOneResourceCard"){
+            return true;
+        }
+    }
+
+    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK" || DATA.getMyPlayer()) {
         return true;
     }
     else {
-        swalError2("Player can only use the fish token to draw one resource card");
+        swalError2("You cannot draw resource card");
         return false;
     }
 };
