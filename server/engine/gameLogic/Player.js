@@ -829,7 +829,7 @@ Player.discardResourceCards = function(player, cards){
 Player.getCitySum = function(player){
     var sum = 0;
     for(var i in player.buildings){
-        if(player.buildings[i].level == Enum.Building.City && player.buildings.hasOwnProperty(i))
+        if(player.buildings[i].level != Enum.Building.Settlement && player.buildings.hasOwnProperty(i))
             sum++
     }
     return sum;

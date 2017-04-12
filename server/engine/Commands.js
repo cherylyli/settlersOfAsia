@@ -351,6 +351,7 @@ Commands.resourceMonopoly = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
      let vertex = data.position;
      let city = Map.getVertexInfo(match.map, vertex);
+     let player = DATA.getPlayer(userName, roomID);
      Building.pillage(city);
      Dice.diceActionPerfomed("chooseCityToBePillaged", player);
  };

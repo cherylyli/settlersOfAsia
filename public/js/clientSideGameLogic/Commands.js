@@ -212,24 +212,10 @@ CommandsData.chooseCityToBePillaged = function (vertex) {
 };
 
 CommandCheck.chooseCityToBePillaged = function (vertex) {
-    if(!app.pillageCity){
-      swalError2("You don't need to downgrade your city");
-      return false;
-    }
-    let match = DATA.getMatch();
-    let player = DATA.getMyPlayer();
     let vertexUnit = DATA.getMatch().map.getVertexInfo(vertex);
-    if (!vertexUnit || isKnight(vertexUnit) || isSettlement(vertex)) {
-        swalError2("There is no city at this position!");
-        return false;
-    }
     if (vertexUnit.hasMetropolis) {
         swalError2("City has a metropolis, can't be pillaged");
         return false;
-    }
-    else {
-        app.pillageCity = false;
-        return true;
     }
 };
 
@@ -1625,7 +1611,10 @@ CommandReceived.rollDice = function () {
             }
             else swalService.swal("Dice Result", action.msg);
         })
+
+        app.specialCaseToEnableMap = true;
     }
+
 };
 
 _.each(CommandName, function (cmd) {
@@ -1690,8 +1679,13 @@ _.each(CommandName, function (cmd) {
     sock.on(cmd + 'Ack', function (msg) {
         console.log('ACK:'+msg);
         console.log(msg);
+
+        if (DATA.getMyPlayer().diceConfigResult.length == 0){
+            app.specialCaseToEnableMap = false;
+        }
+
         //console.log(CommandReceived, CommandReceived[cmd]);
-        console.log(cmd, CommandReceived.hasOwnProperty(cmd));
+        // console.log(cmd, CommandReceived.hasOwnProperty(cmd));
         if (CommandReceived.hasOwnProperty(cmd)){
             CommandReceived[cmd]();
             console.log(cmd);
