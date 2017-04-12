@@ -941,6 +941,10 @@ CommandsData.rollDice = function () {
 
 //assume now we are the current player (we only allow user to click button until he receives TAKE_TURN and hasn't clicked end turn
 CommandCheck.rollDice = function () {
+    // benefit of science city improvement
+    if (DATA.getMyPlayer().cityImprovement[Enum.cityImprovementCategory.Science] >=3 ){
+        app.resourceCardNumNow = DATA.getMyPlayer().resourceCardNum;
+    }
     /**
     if (DATA.getMatch().diceRolled) {
         swalError2("Dice already rolled!");
@@ -1553,6 +1557,12 @@ CommandReceived.rollDice = function () {
     let dice = DATA.getMatch().dice;
     let move = null;
     let player = DATA.getMyPlayer();
+
+    if (dice.numberDiceResult != 7 && (player.cityImprovement[Enum.cityImprovementCategory.Science] >= 3 )){
+        if (player.resourceCardNum == app.resourceCardNumNow){
+
+        }
+    }
 
     // event die result
     // if barbarian attacks
