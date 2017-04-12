@@ -152,18 +152,6 @@ let CommandReceived = {};
 let CommandCheck = {};
 
 let room = {users: {}};
-/**
- *
- * @param cmds
- * @return {Object} } key: String, commandName,  val: boolean, if valid. This object is used to generate command prompt windows
- */
-/**
-let generateCommandPomptObject = function (cmds) {
-  let result = {};
-  _.forEach(cmds, function (cmd, data) {
-      result[cmd] = CommandCheck[cmd].apply(this, data);
-  })
-};**/
 
 /**
  *
@@ -1554,122 +1542,13 @@ function isSettlement(vertex) {
 
 
 CommandReceived.rollDice = function () {
-    let dice = DATA.getMatch().dice;
-    let move = null;
-    let player = DATA.getMyPlayer();
-
-    if (dice.numberDiceResult != 7 && (player.cityImprovement[Enum.cityImprovementCategory.Science] >= 3 )){
-        if (player.resourceCardNum == app.resourceCardNumNow){
-
-        }
-    }
-
-    // event die result
-    // if barbarian attacks
-      if(DATA.getMatch().barbarianResult){
-        swalService.swal({
-            title: "Barbarian Attack",
-            text: "Everybody fights!!!"
-        });
-        if (_.contains(DATA.getMatch().barbarianResult.toPlayers, DATA.getMyPlayer().name)) {
-            notifyUserBarbarianAction();
-          } else {
-                    app.barbarianResult = false;
-                    swalService.swal({
-                        title: DATA.getMatch().barbarianResult.result,
-                        text : "Barbarian left"
-                    });
+    if (DATA.getMyPlayer().diceConfigResult.length > 0){
+        _.forEach(DATA.getMyPlayer().diceConfigResult, function (action) {
+            if (action.cmd == "drawOneProgressCard" && action.data){
+                notifyUserToDrawProgressCard([action.data]);
             }
-            //deactive all knights
-        }
-
-
-
-    // if progress card
-
-    else if (dice.eventDie != Enum.DieResult.Ship){
-          let cards = [];
-          switch (dice.eventDie) {
-              case "BlueCityGate" :
-                  if (player.cityImprovement.Politics == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  if (player.cityImprovement.Politics == 5) {
-                      cards.push(Enum.cityImprovementCategory.Politics);
-
-                  }
-                  break;
-
-              case "YellowCityGate" :
-                  if (player.cityImprovement.Trade == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  if (player.cityImprovement.Trade == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  if (player.cityImprovement.Trade == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  if (player.cityImprovement.Trade == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-                  }
-                  if (player.cityImprovement.Trade == 5) {
-                      cards.push(Enum.cityImprovementCategory.Trade);
-
-                  }
-                  break;
-
-              case "GreenCityGate" :
-                  if (player.cityImprovement.Science == 1 && (dice.redDie == 1 || dice.redDie == 2)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-
-                  }
-                  if (player.cityImprovement.Science == 2 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  if (player.cityImprovement.Science == 3 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  if (player.cityImprovement.Science == 4 && (dice.redDie == 1 || dice.redDie == 2 || dice.redDie == 3 || dice.redDie == 4 || dice.redDie == 5)) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  if (player.cityImprovement.Science == 5) {
-                      cards.push(Enum.cityImprovementCategory.Science);
-                  }
-                  break;
-          }
-
-          if (cards.length > 0) {
-            app.canDraw = true;
-            notifyUserToDrawProgressCard(cards);
-          }
-    }
-
-    if (DATA.getMatch().dice.numberDiceResult == 7){
-        discardCardBecauseOf7();
-          //player who rolled seven needs to select from robber / pirate
-          if(DATA.getMatch().diceRolled && app.isMyTurn && DATA.getMatch().diceRolled){
-              swalService.swal({
-                  title: "Move Robber or Pirate",
-                  text: "You rolled 7."
-              })
-        }
+            else swalService.swal(action.msg);
+        })
     }
 };
 
@@ -1764,13 +1643,13 @@ _.each(CommandName, function (cmd) {
 
         //comment out this part if you want to disable checks
         //checkers
-
+/**
 
          let phase = DATA.getMatch().phase;
          if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
-
+**/
 
 /*
         // if barbarian result commands

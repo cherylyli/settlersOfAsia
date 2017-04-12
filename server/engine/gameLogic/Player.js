@@ -75,6 +75,9 @@ Player.createPlayer = function (name, user) {
     player.active_cards = {}; //after processing progress card we add here permmissions to build roads or take stuff from others
 
 
+    player.diceConfigResult = [];
+
+
     return player;
 };
 

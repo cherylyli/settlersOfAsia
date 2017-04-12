@@ -455,52 +455,6 @@ $(window).on('imready', function(im){
 
 
 
-
-
-
-
-    // ----------------------------------------- Command Table ----------------------------------------- //
-
-    // $('#cmd-table').draggable();
-
-    // display command table
-    // function showCmdTable() {
-    //     $('#cmd-table').show();
-    //     if (!$('#cmd-table .cmd.chosen').length) $('#cmd-table .cmd').first().click();
-    // }
-
-
-
-    // $(document).on('click', '#trigger-cmd-table', showCmdTable);
-
-    // hide command table by clicking on 'X' or press 'ESC' key
-    // function hideCmdTable() {
-    //     var $p = $('#cmd-table');
-    //     clearHighlightedCommands();
-    //     clearHighlightedVertices();
-    //     $p.find('input').val('');
-    //     $p.hide();
-    // }
-
-
-
-
-    // $('#cmd-table .pop_close').click(hideCmdTable);
-    // $(document).keyup(function (e) {
-    //     if (e.keyCode == 27) hideCmdTable()
-    // });
-
-    // check if cmd table is visible
-    // function isCmdTableVisible() {
-    //     return $('#cmd-table').is(':visible');
-    // }
-
-    // function isCmdPromptVisible() {
-    //     return $('#cmd-prompt').is(':visible');
-    // }
-
-
-
     // for trade form cmd prompt, add and remove icon
     $('#cmd-prompt i.add').click(function (e) {
         addNewItem(e);

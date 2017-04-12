@@ -22,16 +22,16 @@ let Robber = require('./gameLogic/Robber.js');
 let Pirate = require('./gameLogic/Pirate.js');
 let ProgressCard = require('./gameLogic/ProgressCards.js');
 let HexTile = require('./gameLogic/HexTile.js');
+let Dice = require('./gameLogic/Dice.js')
 let _ = require('underscore');
 let fs = require("fs");
-let HexTile = require('./gameLogic/HexTile.js');
 
 let Commands = {} = module.exports;
 let CommandsCheck = {};
 
 
 
-//TODO: change return value of commands, some commands may not need to return anything
+//TODO: change return value of commands, some commands may not need to return anythingDice.diceActionPerfomed
 //Payment and action are separate!
 //--------------------Commands used when user is not in game----------------------------
 /**
@@ -329,6 +329,7 @@ Commands.saveGame = function (userName, roomID) {
      let vertex = data.position;
      let city = Map.getVertexInfo(match.map, vertex);
      Building.pillage(city);
+     Dice.diceActionPerfomed("chooseCityToBePillaged", player);
  };
 
 
@@ -492,6 +493,7 @@ Commands.saveGame = function (userName, roomID) {
  Commands.discardResourceCards = function (userName, roomID, data) {
      let player = DATA.getPlayer(userName, roomID);
      Player.discardResourceCards(player, data.cards);
+     Dice.diceActionPerfomed("discardResourceCards", player);
  };
 
 
@@ -592,6 +594,8 @@ Commands.moveRobber = function (userName, roomID, data) {
   if (!match.dice.moveThiefResultConfiged && match.dice.numberDiceResult == 7){
         match.dice.moveThiefResultConfiged = true;
   }
+
+  Dice.diceActionPerfomed("moveRobber", player);
 };
 
 
@@ -615,6 +619,8 @@ Commands.movePirate = function (userName, roomID, data) {
   if (!match.dice.moveThiefResultConfiged && match.dice.numberDiceResult == 7){
       match.dice.moveThiefResultConfiged = true;
   }
+
+    Dice.diceActionPerfomed("movePirate", player);
 };
 
 
@@ -651,6 +657,8 @@ Commands.drawOneProgressCard = function(userName,roomID,data){
       }
 
     }
+
+    Dice.diceActionPerfomed("drawOneProgressCard", player);
 }
 
 /*
@@ -670,6 +678,8 @@ Commands.drawOneResourceCard = function (userName, roomID, data){
        match.fish = null;
      }
   }
+
+    Dice.diceActionPerfomed("drawOneResourceCard", player);
 };
 /**
  *
