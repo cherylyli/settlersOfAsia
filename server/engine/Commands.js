@@ -21,8 +21,10 @@ let CircularJSON = require('circular-json');
 let Robber = require('./gameLogic/Robber.js');
 let Pirate = require('./gameLogic/Pirate.js');
 let ProgressCard = require('./gameLogic/ProgressCards.js');
+let HexTile = require('./gameLogic/HexTile.js');
 let _ = require('underscore');
 let fs = require("fs");
+let HexTile = require('./gameLogic/HexTile.js');
 
 let Commands = {} = module.exports;
 let CommandsCheck = {};

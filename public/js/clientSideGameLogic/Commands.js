@@ -1478,7 +1478,7 @@ CommandCheck.endTurn = function () {
  * @param cost {object} key: commodity/resource name, value: int -> # of that resource/commodity required
  */
 let checkEnoughResource = function (cost) {
-/*
+
     let resources = DATA.getMyPlayer().resourcesAndCommodities;
     for (let cardName in cost) {
         if (cost[cardName] > resources[cardName]) {
@@ -1486,7 +1486,7 @@ let checkEnoughResource = function (cost) {
             return false
         }
     }
-*/
+
     return true;
 };
 
@@ -1766,10 +1766,10 @@ _.each(CommandName, function (cmd) {
         //checkers
 
 
-      //  let phase = DATA.getMatch().phase;
-        /**if (!CommandCheck[cmd].apply(this, arguments)) {
+         let phase = DATA.getMatch().phase;
+         if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
-         }**/
+         }
 
 
 /*
