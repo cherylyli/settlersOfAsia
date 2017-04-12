@@ -1654,7 +1654,7 @@ _.each(CommandName, function (cmd) {
         }
 
         // if not my turn and barbarian result, operation is limited
-        if((DATA.getMatch().currentPlayer == player.name) && !(cmd == "rollDice" || cmd == "saveGame") && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+        if((DATA.getMatch().currentPlayer == player.name) && (player.diceConfigResult.length == 0) && !(cmd == "rollDice" || cmd == "saveGame") && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
             swalError2("Please roll dice first");
             return;
         }
