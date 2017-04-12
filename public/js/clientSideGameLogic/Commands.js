@@ -525,6 +525,8 @@ CommandsData.drawOneProgressCard = function (kind) {
 };
 
 CommandCheck.drawOneProgressCard = function (kind) {
+
+
   /**if(app.canDraw){
     //swalError2("Please draw one " + kind + "progCard");
     app.canDraw = false;
@@ -561,7 +563,7 @@ CommandCheck.drawOneResourceCard = function (resCard) {
         }
     }
 
-    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK" || DATA.getMyPlayer()) {
+    if (DATA.getMatch().fish == "DRAW_RES_FROM_BANK") {
         return true;
     }
     else {
@@ -783,6 +785,27 @@ CommandCheck.moveKnight = function (position, newPosition) {
     var player = DATA.getMyPlayer();
     if (player.displacedKnight && position == 0) knight = player.displacedKnight;
     if (!_.contains(knight.possibleSpots, newPosition)){
+
+        let opponentKnight = DATA.getMatch().map.getVertexInfo(newPosition);
+        if (opponentKnight && opponentKnight.vertexUnitType == "knight"){
+            // check position
+            let edges = (DATA.getMap().getEdgeByVertex(newPosition));
+            let canMOVE = false;
+            _.forEach(edges, function (edge) {
+                if (_.contains(knight.possibleSpots,edge[0]) || _.contains(knight.possibleSpots,edge[1]) || edge[0] == knight.position || edge[1] == knight.position) {
+                    canMOVE = true;
+                }
+            });
+            if (canMOVE){
+                if (opponentKnight.level >= knight.level) {
+                    swalError2("You cannot displace a knight stronger than you!");
+                    return false;
+                }
+                else return true;
+            }
+
+
+        }
         swalError2("Invalid position!");
         return false;
     }
