@@ -73,7 +73,7 @@ Room.createRoom = function (savedGameID, RoomID, creatorName, gameScenario, room
 Room.addUser = function(gameRoom, user){
     let gameRoomID = gameRoom.id;
 
-    if (gameRoom.savedGame){
+    if (gameRoom.savedGame && gameRoom.users &&  gameRoom.users[user.username]){
         gameRoom.users[user.username].user = user;
     }
 

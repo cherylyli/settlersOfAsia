@@ -1636,12 +1636,30 @@ _.each(CommandName, function (cmd) {
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operation
 
        let phase = DATA.getMatch().phase;
+       let player = DATA.getMyPlayer();
+
        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
+
+        // some cmd must be performed first
+        // roll dice result action
+        if (player.diceConfigResult.length > 0){
+           let flag = false;
+           _.forEach(player.diceConfigResult, function (action) {
+               if (cmd == action.cmd || ((cmd == "moveRobber" || cmd == "movePirate") && action.cmd == "moveThief")){
+                   flag = true;
+               }
+           });
+            if (!flag) {
+               swalError2("You have to process dice result first:  " + player.diceConfigResult[0].msg);
+               return;
+            }
+        }
+
         // if not my turn and barbarian result, operation is limited
-        if(!(cmd == "rollDice" || cmd == "saveGame") && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+        if((DATA.getMatch().currentPlayer == player.name) && !(cmd == "rollDice" || cmd == "saveGame") && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
             swalError2("Please roll dice first");
             return;
         }

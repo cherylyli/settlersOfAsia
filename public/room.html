@@ -29,7 +29,7 @@
         </div>
 
         <!-- TODO: change here-->
-            <div id='board' v-bind:disabled='!isMyTurn && !barbarianResult' class='box-shadow-light'>
+            <div id='board' v-bind:disabled='!(isMyTurn||specialCaseToEnableMap)' class='box-shadow-light'>
                 <div class='map'></div>
                 <div id="sideCmds">
                 <div class='dices right'>
@@ -55,19 +55,19 @@
                 </div>
 
                 <div class='trade cmds right'>
-                    <div class="card cmd" data-cmd="tradeWithBank" v-bind:disabled='!isMyTurn'  v-on:click='trade'>
+                    <div class="card cmd" data-cmd="tradeWithBank" v-bind:disabled='!(isMyTurn||specialCaseToEnableMap)'  v-on:click='trade'>
                         <div class="icon center-cropped" data-cmd="tradeWithBank"><i class="fa fa-money" aria-hidden="true" data-cmd="tradeWithBank"></i></div>
                         <div class='text' data-cmd="tradeWithBank">Bank</div>
                     </div>
-                    <div class="card cmd" data-cmd="tradeWithPlayer" v-bind:disabled='!isMyTurn' v-on:click='trade'>
+                    <div class="card cmd" data-cmd="tradeWithPlayer" v-bind:disabled='!(isMyTurn||specialCaseToEnableMap)' v-on:click='trade'>
                         <div class="icon center-cropped" data-cmd="tradeWithPlayer"><i class="fa fa-handshake-o" aria-hidden="true" data-cmd="tradeWithPlayer"></i></div>
                         <div class='text' data-cmd="tradeWithPlayer">Trade</div>
                     </div>
-                    <div class="card cmd" data-cmd="drawResourceCard" v-bind:disabled='!isMyTurn' v-on:click='drawResourceCard'>
+                    <div class="card cmd" data-cmd="drawResourceCard" v-bind:disabled='!(isMyTurn||specialCaseToEnableMap)' v-on:click='drawResourceCard'>
                         <div class="icon center-cropped"><i class="fa fa-usd" aria-hidden="true"></i></div>
                         <div class='text'>Draw Resource Card</div>
                     </div>
-                    <div class="card cmd" data-cmd="discardResourceCards" v-bind:disabled='!isMyTurn' v-on:click='discardResourceCards'>
+                    <div class="card cmd" data-cmd="discardResourceCards" v-bind:disabled='!(isMyTurn||specialCaseToEnableMap)' v-on:click='discardResourceCards'>
                         <div class="icon center-cropped"><i class="fa fa-usd" aria-hidden="true"></i></div>
                         <div class='text'>discard Resource Cards</div>
                     </div>
@@ -127,11 +127,11 @@
             <div class='common'>
                 <div class='dices'>
                     <div class='red dice center-contained unselectable turn-event' v-on:click='rollDice'
-                         v-bind:disabled='!isMyTurn'></div>
+                         v-bind:disabled='!isMyTurn || room.match.diceRolled'></div>
                     <div class='yellow dice center-contained unselectable turn-event' v-on:click='rollDice'
-                         v-bind:disabled='!isMyTurn'></div>
+                         v-bind:disabled='!isMyTurn || room.match.diceRolled'></div>
                     <div class='black dice center-contained unselectable turn-event' v-on:click='rollDice'
-                         v-bind:disabled='!isMyTurn'></div>
+                         v-bind:disabled='!isMyTurn || room.match.diceRolled'></div>
                 </div>
                 <div id='end-turn' class='ui-btn unselectable turn-event' v-bind:disabled='!isMyTurn'
                      v-on:click='endTurn'><i class="fa fa-power-off" aria-hidden="true"></i>Finish
@@ -160,7 +160,7 @@
     </div>
     <div id='right-screen' class='box-shadow-light'>
         <div id='match-state' class="weui-cells__title">Game State: {{room.state}}</div>
-        <div id='users' v-bind:disabled='!isMyTurn'>
+        <div id='users' v-bind:disabled='(!isMyTurn)&&(!specialCaseToEnableMap)'>
             <div v-for='player in room.users'>
                 <div class='user' v-bind:active='room.match && room.match.currentPlayer==player.name'
                      v-bind:data-username='player.name'>
