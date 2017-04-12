@@ -217,6 +217,7 @@ CommandCheck.chooseCityToBePillaged = function (vertex) {
         swalError2("City has a metropolis, can't be pillaged");
         return false;
     }
+    return true;
 };
 
 //TRADE PROGRESS CARDS ==================================

@@ -146,7 +146,7 @@ let CommandsCheck = {};
 Commands.saveGame = function (userName, roomID) {
     let room = DATA.getRoom(roomID);
     // TODO: now just write to file, change this part later
-    Room.saveGame(roomID, room);
+    Room.savedGame(roomID, room)
 };
 
 
