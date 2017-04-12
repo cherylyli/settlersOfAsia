@@ -21,7 +21,6 @@ $(document).ready(function(){
 $(window).on('imready', function(im){
 
     window.myObj = im.myObj;
-    console.log(myObj);
 
 
 
@@ -220,12 +219,32 @@ $(window).on('imready', function(im){
         el: '#open-saved-pop',
         data: {
             rooms: [{name:'some bullshit', id: '123'}]
+        },
+        methods: {
+            play: function(){
+                var roomId = $('#open-saved-pop .rooms-list').val();
+                var room = _.find(this.rooms, function(room){ return room.id == roomId });
+                if (!room) return;
+                var config = {
+                    roomId: roomId,
+                    gameScenario: room.gameScenario, // 123
+                    roomName: room.name,
+                    savedGameID: roomId
+                };
+                window.location.href = `/room/${roomId}?config=${encodeURIComponent(JSON.stringify(config))}`;
+            }
         }
     })
 
     function updateSavedGameList(){
         $.get('/saved', function(rooms){
-            if (!_.isEmpty(rooms)) openSavedPop.rooms = rooms;
+            rooms = CircularJSON.parse(rooms);
+            if (_.isEmpty(rooms)) return;
+            rooms.forEach(function(room){
+                room.displayName = `${room.name} (${_.keys(room.users).join(', ')})`;
+            });
+            openSavedPop.rooms = rooms;
+
         });
     }
     updateSavedGameList();

@@ -146,9 +146,7 @@ let CommandsCheck = {};
 Commands.saveGame = function (userName, roomID) {
     let room = DATA.getRoom(roomID);
     // TODO: now just write to file, change this part later
-    fs.writeFile("./data/saveGame/"+roomID+".json", CircularJSON.stringify(room), function (err) {
-        if (err) throw err;
-    });
+    Room.saveGame(roomID, room);
 };
 
 

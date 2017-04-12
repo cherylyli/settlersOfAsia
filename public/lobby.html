@@ -164,7 +164,7 @@
 	                </div>
 	            </div>
 	            <div style="margin-top: 25px;">Game type</div>
-	            <div id='editMatch_type' class="weui-cell weui-cell_select weui-cell_select-after">
+	            <div id='editMatch_type' class="weui-adjusted-cell weui-cell weui-cell_select weui-cell_select-after">
 	            	<div class="weui-cell__bd">
 	            		<select class="weui-select">
 							<option value="Heading For New Shores">Heading For New Shores</option>
@@ -190,18 +190,18 @@
 	    </div>
 	    <div class="pop_body">
 	        <div class="wrap">
-	            <div>Choose a saved game</div>
-	            <div id='editMatch_type' class="weui-cell weui-cell_select weui-cell_select-after">
+	            <div>Choose a saved game:</div>
+	            <div class="weui-adjusted-cell weui-cell weui-cell_select weui-cell_select-after">
 	            	<div class="weui-cell__bd">
-	            		<select class="weui-select">
-							<option v-for="room in rooms" v-bind:value="room.id">{{room.name}}</option>
+	            		<select class="weui-select rooms-list">
+							<option v-for="room in rooms" v-bind:value="room.id">{{room.displayName}}</option>
 	            		</select>
 	            	</div>
 	            </div>
 	        </div>
 	    </div>
 	    <div class="pop_footer">
-	        <div class="pop_save button_gray" default>Create</div>
+	        <div class="pop_save button_gray" default v-on:click='play'>Play</div>
 	        <div class="pop_cancel button_gray">Cancel</div>
 	    </div>
 	</div>
