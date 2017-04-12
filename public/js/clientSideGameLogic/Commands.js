@@ -1439,6 +1439,7 @@ CommandsData.executeProgressCard = function (card) {
                     swal("Nice!", "We'll take 2 of " + inputValue+" from each player =)", "success");
                 });
         }
+
         return {'cardname':card};
 };
 
@@ -1637,12 +1638,12 @@ _.each(CommandName, function (cmd) {
 
        let phase = DATA.getMatch().phase;
        let player = DATA.getMyPlayer();
-
+/*
        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
-
+*/
         // some cmd must be performed first
         // roll dice result action
         if (player.diceConfigResult.length > 0){
@@ -1669,11 +1670,11 @@ _.each(CommandName, function (cmd) {
         //checkers
 
 
-
+    /*
          if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
-
+*/
 
 
         // if barbarian result commands
