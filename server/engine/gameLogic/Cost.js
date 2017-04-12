@@ -32,8 +32,7 @@ Cost.cityImprove_Science_5 = {[Enum.Commodity.Paper]: 5};
 //Cost.hireKnight = {};
 Cost.hireKnight = {[Enum.Resource.Wool]: 1, [Enum.Resource.Ore]: 1};
 Cost.activateKnight = {[Enum.Resource.Grain]: 1};
-Cost.promoteKnight = {[Enum.Resource.Grain]: 1};
-
+Cost.promoteKnight = {[Enum.Resource.Wool]: 1, [Enum.Resource.Ore]: 1};
 //====================trade facts======================
 Cost.defaultTradeRatio = 4;
 Cost.goldTradeRatio = 2;
