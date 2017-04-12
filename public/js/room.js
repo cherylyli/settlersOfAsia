@@ -229,17 +229,12 @@ $(window).on('imready', function(im){
             // save match
             save: function () {
                 Commands.saveGame();
-                // Toast.show('Saved!');
-            },
-
-            // continue previously saved match
-            open: function () {
-                // Toast.show('Open');
+                Toast.show('Saved !');
             },
 
             // quit match
             quit: function () {
-                // Toast.show('Match ended!');
+                window.location.href = '/'
             },
 
             // append to log
