@@ -115,14 +115,14 @@ Dice.configureResult = function (dice, match) {
 
     // configure number dice result
     if(match.map && ((dice.yellowDie + dice.redDie) != 7)){
-        for (let player of Object.values(match.players)){
+        for (let player of _.values(match.players)){
             player.oldResourceNum = player.resourceCardNum;
         }
         Bank.allocateResources(match.bank, dice.yellowDie, dice.redDie);
 
     }
 
-    for (let player of Object.values(match.players)){
+    for (let player of _.values(match.players)){
         configPlayerAction(dice, player, match);
     }
 

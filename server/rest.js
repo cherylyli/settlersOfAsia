@@ -129,7 +129,7 @@ module.exports = function(app) {
 
     // fetch all saved game
     app.get('/saved', function(req, res){
-        res.json(Room.fetchAllSaved());
+        res.json(CircularJSON.stringify(Room.fetchAllSaved()));
     });
 
 

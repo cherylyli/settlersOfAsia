@@ -530,18 +530,18 @@ body{
     -webkit-box-sizing:border-box;
 }
 
-#editMatch_type{
+.weui-adjusted-cell{
     padding-left: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     margin-top: 6px;
 }
 
-#editMatch_type > .weui-cell__bd{
+.weui-adjusted-cell > .weui-cell__bd{
     height: 100%;
 }
 
-#editMatch_type::before{
+.weui-adjusted-cell::before{
     display: none;
 }
 

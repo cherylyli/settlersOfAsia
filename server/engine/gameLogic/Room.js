@@ -17,25 +17,34 @@ let CircularJSON = require('circular-json');
 let Room = {} = module.exports;
 
 
+var savedPath = './data/savedGame';
 
-var savedPath = './data/saveGame';
-
-Room.fetchAllSaved = function(){
-    /**
-    fs.readdirSync(testFolder, (err, files) => {
-        files.forEach(file => {
-            console.log(file);
-        });
-    })**/
+Room.savedGame = function(roomId, room){
+    fs.writeFileSync(`${savedPath}/${roomId}.json`, CircularJSON.stringify(room), 'utf8');
 };
 
-Room.fetchAllSaved ()
+Room.fetchAllSaved = function(){
+    return fs.readdirSync(savedPath).map(file => {
+        return CircularJSON.parse(fs.readFileSync(`${savedPath}/${file}`, 'utf8'))
+    });
+};
+
+Room.fetchSaved = function(roomId){
+    return CircularJSON.parse(fs.readFileSync(`${savedPath}/${roomId}.json`, 'utf8'));
+};
+
+
+// Room.savedGame('a', {a:1})
+// Room.savedGame('b', {b:1})
+// Room.savedGame('c', {c:1})
+
+
 
 Room.createRoom = function (savedGameID, RoomID, creatorName, gameScenario, roomName) {
     let gameRoom = {};
 
     if (savedGameID) {
-        gameRoom = CircularJSON.parse(fs.readFileSync(savedPath + '/' + savedGameID + ".json"));
+        gameRoom = Room.fetchSaved(savedGameID);
         gameRoom.savedGame = true;
         DATA.addMatch(gameRoom.id, gameRoom.match);
 

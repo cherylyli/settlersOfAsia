@@ -229,17 +229,12 @@ $(window).on('imready', function(im){
             // save match
             save: function () {
                 Commands.saveGame();
-                // Toast.show('Saved!');
-            },
-
-            // continue previously saved match
-            open: function () {
-                // Toast.show('Open');
+                Toast.show('Saved !');
             },
 
             // quit match
             quit: function () {
-                // Toast.show('Match ended!');
+                window.location.href = '/'
             },
 
             // append to log
@@ -412,7 +407,7 @@ $(window).on('imready', function(im){
     // adjust UI when resize screen
     function adjustUI() {
         // adjust system log height
-        $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight());
+        $('#log').outerHeight($('#right-screen').height() - $('#users').outerHeight() - $('#match-opts').outerHeight() - $('#match-state').outerHeight(true));
 
         // adjust map size
         if (window.app && window.app.room && DATA.getMatch()) mapUI.resizeMap();
