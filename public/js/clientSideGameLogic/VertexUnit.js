@@ -73,6 +73,14 @@ let VertexUnit = (function () {
                 else {
                     // city
                     let cmds = {};
+
+                    for (let action of DATA.getMyPlayer().diceConfigResult){
+                        console.log(action.cmd);
+                        if (action.cmd == "chooseCityToBePillaged"){
+                            return {chooseCityToBePillaged: "chooseCityToBePillaged"};
+                        }
+                    };
+
                     if (!vertexUnit.cityWall) cmds.buildCityWall = 'buildCityWall';
                     if (Player.ableToUpgradeToMetropolis().length > 0 ) cmds.upgradeToMetropolis = "upgradeToMetropolis";
                     return cmds;

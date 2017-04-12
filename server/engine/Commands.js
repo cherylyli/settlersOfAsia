@@ -146,7 +146,7 @@ let CommandsCheck = {};
 Commands.saveGame = function (userName, roomID) {
     let room = DATA.getRoom(roomID);
     // TODO: now just write to file, change this part later
-    Room.saveGame(roomID, room);
+    Room.savedGame(roomID, room)
 };
 
 
@@ -351,6 +351,7 @@ Commands.resourceMonopoly = function (userName, roomID, data) {
      let match = DATA.getMatch(roomID);
      let vertex = data.position;
      let city = Map.getVertexInfo(match.map, vertex);
+     let player = DATA.getPlayer(userName, roomID);
      Building.pillage(city);
      Dice.diceActionPerfomed("chooseCityToBePillaged", player);
  };

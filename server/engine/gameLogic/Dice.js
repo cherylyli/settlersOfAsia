@@ -154,7 +154,10 @@ function assignPlayerBarbarianAction(player, match) {
     if (_.contains(match.barbarianResult.toPlayers, player.name)){
         switch (result[0]){
             case Enum.BarbarianResult.CATAN_LOSE:
-                act = {cmd: "chooseCityToBePillaged", msg: "Event die result: Barbarian attacks! Catan lose, You have to choose a city to pillage."};
+                let citySum = Player.getCitySum(player);
+                if (citySum > 0) {
+                    act = {cmd: "chooseCityToBePillaged", msg: "Event die result: Barbarian attacks! Catan lose, You have to choose a city to pillage."};
+                }
                 break;
             case Enum.BarbarianResult.CATAN_WIN_TIE:
                 act = {cmd: "drawOneProgressCard", msg: "Event die result: Barbarian attacks! Catan win tie, You can draw a progress card of chosen type."};

@@ -177,7 +177,7 @@ $(window).on('imready', function(im){
                 "buildSettlement", "upgradeToCity", "buildRoad", "buildShip", "buildCityWall", "moveShip", "tradeWithBank", "moveRobber", "movePirate","executeProgressCard", "requestTrade"
             ],
             isMyTurn: false,
-            specialCaseToEnableMap: (room.match && DATA.getMyPlayer().diceConfigResult.length > 0),
+            specialCaseToEnableMap: false,
             Metropolis: (room.match) ? room.match.Metropolis : {'Science': {owner: 'Nobody'}, 'Trade': {owner: 'Nobody'}, 'Politics': {owner: 'Nobody'}},
             ongoingCmd: null,   // some cmd may take more than one steps to finish
             ongoingCmdData: null,
