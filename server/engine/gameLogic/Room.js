@@ -24,9 +24,11 @@ Room.savedGame = function(roomId, room){
 };
 
 Room.fetchAllSaved = function(){
-    return fs.readdirSync(savedPath).map(file => {
-        return CircularJSON.parse(fs.readFileSync(`${savedPath}/${file}`, 'utf8'))
-    });
+    return fs.readdirSync(savedPath)
+        .filter(item => !(/(^|\/)\.[^\/\.]/g).test(item))
+        .map(file => {
+            return CircularJSON.parse(fs.readFileSync(`${savedPath}/${file}`, 'utf8'))
+        });
 };
 
 Room.fetchSaved = function(roomId){
