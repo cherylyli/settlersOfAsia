@@ -1577,6 +1577,13 @@ function isSettlement(vertex) {
 
 
 CommandReceived.rollDice = function () {
+
+    if (app.barbarianResult) {
+        if (DATA.getMatch().barbarianResult.result[0] == Enum.BarbarianResult.CATAN_WIN){
+            swalService.swal("You are the defender of Catan.");
+        }
+    }
+
     if (DATA.getMyPlayer().diceConfigResult.length > 0){
         _.forEach(DATA.getMyPlayer().diceConfigResult, function (action) {
             if (action.cmd == "drawOneProgressCard" && action.data){
@@ -1590,111 +1597,40 @@ CommandReceived.rollDice = function () {
 _.each(CommandName, function (cmd) {
 
     Commands[cmd] = function () {
-        app.ongoingCmd = null;
-        /**
-        // if not my turn and barbarian result, operation is limited
-        if(!app.barbarianResult && !app.discardCards && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
-        swalError2("Please roll dice first");
-        return;
-      }
-
-      if (app.barbarianResult){
-          //here
-        // DATA.getMatch().barbarianResult = null;
-          var res = DATA.getMatch().barbarianResult.result;
-
-          if(res == "CATAN_WIN_TIE"){
-            app.canDraw = true;
-            if (cmd != "drawOneProgressCard") {
-                swalError2("You can get one progress card for free");
-                return;
-            }
-          }
-          else if (res == "CATAN_LOSE"){
-            app.pillageCity = true;
-            if (cmd != "chooseCityToBePillaged") {
-              swalError2("Please choose one city to be pillaged");
-              return;
-            }
-          }
-          else{
-            DATA.getMyPlayer().defenderOfCatan = true; //cant assign to null
-            swal("You are the defender of Catan.");
-          }
-     }
-
-     if(app.barbarianResult){
-       app.barbarianResult = false;
-     }
-
-     //player has more than 7 cards & dice result = 7
-     if(app.discardCards){
-       if(cmd != "discardResourceCards"){
-         swalError2("You need to discard "  + num + " cards");
-         return;
-       }
-       app.discardCards = false;
-     }
-
-     if(app.canDraw){
-       if(cmd != "drawOneProgressCard"){
-         swalError2("You need to draw one progress card.");
-         return false;
-       }
-     }
-
-
-     if(app.rolledSeven){
-          if(cmd != "moveRobber" && cmd != "movePirate"){
-            swalError2("You must move robber/pirate first");
-            return;
-          }
-          else{
-            //swal("Succ");
-            app.rolledSeven = false;
-        }
-      }
-**/
-
-        //input complete check
-        /**
-         if (!checkInput(CommandsData[cmd].apply(this, arguments))){
-            return;
-        }**/
 
             //allowed operations
             //if Enum.AllowedCommands[room.state] == null -> turn phrase, no allowed operation
-            /**
+
        let phase = DATA.getMatch().phase;
        if (Enum.AllowedCommands[phase] && !_.contains(Enum.AllowedCommands[phase], cmd)) {
             swalError2("This operation not allowed in " + phase);
             return;
         }
+        // if not my turn and barbarian result, operation is limited
+        if(cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
+            swalError2("Please roll dice first");
+            return;
+        }
 
-        if(!app.barbarianResult && cmd != "rollDice" && !DATA.getMatch().diceRolled && DATA.getMatch().phase == Enum.MatchPhase.TurnPhase){
-          swalError2("Please roll dice first");
-          return;
-        }**/
 
         //comment out this part if you want to disable checks
         //checkers
-/*
-/**
 
-         let phase = DATA.getMatch().phase;
+
+
          if (!CommandCheck[cmd].apply(this, arguments)) {
              return;
          }
-**/
 
 
-/*
+
         // if barbarian result commands
         if (app.barbarianResult) {
             app.barbarianResult = false;
         }
-*/
+
         //exec
+        app.ongoingCmd = null;
         sock.emit(cmd, CommandsData[cmd].apply(this, arguments));
     };
 
@@ -1709,10 +1645,10 @@ _.each(CommandName, function (cmd) {
             console.log(cmd);
         }
     });
-/**
+
     sock.on(cmd + 'Ack' + 'Owner', function (msg) {
         swalSucc(CommandSuccMsg[cmd]);
-    });**/
+    });
 
 });
 

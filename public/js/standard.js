@@ -469,7 +469,7 @@ window.swalError = function(){
 
 //swel error msg that allows customized error msg
 window.swalError2 = function (errMsg) {
-    swal(
+    swalService.swal(
         'Oops...',
         errMsg,
         'error'
@@ -477,7 +477,7 @@ window.swalError2 = function (errMsg) {
 };
 
 window.swalSucc = function (msg) {
-    swal(
+    swalService.swal(
         'Good job!',
         msg,
         'success'
@@ -487,7 +487,7 @@ window.swalSucc = function (msg) {
 
 
 window.swalInfo = function (title,msg) {
-    swal(
+    swalService.swal(
         title,
         msg,
         'info'
