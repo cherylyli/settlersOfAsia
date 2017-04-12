@@ -873,7 +873,6 @@ Player.useCard = function(player, card){
       Player.updateVP(player, 1);
       return;
     } else if (card == 'RoadBuilding'){
-      Player.freeRoadsOrShips = 2;
 
     } else if (card == 'Smith'){
       Player.freeUpgradeKnights= 2;
