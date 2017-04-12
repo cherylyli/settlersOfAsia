@@ -34,10 +34,11 @@ Player.createPlayer = function (name, user) {
     player.name = name;
     player.color = null;
     player.VP = 0;
-    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 1, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
+    player.resourcesAndCommodities = {[Enum.Resource.Lumber] : 0, [Enum.Resource.Brick] : 0, [Enum.Resource.Grain]: 0, [Enum.Resource.Ore]: 0, [Enum.Resource.Wool]:0, [Enum.Resource.Gold]: initialGoldNum, [Enum.Commodity.Cloth]: 0, [Enum.Commodity.Coin]: 0, [Enum.Commodity.Paper]: 0};
     player.resourceCardNum = initialGoldNum;
     // TODO: testing, change later
-    player.progressCards = [];
+    player.progressCards = ["Printer","Smith","TradeMonopoly"];
+    player.progress_cards_vp = [];
     //[Enum.ProgressCardType.Science.Alchemist, Enum.ProgressCardType.Trade.Merchant, Enum.ProgressCardType.Politics.Bishop];
     player.progressCardsCnt = player.progressCards.length;
     //TODO - player can only place at most 5 settlements
@@ -869,9 +870,14 @@ Player.useCard = function(player, card){
     console.log("Using card: "+card+" Player:"+player.name);
     let addVP = ['Printer', 'Constitution'];
 
+    //we have already applied this progress card
+    if(player.progress_cards_vp.indexOf(card) > -1)
+        return;
+
     // if it's a addVP card, then add 1 to the player's VP
     if (addVP.indexOf(card) > -1){
       Player.updateVP(player, 1);
+      player.progress_cards_vp.push(card);
       return;
     } else if (card == 'RoadBuilding'){
 

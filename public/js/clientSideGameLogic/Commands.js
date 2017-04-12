@@ -329,7 +329,7 @@ CommandReceived.requestTrade = function () {
         let player_resources = DATA.getMyPlayer().resourcesAndCommodities;
         if (Object.keys(active_cards).indexOf("CommercialHarbor") !== -1) { //if we have commercialHarborActive
             let allowed_input = {};
-            let commodities = ['Paper', 'Coin', 'Cloth', 'Gold']; //gold is not a commodity, added for quicker testing
+            let commodities = ['Paper', 'Coin', 'Cloth']; //gold is not a commodity, added for quicker testing
             //we want to give from resources that we have
             Object.keys(player_resources).forEach(res => {
                 if (0 < player_resources[res] && commodities.indexOf(res) !== -1) {
@@ -1430,6 +1430,7 @@ CommandsData.executeProgressCard = function (card) {
                     swal("Nice!", "We'll take 2 of " + inputValue+" from each player =)", "success");
                 });
         }
+
         return {'cardname':card};
 };
 
