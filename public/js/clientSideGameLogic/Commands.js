@@ -784,7 +784,11 @@ CommandCheck.moveKnight = function (position, newPosition) {
 
     var player = DATA.getMyPlayer();
     if (player.displacedKnight && position == 0) knight = player.displacedKnight;
-    return (_.contains(knight.possibleSpots, newPosition))
+    if (!_.contains(knight.possibleSpots, newPosition)){
+        swalError2("Invalid position!");
+        return false;
+    }
+    return true;
 };
 
 /*
