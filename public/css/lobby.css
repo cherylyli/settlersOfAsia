@@ -156,7 +156,7 @@ body{
     bottom: 30px;
 }
 
-#create, #rooms, #onlines{
+#left, #rooms, #onlines{
     height: 100%;
     border-radius: 2px;
     box-sizing: border-box;
@@ -166,7 +166,7 @@ body{
     position: relative;
 }
 
-#create{
+#left{
     float: left;
     width: 300px;
     cursor: pointer;
@@ -236,39 +236,38 @@ body{
     color: #5eafe5;
 }
 
-#create .wrap{
-    height: 370px;
-    /*background-color: gray;*/
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
+#left .wrap{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
     opacity: 0.4;
     transition: all .2s;
 }
-#create:hover .wrap{
+#left .wrap:hover{
     opacity: 0.65;
 }
 
-#create .icon{
-    background-image: url(/img/ui/plus.svg);
-    background-size: 80% 80%;
+#left .icon{
+    background-size: 72% 72%;
     border-radius: 10px;
-    width: 170px;
-    height: 170px;
+    width: 110px;
+    height: 110px;
     margin-left: auto;
     margin-right: auto;
-    border: 10px dotted #ABB5C5;
+    border: 2px dashed #ABB5C5;
 }
 
-#create .text{
+#left .text{
     color: #ABB5C5;
-    margin-top: 50px;
+    margin-top: 20px;
     text-align: center;
-    font-size: 60px;
+    font-size: 38px;
     font-weight: 500;
 }
+
+#create .icon{ background-image: url(/img/ui/plus.svg); margin-top: 60px;}
+#open .icon{ background-image: url(/img/ui/open.svg); margin-top: 60px;}
 
 #rooms{
     border: 10px solid transparent;
@@ -375,7 +374,7 @@ body{
 }
 
 
-#editMatchPop{
+.pop{
     height: 268px;
     width: 449px;
     font-size: 12px;
@@ -385,11 +384,11 @@ body{
     margin: auto;
 }
 
-#editMatchPop .pop_cancel{
+.pop .pop_cancel{
     margin-right: 7px;
 }
 
-#editMatch_body{
+.pop_body > .wrap{
     margin: 15px;
     margin-bottom: 0px;
     height: 170px;
@@ -486,6 +485,14 @@ body{
 
 .pop_cancel{
     float: right;
+}
+
+#open-saved-pop{
+    height: 178px;
+}
+
+#open-saved-pop .pop_body > .wrap{
+    height: 80px;
 }
 
 

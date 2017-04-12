@@ -73,10 +73,14 @@
 
 	<div id='main'>
 
-		<div id='create' class='box-shadow-light'>
-			<div class='wrap'>
+		<div id='left' class='box-shadow-light'>
+			<div id='create' class='wrap'>
 				<div class='icon center-contained'></div>
 				<div class='text'>Make Room</div>
+			</div>
+			<div id='open' class='wrap'>
+				<div class='icon center-contained'></div>
+				<div class='text'>Open Saved</div>
 			</div>
 		</div>
 
@@ -142,6 +146,7 @@
 		</div>
 	</div>
 
+
 	<div id="editMatchPop" class="pop" safe="true" level="1">
 	    <div class="pop_title">
 	        <div class="pop_title_text">Create Match</div>
@@ -150,8 +155,8 @@
 	        </div>
 	    </div>
 	    <div class="pop_body">
-	        <div id="editMatch_body">
-	            <div style="">What would you like to call your match?</div>
+	        <div class="wrap">
+	            <div>What would you like to call your match?</div>
 	            <div id="editMatch_name">
 	                <input id="editMatch_name_input" type="text">
 	                <div id="editMatch_name_refresh" class="unselectable">
@@ -175,8 +180,36 @@
 	    </div>
 	</div>
 
-	<div id='overlay'></div>
 
+	<div id="open-saved-pop" class="pop" safe="true" level="1">
+	    <div class="pop_title">
+	        <div class="pop_title_text">Create Match</div>
+	        <div class="pop_close close">
+	            <div class="pop_close_img center-cropped"></div>
+	        </div>
+	    </div>
+	    <div class="pop_body">
+	        <div class="wrap">
+	            <div>Choose a saved game</div>
+	            <div id='editMatch_type' class="weui-cell weui-cell_select weui-cell_select-after">
+	            	<div class="weui-cell__bd">
+	            		<select class="weui-select">
+							<option v-for="room in rooms" v-bind:value="room.id">{{room.name}}</option>
+	            		</select>
+	            	</div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="pop_footer">
+	        <div class="pop_save button_gray" default>Create</div>
+	        <div class="pop_cancel button_gray">Cancel</div>
+	    </div>
+	</div>
+
+
+
+	<div id='overlay'></div>
+	<script src="https://unpkg.com/vue"></script>
 	<script src="//cdn.jsdelivr.net/async/2.1.4/async.min.js"></script>
 	<script src="/js/plugins/circular-json.js"></script>
 	<script src="/js/plugins/jquery.min.js"></script>

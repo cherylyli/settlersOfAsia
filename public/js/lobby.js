@@ -207,6 +207,40 @@ $(window).on('imready', function(im){
 
 
 
+
+
+    // -------------------------- open saved room --------------------------
+
+    $('#open').click(function(){
+        updateSavedGameList();
+        $('#open-saved-pop').showPop({ fadeIn: true,fadeDuration: { pop: 150, overlay: 200 } });
+    });
+
+    var openSavedPop = new Vue({
+        el: '#open-saved-pop',
+        data: {
+            rooms: [{name:'some bullshit', id: '123'}]
+        }
+    })
+
+    function updateSavedGameList(){
+        $.get('/saved', function(rooms){
+            if (!_.isEmpty(rooms)) openSavedPop.rooms = rooms;
+        });
+    }
+    updateSavedGameList();
+
+
+
+
+
+
+
+
+
+
+
+
     // -------------------------- refresh room list --------------------------
 
     // fetch all rooms from server, and display them on screen
@@ -222,7 +256,7 @@ $(window).on('imready', function(im){
                 if (_.isEmpty(room.players)) delete rooms[id];
             });
             renderMatches(rooms);
-        }); 
+        });
     }
 
     // refresh room list every second
@@ -235,7 +269,7 @@ $(window).on('imready', function(im){
         $.get('/users', function(users){
             users = sortObject(users);
             renderOnlines(users);
-        }); 
+        });
     }
 
     // refresh online list every second

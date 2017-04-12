@@ -412,7 +412,7 @@ window.$ajax = function(opt){
     if (_.isUndefined(opt.loginAlert)) opt.loginAlert = true;
     opt.url = SITE_URL + opt.url;
     opt.xhrFields =  { withCredentials: true };
-    opt.crossDomain = true;   
+    opt.crossDomain = true;
     // set option "lock" to TRUE, ensures a request to be processed before making it again. Defaults to FALSE
     var req_id = opt.type + ' ' + opt.url + ' ' + JSON.stringify(opt.data || {});
     if (opt.lock){
@@ -701,7 +701,7 @@ $( document ).ready(function () {
         var next = next || function(){};
         var defaults = {
             showOverlay: true,
-            fadeIn: false, 
+            fadeIn: false,
             fadeDuration: { pop: 300, overlay: 500 }
         };
         var option = _.extend({}, defaults, option);
@@ -730,7 +730,7 @@ $( document ).ready(function () {
         var next = next || function(){};
         var defaults = {
             hideOverlay: true,
-            fadeOut: false, 
+            fadeOut: false,
             fadeDuration: { pop: 300, overlay: 500 }
         };
         var option = _.extend({}, defaults, option);
@@ -763,7 +763,7 @@ $( document ).ready(function () {
     });
 
     // click X, close it
-    $(document).on('click', '.pop .close', function(e){
+    $(document).on('click', '.pop .close, .pop_cancel', function(e){
         var $pop = $(this).closest('.pop');
         var customHide = $pop.data('customHide');
         if (customHide) customHide();
@@ -795,16 +795,16 @@ $( document ).ready(function () {
 
     // click on m-block, focus on the editable element inside
     $(document).on('click', '.autofocus', function(e){
-        // display select list 
+        // display select list
         var $select = $(this).find('select');
         if ($select.length){
             if ($(e.target).is('select')) return;
             else { return $select.simulate('mousedown'); }
         }
-        // ... or focus textarea 
+        // ... or focus textarea
         var $textarea = $(this).find('textarea');
         if ($textarea.length) return $textarea.focus();
-        // ... or focus input 
+        // ... or focus input
         var $input = $(this).find('input');
         if ($input.length) return $input.focus();
         // ... or toggle m-switch

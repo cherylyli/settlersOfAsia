@@ -18,12 +18,23 @@ let Room = {} = module.exports;
 
 
 
+var savedPath = './data/saveGame';
+
+Room.fetchAllSaved = function(){
+    fs.readdirSync(testFolder, (err, files) => {
+        files.forEach(file => {
+            console.log(file);
+        });
+    })
+};
+
+Room.fetchAllSaved ()
 
 Room.createRoom = function (savedGameID, RoomID, creatorName, gameScenario, roomName) {
     let gameRoom = {};
 
     if (savedGameID) {
-        gameRoom = CircularJSON.parse(fs.readFileSync("./data/saveGame/"+ savedGameID + ".json"));
+        gameRoom = CircularJSON.parse(fs.readFileSync(savedPath + '/' + savedGameID + ".json"));
         gameRoom.savedGame = true;
         DATA.addMatch(gameRoom.id, gameRoom.match);
 
