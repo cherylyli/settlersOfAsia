@@ -23,19 +23,4 @@ $ node app.js
 - Check out Wiki if you have question about communication pattern and socket event tags.
 
 
-
-# Use cases
-
-## Trade with player
-
-- Initiator of a trade sends trade request to the server
-- Server forwards trade request ACK to all other player
-- Player accepts the trade
-	- Player sends accept trade to server
-	- Server appends accept trade to list of current trade
-	- Initiator of trade chooses trade
-	- Initiator his choice to the server
-	- Server does transaction
-
-"A19Qs" - year of plenty
-"piaKP" - Metropolis (account: Emol (password: 1); Emol1 (1); Emol4 (4))
+(account: Emol (password: 1); Emol1 (1); Emol4 (4))
