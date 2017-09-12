@@ -1,6 +1,3 @@
-# Try out demo!
-- cloud9: https://settlers-cherylyli.c9users.io/
-- AWS: http://settlers-env.us-east-1.elasticbeanstalk.com/login
 
 # Setup
 - **Ubuntu**: Install Redis from http://redis.io/download
