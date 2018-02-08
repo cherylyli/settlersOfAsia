@@ -18,6 +18,7 @@
   ```sh
   $ redis-server
   ```
+- Make sure npm and Node.js (v 7.4.0+) are installed. 
 - Clone the repository and `cd` to project directory, and type `npm install` to install all the dependencies.
 
 
