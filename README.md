@@ -1,5 +1,6 @@
 # Overview
-- Online multiplayer game based on board Settlers of Catan. App preview on Cloud9: [Click Here](https://soa-emolli.c9users.io/) Click Open the app.
+- Online multiplayer game based on board Settlers of Catan.
+- **App preview on Cloud9: [Click Here](https://soa-emolli.c9users.io/)** Click Open the app.
 - Web app. All JS.
 - Tech stack: 
   - Front end: Vue, Jquery, SVG
