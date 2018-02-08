@@ -33,6 +33,9 @@ $ npm start
 - Then you should be able to see the game lobby. You can join an existing game (if there is one in the lobby), or start a new game (continued saved game is not supported now).
 ![lobby](https://github.com/cherylyli/settlersOfAsia/blob/master/screenshots/Screenshot%20from%202018-02-07%2021-54-56.png)
 - Once there are 3 ~ 4 players, game starts. (So you may need to log in with 3~4 different accounts in different broswers.)
+  - Click on vertice to build a settlement/ upgrade existing setterment.
+  - Holding Ctrl, click two adjacent vertices to build a road or ship.
+  - Click on Finish to finish the game.
 ![waiting](https://github.com/cherylyli/settlersOfAsia/blob/master/screenshots/Screenshot%20from%202018-02-07%2021-55-26.png)
 ![p1](https://github.com/cherylyli/settlersOfAsia/blob/master/screenshots/Screenshot%20from%202017-04-04%2017-55-44.png)
 ![p2](https://github.com/cherylyli/settlersOfAsia/blob/master/screenshots/Screenshot%20from%202017-04-12%2009-29-28.png)
