@@ -45,4 +45,3 @@ $ npm start
 - Check out Wiki if you have question about communication pattern and socket event tags.
 
 
-(account: Emol (password: 1); Emol1 (1); Emol4 (4))
